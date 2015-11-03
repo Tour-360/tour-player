@@ -1,0 +1,6 @@
+{
+    "name": "tour-player",
+    "dependencies": {
+        "threejs": "latest"
+    }
+}
