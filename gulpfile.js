@@ -105,12 +105,9 @@ gulp.task('serve', ['build'], function() {
         startPath: '/example/'
     });
 
-    gulp.watch(['example/*'], [browserSync.reload]);
-    gulp.watch(['src/*.html'], ['html', browserSync.reload]);
-    gulp.watch(['src/*', '!src/*.html'], ['copy', browserSync.reload]);
+    gulp.watch(['example/*'], browserSync.reload);
     gulp.watch(['src/js/**/*.js', 'src/lib/*.js'], ['scripts', browserSync.reload]);
     gulp.watch(['src/css/**/*.{css,styl}', 'src/lib/*.css'], ['styles', browserSync.reload]);
-    gulp.watch(['src/fonts/**'], ['fonts', browserSync.reload]);
 });
 
 //Публикация на сайте tour-360.ru по FTP
