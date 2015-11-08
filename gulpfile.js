@@ -132,7 +132,6 @@ gulp.task('serve', ['build'], function() {
     gulp.watch(['src/js/**/*.js', 'src/lib/*.js'], ['scripts', browserSync.reload]);
     gulp.watch(['src/css/**/*.{css,styl}', 'src/lib/*.css'], ['styles', browserSync.reload]);
     gulp.watch(['src/fonts/**'], ['fonts', browserSync.reload]);
-    gulp.watch(['src/img/**/*'], ['images', browserSync.reload]);
 });
 
 //Публикация на сайте tour-360.ru по FTP
