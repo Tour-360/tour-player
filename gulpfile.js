@@ -68,21 +68,6 @@ gulp.task('images', function() {
     .pipe(size({title: 'images'}));
 });
 
-// Копирует и минифицирует все html страницы
-gulp.task('html', function() {
-    return gulp.src(['src/*.html'])
-    .pipe(minifyHTML())
-    .pipe(gulp.dest('build'))
-    .pipe(size({title: 'html'}));
-});
-
-// Копирует все файлы из корня, кроме html
-gulp.task('copy', function() {
-    return gulp.src(['src/*', '!src/*.html'])
-    .pipe(gulp.dest('build'))
-    .pipe(size({title: 'copy'}));
-});
-
 //Копирует главные файлы из bower_components/ в src/lib/
 gulp.task('mainBowerFiles', function() {
     return gulp.src(mainBowerFiles())
@@ -139,6 +124,6 @@ gulp.task('deploy', function() {
 
 gulp.task('lint', ['jslint', 'jscs','stylint']);
 gulp.task('build', ['clean', 'clear', 'mainBowerFiles'], function() {
-    gulp.run(['copy', 'html', 'scripts', 'styles']);
+    gulp.run(['scripts', 'styles']);
 });
 gulp.task('default', ['build']);
