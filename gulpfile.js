@@ -147,6 +147,6 @@ gulp.task('deploy', function() {
 
 gulp.task('lint', ['jslint', 'jscs','stylint']);
 gulp.task('build', ['clean', 'clear', 'mainBowerFiles'], function() {
-    gulp.run(['copy', 'html', 'images', 'fonts', 'scripts', 'styles']);
+    gulp.run(['copy', 'html', 'fonts', 'scripts', 'styles']);
 });
 gulp.task('default', ['build']);
