@@ -33,13 +33,13 @@ gulp.task('clear', function(done) {
 gulp.task('scripts', function() {
     return gulp.src(['src/js/**/*.js', 'src/lib/**/*.js'])
     .pipe(sourcemaps.init())
-    .pipe(concat('main.js'))
+    .pipe(concat('tour-player.js'))
     .pipe(uglify({
         preserveComments: 'some',
         outSourceMap: true
     }))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('build/js'))
+    .pipe(gulp.dest('build/'))
     .pipe(size({title: 'scripts'}));
 });
 
@@ -47,13 +47,14 @@ gulp.task('scripts', function() {
 gulp.task('styles', function() {
     return gulp.src(['src/css/main.styl'])
     .pipe(sourcemaps.init())
+    .pipe(concat('tour-player.styl'))
     .pipe(stylus({
         compress: true,
         url: {name: 'url', limit: false}
     }))
     .pipe(autoprefixer({browsers: ['last 5 versions']}))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('build/css'))
+    .pipe(gulp.dest('build/'))
     .pipe(size({title: 'styles'}));
 });
 
