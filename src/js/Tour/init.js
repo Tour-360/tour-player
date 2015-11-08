@@ -1,10 +1,8 @@
 /* globals Tour, Lang*/
 
-Tour.init = function() {
+Tour.init = function(data) {
     console.info('Tour-player', 'v' + Tour.version.join('.'), 'by http://Tour-360.ru');
     Lang.setLanguage();
     Tour.query.get();
-    Tour.load(Tour.queries.data);
+    Tour.load(Tour.queries.data || data);
 };
-
-document.addEventListener('DOMContentLoaded', Tour.init);
