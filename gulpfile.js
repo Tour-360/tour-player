@@ -47,7 +47,10 @@ gulp.task('scripts', function() {
 gulp.task('styles', function() {
     return gulp.src(['src/css/main.styl'])
     .pipe(sourcemaps.init())
-    .pipe(stylus({compress: true}))
+    .pipe(stylus({
+        compress: true,
+        url: {name: 'url', limit: false}
+    }))
     .pipe(autoprefixer({browsers: ['last 5 versions']}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('build/css'))
