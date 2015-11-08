@@ -57,13 +57,6 @@ gulp.task('styles', function() {
     .pipe(size({title: 'styles'}));
 });
 
-// Копирует шрифты
-gulp.task('fonts', function() {
-    return gulp.src(['src/fonts/**'])
-    .pipe(gulp.dest('build/fonts'))
-    .pipe(size({title: 'fonts'}));
-});
-
 // Сжимает изображения (gif, jpg, png, svg) без потерь
 gulp.task('images', function() {
     return gulp.src(['src/img/**/*'])
@@ -146,6 +139,6 @@ gulp.task('deploy', function() {
 
 gulp.task('lint', ['jslint', 'jscs','stylint']);
 gulp.task('build', ['clean', 'clear', 'mainBowerFiles'], function() {
-    gulp.run(['copy', 'html', 'fonts', 'scripts', 'styles']);
+    gulp.run(['copy', 'html', 'scripts', 'styles']);
 });
 gulp.task('default', ['build']);
