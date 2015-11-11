@@ -18,7 +18,7 @@ Lang.default = 'en';
  * @param {String} language ISO 639-1 Код языка
  * @return {String} Возвращает ISO 639-1 код установленного языка
  */
-Lang.setLanguage = function(language) {
+Lang.set = function(language) {
     this.language = (
         language                      ||
         document.documentElement.lang ||
