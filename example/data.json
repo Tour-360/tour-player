@@ -1,3 +1,28 @@
 {
-	"name": "Test"
+	"title": "Avant Shop",
+	"panorams": [
+		{
+			"id": 0,
+			"title": "1",
+			"lon": 0,
+			"lat": 0,
+			"markers": [
+				{
+					"lon": -270,
+					"lat": 5,
+					"class": "up",
+					"action": {
+						"type": "panorama",
+						"id": 1,
+						"lon": -270,
+						"lat": 0
+					}
+				}
+			]
+		},{
+			"title": "2",
+			"lon": 0,
+			"lat": 0
+		}
+	]
 }
