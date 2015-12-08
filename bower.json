@@ -2,5 +2,15 @@
     "name": "tour-player",
     "dependencies": {
         "threejs": "latest"
+    },
+    "overrides": {
+        "threejs": {
+            "main": [
+                "build/three.js",
+                "examples/js/renderers/CanvasRenderer.js",
+                "examples/js/renderers/Projector.js",
+                "examples/js/renderers/CSS3DRenderer.js"
+            ]
+        }
     }
 }
