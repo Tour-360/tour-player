@@ -1,8 +1,8 @@
 /* globals Tour */
 
-Tour.load = function(url) {
+Tour.load = function(url, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url || 'data.json', true);
+    xhr.open('GET', url || Tour.options.mainifest, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState != 4) {
             return;
@@ -12,11 +12,11 @@ Tour.load = function(url) {
         } else {
             try {
                 Tour.data = JSON.parse(xhr.responseText);
+                callback(Tour.data);
                 Tour.emmit('load', Tour.data);
             } catch (e) {
                 Tour.log('JSON Error');
             }
-            return true;
         }
     };
     xhr.send();
