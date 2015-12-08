@@ -33,7 +33,7 @@
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.5.3",
-    "browser-sync": "^2.9.0",
+    "browser-sync": "^2.10.0",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.2",
@@ -42,7 +42,6 @@
     "gulp-imagemin": "^2.3.0",
     "gulp-jscs": "^3.0.1",
     "gulp-jshint": "^1.11.2",
-    "gulp-minify-html": "^1.0.4",
     "gulp-sftp": "^0.1.5",
     "gulp-size": "^1.0.0",
     "gulp-sourcemaps": "^1.5.2",
