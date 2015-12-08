@@ -2,9 +2,6 @@
 
 Tour.query = {};
 
-// Объект запросов из location.search
-Tour.queries = {};
-
 /**
  * Парсит location.search
  *
@@ -12,15 +9,22 @@ Tour.queries = {};
  */
 Tour.query.get = function() {
     var search = location.search.slice(1).split('&');
+    var queries = {};
 
     for (var i = 0; i < search.length; i++) {
         var querie = search[i].split('=');
-        Tour.queries[querie[0]] = querie[1];
+        if (querie[0]) {
+            queries[querie[0]] = querie[1];
+        }
     }
 
-    return Tour.queries;
+    return queries;
 };
 
-Tour.query.set = function() {
-
+Tour.query.set = function(values) {
+    var query = '?';
+    for (var k in values) {
+        query += k + '=' + values[k] + '&';
+    }
+    return query;
 };
