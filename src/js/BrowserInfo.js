@@ -172,6 +172,10 @@ BrouserInfo = function() {
         return /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(navigator.appVersion);
     };
 
+    var detectProtocol = function() {
+        return location.protocol != 'file:';
+    };
+
     BrouserInfo = {
         screenSize: screenSize,
         canvas: isSupportedCanvas(),
@@ -181,6 +185,7 @@ BrouserInfo = function() {
         brouser: detectBrouser(),
         mobile: detectMobile(),
         apple: detectApple(),
-        array: !!window.Float32Array
+        array: !!window.Float32Array,
+        protocol: detectProtocol
     };
 };
