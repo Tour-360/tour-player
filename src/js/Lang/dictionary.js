@@ -7,16 +7,10 @@
  * @type {Object}
  */
 Lang.dictionary = {
-    'accept': {
-        'en': 'accept',
-        'ru': 'принять',
-        'uk': 'приймати',
-        'de': 'akzeptieren'
-    },
-    'reject': {
-        'en': 'reject',
-        'ru': 'отклонить',
-        'uk': 'реест',
-        'de': 'reest'
+    'virtual_tour': {
+        'en': 'Virtual tour',
+        'ru': 'Виртуальный тур',
+        'uk': 'Віртуальний тур',
+        'de': 'Virtuelle Tour'
     }
 };
