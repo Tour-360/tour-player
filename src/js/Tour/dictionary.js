@@ -1,4 +1,4 @@
-/* globals Lang */
+/* globals Tour */
 
 /**
  * Словарь фраз на нескольких языхах
@@ -6,7 +6,7 @@
  *
  * @type {Object}
  */
-Lang.dictionary = {
+Tour.dictionary = {
     'virtual_tour': {
         'en': 'Virtual tour',
         'ru': 'Виртуальный тур',
