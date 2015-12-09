@@ -8,7 +8,6 @@ var concat         = require('gulp-concat');
 var imagemin       = require('gulp-imagemin');
 var jscs           = require('gulp-jscs');
 var jshint         = require('gulp-jshint');
-var minifyHTML     = require('gulp-minify-html');
 var size           = require('gulp-size');
 var sourcemaps     = require('gulp-sourcemaps');
 var sftp           = require('gulp-sftp');
@@ -31,7 +30,7 @@ gulp.task('clear', function(done) {
 
 // Конкатинирует и минифицирует JavaScript, создает sourseMap
 gulp.task('scripts', function() {
-    return gulp.src(['src/js/**/*.js', 'src/lib/**/*.js'])
+    return gulp.src(['src/js/**/*.js', 'src/lib/three.js', 'src/lib/*.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('tour-player.js'))
     .pipe(uglify({

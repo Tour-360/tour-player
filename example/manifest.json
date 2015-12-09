@@ -1,9 +1,9 @@
 {
-	"title": "Avant Shop",
+	"_specification": "https://github.com/Tour-360/tour-player/wiki/Формат-файла-Data.json",
+	"title": "Avant SHOP",
 	"panorams": [
 		{
 			"id": 0,
-			"title": "1",
 			"lon": 0,
 			"lat": 0,
 			"markers": [
@@ -20,7 +20,11 @@
 				}
 			]
 		},{
-			"title": "2",
+			"id": 1,
+			"lon": 0,
+			"lat": 0
+		},{
+			"id": 2,
 			"lon": 0,
 			"lat": 0
 		}

@@ -16,9 +16,10 @@ Lang.default = 'en';
  * или на русский "ru"
  *
  * @param {String} language ISO 639-1 Код языка
+ * @param {String} dictionary Словарь фраз на нескольких языхах
  * @return {String} Возвращает ISO 639-1 код установленного языка
  */
-Lang.set = function(language) {
+Lang.set = function(language, dictionary) {
     this.language = (
         language                      ||
         document.documentElement.lang ||
@@ -26,6 +27,10 @@ Lang.set = function(language) {
         navigator.userLanguage        ||
         this.default
     ).split('-')[0];
+
+    if (dictionary) {
+        this.dictionary = dictionary;
+    }
 
     return this.language;
 };
