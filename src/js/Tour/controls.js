@@ -27,7 +27,10 @@ Tour.controls = {
     },
 
     download: function() {
-
+        var link = document.createElement('a');
+        link.href = Tour.renderer.domElement.toDataURL('image/jpeg');
+        link.download = document.title + '.jpg';
+        link.click();
     },
 
     autoRotation: function() {
