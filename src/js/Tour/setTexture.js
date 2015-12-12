@@ -28,7 +28,7 @@ Tour.setTexture = function(id) {
             } else {
                 var texture = new THREE.Texture(tile);
                 texture.needsUpdate = true;
-                this.mesh.material.materials[i].map = texture;
+                this.mesh.material.materials[i].map = this.options.rendererType != 'canvas' ? texture : tile;
             }
 
             this.setPlane(i, imgeURL);
