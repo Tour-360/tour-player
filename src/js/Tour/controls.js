@@ -31,7 +31,7 @@ Tour.controls = {
     },
 
     autoRotation: function() {
-
+        Tour.view.rotation.auto = !Tour.view.rotation.auto;
     },
 
     reload: function() {

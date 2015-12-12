@@ -16,8 +16,11 @@ Tour.Transition.prototype.set = function(value) {
     this.value = this.moveTo(value);
 };
 
-Tour.Transition.prototype.move = function(value) {
+Tour.Transition.prototype.move = function(value, noanim) {
     this.moveTo(this.follow + value);
+    if (noanim) {
+        this.value = this.follow;
+    }
     return this.follow;
 };
 
