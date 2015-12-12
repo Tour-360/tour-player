@@ -11,7 +11,8 @@
  */
 Tour.setRenderer = function(rendererType, imageType) {
     this.options.rendererType = rendererType || this.getRenderer();
-    this.options.imageType = imageType || (BrouserInfo.mobile || this.rendererType == 'canvas') ? 'low' : 'standard';
+    this.options.imageType = imageType ||
+        (BrouserInfo.mobile || this.options.rendererType == 'canvas') ? 'low' : 'standard';
 
     if (this.options.rendererType == 'webgl') {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -20,7 +21,7 @@ Tour.setRenderer = function(rendererType, imageType) {
     } else if (this.options.rendererType == 'canvas') {
         this.renderer = new THREE.CanvasRenderer();
     } else {
-        this.controls.badBrouser();
+        this.controls.badBrowser();
         return false;
     }
 

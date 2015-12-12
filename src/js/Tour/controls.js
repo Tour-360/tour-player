@@ -92,5 +92,7 @@ Tour.controls = {
 
     badBrouser: function() {
         Tour.log('bad brouser'); //!!
+    badBrowser: function() {
+        Tour.log('bad browser'); //!!
     }
 };
