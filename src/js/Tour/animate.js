@@ -12,8 +12,8 @@ Tour.animate = function() {
     target.z = Math.sin(phi) * Math.sin(theta);
 
     this.camera.lookAt(target);
-
-    Tour.camera.projectionMatrix.makePerspective(Tour.view.fov.value, this.camera.aspect, 1, 1100);
+    this.camera.fov = this.view.fov.value;
+    this.camera.projectionMatrix.makePerspective(this.camera.fov, this.camera.aspect, 1, 1100);
 
     for (var k in this.view) {
         if (typeof this.view[k] == 'object') {
