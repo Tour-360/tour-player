@@ -90,8 +90,6 @@ Tour.controls = {
         window.open('http://github.com/Tour-360/tour-player/wiki/' + page, '_blank');
     },
 
-    badBrouser: function() {
-        Tour.log('bad brouser'); //!!
     badBrowser: function() {
         Tour.log('bad browser'); //!!
     }
