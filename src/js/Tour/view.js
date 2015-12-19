@@ -13,6 +13,9 @@ Tour.view.set = function(options) {
     this.lat = new Tour.Transition(options.lat || 0,  Tour.options.limit.lat);
     this.lon = new Tour.Transition(options.lon || 0,  Tour.options.limit.lon);
     this.id = 0;
+
+    this.rotation = {lon: 0, lat: 0, auto: false};
+    Object.defineProperty(this, 'rotation', {enumerable: false});
 };
 
 Tour.view.get = function() {

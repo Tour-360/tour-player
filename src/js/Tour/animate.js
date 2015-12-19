@@ -3,6 +3,16 @@
 Tour.animate = function() {
     requestAnimationFrame(Tour.animate.bind(this));
 
+    if (this.view.rotation.auto && this.view.rotation.lon < 0.08) {
+        this.view.rotation.lon += 0.0005;
+    } else if (!this.view.rotation.auto) {
+        this.view.rotation.lon /= 1.10;
+        this.view.rotation.lat /= 1.10;
+    }
+
+    this.view.lat.move(this.view.rotation.lat, this.view.rotation.lat > 0.01);
+    this.view.lon.move(this.view.rotation.lon, this.view.rotation.lat > 0.01);
+
     var phi = THREE.Math.degToRad(90 - this.view.lat.value);
     var theta = THREE.Math.degToRad(this.view.lon.value);
     var target = new THREE.Vector3(); //! Вынести!
@@ -12,8 +22,8 @@ Tour.animate = function() {
     target.z = Math.sin(phi) * Math.sin(theta);
 
     this.camera.lookAt(target);
-
-    Tour.camera.projectionMatrix.makePerspective(Tour.view.fov.value, this.camera.aspect, 1, 1100);
+    this.camera.fov = this.view.fov.value;
+    this.camera.projectionMatrix.makePerspective(this.camera.fov, this.camera.aspect, 1, 1100);
 
     for (var k in this.view) {
         if (typeof this.view[k] == 'object') {

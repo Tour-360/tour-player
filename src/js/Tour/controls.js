@@ -27,11 +27,14 @@ Tour.controls = {
     },
 
     download: function() {
-
+        var link = document.createElement('a');
+        link.href = Tour.renderer.domElement.toDataURL('image/jpeg');
+        link.download = document.title + '.jpg';
+        link.click();
     },
 
     autoRotation: function() {
-
+        Tour.view.rotation.auto = !Tour.view.rotation.auto;
     },
 
     reload: function() {
@@ -90,7 +93,7 @@ Tour.controls = {
         window.open('http://github.com/Tour-360/tour-player/wiki/' + page, '_blank');
     },
 
-    badBrouser: function() {
-        Tour.log('bad brouser'); //!!
+    badBrowser: function() {
+        Tour.log('bad browser'); //!!
     }
 };

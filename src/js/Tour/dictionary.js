@@ -31,5 +31,78 @@ Tour.dictionary = {
         'ru': 'Перезагрузить',
         'uk': 'Перезавантажити',
         'de': 'Neu laden'
+    },
+    'mousemenu.zoomout': {
+        'en': 'Zoom out',
+        'ru': 'Уменьшить',
+        'uk': 'Зменшити',
+        'de': 'Rauszoomen'
+    },
+    'mousemenu.zoomoin': {
+        'en': 'Zoom in',
+        'ru': 'Увеличить',
+        'uk': 'Збільшувати',
+        'de': 'Hineinzoomen'
+    },
+    'mousemenu.autorotate': {
+        'en': 'Auto rotate',
+        'ru': 'Автовращение',
+        'uk': 'Автоматичного повороту',
+        'de': 'Automatisch drehen'
+    },
+    'mousemenu.fullscreen': {
+        'en': 'Full screen',
+        'ru': 'Во весь экран',
+        'uk': 'На весь екран',
+        'de': 'voll Schrei'
+    },
+    'mousemenu.hidemenu': {
+        'en': 'Hide menu',
+        'ru': 'Скрыть меню',
+        'uk': 'Сховати меню',
+        'de': 'Menü ausblenden'
+    },
+    'mousemenu.getcode': {
+        'en': 'Get the embed code',
+        'ru': 'Получить код для вставки',
+        'uk': 'Отримати код',
+        'de': 'Holen Sie sich den Code einbetten'
+    },
+    'mousemenu.saveimage': {
+        'en': 'Save Image As...',
+        'ru': 'Сохранить изображение как...',
+        'uk': 'Зберегти зображення як...',
+        'de': 'Bild speichern als...'
+    },
+    'mousemenu.visitsite': {
+        'en': 'Visit website tour-360.ru',
+        'ru': 'Перейти на tour-360.ru',
+        'uk': 'Besuch tour-360.ru',
+        'de': 'Besuch tour-360.ru'
+    },
+
+    'menu.left': {
+        'en': 'Left',
+        'ru': 'Налево',
+        'uk': 'Зліва',
+        'de': 'Links'
+    },
+    'menu.right': {
+        'en': 'Right',
+        'ru': 'Направо',
+        'uk': 'Право',
+        'de': 'Recht'
+    },
+    'menu.up': {
+        'en': 'Up',
+        'ru': 'Вверх',
+        'uk': 'Вгору',
+        'de': 'Oben'
+    },
+    'menu.down': {
+        'en': 'Down',
+        'ru': 'Вниз',
+        'uk': 'Вниз',
+        'de': 'Nach unten'
     }
 };

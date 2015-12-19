@@ -17,14 +17,21 @@ Tour.setTexture = function(id) {
         for (var i = 0; i < 6; i++) {
             var planeId = this.options.tileset[i];
             var imgeURL = this.options.path + id + '/' + this.options.imageType + '/' + planeId + '.jpg';
-            if (this.options.rendererType == 'css') {
+            var tile = ctx.getImageData(planeId * img.height, 0, img.height, img.height);
 
+            if (this.options.rendererType == 'css') {
+                var tempcanvas = document.createElement('canvas');
+                tempcanvas.width = tempcanvas.height = img.height;
+                var tempctx = tempcanvas.getContext('2d');
+                tempctx.putImageData(tile,0,0);
+                this.mesh.children[i].element.src = tempcanvas.toDataURL('image/jpeg');
             } else {
-                var texture = new THREE.Texture(ctx.getImageData(planeId * img.height, 0, img.height, img.height));
+                var texture = new THREE.Texture(tile);
                 texture.needsUpdate = true;
-                this.mesh.material.materials[i].map = texture;
-                this.setPlane(i, imgeURL);
+                this.mesh.material.materials[i].map = this.options.rendererType != 'canvas' ? texture : tile;
             }
+
+            this.setPlane(i, imgeURL);
         }
     }.bind(this), false, function() {
         Tour.log('Ошибка загрузки панорамы');

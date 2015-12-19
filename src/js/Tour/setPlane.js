@@ -7,8 +7,8 @@
  * @param {String} url путь к изображению
  */
 Tour.setPlane = function(id, url) {
-    if (this.rendererType == 'css') {
-
+    if (this.options.rendererType == 'css') {
+        this.mesh.children[id].element.src = url;
     } else {
         var loader = new THREE.ImageLoader();
         loader.load(url, function(img) {
