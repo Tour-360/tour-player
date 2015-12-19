@@ -1,0 +1,71 @@
+$btn-size = 36px
+$progress-bar-height = 3px
+
+#control-panel
+    position absolute
+    width $btn-size * 7 /* Задавать ширину из js */
+    height $btn-size
+    background #fff
+    margin auto
+    left 0
+    right 0
+    bottom 18px
+    z-index 1
+    box-shadow 0 5px 8px 0 rgba(0,0,0,.15)
+
+    &.hidden
+        bottom $btn-size * 2
+
+    .progress-bar
+        position absolute
+        width 100%
+        height $progress-bar-height
+        margin-top - $progress-bar-height
+        background $gray
+
+        .value
+            background $blue
+            height inherit
+            width 30%
+            transition width.1s linear;
+
+        &.hidden
+            height 0;
+            transition height.3s linear;
+
+    .btn-list
+        font-size 0
+        height $btn-size
+
+        div
+            display inline-block
+            width $btn-size
+            height $btn-size
+            background center no-repeat
+            cursor pointer
+
+            &:hover
+                background-color rgba(0,0,0,.05)
+
+        .left
+            background-image url(../img/controls/left.svg)
+        .right
+            background-image url(../img/controls/right.svg)
+        .up
+            background-image url(../img/controls/up.svg)
+        .down
+            background-image url(../img/controls/down.svg)
+        .zoom-in
+            background-image url(../img/controls/zoom_in.svg)
+        .zoom-out
+            background-image url(../img/controls/zoom_out.svg)
+        .fullscreen
+            background-image url(../img/controls/fullscreen.svg)
+
+html:fullscreen .fullscreen
+    background-image url(../img/controls/fullscreen_exit.svg) !important
+
+@supports (backdrop-filter: none)
+    #control-panel
+        background rgba(100%, 100%, 100%, .6)
+        backdrop-filter brightness(1.5) blur(40px)
