@@ -1,0 +1,26 @@
+$marker-size = 32px;
+
+#markers
+    position absolute
+    .marker
+        position absolute
+        height $marker-size
+        width $marker-size
+        background-color rgba(0,0,0,.8)
+        border-radius ($marker-size / 2)
+        cursor pointer
+        top 100px
+        left 100px
+
+        .title
+            display none /* Будет доработано позже */
+
+#markers
+    .left
+        background-image url(../img/markers/left.svg)
+    .right
+        background-image url(../img/markers/right.svg)
+    .up
+        background-image url(../img/markers/up.svg)
+    .down
+        background-image url(../img/markers/down.svg)
