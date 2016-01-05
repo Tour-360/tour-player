@@ -38,7 +38,7 @@ Tour.dictionary = {
         'uk': 'Зменшити',
         'de': 'Rauszoomen'
     },
-    'mousemenu.zoomoin': {
+    'mousemenu.zoomin': {
         'en': 'Zoom in',
         'ru': 'Увеличить',
         'uk': 'Збільшувати',
@@ -81,25 +81,25 @@ Tour.dictionary = {
         'de': 'Besuch tour-360.ru'
     },
 
-    'menu.left': {
+    'control.left': {
         'en': 'Left',
         'ru': 'Налево',
         'uk': 'Зліва',
         'de': 'Links'
     },
-    'menu.right': {
+    'control.right': {
         'en': 'Right',
         'ru': 'Направо',
         'uk': 'Право',
         'de': 'Recht'
     },
-    'menu.up': {
+    'control.up': {
         'en': 'Up',
         'ru': 'Вверх',
         'uk': 'Вгору',
         'de': 'Oben'
     },
-    'menu.down': {
+    'control.down': {
         'en': 'Down',
         'ru': 'Вниз',
         'uk': 'Вниз',
