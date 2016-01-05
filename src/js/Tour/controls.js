@@ -45,33 +45,33 @@ Tour.controls = {
 
     },
 
-    zoomin: function(deg) {
-        Tour.view.fov.move(deg || -10);
+    zoomIn: function() {
+        Tour.view.fov.move(-10);
         Tour.history.set();
     },
 
-    zoomout: function(deg) {
-        Tour.view.fov.move(deg || 10);
+    zoomOut: function() {
+        Tour.view.fov.move(10);
         Tour.history.set();
     },
 
-    moveUp: function(deg) {
-        Tour.view.lat.move(deg || 30);
+    moveUp: function() {
+        Tour.view.lat.move(30);
         Tour.history.set();
     },
 
-    moveDown: function(deg) {
-        Tour.view.lat.move(deg || -30);
+    moveDown: function() {
+        Tour.view.lat.move(-30);
         Tour.history.set();
     },
 
-    moveRight: function(deg) {
-        Tour.view.lon.move(deg || 22.5);
+    moveRight: function() {
+        Tour.view.lon.move(22.5);
         Tour.history.set();
     },
 
-    moveLeft: function(deg) {
-        Tour.view.lon.move(deg || -22.5);
+    moveLeft: function() {
+        Tour.view.lon.move(-22.5);
         Tour.history.set();
     },
 

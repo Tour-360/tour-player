@@ -3,7 +3,6 @@ $progress-bar-height = 3px
 
 #control-panel
     position absolute
-    width $btn-size * 7 /* Задавать ширину из js */
     height $btn-size
     background #fff
     margin auto
@@ -11,7 +10,7 @@ $progress-bar-height = 3px
     right 0
     bottom 18px
     z-index 1
-    box-shadow 0 5px 8px 0 rgba(0,0,0,.15)
+    box-shadow 0 5px 8px 0 rgba(0, 0, 0, .15)
 
     &.hidden
         bottom $btn-size * 2
@@ -26,12 +25,13 @@ $progress-bar-height = 3px
         .value
             background $blue
             height inherit
-            width 30%
-            transition width.1s linear;
+            width 0
+            transition width.1s linear
 
         &.hidden
-            height 0;
-            transition height.3s linear;
+            height 0
+            transition height.3s linear
+            transition-delay 0.5s
 
     .btn-list
         font-size 0
@@ -45,7 +45,7 @@ $progress-bar-height = 3px
             cursor pointer
 
             &:hover
-                background-color rgba(0,0,0,.05)
+                background-color rgba(0, 0, 0, .05)
 
         .left
             background-image url(../img/controls/left.svg)

@@ -8,6 +8,7 @@ Tour.init = function(data, options) {
     this.options.set(this.query.get());
     Lang.set(this.options.lang, Tour.dictionary);
     this.createScene();
+    this.setControlPanel();
     this.load(this.options.data || data, function(data) {
         this.view.set(Tour.query.get());
         this.setPanorama(data.start);

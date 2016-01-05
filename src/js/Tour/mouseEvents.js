@@ -6,9 +6,9 @@ Tour.mouseEvents.wheel = function(event) {
     event.preventDefault();
     var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
     if (delta > 0) {
-        this.controls.zoomin();
+        this.controls.zoomIn();
     } else {
-        this.controls.zoomout();
+        this.controls.zoomOut();
     }
 };
 
