@@ -3,14 +3,18 @@ $progress-bar-height = 3px
 
 #control-panel
     position absolute
-    height $btn-size
-    background #fff
-    margin auto
-    left 0
-    right 0
-    bottom 18px
+    width 100%
+    height 0
+    bottom 18px + $btn-size
+    text-align center
     z-index 1
-    box-shadow 0 5px 8px 0 rgba(0, 0, 0, .15)
+
+    .panel
+        position relative
+        display inline-block
+        height $btn-size
+        background #fff
+        box-shadow 0 5px 8px 0 rgba(0, 0, 0, .15)
 
     &.hidden
         bottom $btn-size * 2
