@@ -1,11 +1,11 @@
 /* globals Tour*/
 
 Tour.addEventListeners = function() {
-    document.addEventListener('dblclick',  Tour.controls.fullscreen.bind(this), false);
-    document.addEventListener('mousedown', Tour.mouseEvents.down.bind(this),    false);
-    document.addEventListener('mousemove', Tour.mouseEvents.move.bind(this),    false);
-    document.addEventListener('mouseup',   Tour.mouseEvents.up.bind(this),      false);
-    document.addEventListener('mousewheel', Tour.mouseEvents.wheel.bind(this),  false);
+    this.renderer.domElement.addEventListener('dblclick',  Tour.controls.fullscreen.bind(this), false);
+    this.renderer.domElement.addEventListener('mousedown', Tour.mouseEvents.down.bind(this),    false);
+    this.renderer.domElement.addEventListener('mousemove', Tour.mouseEvents.move.bind(this),    false);
+    this.renderer.domElement.addEventListener('mousewheel', Tour.mouseEvents.wheel.bind(this),  false);
+    document.addEventListener('mouseup', Tour.mouseEvents.up.bind(this), false);
 
     document.addEventListener('fullscreenchange', Tour.fullscreenEvents.change);
     document.addEventListener('webkitfullscreenchange', Tour.fullscreenEvents.change);
