@@ -29,10 +29,12 @@ Tour.mouseEvents.move = function(event) {
 };
 
 Tour.mouseEvents.up = function(event) {
+    if (Tour.mouseEvents.drag) {
+        var previousEvent = Tour.mouseEvents.previousEvent;
+        Tour.view.rotation.lon = (previousEvent.screenX - event.screenX) * Tour.options.kineticRotateSpeed;
+        Tour.view.rotation.lat = (event.screenY - previousEvent.screenY) * Tour.options.kineticRotateSpeed;
+    }
+
     Tour.mouseEvents.drag = false;
-
-    Tour.view.rotation.lon = Math.max(-20, Math.min(20, (Tour.mouseEvents.previousEvent.screenX - event.screenX) / 10));
-    Tour.view.rotation.lat = Math.max(-20, Math.min(20, (event.screenY - Tour.mouseEvents.previousEvent.screenY) / 10));
-
     Tour.history.set();
 };
