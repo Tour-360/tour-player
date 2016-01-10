@@ -66,8 +66,9 @@ $progress-bar-height = 3px
         .fullscreen
             background-image url(../img/controls/fullscreen.svg)
 
-html:fullscreen .fullscreen
-    background-image url(../img/controls/fullscreen_exit.svg) !important
+body.fullscreen
+    #control-panel .fullscreen
+        background-image url(../img/controls/fullscreen_exit.svg)
 
 @supports (backdrop-filter: none)
     #control-panel

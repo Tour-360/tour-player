@@ -58,10 +58,10 @@ UI.Marker.prototype.setPosition = function(x, y) {
 
         var direction = 'bottom';
 
-        if (this.y > window.innerHeight - 200) direction = 'top';
-        if (this.x > window.innerWidth - 200)  direction = 'left';
-        if (this.x < 200)                      direction = 'right';
-        if (this.y < 200)                      direction = 'bottom';
+        if (this.y > window.innerHeight - 200) {direction = 'top';}
+        if (this.x > window.innerWidth - 200)  {direction = 'left';}
+        if (this.x < 200)                      {direction = 'right';}
+        if (this.y < 200)                      {direction = 'bottom';}
 
         if (direction == 'top' || direction == 'bottom') {
             this.titleDomElement.style.marginLeft = -(this.titleDomElement.clientWidth / 2 - this.size / 2) + 'px';
