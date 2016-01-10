@@ -4,7 +4,8 @@
   "description": "",
   "repository": {},
   "scripts": {
-    "postinstall": "bower i && gulp build && gulp serve"
+    "postinstall": "bower i && gulp build",
+    "test": "gulp lint"
   },
   "repository": {
     "type": "git",
