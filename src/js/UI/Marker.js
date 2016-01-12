@@ -30,20 +30,24 @@ UI.Marker = function(action, icon, title) {
 };
 
 UI.Marker.prototype.setTitle = function(content) {
-    var span;
-    if (!this.title) {
-        span = document.createElement('span');
+    if (content) {
+        var span;
+        if (!this.title) {
+            span = document.createElement('span');
+            span.innerHTML = content;
+            var title = document.createElement('div');
+            title.classList.add('title');
+            title.appendChild(span);
+            this.domElement.appendChild(title);
+            this.titleDomElement = title;
+        }
+        span = this.titleDomElement.children[0];
         span.innerHTML = content;
-        var title = document.createElement('div');
-        title.classList.add('title');
-        title.appendChild(span);
-        this.domElement.appendChild(title);
-        this.titleDomElement = title;
+        this.titleDomElement.style.width = span.clientWidth + 1 + 'px';
+        this.title = content;
+    } else {
+        return false;
     }
-    span = this.titleDomElement.children[0];
-    span.innerHTML = content;
-    this.titleDomElement.style.width = span.clientWidth + 1 + 'px';
-    this.title = content;
 };
 
 UI.Marker.prototype.setPosition = function(x, y) {
@@ -54,9 +58,8 @@ UI.Marker.prototype.setPosition = function(x, y) {
 
     /* Проверка и установка направления title (нужно вынести в отдельный метод) */
     if (this.title) {
-        this.titleDomElement.className = 'title';
 
-        var direction = 'bottom';
+        var direction;
 
         if (this.y > window.innerHeight - 200) {direction = 'top';}
         if (this.x > window.innerWidth - 200)  {direction = 'left';}
@@ -70,7 +73,7 @@ UI.Marker.prototype.setPosition = function(x, y) {
             this.titleDomElement.style.marginTop =
             -(this.titleDomElement.children[0].clientHeight / 2 - this.size / 2) + 'px';
         }
-        this.titleDomElement.classList.add(direction);
+        this.titleDomElement.className = 'title ' + direction;
     }
 };
 
@@ -79,7 +82,13 @@ UI.Marker.prototype.setVisible = function(type) {
 };
 
 UI.Marker.prototype.setIcon = function(name) {
-    this.icon = name;
-    this.buttonDomElement.className = 'button';
-    this.buttonDomElement.classList.add(name);
+    if (name) {
+        this.icon = name;
+        this.buttonDomElement.className = 'button';
+        this.buttonDomElement.classList.add(name);
+    }
+};
+
+UI.Marker.prototype.remove = function() {
+    this.domElement.remove();
 };

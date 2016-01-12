@@ -9,8 +9,8 @@ $arrow-size = 8px
         position absolute
         height $marker-size
         width $marker-size
-        margin-left - $marker-size / 2
-        margin-top - $marker-size / 2
+        margin-left - ($marker-size / 2)
+        margin-top - ($marker-size / 2)
 
         .hidden
             display none
@@ -42,7 +42,7 @@ $arrow-size = 8px
         left -9999px
         opacity 0
         font-size 0
-        transition opacity.3s ease, margin.2s ease
+        transition opacity.3s ease, padding.2s ease
 
         span
             position relative
@@ -70,13 +70,13 @@ $arrow-size = 8px
 
 
         &.bottom
-            padding-top $marker-size
+            margin-top $marker-size
 
             span:before
                 top - $arrow-size
 
         &.top
-            padding-bottom $marker-size
+            margin-bottom $marker-size
             bottom 0
 
             span:before
@@ -94,13 +94,13 @@ $arrow-size = 8px
                 border-right $arrow-size solid white
 
         &.right
-            padding-left $marker-size
+            margin-left $marker-size
 
             span:before
                 left - $arrow-size
 
         &.left
-            padding-right $marker-size
+            margin-right $marker-size
             right 0
 
             span:before
@@ -111,20 +111,20 @@ $arrow-size = 8px
 #markers
     .marker:hover
         .title
-            $title-margin = $arrow-size * 1.5
+            $title-padding = $arrow-size * 1.5
             z-index 1
             opacity 1
             left 0
 
             &.bottom
-                margin-top $title-margin
+                padding-top $title-padding
 
             &.top
-                margin-bottom $title-margin
+                padding-bottom $title-padding
 
             &.right
-                margin-left $title-margin
+                padding-left $title-padding
 
             &.left
-                margin-right $title-margin
+                padding-right $title-padding
                 left auto
