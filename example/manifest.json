@@ -4,29 +4,85 @@
 	"panorams": [
 		{
 			"id": 0,
+			"title": "Стелаж",
 			"lon": 0,
 			"lat": 0,
 			"markers": [
 				{
-					"lon": -270,
-					"lat": 5,
-					"class": "up",
+					"lon": 90,
+					"lat": -5,
+					"icon": "up",
 					"action": {
 						"type": "panorama",
-						"id": 1,
-						"lon": -270,
-						"lat": 0
+						"id": 2
+					}
+				},{
+					"lon": 90,
+					"lat": -50,
+					"icon": "point",
+					"action": {
+						"type": "panorama",
+						"id": 1
+					}
+				},{
+					"lon": 180,
+					"lat": 16,
+					"icon": "info",
+					"title": "<a href=\"https://ru.wikipedia.org/wiki/Linkin_Park\" target=\"_blank\">Linkin Park</a> — A Thousand Suns", 
+					"action": {
+						"type": "url",
+						"href": "https://ru.wikipedia.org/wiki/Linkin_Park"
 					}
 				}
 			]
 		},{
 			"id": 1,
+			"title": "Центр",
 			"lon": 0,
-			"lat": 0
+			"lat": 0,
+			"markers": [
+				{
+					"lon": 90,
+					"lat": -5,
+					"icon": "up",
+					"action": {
+						"type": "panorama",
+						"id": 2
+					}
+				},{
+					"lon": -90,
+					"lat": -5,
+					"icon": "up",
+					"action": {
+						"type": "panorama",
+						"id": 0
+					}
+				}
+			]
 		},{
 			"id": 2,
+			"title": {"ru": "Касса", "en": "Сashbox"},
 			"lon": 0,
-			"lat": 0
+			"lat": 0,
+			"markers": [
+				{
+					"lon": -90,
+					"lat": -5,
+					"icon": "up",
+					"action": {
+						"type": "panorama",
+						"id": 0
+					}
+				},{
+					"lon": -90,
+					"lat": -40,
+					"icon": "point",
+					"action": {
+						"type": "panorama",
+						"id": 1
+					}
+				}
+			]
 		}
 	]
 }
