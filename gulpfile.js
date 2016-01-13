@@ -30,7 +30,12 @@ gulp.task('clear', function(done) {
 
 // Конкатинирует и минифицирует JavaScript, создает sourseMap
 gulp.task('scripts', function() {
-    return gulp.src(['src/js/**/*.js', 'src/lib/three.js', 'src/lib/*.js'])
+    return gulp.src([
+        'src/js/*.js',
+        'src/js/UI/*.js',
+        'src/js/**/*.js', 
+        'src/lib/three.js',
+        'src/lib/*.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('tour-player.js'))
     .pipe(uglify({
