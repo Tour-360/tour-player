@@ -59,7 +59,7 @@ UI.Marker.prototype.setPosition = function(x, y) {
     /* Проверка и установка направления title (нужно вынести в отдельный метод) */
     if (this.title) {
 
-        var direction;
+        var direction = 'bottom';
 
         if (this.y > window.innerHeight - 200) {direction = 'top';}
         if (this.x > window.innerWidth - 200)  {direction = 'left';}
@@ -67,6 +67,7 @@ UI.Marker.prototype.setPosition = function(x, y) {
         if (this.y < 200)                      {direction = 'bottom';}
 
         if (direction == 'top' || direction == 'bottom') {
+            this.titleDomElement.style.marginTop = '';
             this.titleDomElement.style.marginLeft = -(this.titleDomElement.clientWidth / 2 - this.size / 2) + 'px';
         } else {
             this.titleDomElement.style.marginLeft = '';
