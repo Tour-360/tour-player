@@ -1,5 +1,6 @@
 node_modules/
 bower_components/
+build/
 src/lib/
 build/**/*.map
 Thumbs.db
