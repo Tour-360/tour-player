@@ -3,6 +3,13 @@
 Tour.keyEvents = {};
 
 Tour.keyEvents.down = function(event) {
+
+    if ((event.ctrlKey || event.metaKey) && event.keyCode == 83) { // Ctrl+S, Cmd+S
+        event.preventDefault();
+        this.controls.download();
+        return;
+    }
+
     switch (event.keyCode) {
         case 65: case 37:  this.controls.moveLeft(); break;        // A ←
         case 68: case 39:  this.controls.moveRight(); break;       // D →
