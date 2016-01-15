@@ -2,7 +2,7 @@
 
 UI.controlPanel = {};
 
-UI.controlPanel.init = function() {
+UI.controlPanel.init = function(visibility) {
     this.progressValue = document.createElement('div');
     this.progressValue.className = 'value';
 
@@ -19,12 +19,22 @@ UI.controlPanel.init = function() {
     this.panel.appendChild(this.btnList);
     this.panel.appendChild(this.progressBar);
 
-    this.element = document.createElement('div');
-    this.element.id = 'control-panel';
-    this.element.appendChild(this.panel);
+    this.domElement = document.createElement('div');
+    this.domElement.id = 'control-panel';
+    this.domElement.appendChild(this.panel);
 
-    document.body.appendChild(this.element);
     this.setProgress(0);
+    this.setVisible(visibility);
+
+    document.body.appendChild(this.domElement);
+};
+
+UI.controlPanel.setVisible = function(type) {
+    if (type) {
+        this.domElement.classList.add('visible');
+    } else {
+        this.domElement.classList.remove('visible');
+    }
 };
 
 UI.controlPanel.addBtn = function(className, callback, title) {
