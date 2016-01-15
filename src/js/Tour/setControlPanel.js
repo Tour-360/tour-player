@@ -1,7 +1,7 @@
 /* globals UI, Tour, Lang */
 
 Tour.setControlPanel = function() {
-    UI.controlPanel.init();
+    UI.controlPanel.init(true);
     UI.controlPanel.addBtn('left',       Tour.controls.moveLeft,   Lang.get('control.left'));
     UI.controlPanel.addBtn('right',      Tour.controls.moveRight,  Lang.get('control.right'));
     UI.controlPanel.addBtn('up',         Tour.controls.moveUp,     Lang.get('control.up'));
