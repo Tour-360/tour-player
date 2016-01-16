@@ -8,7 +8,14 @@ Tour.history = {};
  * @param {Boolean} push если указанно true, то создается новая запись
  */
 Tour.history.set = function(push) {
-    document.title = Tour.data.panorams[Tour.view.id].title || Tour.data.title || Lang.get('virtual-tour');
+    var title = Lang.translate(
+        Tour.data.panorams[Tour.view.id || 0].title || Tour.data.title || Lang.get('virtual-tour')
+    );
 
-    window.history[(push ? 'pushState' : 'replaceState')](Tour.view.get(), document.title, Tour.query.set(Tour.view));
+    window.history[(push ? 'pushState' : 'replaceState')](Tour.view.get(), title, Tour.query.set(Tour.view));
+    document.title = title;
+};
+
+Tour.history.onpopstate = function(event) {
+    Tour.view.set(event.state, true);
 };

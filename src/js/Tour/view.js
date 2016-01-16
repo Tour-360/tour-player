@@ -7,12 +7,18 @@
  */
 Tour.view = {};
 
-Tour.view.set = function(options) {
+Tour.view.set = function(options, replaceHistory) {
     options = options || {};
-    this.fov = new Tour.Transition(options.fov || 75, Tour.options.limit.fov);
-    this.lat = new Tour.Transition(options.lat || 0,  Tour.options.limit.lat);
-    this.lon = new Tour.Transition(options.lon || 0,  Tour.options.limit.lon);
-    this.id = 0;
+
+    this.fov = new Tour.Transition(options.fov || this.fov || 75, Tour.options.limit.fov);
+    this.lat = new Tour.Transition(options.lat || this.lat || 0,  Tour.options.limit.lat);
+    this.lon = new Tour.Transition(options.lon || this.lon || 0,  Tour.options.limit.lon);
+
+    if (this.id != options.id || this.id === undefined) {
+        this.id = options.id || 0;
+        Tour.setPanorama(this.id);
+    }
+    Tour.history.set(!replaceHistory);
 
     this.rotation = {lon: 0, lat: 0, auto: false};
     Object.defineProperty(this, 'rotation', {enumerable: false});

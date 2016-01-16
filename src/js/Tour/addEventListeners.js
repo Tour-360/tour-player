@@ -14,4 +14,6 @@ Tour.addEventListeners = function() {
 
     window.addEventListener('keydown', Tour.keyEvents.down.bind(this), false);
     window.addEventListener('resize',  this.resize.bind(this), false);
+
+    window.addEventListener('popstate', Tour.history.onpopstate, false);
 };
