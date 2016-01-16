@@ -10,8 +10,8 @@ Tour.init = function(data, options) {
     this.createScene();
     this.setControlPanel();
     this.load(this.options.data || data, function(data) {
+        this.view.set({id: data.start});
         this.view.set(Tour.query.get());
-        this.setPanorama(data.start);
         this.addEventListeners();
         this.animate();
     }.bind(this));

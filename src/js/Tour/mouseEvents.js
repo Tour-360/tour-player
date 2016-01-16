@@ -33,8 +33,8 @@ Tour.mouseEvents.up = function(event) {
         var previousEvent = Tour.mouseEvents.previousEvent;
         Tour.view.rotation.lon = (previousEvent.screenX - event.screenX) * Tour.options.kineticRotateSpeed;
         Tour.view.rotation.lat = (event.screenY - previousEvent.screenY) * Tour.options.kineticRotateSpeed;
+        Tour.history.set();
     }
 
     Tour.mouseEvents.drag = false;
-    Tour.history.set();
 };

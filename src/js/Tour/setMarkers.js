@@ -16,7 +16,7 @@ Tour.setMarkers = function() {
          */
         var action = function() {
             if (this.action.type == 'panorama') {
-                Tour.setPanorama(this.action.id);
+                Tour.view.set(this.action);
             } else if (this.action.type == 'url') {
                 window.open(this.action.href, this.action.target || '_blank');
             } else if (this.action.type == 'window') {
