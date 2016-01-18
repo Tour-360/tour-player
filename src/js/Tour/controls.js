@@ -1,6 +1,14 @@
-/* globals Tour*/
+/* globals Tour, UI*/
 
 Tour.controls = {
+    back: function() {
+        window.history.back();
+    },
+
+    forward: function() {
+        window.history.forward();
+    },
+
     fullscreen: function() {
         var e;
         if (document.fullscreenElement              ||
@@ -33,16 +41,16 @@ Tour.controls = {
         link.click();
     },
 
-    autoRotation: function() {
+    autoRotate: function() {
         Tour.view.rotation.auto = !Tour.view.rotation.auto;
     },
 
     reload: function() {
-
+        location.reload();
     },
 
     hideMenu: function() {
-
+        UI.controlPanel.setVisible();
     },
 
     zoomIn: function() {
