@@ -123,5 +123,18 @@ Tour.dictionary = {
         'ru': 'Вниз',
         'uk': 'Вниз',
         'de': 'Nach unten'
+    },
+
+    'notification.successfully-copied': {
+        'en': 'Code copied to clipboard',
+        'ru': 'Код скопирован в буфер обмена',
+        'uk': 'Код скопійований в буфер обміну',
+        'de': 'Code kopid die Zwischenablage'
+    },
+    'notification.embed-code': {
+        'en': 'Embed code (Press *, to copy)',
+        'ru': 'Код для вставки (Нажмите *, чтобы скопировать)',
+        'uk': 'Код для вставки (Натисніть *, щоб скопіювати)',
+        'de': 'Embed code (Press *, dann Kopien)'
     }
 };

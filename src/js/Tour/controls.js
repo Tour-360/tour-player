@@ -1,4 +1,4 @@
-/* globals Tour, UI*/
+/* globals Tour, UI, Lang, BrouserInfo*/
 
 Tour.controls = {
     back: function() {
@@ -84,7 +84,40 @@ Tour.controls = {
     },
 
     getCode: function() {
+        var code = '<iframe src="' + location.href +
+        '" width="640" height="480" frameborder="no" scrolling="no" allowfullscreen></iframe>';
 
+        var report = function(done) {
+            if (done) {
+                UI.notification.show(Lang.get('notification.successfully-copied'));
+            } else {
+                var metaKey = BrouserInfo.apple ? '⌘' : 'Ctrl';
+                window.prompt(Lang.get('notification.embed-code').replace('*', metaKey + '+C'), code);
+            }
+        };
+
+        if (window.clipboardData) {
+            window.clipboardData.setData('Text', code);
+            UI.notification('Код скопирован в буфер обмена');
+        } else if (document.execCommand) {
+            var span = document.createElement('span');
+            span.innerText = code;
+            document.body.appendChild(span);
+            var range = document.createRange();
+            range.selectNode(span);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+
+            report(document.execCommand('copy'));
+
+            window.getSelection().removeAllRanges();
+            document.body.removeChild(span);
+        } else if (window.clipboardData) {
+            window.clipboardData.setData('Text', code);
+            report(true);
+        } else {
+            report(false);
+        }
     },
 
     editor: function() {

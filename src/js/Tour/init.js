@@ -1,4 +1,4 @@
-/* globals Tour, Lang, BrouserInfo*/
+/* globals Tour, Lang, BrouserInfo, UI*/
 
 Tour.init = function(data, options) {
     console.info('Tour-player', 'v' + this.version.join('.'), 'by http://Tour-360.ru');
@@ -10,6 +10,7 @@ Tour.init = function(data, options) {
     this.createScene();
     this.setControlPanel();
     this.setMouseMenu();
+    UI.notification.init();
     this.load(this.options.data || data, function(data) {
         document.title = Lang.translate(data.title) || '';
         var query = Tour.query.get();
