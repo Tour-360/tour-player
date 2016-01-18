@@ -14,8 +14,8 @@ Tour.view.set = function(options, replaceHistory) {
     this.lat = new Tour.Transition(options.lat || this.lat || 0,  Tour.options.limit.lat);
     this.lon = new Tour.Transition(options.lon || this.lon || 0,  Tour.options.limit.lon);
 
-    if (this.id != options.id || this.id === undefined) {
-        this.id = options.id || 0;
+    if (this.id != options.id && options.id !== undefined) {
+        this.id = options.id;
         Tour.setPanorama(this.id);
     }
     Tour.history.set(!replaceHistory);
