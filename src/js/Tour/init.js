@@ -9,6 +9,7 @@ Tour.init = function(data, options) {
     Lang.set(this.options.lang, Tour.dictionary);
     this.createScene();
     this.setControlPanel();
+    this.setMouseMenu();
     this.load(this.options.data || data, function(data) {
         this.view.set({id: data.start});
         this.view.set(Tour.query.get());

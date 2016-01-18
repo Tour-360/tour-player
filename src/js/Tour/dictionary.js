@@ -75,10 +75,29 @@ Tour.dictionary = {
         'de': 'Bild speichern als...'
     },
     'mousemenu.visitsite': {
-        'en': 'Visit website tour-360.ru',
-        'ru': 'Перейти на tour-360.ru',
-        'uk': 'Besuch tour-360.ru',
-        'de': 'Besuch tour-360.ru'
+        'en': 'Visit website',
+        'ru': 'Перейти на',
+        'uk': 'Відвідати сайт',
+        'de': 'Besuch'
+    },
+
+    'key.left': {
+        'en': 'Left Arrow',
+        'ru': 'Стрелка влево',
+        'uk': 'стрілка вліво',
+        'de': 'Linker Pfeil'
+    },
+    'key.right': {
+        'en': 'Right Arrow',
+        'ru': 'Стрелка вправо',
+        'uk': 'стрілка вправо',
+        'de': 'Rechter Pfeil'
+    },
+    'key.spase': {
+        'en': 'Space',
+        'ru': 'Пробел',
+        'uk': 'Пробіл',
+        'de': 'Raum'
     },
 
     'control.left': {
