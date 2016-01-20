@@ -136,5 +136,17 @@ Tour.dictionary = {
         'ru': 'Код для вставки (Нажмите *, чтобы скопировать)',
         'uk': 'Код для вставки (Натисніть *, щоб скопіювати)',
         'de': 'Embed code (Press *, dann Kopien)'
+    },
+    'notification.error-load-pano': {
+        'en': 'Error loading panorama',
+        'ru': 'Ошибка загрузки панорамы',
+        'uk': 'Помилка завантаження панорами',
+        'de': 'Fehler beim Laden Panorama'
+    },
+    'notification.error-load-img': {
+        'en': 'Error loading image',
+        'ru': 'Ошибка загрузки изображения',
+        'uk': 'Помилка завантаження зображення',
+        'de': 'Fehler beim Laden der Bild'
     }
 };
