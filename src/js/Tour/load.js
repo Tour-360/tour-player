@@ -1,4 +1,4 @@
-/* globals Tour */
+/* globals Tour, UI, Lang */
 
 Tour.load = function(url, callback) {
     var xhr = new XMLHttpRequest();
@@ -8,14 +8,14 @@ Tour.load = function(url, callback) {
             return;
         }
         if (xhr.status != 200) {
-            Tour.log('Tour load Error');
+            UI.notification.show(Lang.get('notification.error-load-tour'), false);
         } else {
             try {
                 Tour.data = JSON.parse(xhr.responseText);
                 callback(Tour.data);
                 Tour.emmit('load', Tour.data);
             } catch (e) {
-                Tour.log('JSON Error');
+                UI.notification.show('JSON ' + e.name + ' \n' + e.message, false);
             }
         }
     };
