@@ -46,11 +46,8 @@ UI.controlPanel.addBtn = function(className, callback, title) {
 };
 
 UI.controlPanel.setProgress = function(value) {
-    if (value >= 1) {
-        this.progressBar.classList.add('hidden');
-    } else {
-        this.progressBar.classList.remove('hidden');
-    }
+    document.body.classList[value < 1 ? 'add' : 'remove']('load');
+    this.progressBar.classList[value >= 1 ? 'add' : 'remove']('hidden');
 
     this.progressValue.style.width = Math.min(value, 1) * 100 + '%';
 };
