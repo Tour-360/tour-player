@@ -16,4 +16,5 @@ Tour.addEventListeners = function() {
     window.addEventListener('resize',  this.resize.bind(this));
 
     window.addEventListener('popstate', Tour.history.onpopstate);
+    window.addEventListener('error', Tour.report);
 };
