@@ -96,10 +96,7 @@ Tour.controls = {
             }
         };
 
-        if (window.clipboardData) {
-            window.clipboardData.setData('Text', code);
-            UI.notification('Код скопирован в буфер обмена');
-        } else if (document.execCommand) {
+        if (document.execCommand) {
             var span = document.createElement('span');
             span.innerText = code;
             document.body.appendChild(span);
@@ -135,6 +132,6 @@ Tour.controls = {
     },
 
     badBrowser: function() {
-        Tour.log('bad browser'); //!!
+
     }
 };

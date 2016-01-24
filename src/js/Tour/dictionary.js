@@ -13,6 +13,12 @@ Tour.dictionary = {
         'uk': 'Віртуальний тур',
         'de': 'Virtuelle Tour'
     },
+    'loading': {
+        'en': 'Loading...',
+        'ru': 'Загрузка...',
+        'uk': 'Завантаження...',
+        'de': 'Laden...'
+    },
 
     'mousemenu.back': {
         'en': 'Back',
@@ -148,5 +154,11 @@ Tour.dictionary = {
         'ru': 'Ошибка загрузки изображения',
         'uk': 'Помилка завантаження зображення',
         'de': 'Fehler beim Laden der Bild'
+    },
+    'notification.error-load-tour': {
+        'en': 'Fehler beim Laden Virtuelle Tour',
+        'ru': 'Ошибка загрузки виртуального тура',
+        'uk': 'Помилка завантаження віртуального туру',
+        'de': 'Fehler beim Laden Virtuelle Tour'
     }
 };
