@@ -119,8 +119,8 @@ gulp.task('deploy', function() {
     return gulp.src(['build/**/*', '!build/**/*.map'])
         .pipe(sftp({
             host: 'tour-360.ru',
-            auth: 'admin',
-            remotePath: 'public_html/tour-player/v2.0'
+            auth: 'beta',
+            remotePath: 'beta/tour-player/0.5.0'
         }));
 });
 
