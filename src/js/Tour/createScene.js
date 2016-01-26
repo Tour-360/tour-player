@@ -38,6 +38,8 @@ Tour.createScene = function() {
         this.mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
     }
 
+    this.mesh.rotation.y = Math.PI / 2;
+
     this.scene.add(this.mesh);
     this.resize();
 };

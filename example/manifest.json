@@ -10,7 +10,7 @@
 			"lat": 0,
 			"markers": [
 				{
-					"lon": 90,
+					"lon": 0,
 					"lat": -5,
 					"icon": "up",
 					"action": {
@@ -18,7 +18,7 @@
 						"id": 2
 					}
 				},{
-					"lon": 90,
+					"lon": 0,
 					"lat": -50,
 					"icon": "point",
 					"action": {
@@ -26,7 +26,7 @@
 						"id": 1
 					}
 				},{
-					"lon": 180,
+					"lon": -90,
 					"lat": 16,
 					"icon": "info",
 					"title": "<a href=\"https://ru.wikipedia.org/wiki/Linkin_Park\" target=\"_blank\">Linkin Park</a> — A Thousand Suns", 
@@ -43,7 +43,7 @@
 			"lat": 0,
 			"markers": [
 				{
-					"lon": 90,
+					"lon": 0,
 					"lat": -5,
 					"icon": "up",
 					"action": {
@@ -51,7 +51,7 @@
 						"id": 2
 					}
 				},{
-					"lon": -90,
+					"lon": 180,
 					"lat": -5,
 					"icon": "up",
 					"action": {
@@ -67,7 +67,7 @@
 			"lat": 0,
 			"markers": [
 				{
-					"lon": -90,
+					"lon": 0,
 					"lat": -5,
 					"icon": "up",
 					"action": {
@@ -75,7 +75,7 @@
 						"id": 0
 					}
 				},{
-					"lon": -90,
+					"lon": 0,
 					"lat": -40,
 					"icon": "point",
 					"action": {

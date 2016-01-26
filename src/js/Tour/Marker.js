@@ -13,7 +13,7 @@ Tour.Marker.prototype.setLatLon = function(lat, lon) {
     this.lat = lat || 0;
     this.lon = lon || 0;
 
-    var x =  lon / 180 * Math.PI;
+    var x =  -lon / 180 * Math.PI;
     var y = (-lat + 90) / 180 * Math.PI;
 
     this.vector = new THREE.Vector3(

@@ -14,7 +14,7 @@ Tour.animate = function() {
     this.view.lon.move(this.view.rotation.lon, this.view.rotation.lat > 0.01);
 
     var phi = THREE.Math.degToRad(90 - this.view.lat.value);
-    var theta = THREE.Math.degToRad(this.view.lon.value);
+    var theta = THREE.Math.degToRad(-this.view.lon.value);
     var target = new THREE.Vector3(); //! Вынести!
 
     target.x = Math.sin(phi) * Math.cos(theta);
