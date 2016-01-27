@@ -6,13 +6,6 @@
  * @param {Number} id идентификатор панорамы
  */
 Tour.setTexture = function(id) {
-
-    if (this.options.rendererType != 'css') {
-        document.body.classList.add('transition');
-        var url = this.renderer.domElement.toDataURL('image/png');
-        document.body.style.backgroundImage = 'url(' + url + ')';
-    }
-
     UI.controlPanel.setProgress(0);
     var manager = new Tour.LoadingManager();
     manager.onprogress = function(event) {
@@ -49,7 +42,9 @@ Tour.setTexture = function(id) {
                 this.mesh.material.materials[i].map = this.options.rendererType != 'canvas' ? texture : tile;
             }
 
-            this.setPlane(i, imgeURL, manager);
+            setTimeout(function(i, imgeURL, manager) {
+                this.setPlane(i, imgeURL, manager);
+            }.bind(this, i, imgeURL, manager), 0);
         }
     }.bind(this), false, function() {
         UI.notification.show(Lang.get('notification.error-load-pano'));

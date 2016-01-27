@@ -7,6 +7,7 @@ Tour.init = function(data, options) {
     this.options.set(options);
     this.options.set(this.query.get());
     Lang.set(this.options.lang, Tour.dictionary);
+    this.backgroundImage.init();
     this.createScene();
     this.setControlPanel();
     this.setMouseMenu();
