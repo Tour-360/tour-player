@@ -56,12 +56,12 @@ UI.mouseMenu.close = function() {
 UI.mouseMenu.Item = function(action, title, key) {
     this.titleElement = document.createElement('span');
     this.titleElement.classList.add('title');
-    this.titleElement.innerText = title;
+    this.titleElement.textContent = title;
     this.action = action;
 
     this.keyElement = document.createElement('span');
     this.keyElement.classList.add('key');
-    this.keyElement.innerText = key || '';
+    this.keyElement.textContent = key || '';
 
     this.domElement = document.createElement('div');
     this.domElement.classList.add('item');
@@ -91,10 +91,10 @@ UI.mouseMenu.Item.prototype.setVisible = function(type) {
 
 UI.mouseMenu.Item.prototype.setText = function(title, key) {
     if (title) {
-        this.titleElement.innerText = title;
+        this.titleElement.textContent = title;
     }
     if (key) {
-        this.keyElement.innerText = key;
+        this.keyElement.textContent = key;
     }
 };
 
