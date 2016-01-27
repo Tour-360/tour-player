@@ -23,7 +23,7 @@ UI.notification = {
         }
     },
     setText: function(text) {
-        this.textDomElement.innerText = text;
+        this.textDomElement.textContent = text;
     },
     show: function(text, duration) {
         this.setText(text);

@@ -98,7 +98,7 @@ Tour.controls = {
 
         if (document.execCommand) {
             var span = document.createElement('span');
-            span.innerText = code;
+            span.textContent = code;
             document.body.appendChild(span);
             var range = document.createRange();
             range.selectNode(span);
