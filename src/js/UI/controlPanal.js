@@ -39,7 +39,8 @@ UI.controlPanel.setVisible = function(type) {
 
 UI.controlPanel.addBtn = function(className, callback, title) {
     var btn = document.createElement('div');
-    btn.classList.add('marker', className);
+    btn.classList.add('marker');
+    btn.classList.add(className);
     btn.addEventListener('click', callback, false);
     btn.title = title || '';
     this.btnList.appendChild(btn);
