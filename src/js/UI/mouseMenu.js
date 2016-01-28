@@ -18,9 +18,14 @@ UI.mouseMenu.init = function() {
     this.domElement.addEventListener('mousedown', function(event) {
         event.stopPropagation();
     });
+
     document.addEventListener('mousedown', function() {
-        UI.mouseMenu.close();
-    }.bind(UI));
+        this.close();
+    }.bind(this));
+
+    window.addEventListener('blur', function() {
+        this.close();
+    }.bind(this));
 };
 
 UI.mouseMenu.setPosition = function(x, y) {
