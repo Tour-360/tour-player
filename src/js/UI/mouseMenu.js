@@ -11,16 +11,21 @@ UI.mouseMenu.init = function() {
     document.body.appendChild(this.domElement);
 
     document.addEventListener('contextmenu', function(event) {
-        UI.mouseMenu.open(event);
         event.preventDefault();
+        UI.mouseMenu.open(event);
     });
 
     this.domElement.addEventListener('mousedown', function(event) {
         event.stopPropagation();
     });
+
     document.addEventListener('mousedown', function() {
-        UI.mouseMenu.close();
-    }.bind(UI));
+        this.close();
+    }.bind(this));
+
+    window.addEventListener('blur', function() {
+        this.close();
+    }.bind(this));
 };
 
 UI.mouseMenu.setPosition = function(x, y) {
