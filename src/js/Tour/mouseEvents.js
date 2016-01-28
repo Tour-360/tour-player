@@ -4,12 +4,13 @@ Tour.mouseEvents = {};
 
 Tour.mouseEvents.wheel = function(event) {
     event.preventDefault();
-    var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
-    if (delta > 0) {
-        this.controls.zoomIn();
-    } else {
-        this.controls.zoomOut();
-    }
+    Tour.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
+
+    /* Задржка на изменение истории при скроле на MacOS */
+    clearInterval(this.mouseEvents.timeout);
+    this.mouseEvents.timeout = setTimeout(function() {
+        Tour.history.set();
+    }, 300);
 };
 
 Tour.mouseEvents.down = function(event) {
