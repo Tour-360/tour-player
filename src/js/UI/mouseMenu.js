@@ -75,12 +75,17 @@ UI.mouseMenu.Item = function(action, title, key) {
     this.domElement.appendChild(this.titleElement);
     this.domElement.appendChild(this.keyElement);
 
-    this.domElement.addEventListener('click', function() {
+    var onselect = function(event) {
+        event.stopPropagation();
+        event.preventDefault();
         if (!this.disabled && this.action) {
             this.action();
             UI.mouseMenu.close();
         }
-    }.bind(this));
+    };
+
+    this.domElement.addEventListener('click', onselect.bind(this));
+    this.domElement.addEventListener('contextmenu', onselect.bind(this));
     UI.mouseMenu.domElement.appendChild(this.domElement);
 };
 
