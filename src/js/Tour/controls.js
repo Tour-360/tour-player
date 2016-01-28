@@ -74,12 +74,12 @@ Tour.controls = {
     },
 
     moveRight: function() {
-        Tour.view.lon.move(22.5);
+        Tour.view.lon.move(-22.5);
         Tour.history.set();
     },
 
     moveLeft: function() {
-        Tour.view.lon.move(-22.5);
+        Tour.view.lon.move(22.5);
         Tour.history.set();
     },
 
