@@ -14,6 +14,10 @@ Tour.mouseEvents.wheel = function(event) {
 };
 
 Tour.mouseEvents.down = function(event) {
+    if (event.which == 2) {
+        event.preventDefault();
+        return false;
+    }
     Tour.mouseEvents.drag = true; //!! remove
     Tour.view.rotation.auto = false;
     Tour.mouseEvents.previousEvent = event;
