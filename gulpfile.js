@@ -17,6 +17,7 @@ var uglify         = require('gulp-uglify');
 var mainBowerFiles = require('main-bower-files');
 
 var browserSync    = require('browser-sync').create();
+var pjson = require('./package.json');
 
 // Удаляет все содержимое папки build и src/lib
 gulp.task('clean', function() {
@@ -120,7 +121,7 @@ gulp.task('deploy', function() {
         .pipe(sftp({
             host: 'tour-360.ru',
             auth: 'beta',
-            remotePath: 'beta/tour-player/0.5.0'
+            remotePath: 'beta/tour-player/' + pjson.version
         }));
 });
 
