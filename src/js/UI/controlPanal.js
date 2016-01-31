@@ -29,12 +29,8 @@ UI.controlPanel.init = function(visibility) {
     document.body.appendChild(this.domElement);
 };
 
-UI.controlPanel.setVisible = function(type) {
-    if (type) {
-        this.domElement.classList.add('visible');
-    } else {
-        this.domElement.classList.remove('visible');
-    }
+UI.controlPanel.setVisible = function(visibility) {
+    this.domElement.classList[visibility ? 'add' : 'remove']('visible');
 };
 
 UI.controlPanel.addBtn = function(className, callback, title) {
@@ -48,7 +44,9 @@ UI.controlPanel.addBtn = function(className, callback, title) {
 
 UI.controlPanel.setProgress = function(value) {
     document.body.classList[value < 1 ? 'add' : 'remove']('load');
-    this.progressBar.classList[value >= 1 ? 'add' : 'remove']('hidden');
 
-    this.progressValue.style.width = Math.min(value, 1) * 100 + '%';
+    if (this.progressBar) {
+        this.progressBar.classList[value >= 1 ? 'add' : 'remove']('hidden');
+        this.progressValue.style.width = Math.min(value, 1) * 100 + '%';
+    }
 };

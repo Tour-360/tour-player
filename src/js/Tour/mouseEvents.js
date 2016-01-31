@@ -3,14 +3,16 @@
 Tour.mouseEvents = {};
 
 Tour.mouseEvents.wheel = function(event) {
-    event.preventDefault();
-    Tour.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
+    if (Tour.options.scaleControl) {
+        event.preventDefault();
+        Tour.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
-    /* Задржка на изменение истории при скроле на MacOS */
-    clearInterval(this.mouseEvents.timeout);
-    this.mouseEvents.timeout = setTimeout(function() {
-        Tour.history.set();
-    }, 300);
+        /* Задржка на изменение истории при скроле на MacOS */
+        clearInterval(this.mouseEvents.timeout);
+        this.mouseEvents.timeout = setTimeout(function() {
+            Tour.history.set();
+        }, 300);
+    }
 };
 
 Tour.mouseEvents.down = function(event) {

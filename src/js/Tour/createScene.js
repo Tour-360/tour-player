@@ -36,6 +36,7 @@ Tour.createScene = function() {
             materials.push(new THREE.MeshBasicMaterial({map: new THREE.Texture(), overdraw: true}));
         }
         this.mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+        this.mesh.visible = false;
     }
 
     this.mesh.rotation.y = Math.PI / 2;
