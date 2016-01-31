@@ -5,14 +5,13 @@ Tour.init = function(data, options) {
     BrouserInfo();
     this.options.set(this.defaultOption);
     this.options.set(options);
-    this.options.set(this.query.get());
     Lang.set(this.options.lang, Tour.dictionary);
     this.backgroundImage.init();
-    this.createScene();
+    UI.notification.init();
     this.setControlPanel();
     this.setMouseMenu();
-    UI.notification.init();
     this.load(this.options.data || data, function(data) {
+        this.createScene();
         document.title = Lang.translate(data.title) || '';
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;

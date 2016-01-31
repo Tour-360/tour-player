@@ -17,7 +17,7 @@ Tour.backgroundImage.set = function(url, color, callback) {
     if (url) {
         this.domElement.onload = callback;
         this.domElement.src = url;
-    } else {
+    } else if (callback) {
         callback();
     }
 };
