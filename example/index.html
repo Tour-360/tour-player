@@ -12,6 +12,9 @@
         Tour.init(null, {
             controlPanel: true
         });
+        Tour.on('load', function(data) {
+            this.controls.autoRotate()
+        })
         </script>
     </body>
 </html>
