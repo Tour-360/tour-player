@@ -5,6 +5,7 @@ Tour.defaultOption = {
     mainifest: 'manifest.json',
     tileset: [1, 3, 4, 5, 0, 2],
     kineticRotateSpeed: 0.1,
+    autorotationSpeed: -0.5,
     transition: true,
     mouseMenu: true,
     controlPanel: false,
