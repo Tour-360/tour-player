@@ -7,11 +7,11 @@ Tour.init = function(data, options) {
     this.options.set(options);
     Lang.set(this.options.lang, Tour.dictionary);
     this.backgroundImage.init();
+    this.createScene();
     UI.notification.init();
     this.setControlPanel();
     this.setMouseMenu();
     this.load(this.options.data || data, function(data) {
-        this.createScene();
         document.title = Lang.translate(data.title) || '';
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;

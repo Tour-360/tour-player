@@ -42,7 +42,6 @@ Tour.setTexture = function(id) {
                 this.mesh.material.materials[i].map = this.options.rendererType != 'canvas' ? texture : tile;
             }
 
-            this.mesh.visible = true;
             setTimeout(function(i, imgeURL, manager) {
                 this.setPlane(i, imgeURL, manager);
             }.bind(this, i, imgeURL, manager), 0);
