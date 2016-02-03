@@ -8,7 +8,7 @@ Tour.setMarkers = function() {
     }
 
     this.markers = [];
-    var markers = this.data.panorams[this.view.id].markers;
+    var markers = this.data.panorams && this.data.panorams[this.view.id] && this.data.panorams[this.view.id].markers;
 
     if (markers) {
         /* Типы действий

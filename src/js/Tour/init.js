@@ -12,7 +12,7 @@ Tour.init = function(data, options) {
     this.setControlPanel();
     this.setMouseMenu();
     this.load(this.options.data || data, function(data) {
-        document.title = Lang.translate(data.title) || '';
+        document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;
         this.view.set(query);
