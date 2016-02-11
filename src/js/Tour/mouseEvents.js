@@ -4,7 +4,7 @@ Tour.mouseEvents = {};
 
 Tour.mouseEvents._setCinetic = function(event) {
     if (event.clientX || event.clientY) {
-        var alpha = Tour.view.fov.value / 750;
+        var alpha = Tour.view.fov.value / Tour.options.fov / Tour.options.mouseSensitivity;
         this.cineticLon = (event.clientX - this.previousEvent.clientX) * alpha;
         this.cineticLat = (event.clientY - this.previousEvent.clientY) * alpha;
     } else if (event.timeStamp - this.previousEvent.timeStamp > 20) {
@@ -14,7 +14,7 @@ Tour.mouseEvents._setCinetic = function(event) {
 };
 
 Tour.mouseEvents._touches2mouse = function(event) {
-    if (event.touches && event.touches.length) {
+    if (event.touches  && event.touches.length) {
         event.clientX = event.touches[0].pageX * window.devicePixelRatio;
         event.clientY = event.touches[0].pageY * window.devicePixelRatio;
         event.preventDefault();
@@ -51,7 +51,7 @@ Tour.mouseEvents.move = function(event) {
     if (this.mouseEvents.drag && (event.touches ? this.options.mobileDrag : true)) {
         this.mouseEvents._touches2mouse(event);
 
-        var alpha = this.view.fov.value / 750;
+        var alpha = Tour.view.fov.value / Tour.options.fov / Tour.options.mouseSensitivity;
         this.view.lon.set(this.view.lon.value + (event.clientX - this.mouseEvents.previousEvent.clientX) * alpha);
         this.view.lat.set(this.view.lat.value + (event.clientY - this.mouseEvents.previousEvent.clientY) * alpha);
         this.mouseEvents._setCinetic(event);

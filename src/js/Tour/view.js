@@ -10,7 +10,7 @@ Tour.view = {};
 Tour.view.set = function(options, replaceHistory) {
     options = options || {};
 
-    this.fov = new Tour.Transition(options.fov || this.fov || 75, Tour.options.limit.fov);
+    this.fov = new Tour.Transition(options.fov || this.fov || Tour.options.fov, Tour.options.limit.fov);
     this.lat = new Tour.Transition(options.lat || this.lat || 0,  Tour.options.limit.lat);
     this.lon = new Tour.Transition(options.lon || this.lon || 0,  Tour.options.limit.lon);
 
