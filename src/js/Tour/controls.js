@@ -53,6 +53,11 @@ Tour.controls = {
         UI.controlPanel.setVisible();
     },
 
+    stopRotate: function() {
+        Tour.view.rotation.auto = false;
+        Tour.view.rotation.lat = Tour.view.rotation.lon = 0;
+    },
+
     zoomIn: function() {
         Tour.view.fov.move(-10);
         Tour.history.set();
@@ -64,21 +69,25 @@ Tour.controls = {
     },
 
     moveUp: function() {
+        Tour.controls.stopRotate();
         Tour.view.lat.move(30);
         Tour.history.set();
     },
 
     moveDown: function() {
+        Tour.controls.stopRotate();
         Tour.view.lat.move(-30);
         Tour.history.set();
     },
 
     moveRight: function() {
+        Tour.controls.stopRotate();
         Tour.view.lon.move(-22.5);
         Tour.history.set();
     },
 
     moveLeft: function() {
+        Tour.controls.stopRotate();
         Tour.view.lon.move(22.5);
         Tour.history.set();
     },

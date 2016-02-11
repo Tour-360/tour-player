@@ -1,7 +1,11 @@
 /* globals Tour, UI, Lang */
 
 Tour.load = function(data, callback) {
-    if (typeof data === 'string') {
+    if (typeof data === 'object') {
+        this.data = data;
+        callback(this.data);
+        this.emmit('load', this.data);
+    } else {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', data || Tour.options.mainifest, true);
         xhr.onreadystatechange = function() {
@@ -21,9 +25,5 @@ Tour.load = function(data, callback) {
             }
         };
         xhr.send();
-    } else {
-        this.data = data;
-        callback(this.data);
-        this.emmit('load', this.data);
     }
 };

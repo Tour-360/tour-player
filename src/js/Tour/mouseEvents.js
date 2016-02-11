@@ -2,10 +2,29 @@
 
 Tour.mouseEvents = {};
 
-Tour.mouseEvents.wheel = function(event) {
-    if (Tour.options.scaleControl) {
+Tour.mouseEvents._setCinetic = function(event) {
+    if (event.clientX || event.clientY) {
+        var alpha = Tour.view.fov.value / 750;
+        this.cineticLon = (event.clientX - this.previousEvent.clientX) * alpha;
+        this.cineticLat = (event.clientY - this.previousEvent.clientY) * alpha;
+    } else if (event.timeStamp - this.previousEvent.timeStamp > 20) {
+        this.cineticLon = this.cineticLat = 0;
+    }
+    this.previousEvent = event;
+};
+
+Tour.mouseEvents._touches2mouse = function(event) {
+    if (event.touches && event.touches.length) {
+        event.clientX = event.touches[0].pageX * window.devicePixelRatio;
+        event.clientY = event.touches[0].pageY * window.devicePixelRatio;
         event.preventDefault();
-        Tour.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
+    }
+};
+
+Tour.mouseEvents.wheel = function(event) {
+    if (this.options.scaleControl) {
+        event.preventDefault();
+        this.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
         /* Задржка на изменение истории при скроле на MacOS */
         clearInterval(this.mouseEvents.timeout);
@@ -20,28 +39,35 @@ Tour.mouseEvents.down = function(event) {
         event.preventDefault();
         return false;
     }
-    Tour.mouseEvents.drag = true; //!! remove
-    Tour.view.rotation.auto = false;
-    Tour.mouseEvents.previousEvent = event;
+
+    this.mouseEvents._touches2mouse(event);
+
+    this.mouseEvents.drag = true;
+    this.view.rotation.auto = false;
+    this.mouseEvents.previousEvent = event;
 };
 
 Tour.mouseEvents.move = function(event) {
-    if (Tour.mouseEvents.drag) {
-        var alpha = 0.1 * Tour.view.fov.value / 75;
+    if (this.mouseEvents.drag && (event.touches ? this.options.mobileDrag : true)) {
+        this.mouseEvents._touches2mouse(event);
 
-        Tour.view.lon.set(Tour.view.lon.value + (event.clientX - Tour.mouseEvents.previousEvent.clientX) * alpha);
-        Tour.view.lat.set(Tour.view.lat.value + (event.clientY - Tour.mouseEvents.previousEvent.clientY) * alpha);
-        Tour.mouseEvents.previousEvent = event;
+        var alpha = this.view.fov.value / 750;
+        this.view.lon.set(this.view.lon.value + (event.clientX - this.mouseEvents.previousEvent.clientX) * alpha);
+        this.view.lat.set(this.view.lat.value + (event.clientY - this.mouseEvents.previousEvent.clientY) * alpha);
+        this.mouseEvents._setCinetic(event);
     }
 };
 
-Tour.mouseEvents.up = function(event) {
-    if (Tour.mouseEvents.drag) {
-        var previousEvent = Tour.mouseEvents.previousEvent;
-        Tour.view.rotation.lon = (event.clientX - previousEvent.clientX) * Tour.options.kineticRotateSpeed;
-        Tour.view.rotation.lat = (event.clientY - previousEvent.clientY) * Tour.options.kineticRotateSpeed;
-        Tour.history.set();
+Tour.mouseEvents.up = function() {
+    if (this.mouseEvents.drag) {
+        this.mouseEvents._touches2mouse(event);
+        this.mouseEvents._setCinetic(event);
+
+        this.view.rotation.lat = this.mouseEvents.cineticLat;
+        this.view.rotation.lon = this.mouseEvents.cineticLon;
+
+        this.history.set();
     }
 
-    Tour.mouseEvents.drag = false;
+    this.mouseEvents.drag = false;
 };
