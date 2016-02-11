@@ -17,15 +17,17 @@ Tour.Transition.prototype.set = function(value) {
 };
 
 Tour.Transition.prototype.move = function(value, noanim) {
-    this.moveTo(this.follow + value);
-    if (noanim) {
-        this.value = this.follow;
+    if (value) {
+        this.moveTo(this.follow + value, noanim);
     }
     return this.follow;
 };
 
-Tour.Transition.prototype.moveTo = function(value) {
+Tour.Transition.prototype.moveTo = function(value, noanim) {
     this.follow = Math.max(this.min || -Infinity, Math.min(this.max || Infinity, value));
+    if (noanim) {
+        this.value = this.follow;
+    }
     return this.follow;
 };
 

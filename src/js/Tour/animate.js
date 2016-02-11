@@ -4,14 +4,14 @@ Tour.animate = function() {
     requestAnimationFrame(Tour.animate.bind(this));
 
     if (this.view.rotation.auto && Math.abs(this.view.rotation.lon) < Math.abs(this.options.autorotationSpeed)) {
-        this.view.rotation.lon += this.options.autorotationSpeed/1000;
+        this.view.rotation.lon += this.options.autorotationSpeed / 300;
     } else if (!this.view.rotation.auto) {
-        this.view.rotation.lon /= 1.10;
-        this.view.rotation.lat /= 1.10;
+        this.view.rotation.lon /= this.options.kineticResistance;
+        this.view.rotation.lat /= this.options.kineticResistance;
     }
 
-    this.view.lat.move(this.view.rotation.lat, this.view.rotation.lat > 0.01);
-    this.view.lon.move(this.view.rotation.lon, this.view.rotation.lat > 0.01);
+    this.view.lat.move(this.view.rotation.lat, true);
+    this.view.lon.move(this.view.rotation.lon, true);
 
     var phi = THREE.Math.degToRad(90 - this.view.lat.value);
     var theta = THREE.Math.degToRad(-this.view.lon.value);

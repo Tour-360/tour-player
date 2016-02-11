@@ -3,7 +3,6 @@
 Tour.Marker = function(lat, lon, action, icon, title) {
     UI.Marker.call(this, action, icon, title);
     this.setLatLon(lat, lon);
-    //this.uiMarker = new UI.Marker();
 };
 
 Tour.Marker.prototype = Object.create(UI.Marker.prototype);
@@ -30,7 +29,10 @@ Tour.Marker.prototype.draw = function() {
         var width = Tour.renderer.domElement.width / 2;
         var height = Tour.renderer.domElement.height / 2;
 
-        this.setPosition(pos.x * width  + width, -pos.y * height + height);
+        this.setPosition(
+            (pos.x  * width  + width)  / window.devicePixelRatio,
+            (-pos.y * height + height) / window.devicePixelRatio
+        );
     }
     this.setVisible(pos.z < 1);
 };
