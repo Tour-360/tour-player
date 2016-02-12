@@ -3,9 +3,12 @@
 Tour.animate = function() {
     requestAnimationFrame(Tour.animate.bind(this));
 
-    if (this.view.rotation.auto && Math.abs(this.view.rotation.lon) < Math.abs(this.options.autorotationSpeed)) {
-        this.view.rotation.lon += this.options.autorotationSpeed / 300;
-    } else if (!this.view.rotation.auto) {
+    if (this.view.rotation.auto) {
+        if (Math.abs(this.view.rotation.lon) < Math.abs(this.options.autorotationSpeed)) {
+            this.view.rotation.lon += this.options.autorotationSpeed / 100;
+        }
+        this.view.lat.set(this.view.lat.value / 1.01);
+    } else {
         this.view.rotation.lon /= this.options.kineticResistance;
         this.view.rotation.lat /= this.options.kineticResistance;
     }
