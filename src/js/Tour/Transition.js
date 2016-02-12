@@ -6,6 +6,7 @@ Tour.Transition = function(value, options) {
     this.speed = 8;
     this.max = false;
     this.min = false;
+    this.limit = false;
 
     for (var k in options) {
         this[k] = options[k];
@@ -36,5 +37,5 @@ Tour.Transition.prototype.animate = function() {
 };
 
 Tour.Transition.prototype.toString = function() {
-    return parseFloat(this.follow.toFixed(2));
+    return parseFloat((this.limit ? this.follow % this.limit : this.follow).toFixed(2));
 };
