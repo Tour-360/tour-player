@@ -1,6 +1,6 @@
 /* globals Tour, Lang */
 
-Tour.setMarkers = function() {
+Tour.setMarkers = function(id) {
     if (this.markers) {
         this.markers.forEach(function(marker) {
             marker.remove();
@@ -8,7 +8,7 @@ Tour.setMarkers = function() {
     }
 
     this.markers = [];
-    var markers = this.data.panorams && this.data.panorams[this.view.id] && this.data.panorams[this.view.id].markers;
+    var markers = this.data.panorams && this.data.panorams[id] && this.data.panorams[id].markers;
 
     if (markers) {
         /* Типы действий
