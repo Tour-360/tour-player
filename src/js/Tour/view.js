@@ -16,14 +16,14 @@ Tour.view.set = function(options, replaceHistory) {
 
     this.lon.limit = 360;
 
+    this.rotation = {lon: 0, lat: 0, auto: false};
+    Object.defineProperty(this, 'rotation', {enumerable: false});
+
     if (this.id != options.id && options.id !== undefined) {
         this.id = options.id;
         Tour.setPanorama(this.id);
     }
     Tour.history.set(!replaceHistory);
-
-    this.rotation = {lon: 0, lat: 0, auto: false};
-    Object.defineProperty(this, 'rotation', {enumerable: false});
 };
 
 Tour.view.get = function() {
