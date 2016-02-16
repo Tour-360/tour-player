@@ -8,7 +8,7 @@ Tour.defaultOption = {
     kineticResistance: 1.1,
     autorotationSpeed: -0.05,
     mouseSensitivity: 10,
-    mobileDrag: true,
+    touchDrag: true,
     transition: true,
     mouseMenu: true,
     controlPanel: false,

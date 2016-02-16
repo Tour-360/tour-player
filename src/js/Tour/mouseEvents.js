@@ -48,7 +48,7 @@ Tour.mouseEvents.down = function(event) {
 };
 
 Tour.mouseEvents.move = function(event) {
-    if (this.mouseEvents.drag && (event.touches ? this.options.mobileDrag : true)) {
+    if (this.mouseEvents.drag && (event.touches ? this.options.touchDrag : true)) {
         this.mouseEvents._touches2mouse(event);
 
         var alpha = Tour.view.fov.value / Tour.options.fov / Tour.options.mouseSensitivity;
