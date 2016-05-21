@@ -26,8 +26,8 @@ Tour.Marker.prototype.draw = function() {
     var pos = (new THREE.Vector3(this.vector.x , this.vector.y , this.vector.z)).project(Tour.camera);
 
     if (pos.z < 1) {
-        var width = Tour.renderer.domElement.width / 2;
-        var height = Tour.renderer.domElement.height / 2;
+        var width = Tour.renderer.domElement.clientWidth / 2;
+        var height = Tour.renderer.domElement.clientHeight / 2;
 
         this.setPosition(
             (pos.x  * width  + width)  / window.devicePixelRatio,
