@@ -91,5 +91,5 @@ UI.Marker.prototype.setIcon = function(name) {
 };
 
 UI.Marker.prototype.remove = function() {
-    this.domElement.remove();
+    this.domElement.parentNode.removeChild(this.domElement);
 };
