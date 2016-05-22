@@ -17,6 +17,7 @@ var uglify         = require('gulp-uglify');
 var mainBowerFiles = require('main-bower-files');
 
 var browserSync    = require('browser-sync').create();
+var pjson = require('./package.json');
 
 // Удаляет все содержимое папки build и src/lib
 gulp.task('clean', function() {
@@ -30,7 +31,12 @@ gulp.task('clear', function(done) {
 
 // Конкатинирует и минифицирует JavaScript, создает sourseMap
 gulp.task('scripts', function() {
-    return gulp.src(['src/js/**/*.js', 'src/lib/three.js', 'src/lib/*.js'])
+    return gulp.src([
+        'src/js/*.js',
+        'src/js/UI/*.js',
+        'src/js/**/*.js', 
+        'src/lib/three.js',
+        'src/lib/*.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('tour-player.js'))
     .pipe(uglify({
@@ -114,8 +120,8 @@ gulp.task('deploy', function() {
     return gulp.src(['build/**/*', '!build/**/*.map'])
         .pipe(sftp({
             host: 'tour-360.ru',
-            auth: 'admin',
-            remotePath: 'public_html/tour-player/v2.0'
+            auth: 'beta',
+            remotePath: 'beta/tour-player/' + pjson.version
         }));
 });
 

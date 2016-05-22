@@ -4,14 +4,26 @@
     height 0
     left 0
     top 50%
-    margin-top -32px
+    margin-top -16px
     text-align center
+    opacity 0
+    cursor default
+    user-select none
+    transition opacity.3s ease
+
+
+    &.visible
+        opacity 1
+
+    &.hidden
+        display none
 
     span
         display inline-block
-        color white
-        background $transparent-black
+        max-width 70%
+        padding 5px 28px
         line-height 1.6em
-        padding 5px 32px
+        background $transparent-black
+        color white
         border-radius 16px
         text-shadow 0 1px rgba(0, 0, 0, .3)

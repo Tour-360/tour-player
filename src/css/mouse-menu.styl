@@ -1,0 +1,44 @@
+#mouse-menu
+    position absolute
+    display none
+    background #fff
+    border 1px solid $light-gray
+    border-radius 3px
+    padding 5px 0
+    box-shadow $block-shadow
+    z-index 1
+
+    &.visible
+        display block
+
+    .item
+        padding 5px
+        padding-left 26px
+        padding-right 20px
+        white-space nowrap
+        cursor default
+
+        .key
+            float right
+            margin-left 50px
+            color $gray-text
+
+            &:empty
+                display none
+
+        &:not(.disabled):hover
+            background $blue
+            color #fff
+
+            .key
+                color #fff
+
+        &.disabled
+            color $gray-text
+
+        &.hidden
+            display none
+    hr
+        margin 5px 1px
+        border none
+        border-bottom 1px solid $light-gray
