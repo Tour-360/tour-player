@@ -15,7 +15,7 @@ Tour.init = function(data, options) {
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;
-        this.view.set(query);
+        this.view.set(query, true);
         this.addEventListeners();
         this.animate();
     }.bind(this));
