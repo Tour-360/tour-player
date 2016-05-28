@@ -1,0 +1,36 @@
+#popups
+  position fixed
+  display flex
+  flex-direction column
+  justify-content center
+  align-items center
+  display
+  z-index 500
+  width 100%
+  height 100%
+  top 0
+  left 0
+  background rgba(0,0,0,.5);
+
+.popup
+  max-width 600px
+  min-width 200px
+  width 70%
+  background white
+  display flex
+  flex-direction column
+  box-shadow $block-shadow
+
+  &.horisontal
+    flex-direction row
+
+    .pictures
+      width 100%
+
+  .content
+    margin 20px
+
+  .pictures
+    img
+      display block
+      width 100%
