@@ -1,0 +1,35 @@
+.popups
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  display flex
+  pointer-events none
+  justify-content center
+  align-items center
+  z-index 2
+
+  .popup
+    pointer-events all
+    position relative
+    min-width 200px
+    min-height 140px
+    background #fff
+    box-shadow $block-shadow
+
+    .close
+      position absolute
+      right 0
+      top 0
+      width 32px
+      height 32px
+      background $gray
+      cursor pointer
+
+    img
+      width 100%
+      display block
+
+    .content
+      padding 16px
