@@ -38,6 +38,9 @@ Tour.mouseEvents.wheel = function(event) {
 };
 
 Tour.mouseEvents.down = function(event) {
+    if (this.options.touchScroll && event.type == 'touchstart') {
+        return false;
+    }
     if (event.which == 2) {
         event.preventDefault();
         return false;

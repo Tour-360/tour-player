@@ -12,6 +12,7 @@ Tour.defaultOption = {
     transition: true,
     mouseMenu: true,
     controlPanel: false,
+    touchScroll: false,
     scaleControl: true,
     limit: {
         fov: { min: 20, max: 90},
