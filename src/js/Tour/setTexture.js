@@ -46,7 +46,7 @@ Tour.setTexture = function(id) {
                 this.setPlane(i, imgeURL, manager);
             }.bind(this, i, imgeURL, manager), 0);
         }
-    }.bind(this), false, function() {
+    }.bind(this), undefined, function() {
         UI.notification.show(Lang.get('notification.error-load-pano'));
     });
 };
