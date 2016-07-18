@@ -1,23 +1,29 @@
-/* globals Tour */
+/* globals Tour, UI, Lang */
 
-Tour.load = function(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url || Tour.options.mainifest, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState != 4) {
-            return;
-        }
-        if (xhr.status != 200) {
-            Tour.log('Tour load Error');
-        } else {
-            try {
-                Tour.data = JSON.parse(xhr.responseText);
-                callback(Tour.data);
-                Tour.emmit('load', Tour.data);
-            } catch (e) {
-                Tour.log('JSON Error');
+Tour.load = function(data, callback) {
+    if (typeof data === 'object') {
+        this.data = data;
+        callback(this.data);
+        this.emmit('load', this.data);
+    } else {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', data || Tour.options.mainifest, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState != 4) {
+                return;
             }
-        }
-    };
-    xhr.send();
+            if (xhr.status != 200) {
+                UI.notification.show(Lang.get('notification.error-load-tour'), false);
+            } else {
+                try {
+                    Tour.data = JSON.parse(xhr.responseText);
+                    callback(Tour.data);
+                    Tour.emmit('load', Tour.data);
+                } catch (e) {
+                    UI.notification.show('JSON ' + e.name + ' \n' + e.message, false);
+                }
+            }
+        };
+        xhr.send();
+    }
 };

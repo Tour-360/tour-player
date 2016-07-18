@@ -3,14 +3,24 @@ $progress-bar-height = 3px
 
 #control-panel
     position absolute
-    height $btn-size
-    background #fff
-    margin auto
-    left 0
-    right 0
-    bottom 18px
+    width 100%
+    height 0
+    text-align center
     z-index 1
-    box-shadow 0 5px 8px 0 rgba(0, 0, 0, .15)
+    opacity 0
+    bottom - $btn-size
+    transition all.4s ease
+
+    &.visible
+        bottom 18px + $btn-size
+        opacity 1
+
+    .panel
+        position relative
+        display inline-block
+        height $btn-size
+        background #fff
+        box-shadow $block-shadow
 
     &.hidden
         bottom $btn-size * 2
@@ -21,6 +31,8 @@ $progress-bar-height = 3px
         height $progress-bar-height
         bottom $btn-size
         background $gray
+        transition height.1s linear, opacity.1s linear
+        transition-delay 0.1s
 
         .value
             background $blue
@@ -30,7 +42,8 @@ $progress-bar-height = 3px
 
         &.hidden
             height 0
-            transition height.3s linear
+            opacity 0
+            transition height.3s linear, opacity.3s linear
             transition-delay 0.5s
 
     .btn-list
@@ -62,8 +75,9 @@ $progress-bar-height = 3px
         .fullscreen
             background-image url(../img/controls/fullscreen.svg)
 
-html:fullscreen .fullscreen
-    background-image url(../img/controls/fullscreen_exit.svg) !important
+body.fullscreen
+    #control-panel .fullscreen
+        background-image url(../img/controls/fullscreen_exit.svg)
 
 @supports (backdrop-filter: none)
     #control-panel

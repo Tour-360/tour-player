@@ -13,6 +13,12 @@ Tour.dictionary = {
         'uk': 'Віртуальний тур',
         'de': 'Virtuelle Tour'
     },
+    'loading': {
+        'en': 'Loading...',
+        'ru': 'Загрузка...',
+        'uk': 'Завантаження...',
+        'de': 'Laden...'
+    },
 
     'mousemenu.back': {
         'en': 'Back',
@@ -75,10 +81,29 @@ Tour.dictionary = {
         'de': 'Bild speichern als...'
     },
     'mousemenu.visitsite': {
-        'en': 'Visit website tour-360.ru',
-        'ru': 'Перейти на tour-360.ru',
-        'uk': 'Besuch tour-360.ru',
-        'de': 'Besuch tour-360.ru'
+        'en': 'Visit website',
+        'ru': 'Перейти на',
+        'uk': 'Відвідати сайт',
+        'de': 'Besuch'
+    },
+
+    'key.left': {
+        'en': 'Left Arrow',
+        'ru': 'Стрелка влево',
+        'uk': 'стрілка вліво',
+        'de': 'Linker Pfeil'
+    },
+    'key.right': {
+        'en': 'Right Arrow',
+        'ru': 'Стрелка вправо',
+        'uk': 'стрілка вправо',
+        'de': 'Rechter Pfeil'
+    },
+    'key.spase': {
+        'en': 'Space',
+        'ru': 'Пробел',
+        'uk': 'Пробіл',
+        'de': 'Raum'
     },
 
     'control.left': {
@@ -104,5 +129,36 @@ Tour.dictionary = {
         'ru': 'Вниз',
         'uk': 'Вниз',
         'de': 'Nach unten'
+    },
+
+    'notification.successfully-copied': {
+        'en': 'Code copied to clipboard',
+        'ru': 'Код скопирован в буфер обмена',
+        'uk': 'Код скопійований в буфер обміну',
+        'de': 'Code kopid die Zwischenablage'
+    },
+    'notification.embed-code': {
+        'en': 'Embed code (Press *, to copy)',
+        'ru': 'Код для вставки (Нажмите *, чтобы скопировать)',
+        'uk': 'Код для вставки (Натисніть *, щоб скопіювати)',
+        'de': 'Embed code (Press *, dann Kopien)'
+    },
+    'notification.error-load-pano': {
+        'en': 'Error loading panorama',
+        'ru': 'Ошибка загрузки панорамы',
+        'uk': 'Помилка завантаження панорами',
+        'de': 'Fehler beim Laden Panorama'
+    },
+    'notification.error-load-img': {
+        'en': 'Error loading image',
+        'ru': 'Ошибка загрузки изображения',
+        'uk': 'Помилка завантаження зображення',
+        'de': 'Fehler beim Laden der Bild'
+    },
+    'notification.error-load-tour': {
+        'en': 'Fehler beim Laden Virtuelle Tour',
+        'ru': 'Ошибка загрузки виртуального тура',
+        'uk': 'Помилка завантаження віртуального туру',
+        'de': 'Fehler beim Laden Virtuelle Tour'
     }
 };
