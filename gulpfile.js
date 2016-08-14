@@ -117,11 +117,17 @@ gulp.task('serve', ['build'], function() {
 
 //Публикация на сайте tour-360.ru по FTP
 gulp.task('deploy', function() {
-    return gulp.src(['build/**/*', '!build/**/*.map'])
+    gulp.src(['build/**/*', '!build/**/*.map'])
         .pipe(sftp({
             host: 'tour-360.ru',
             auth: 'beta',
-            remotePath: 'beta/tour-player/' + pjson.version
+            remotePath: 'public_html/tour-player/latest'
+        }));
+    gulp.src(['build/**/*', '!build/**/*.map'])
+        .pipe(sftp({
+            host: 'tour-360.ru',
+            auth: 'beta',
+            remotePath: 'public_html/tour-player/' + pjson.version
         }));
 });
 
