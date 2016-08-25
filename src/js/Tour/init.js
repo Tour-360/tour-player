@@ -9,6 +9,7 @@ Tour.init = function(data, options) {
     this.backgroundImage.init();
     this.createScene();
     UI.notification.init();
+    UI.popUp.init();
     this.setControlPanel();
     this.setMouseMenu();
     this.load(data, function(data) {

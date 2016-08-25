@@ -5,17 +5,18 @@ UI.popUp = {
         this.domElement = document.querySelector('.popup-layout');
         this.domElement.addEventListener('click', function(event) {
             if (event.target == this.domElement) {
-                this.hide();
+                this.set();
             }
         }.bind(this));
         this.closeElement = document.querySelector('.popup-layout .close');
-        this.closeElement.addEventListener('click', this.hide.bind(this));
+        this.closeElement.addEventListener('click', this.set.bind(this, false));
+        window.addEventListener('popstate', this.popstate.bind(this));
+        this.popstate();
     },
-    show: function(id) {
-        window.location.hash = id;
-        this.domElement.classList.add('visible');
+    set: function(id) {
+        window.location.hash = id || '';
     },
-    hide: function() {
-        this.domElement.classList.remove('visible');
+    popstate: function() {
+        this.domElement.classList[window.location.hash ? 'add' : 'remove']('visible');
     }
 };

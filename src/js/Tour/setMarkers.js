@@ -1,4 +1,4 @@
-/* globals Tour, Lang */
+/* globals Tour, Lang, UI */
 
 Tour.setMarkers = function(id) {
     if (this.markers) {
@@ -15,17 +15,19 @@ Tour.setMarkers = function(id) {
          * github.com/Tour-360/tour-player/wiki/Формат-файла-manifest.json#action
          */
         var action = function() {
-            if (this.action.type == 'panorama') {
-                Tour.view.set(this.action);
-            } else if (this.action.type == 'url') {
-                window.open(this.action.href, this.action.target || '_blank');
-            } else if (this.action.type == 'window') {
+            if (this.type == 'panorama') {
+                Tour.view.set(this);
+            } else if (this.type == 'url') {
+                window.open(this.href, this.target || '_blank');
+            } else if (this.type == 'popup') {
+                UI.popUp.set(this.id);
+            } else if (this.type == 'window') {
 
             }
         };
 
         for (var i = 0; i < markers.length; i++) {
-            var marker = new this.Marker(markers[i].lat, markers[i].lon, action.bind(markers[i]));
+            var marker = new this.Marker(markers[i].lat, markers[i].lon, action.bind(markers[i].action));
 
             var title = markers[i].title ||
             (markers[i].action.type == 'panorama' && this.data.panorams[markers[i].action.id].title);
