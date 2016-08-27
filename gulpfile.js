@@ -53,10 +53,7 @@ gulp.task('styles', function() {
     return gulp.src(['src/css/dependences.styl'])
     .pipe(sourcemaps.init())
     .pipe(concat('tour-player.styl'))
-    .pipe(stylus({
-        compress: true,
-        url: {name: 'url', limit: false}
-    }))
+    .pipe(stylus({compress: true}))
     .pipe(autoprefixer({browsers: ['last 5 versions']}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('build/'))
