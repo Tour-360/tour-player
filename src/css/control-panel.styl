@@ -64,23 +64,23 @@ $progress-bar-height = 3px
                 background-color rgba(0, 0, 0, .1)
 
         .left
-            background-image url(../img/controls/left.svg)
+            background-image embedurl("../img/controls/left.svg", "utf8")
         .right
-            background-image url(../img/controls/right.svg)
+            background-image embedurl("../img/controls/right.svg", "utf8")
         .up
-            background-image url(../img/controls/up.svg)
+            background-image embedurl("../img/controls/up.svg", "utf8")
         .down
-            background-image url(../img/controls/down.svg)
+            background-image embedurl("../img/controls/down.svg", "utf8")
         .zoom-in
-            background-image url(../img/controls/zoom_in.svg)
+            background-image embedurl("../img/controls/zoom_in.svg", "utf8")
         .zoom-out
-            background-image url(../img/controls/zoom_out.svg)
+            background-image embedurl("../img/controls/zoom_out.svg", "utf8")
         .fullscreen
-            background-image url(../img/controls/fullscreen.svg)
+            background-image embedurl("../img/controls/fullscreen.svg", "utf8")
 
 body.fullscreen
     #control-panel .fullscreen
-        background-image url(../img/controls/fullscreen_exit.svg)
+        background-image embedurl("../img/controls/fullscreen_exit.svg", "utf8")
 
 @supports (backdrop-filter: none)
     #control-panel
