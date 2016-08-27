@@ -13,7 +13,9 @@ Tour.history.set = function(push) {
 
     title = title.join(title[1] ? ' – ' : '');
 
-    window.history[(push ? 'pushState' : 'replaceState')](Tour.view.get(), title, Tour.query.set(Tour.view));
+    window.history[(push ? 'pushState' : 'replaceState')](
+        Tour.view.get(), title, Tour.query.set(Tour.view) + window.location.hash
+    );
     document.title = title;
 };
 

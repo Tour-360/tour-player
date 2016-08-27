@@ -1,35 +1,68 @@
-.popups
+.popup-layout
   position absolute
   top 0
   right 0
   bottom 0
   left 0
   display flex
-  pointer-events none
+  visibility hidden
   justify-content center
   align-items center
   z-index 2
+  background rgba(#000, .2)
+  opacity 0
+
+  &.visible
+    opacity 1
+    transition opacity.3s ease
+    visibility visible
+    transform none
+
+    .popups
+      transition transform.3s ease
+      transform scale(1)
+
+  .popups
+    position relative
+    transform scale(.8)
+
+  .close
+    position absolute
+    background #fff no-repeat
+    background-position center
+    background-image url(../img/close.svg)
+    right 0
+    top 0
+    width 32px
+    height 32px
+    cursor pointer
+    z-index 1
+
+    &:hover
+      background-color $gray
 
   .popup
-    pointer-events all
+    display none
     position relative
     min-width 200px
+    max-width 700px
     min-height 140px
+    max-height calc(100vh - 150px)
     background #fff
     box-shadow $block-shadow
+    overflow auto
+    -webkit-overflow-scrolling touch
 
-    .close
-      position absolute
-      right 0
-      top 0
-      width 32px
-      height 32px
-      background $gray
-      cursor pointer
+    &:target
+      display block
 
     img
       width 100%
       display block
 
     .content
-      padding 16px
+      padding 22px
+
+    p
+      margin-right 2em
+      line-height 1.6em

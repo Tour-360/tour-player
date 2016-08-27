@@ -60,6 +60,24 @@
 						"type": "panorama",
 						"id": 0
 					}
+				},{
+					"lon": 280,
+					"lat": 13.73,
+					"icon": "info",
+					"title": "Lana Del Rey — Born To Die: Paradise Edition", 
+					"action": {
+						"type": "popup",
+						"id": "lana-del-rey-born-to-die"
+					}
+				},{
+					"lon": 292,
+					"lat": 3,
+					"icon": "info",
+					"title": "Lana Del Rey — Ultraviolence", 
+					"action": {
+						"type": "popup",
+						"id": "lana-del-rey-ultraviolence"
+					}
 				}
 			]
 		},{
