@@ -79,11 +79,11 @@ Tour.dictionary = {
         'zh': '隐藏菜单'
     },
     'mousemenu.getcode': {
-        'en': 'Get the embed code',
-        'ru': 'Получить код для вставки',
-        'uk': 'Отримати код',
-        'de': 'Holen Sie sich den Code einbetten',
-        'zh': '获取嵌入代码'
+        'en': 'Copy embed code',
+        'ru': 'Скопировать код для вставки',
+        'uk': 'Скопіюйте код для вставки',
+        'de': 'Einbettungscode kopieren',
+        'zh': '复制嵌入代码'
     },
     'mousemenu.saveimage': {
         'en': 'Save Image As...',
