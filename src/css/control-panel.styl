@@ -3,14 +3,24 @@ $progress-bar-height = 3px
 
 #control-panel
     position absolute
-    height $btn-size
-    background #fff
-    margin auto
-    left 0
-    right 0
-    bottom 18px
+    width 100%
+    height 0
+    text-align center
     z-index 1
-    box-shadow 0 5px 8px 0 rgba(0, 0, 0, .15)
+    opacity 0
+    bottom - $btn-size
+    transition all.4s ease
+
+    &.visible
+        bottom 18px + $btn-size
+        opacity 1
+
+    .panel
+        position relative
+        display inline-block
+        height $btn-size
+        background #fff
+        box-shadow $block-shadow
 
     &.hidden
         bottom $btn-size * 2
@@ -21,6 +31,8 @@ $progress-bar-height = 3px
         height $progress-bar-height
         bottom $btn-size
         background $gray
+        transition height.1s linear, opacity.1s linear
+        transition-delay 0.1s
 
         .value
             background $blue
@@ -30,7 +42,8 @@ $progress-bar-height = 3px
 
         &.hidden
             height 0
-            transition height.3s linear
+            opacity 0
+            transition height.3s linear, opacity.3s linear
             transition-delay 0.5s
 
     .btn-list
@@ -47,23 +60,27 @@ $progress-bar-height = 3px
             &:hover
                 background-color rgba(0, 0, 0, .05)
 
-        .left
-            background-image url(../img/controls/left.svg)
-        .right
-            background-image url(../img/controls/right.svg)
-        .up
-            background-image url(../img/controls/up.svg)
-        .down
-            background-image url(../img/controls/down.svg)
-        .zoom-in
-            background-image url(../img/controls/zoom_in.svg)
-        .zoom-out
-            background-image url(../img/controls/zoom_out.svg)
-        .fullscreen
-            background-image url(../img/controls/fullscreen.svg)
+            &:active
+                background-color rgba(0, 0, 0, .1)
 
-html:fullscreen .fullscreen
-    background-image url(../img/controls/fullscreen_exit.svg) !important
+        .left
+            background-image embedurl("../img/controls/left.svg", "utf8")
+        .right
+            background-image embedurl("../img/controls/right.svg", "utf8")
+        .up
+            background-image embedurl("../img/controls/up.svg", "utf8")
+        .down
+            background-image embedurl("../img/controls/down.svg", "utf8")
+        .zoom-in
+            background-image embedurl("../img/controls/zoom_in.svg", "utf8")
+        .zoom-out
+            background-image embedurl("../img/controls/zoom_out.svg", "utf8")
+        .fullscreen
+            background-image embedurl("../img/controls/fullscreen.svg", "utf8")
+
+body.fullscreen
+    #control-panel .fullscreen
+        background-image embedurl("../img/controls/fullscreen_exit.svg", "utf8")
 
 @supports (backdrop-filter: none)
     #control-panel

@@ -1,0 +1,22 @@
+a
+    color $linkColor
+    border-bottom 1px solid rgba($linkColor, .5)
+    text-decoration none
+    transition color.3s ease, border-color.3s ease
+
+    &:visited,
+        color $visitedLinkColor
+        border-color rgba($visitedLinkColor, .5)
+
+    &:active,
+    &:hover
+        color $activeLinkColor
+        border-color rgba($activeLinkColor, .5)
+        transition color.1s ease, border-color.1s ease
+
+    &[download],
+    &[href=""],
+    &[href^="#"],
+    &[href^="mailto:"],
+    &[href^="callto:"]
+        border-bottom-style dotted

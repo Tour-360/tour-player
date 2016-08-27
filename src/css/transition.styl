@@ -1,0 +1,11 @@
+body.transition
+    #renderer,
+    #markers
+        opacity 0
+
+body:not(.transition)
+    #renderer
+        transition opacity.3s linear
+
+#markers
+    transition opacity.3s linear

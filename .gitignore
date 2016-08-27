@@ -1,7 +1,9 @@
 node_modules/
 bower_components/
+build/
 src/lib/
 build/**/*.map
 Thumbs.db
 npm-debug.log
 .ftppass
+.DS_Store

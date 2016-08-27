@@ -1,32 +1,109 @@
 {
 	"_specification": "https://github.com/Tour-360/tour-player/wiki/Формат-файла-Data.json",
 	"title": "Avant SHOP",
+	"start": 1,
+	"backgroundImage": "data:image/gif;base64,R0lGODdhCAAGAPIAAOjt86O4sp2np0tbTJKNi46gqLyyvcHK0iwAAAAACAAGAAADGhgGdxwiyFDEGaIckQ0mhtENhEBsFqFajJEAADs=",
+	"backgroundColor": "#a3aaac",
 	"panorams": [
 		{
 			"id": 0,
+			"title": "Стелаж",
 			"lon": 0,
 			"lat": 0,
 			"markers": [
 				{
-					"lon": -270,
-					"lat": 5,
-					"class": "up",
+					"lon": 0,
+					"lat": -5,
+					"icon": "up",
 					"action": {
 						"type": "panorama",
-						"id": 1,
-						"lon": -270,
-						"lat": 0
+						"id": 2
+					}
+				},{
+					"lon": 0,
+					"lat": -50,
+					"icon": "point",
+					"action": {
+						"type": "panorama",
+						"id": 1
+					}
+				},{
+					"lon": -90,
+					"lat": 16,
+					"icon": "info",
+					"title": "<a href=\"https://ru.wikipedia.org/wiki/Linkin_Park\" target=\"_blank\">Linkin Park</a> — A Thousand Suns", 
+					"action": {
+						"type": "url",
+						"href": "https://ru.wikipedia.org/wiki/Linkin_Park"
 					}
 				}
 			]
 		},{
 			"id": 1,
+			"title": "Центр",
 			"lon": 0,
-			"lat": 0
+			"lat": 0,
+			"markers": [
+				{
+					"lon": 0,
+					"lat": -5,
+					"icon": "up",
+					"action": {
+						"type": "panorama",
+						"id": 2
+					}
+				},{
+					"lon": 180,
+					"lat": -5,
+					"icon": "up",
+					"action": {
+						"type": "panorama",
+						"id": 0
+					}
+				},{
+					"lon": 280,
+					"lat": 13.73,
+					"icon": "info",
+					"title": "Lana Del Rey — Born To Die: Paradise Edition", 
+					"action": {
+						"type": "popup",
+						"id": "lana-del-rey-born-to-die"
+					}
+				},{
+					"lon": 292,
+					"lat": 3,
+					"icon": "info",
+					"title": "Lana Del Rey — Ultraviolence", 
+					"action": {
+						"type": "popup",
+						"id": "lana-del-rey-ultraviolence"
+					}
+				}
+			]
 		},{
 			"id": 2,
+			"title": {"ru": "Касса", "en": "Сashbox"},
 			"lon": 0,
-			"lat": 0
+			"lat": 0,
+			"markers": [
+				{
+					"lon": 180,
+					"lat": -5,
+					"icon": "up",
+					"action": {
+						"type": "panorama",
+						"id": 0
+					}
+				},{
+					"lon": 180,
+					"lat": -40,
+					"icon": "point",
+					"action": {
+						"type": "panorama",
+						"id": 1
+					}
+				}
+			]
 		}
 	]
 }

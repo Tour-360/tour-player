@@ -1,10 +1,12 @@
 {
   "name": "tour-player",
-  "version": "0.6.0",
+  "version": "2.0.0",
   "description": "",
   "repository": {},
   "scripts": {
-    "postinstall": "bower i && gulp build && gulp serve"
+    "postinstall": "./node_modules/bower/bin/bower i && ./node_modules/gulp/bin/gulp.js build",
+    "start": "node index.js",
+    "test": "gulp lint"
   },
   "repository": {
     "type": "git",
@@ -31,10 +33,11 @@
     }
   ],
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "bower": "^1.5.3",
     "browser-sync": "^2.10.0",
     "del": "^2.0.2",
+    "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.2",
     "gulp-cache": "^0.3.0",

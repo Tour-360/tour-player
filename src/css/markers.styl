@@ -1,26 +1,131 @@
-$marker-size = 32px;
+$marker-size = 32px
+$arrow-size = 8px
 
 #markers
     position absolute
+    top 0
+    left 0
     .marker
         position absolute
         height $marker-size
         width $marker-size
+        margin-left - ($marker-size / 2)
+        margin-top - ($marker-size / 2)
+
+        .hidden
+            display none
+
+    .button
+        width 100%
+        height 100%
+        position absolute
         background-color $transparent-black
         border-radius ($marker-size / 2)
         cursor pointer
-        top 100px
-        left 100px
+        user-select none
 
-        .title
-            display none /* Будет доработано позже */
+        &.left
+            background-image embedurl("../img/markers/left.svg", "utf8")
+        &.right
+            background-image embedurl("../img/markers/right.svg", "utf8")
+        &.up
+            background-image embedurl("../img/markers/up.svg", "utf8")
+        &.down
+            background-image embedurl("../img/markers/down.svg", "utf8")
+        &.info
+            background-image embedurl("../img/markers/info.svg", "utf8")
+        &.point
+            background-image embedurl("../img/markers/point.svg", "utf8")
+
+    .title
+        position absolute
+        width 300px
+        left -9999px
+        opacity 0
+        font-size 0
+        transition opacity.3s ease, padding.2s ease
+
+        span
+            position relative
+            display inline-block
+            background white
+            font-size $font-size
+            line-height 18px
+            padding 5px 10px
+
+            &:before
+                content ''
+                position absolute
+                display block
+
+        &.bottom,
+        &.top
+            text-align center
+
+            span:before
+                left 50%
+                margin-left - $arrow-size
+                border-left $arrow-size solid transparent
+                border-right $arrow-size solid transparent
+                border-bottom $arrow-size solid white
+
+
+        &.bottom
+            margin-top $marker-size
+
+            span:before
+                top - $arrow-size
+
+        &.top
+            margin-bottom $marker-size
+            bottom 0
+
+            span:before
+                bottom - $arrow-size
+                border-bottom none
+                border-top $arrow-size solid white
+
+        &.left,
+        &.right
+            span:before
+                top 50%
+                margin-top - $arrow-size
+                border-top $arrow-size solid transparent
+                border-bottom $arrow-size solid transparent
+                border-right $arrow-size solid white
+
+        &.right
+            margin-left $marker-size
+
+            span:before
+                left - $arrow-size
+
+        &.left
+            margin-right $marker-size
+            right 0
+
+            span:before
+                right - $arrow-size
+                border-right none
+                border-left $arrow-size solid white
 
 #markers
-    .left
-        background-image url(../img/markers/left.svg)
-    .right
-        background-image url(../img/markers/right.svg)
-    .up
-        background-image url(../img/markers/up.svg)
-    .down
-        background-image url(../img/markers/down.svg)
+    .marker:hover
+        .title
+            $title-padding = $arrow-size * 1.5
+            z-index 1
+            opacity 1
+            left 0
+
+            &.bottom
+                padding-top $title-padding
+
+            &.top
+                padding-bottom $title-padding
+
+            &.right
+                padding-left $title-padding
+
+            &.left
+                padding-right $title-padding
+                left auto

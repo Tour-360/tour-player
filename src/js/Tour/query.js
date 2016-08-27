@@ -22,9 +22,9 @@ Tour.query.get = function() {
 };
 
 Tour.query.set = function(values) {
-    var query = '?';
+    var query = [];
     for (var k in values) {
-        query += k + '=' + values[k] + '&';
+        query.push(k + '=' + values[k]);
     }
-    return query;
+    return '?' + query.join('&');
 };
