@@ -7,7 +7,9 @@ Tour.orientationControls = {
         window.addEventListener('deviceorientation', this.detectDevice);
     },
     detectDevice: function(event) {
-        UI.controlPanel.addBtn('rotate', Tour.controls.toggleControls, '');
+        if (event.alpha) {
+            UI.controlPanel.addBtn('rotate', Tour.controls.toggleControls, '');
+        }
         window.removeEventListener('deviceorientation', Tour.orientationControls.detectDevice);
     }
 };
