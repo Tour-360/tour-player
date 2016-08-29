@@ -7,6 +7,7 @@ Tour.defaultOption = {
     fov: 75,
     kineticResistance: 1.1,
     autorotationSpeed: -0.05,
+    autorotationTimeout: 0,
     mouseSensitivity: 10,
     touchDrag: true,
     transition: true,
