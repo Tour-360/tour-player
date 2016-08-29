@@ -25,7 +25,12 @@ Tour.animate = function() {
     target.y = Math.cos(phi);
     target.z = Math.sin(phi) * Math.sin(theta);
 
-    this.camera.lookAt(target);
+    if (this.orientationControls.controls.enabled) {
+        this.orientationControls.controls.update();
+    } else {
+        this.camera.lookAt(target);
+    }
+
     this.camera.fov = this.view.fov.value;
     this.camera.projectionMatrix.makePerspective(this.camera.fov, this.camera.aspect, 1, 1100);
 

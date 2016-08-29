@@ -21,12 +21,20 @@ Tour.controls = {
             } else if (e.msExitFullscreen) { e.msExitFullscreen();
             } else if (e.webkitCancelFullScreen) { e.webkitCancelFullScreen();
             } else if (e.mozCancelFullScreen) { e.mozCancelFullScreen(); }
+
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
         } else {
             e = document.documentElement;
             if (e.requestFullscreen) { e.requestFullscreen();
             } else if (e.msRequestFullscreen) { e.msRequestFullscreen();
             } else if (e.webkitRequestFullScreen) { e.webkitRequestFullScreen();
             } else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
+
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock(screen.orientation.type);
+            }
         }
     },
 
@@ -112,6 +120,11 @@ Tour.controls = {
         Tour.controls.stopRotate();
         Tour.view.lon.move(22.5);
         Tour.history.set();
+    },
+
+    toggleControls: function() {
+        var ctrl = Tour.orientationControls.controls;
+        ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
     },
 
     getCode: function() {
