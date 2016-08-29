@@ -57,8 +57,10 @@ Tour.controls = {
             if (timeout === true) {
                 timeout = Tour.defaultOption.autorotationTimeout;
             }
-            this.autorotateTimeout = setTimeout(this.autoRotate.bind(this), timeout);
-        } else if (timeout === false) {
+            if (timeout) {
+                this.autorotateTimeout = setTimeout(this.autoRotate.bind(this), timeout);
+            }
+        } else if (timeout === 0 || timeout === false) {
             Tour.view.rotation.auto = false;
         } else if (timeout === undefined) {
             Tour.view.rotation.auto = !Tour.view.rotation.auto;
