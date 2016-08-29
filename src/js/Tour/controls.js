@@ -41,8 +41,28 @@ Tour.controls = {
         link.click();
     },
 
-    autoRotate: function() {
-        Tour.view.rotation.auto = !Tour.view.rotation.auto;
+    /**
+     * Парсит location.search
+     *
+     * @param {Number} timeout Интервал, на который откладывается автовращение
+     *                         30000     — Будет отложенно на 30 секунд
+     *                         true      — Будет отложенно на время поумолчанию
+     *                         false     — Будет удален интервал
+     *                         undefined — Будет запущен мгновенно
+     */
+
+    autoRotate: function(timeout) {
+        clearInterval(this.autorotateTimeout);
+        if (timeout) {
+            if (timeout === true) {
+                timeout = Tour.defaultOption.autorotationTimeout;
+            }
+            this.autorotateTimeout = setTimeout(this.autoRotate.bind(this), timeout);
+        } else if (timeout === false) {
+            Tour.view.rotation.auto = false;
+        } else if (timeout === undefined) {
+            Tour.view.rotation.auto = !Tour.view.rotation.auto;
+        }
     },
 
     reload: function() {

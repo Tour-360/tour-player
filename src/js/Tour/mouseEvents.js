@@ -49,7 +49,7 @@ Tour.mouseEvents.down = function(event) {
     this.mouseEvents._touches2mouse(event);
 
     this.mouseEvents.drag = true;
-    this.view.rotation.auto = false;
+    this.controls.autoRotate(false);
     this.mouseEvents.previousEvent = event;
 };
 
