@@ -25,13 +25,22 @@ Tour.mouseEvents._touches2mouse = function(event) {
 };
 
 Tour.mouseEvents.wheel = function(event) {
-    if (this.options.scaleControl) {
+    if (!event.composed && (event.deltaX || event.deltaY)) {
+        event.preventDefault();
+        this.view.lon.move(-event.deltaX * (event.deltaMode ? 10 / 3 : 0.1), true);
+        this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
+
+        clearTimeout(this.mouseEvents.moveTimeout);
+        this.mouseEvents.moveTimeout = setTimeout(function() {
+            Tour.history.set();
+        }, 300);
+    }
+    if (event.composed && event.deltaY && this.options.scaleControl) {
         event.preventDefault();
         this.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
-        /* Задржка на изменение истории при скроле на MacOS */
-        clearInterval(this.mouseEvents.timeout);
-        this.mouseEvents.timeout = setTimeout(function() {
+        clearTimeout(this.mouseEvents.zoomTimeout);
+        this.mouseEvents.zoomTimeout = setTimeout(function() {
             Tour.history.set();
         }, 300);
     }
