@@ -1,5 +1,26 @@
 /* globals Tour, Lang, BrouserInfo, UI*/
 
+var worker = new Worker('worker.js');
+
+var imgs = {};
+var pre = '';
+
+function loadTexure(url, calback){
+    worker.postMessage(url);
+    imgs[url] = calback;
+}
+
+worker.onmessage = function(msg) {
+    if(!pre){
+        pre = msg.data
+    }else{
+        imgs[pre](msg.data)
+        pre = '';
+    }
+};
+
+
+
 Tour.init = function(data, options) {
     console.info('Tour-player', 'v' + this.version.join('.'), 'by http://Tour-360.ru');
     BrouserInfo();

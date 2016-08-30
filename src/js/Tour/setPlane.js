@@ -10,13 +10,10 @@ Tour.setPlane = function(id, url, manager) {
     if (this.options.rendererType == 'css') {
         this.mesh.children[id].element.src = url;
     } else {
-        var loader = new Tour.ImageLoader(manager);
-        loader.load(url, function(img) {
+        loadTexure(url, function(img) {
             var texture = new THREE.Texture(img);
             texture.needsUpdate = true;
             Tour.mesh.material.materials[id].map = texture;
-        }, null, function() {
-            UI.notification.show(Lang.get('notification.error-load-img'));
         });
     }
 };
