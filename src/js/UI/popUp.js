@@ -16,6 +16,7 @@ UI.popUp = {
         }
     },
     set: function(id) {
+        setTimeout(function() {window.scroll(0,0);}, 0); // issues #226
         window.location.hash = id || '';
     },
     popstate: function() {
