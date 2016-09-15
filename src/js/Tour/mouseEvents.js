@@ -25,17 +25,20 @@ Tour.mouseEvents._touches2mouse = function(event) {
 };
 
 Tour.mouseEvents.wheel = function(event) {
+    this.controls.autoRotate(false);
     if (!event.composed && (event.deltaX || event.deltaY)) {
-        event.preventDefault();
+        if (this.options.scaleControl) {
+            event.preventDefault();
+            this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
+        }
         this.view.lon.move(-event.deltaX * (event.deltaMode ? 10 / 3 : 0.1), true);
-        this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
 
         clearTimeout(this.mouseEvents.moveTimeout);
         this.mouseEvents.moveTimeout = setTimeout(function() {
             Tour.history.set();
         }, 300);
     }
-    if (event.composed && event.deltaY && this.options.scaleControl) {
+    if (this.options.scaleControl && event.composed && event.deltaY) {
         event.preventDefault();
         this.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
