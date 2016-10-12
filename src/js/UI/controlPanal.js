@@ -50,3 +50,14 @@ UI.controlPanel.setProgress = function(value) {
         this.progressValue.style.width = Math.min(value, 1) * 100 + '%';
     }
 };
+
+UI.controlPanel.setOrientation = function(value) {
+    var deg = value - 45;
+
+    var orientation = '';
+    if (deg < 0   && deg >  -90) {orientation = 'portrait-primary';
+    } else if (deg > 90  && deg <  180) {orientation = 'portrait-secondary';
+    } else if (deg < -90 && deg > -180) {orientation = 'landscape-primary';
+    } else if (deg > 0   && deg <   90) {orientation = 'landscape-secondary';}
+    this.domElement.setAttribute('data-orientation', orientation);
+};
