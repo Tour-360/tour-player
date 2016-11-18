@@ -8,9 +8,14 @@ Tour.Transition = function(value, options) {
     this.min = false;
     this.limit = false;
 
+    this.setOptions(options);
+};
+
+Tour.Transition.prototype.setOptions = function(options) {
     for (var k in options) {
         this[k] = options[k];
     }
+    this.value = this.moveTo(this.value);
 };
 
 Tour.Transition.prototype.set = function(value) {

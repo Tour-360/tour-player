@@ -17,6 +17,7 @@ Tour.defaultOption = {
     scaleControl: true,
     limit: {
         fov: { min: 20, max: 90},
-        lat: { min: -85, max: 85}
+        lat: { min: -85, max: 85},
+        lon: { min: false, max: false}
     }
 };

@@ -11,8 +11,8 @@ Tour.view.set = function(options, replaceHistory) {
     options = options || {};
 
     this.fov = new Tour.Transition(options.fov || this.fov || Tour.options.fov, Tour.options.limit.fov);
-    this.lat = new Tour.Transition(options.lat || this.lat || 0,  Tour.options.limit.lat);
-    this.lon = new Tour.Transition(options.lon || this.lon || 0,  Tour.options.limit.lon);
+    this.lat = new Tour.Transition(options.lat || this.lat || 0, Tour.options.limit.lat);
+    this.lon = new Tour.Transition(options.lon || this.lon || 0, Tour.options.limit.lon);
 
     this.lon.limit = 360;
 
@@ -24,6 +24,14 @@ Tour.view.set = function(options, replaceHistory) {
         Tour.setPanorama(this.id);
     }
     Tour.history.set(!replaceHistory);
+
+    for (var k in this) {if (k != 'id') {
+        this[k].setOptions(
+            (Tour.data.panorams[this.id] && Tour.data.panorams[this.id].limit && Tour.data.panorams[this.id].limit[k]) ||
+            (Tour.data.limit && Tour.data.limit[k]) ||
+            Tour.options.limit[k]
+        );
+    }}
 };
 
 Tour.view.get = function() {
