@@ -7,4 +7,5 @@ Tour.render = function() {
             marker.draw();
         });
     }
+    this.emmit('render');
 };
