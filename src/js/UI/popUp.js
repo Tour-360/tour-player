@@ -16,8 +16,15 @@ UI.popUp = {
         }
     },
     set: function(id) {
-        setTimeout(function() {window.scroll(0,0);}, 0); // issues #226
+        var scrollY = window.parent.scrollY;
+        var scrollTop = window.parent.document.body.scrollTop;
+
         window.location.hash = id || '';
+
+        window.parent.scrollY = scrollY;
+        window.parent.document.body.scrollTop = scrollTop; // issues #250
+
+        setTimeout(function() {window.scroll(0,0);}, 0); // issues #226
     },
     popstate: function() {
         this.domElement.classList[window.location.hash ? 'add' : 'remove']('visible');

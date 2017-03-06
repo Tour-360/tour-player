@@ -32,7 +32,7 @@ Tour.animate = function() {
     }
 
     this.camera.fov = this.view.fov.value;
-    this.camera.projectionMatrix.makePerspective(this.camera.fov, this.camera.aspect, 1, 1100);
+    this.camera.updateProjectionMatrix();
 
     for (var k in this.view) {
         if (typeof this.view[k] == 'object') {
