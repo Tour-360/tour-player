@@ -26,8 +26,7 @@ Tour.mouseEvents._touches2mouse = function(event) {
 
 Tour.mouseEvents.wheel = function(event) {
     this.controls.autoRotate(false);
-    this.trackpad = event.wheelDelta && (Math.abs(event.wheelDelta) % 120);
-    if (this.trackpad && (event.deltaX || event.deltaY)) {
+    if (!event.composed && (event.deltaX || event.deltaY)) {
         if (this.options.scaleControl) {
             event.preventDefault();
             this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
@@ -39,7 +38,7 @@ Tour.mouseEvents.wheel = function(event) {
             Tour.history.set();
         }, 300);
     }
-    if (this.options.scaleControl && !this.trackpad && event.deltaY) {
+    if (this.options.scaleControl && event.composed && event.deltaY) {
         event.preventDefault();
         this.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
