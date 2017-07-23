@@ -58,6 +58,7 @@ $progress-bar-height = 3px
             height $btn-size
             background center no-repeat
             cursor pointer
+            transition transform.3s ease
 
             &:hover
                 background-color rgba(0, 0, 0, .05)
@@ -81,6 +82,16 @@ $progress-bar-height = 3px
             background-image embedurl("../img/controls/fullscreen.svg", "utf8")
         .rotate
             background-image embedurl("../img/controls/rotate.svg", "utf8")
+            
+    &[data-orientation="landscape-primary"]
+        .marker
+            transform rotate(-90deg)
+    &[data-orientation="landscape-secondary"]
+        .marker
+            transform rotate(90deg)
+    &[data-orientation="portrait-secondary"]
+        .marker
+            transform rotate(180deg)
 
 body.fullscreen
     #control-panel .fullscreen
