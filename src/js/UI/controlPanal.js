@@ -59,5 +59,7 @@ UI.controlPanel.setOrientation = function(value) {
     } else if (deg > 90  && deg <  180) {orientation = 'portrait-secondary';
     } else if (deg < -90 && deg > -180) {orientation = 'landscape-primary';
     } else if (deg > 0   && deg <   90) {orientation = 'landscape-secondary';}
-    this.domElement.setAttribute('data-orientation', orientation);
+    if(this.domElement) {
+        this.domElement.setAttribute('data-orientation', orientation);
+    }
 };

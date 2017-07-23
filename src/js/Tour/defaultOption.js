@@ -15,6 +15,7 @@ Tour.defaultOption = {
     controlPanel: false,
     touchScroll: false,
     scaleControl: true,
+    autorotationAlign: true,
     limit: {
         fov: { min: 20, max: 90},
         lat: { min: -85, max: 85},
