@@ -12,6 +12,7 @@ Tour.init = function(data, options) {
     UI.popUp.init();
     this.setControlPanel();
     this.setMouseMenu();
+    this.orientationControls.init();
     this.load(data, function(data) {
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();

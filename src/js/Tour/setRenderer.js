@@ -15,7 +15,7 @@ Tour.setRenderer = function(rendererType, imageType) {
         (BrouserInfo.mobile || this.options.rendererType == 'canvas') ? 'low' : 'standard';
 
     if (this.options.rendererType == 'webgl') {
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: false});
+        this.renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: true, alpha: false});
     } else if (this.options.rendererType == 'css') {
         this.renderer = new THREE.CSS3DRenderer();
     } else if (this.options.rendererType == 'canvas') {

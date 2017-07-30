@@ -38,16 +38,16 @@ UI.mouseMenu.open = function(event) {
     if (event) {
         var margin = 5;
         var x = event.clientX;
-        var y = event.clientY - margin;
+        var y = event.clientY + margin;
         var height = UI.mouseMenu.domElement.clientHeight;
         var width  = UI.mouseMenu.domElement.clientWidth;
 
         if (event.clientX + width > window.innerWidth) {
-            x = event.clientX - width;
+            x = Math.max(0, event.clientX - width);
         }
 
         if (event.clientY + height > window.innerHeight) {
-            y = event.clientY - height + margin;
+            y = Math.max(0, event.clientY - height + margin);
         }
 
         this.setPosition(x, y);

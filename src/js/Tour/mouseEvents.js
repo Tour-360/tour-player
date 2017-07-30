@@ -25,13 +25,25 @@ Tour.mouseEvents._touches2mouse = function(event) {
 };
 
 Tour.mouseEvents.wheel = function(event) {
-    if (this.options.scaleControl) {
+    // if (event.composed && (event.deltaX || event.deltaY)) {
+    //     if (this.options.scaleControl) {
+    //         event.preventDefault();
+    //         this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
+    //     }
+    //     this.view.lon.move(-event.deltaX * (event.deltaMode ? 10 / 3 : 0.1), true);
+
+    //     clearTimeout(this.mouseEvents.moveTimeout);
+    //     this.mouseEvents.moveTimeout = setTimeout(function() {
+    //         Tour.history.set();
+    //     }, 300);
+    // }
+    if (this.options.scaleControl && event.composed && event.deltaY) {
+        this.controls.autoRotate(false);
         event.preventDefault();
         this.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
-        /* Задржка на изменение истории при скроле на MacOS */
-        clearInterval(this.mouseEvents.timeout);
-        this.mouseEvents.timeout = setTimeout(function() {
+        clearTimeout(this.mouseEvents.zoomTimeout);
+        this.mouseEvents.zoomTimeout = setTimeout(function() {
             Tour.history.set();
         }, 300);
     }
@@ -49,7 +61,7 @@ Tour.mouseEvents.down = function(event) {
     this.mouseEvents._touches2mouse(event);
 
     this.mouseEvents.drag = true;
-    this.view.rotation.auto = false;
+    this.controls.autoRotate(false);
     this.mouseEvents.previousEvent = event;
 };
 

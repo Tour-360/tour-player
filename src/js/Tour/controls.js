@@ -21,12 +21,20 @@ Tour.controls = {
             } else if (e.msExitFullscreen) { e.msExitFullscreen();
             } else if (e.webkitCancelFullScreen) { e.webkitCancelFullScreen();
             } else if (e.mozCancelFullScreen) { e.mozCancelFullScreen(); }
+
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
         } else {
             e = document.documentElement;
             if (e.requestFullscreen) { e.requestFullscreen();
             } else if (e.msRequestFullscreen) { e.msRequestFullscreen();
             } else if (e.webkitRequestFullScreen) { e.webkitRequestFullScreen();
             } else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
+
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock(screen.orientation.type);
+            }
         }
     },
 
@@ -41,8 +49,30 @@ Tour.controls = {
         link.click();
     },
 
-    autoRotate: function() {
-        Tour.view.rotation.auto = !Tour.view.rotation.auto;
+    /**
+     * Парсит location.search
+     *
+     * @param {Number} timeout Интервал, на который откладывается автовращение
+     *                         30000     — Будет отложенно на 30 секунд
+     *                         true      — Будет отложенно на время поумолчанию
+     *                         false     — Будет удален интервал
+     *                         undefined — Будет запущен мгновенно
+     */
+
+    autoRotate: function(timeout) {
+        clearInterval(this.autorotateTimeout);
+        if (timeout) {
+            if (timeout === true) {
+                timeout = Tour.defaultOption.autorotationTimeout;
+            }
+            if (timeout) {
+                this.autorotateTimeout = setTimeout(this.autoRotate.bind(this), timeout);
+            }
+        } else if (timeout === 0 || timeout === false) {
+            Tour.view.rotation.auto = false;
+        } else if (timeout === undefined) {
+            Tour.view.rotation.auto = !Tour.view.rotation.auto;
+        }
     },
 
     reload: function() {
@@ -90,6 +120,11 @@ Tour.controls = {
         Tour.controls.stopRotate();
         Tour.view.lon.move(22.5);
         Tour.history.set();
+    },
+
+    toggleControls: function() {
+        var ctrl = Tour.orientationControls.controls;
+        ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
     },
 
     getCode: function() {
