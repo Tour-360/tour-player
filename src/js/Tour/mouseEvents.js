@@ -25,21 +25,20 @@ Tour.mouseEvents._touches2mouse = function(event) {
 };
 
 Tour.mouseEvents.wheel = function(event) {
-    this.controls.autoRotate(false);
-    this.trackpad = event.wheelDelta && (Math.abs(event.wheelDelta) % 120);
-    if (this.trackpad && (event.deltaX || event.deltaY)) {
-        if (this.options.scaleControl) {
-            event.preventDefault();
-            this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
-        }
-        this.view.lon.move(-event.deltaX * (event.deltaMode ? 10 / 3 : 0.1), true);
+    // if (event.composed && (event.deltaX || event.deltaY)) {
+    //     if (this.options.scaleControl) {
+    //         event.preventDefault();
+    //         this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
+    //     }
+    //     this.view.lon.move(-event.deltaX * (event.deltaMode ? 10 / 3 : 0.1), true);
 
-        clearTimeout(this.mouseEvents.moveTimeout);
-        this.mouseEvents.moveTimeout = setTimeout(function() {
-            Tour.history.set();
-        }, 300);
-    }
-    if (this.options.scaleControl && !this.trackpad && event.deltaY) {
+    //     clearTimeout(this.mouseEvents.moveTimeout);
+    //     this.mouseEvents.moveTimeout = setTimeout(function() {
+    //         Tour.history.set();
+    //     }, 300);
+    // }
+    if (this.options.scaleControl && event.composed && event.deltaY) {
+        this.controls.autoRotate(false);
         event.preventDefault();
         this.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
