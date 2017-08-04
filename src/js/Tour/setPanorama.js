@@ -14,6 +14,8 @@ Tour.setPanorama = function(id) {
             (this.data.panorams[id].autorotation || this.data.autorotation);
     };
 
+    Tour.mesh.rotation.set(0, Math.PI/2-((this.data.panorams[id].heading || 0) / 180 * Math.PI), 0);
+
     if (this.options.rendererType != 'css' && this.options.transition) {
 
         var imageUrl = this.mesh.material.materials[0].map.image ?
