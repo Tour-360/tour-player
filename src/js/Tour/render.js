@@ -8,4 +8,5 @@ Tour.render = function() {
             marker.draw();
         });
     }
+    Tour.emmit('render');
 };
