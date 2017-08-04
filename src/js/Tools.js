@@ -1,0 +1,3 @@
+/* exported Tools */
+
+var Tools = {};

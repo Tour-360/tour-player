@@ -130,19 +130,22 @@ Tour.controls = {
     getCode: function() {
         var code = '<iframe src="' + location.href +
         '" width="640" height="480" frameborder="no" scrolling="no" allowfullscreen></iframe>';
+        Tour.controls.copyText(code);
+    },
 
+    copyText: function(text) {
         var report = function(done) {
             if (done) {
                 UI.notification.show(Lang.get('notification.successfully-copied'));
             } else {
                 var metaKey = BrouserInfo.apple ? '⌘' : 'Ctrl';
-                window.prompt(Lang.get('notification.embed-code').replace('*', metaKey + '+C'), code);
+                window.prompt(Lang.get('notification.embed-code').replace('*', metaKey + '+C'), text);
             }
         };
 
         if (document.execCommand) {
             var span = document.createElement('span');
-            span.textContent = code;
+            span.textContent = text;
             document.body.appendChild(span);
             var range = document.createRange();
             range.selectNode(span);
@@ -154,7 +157,7 @@ Tour.controls = {
             window.getSelection().removeAllRanges();
             document.body.removeChild(span);
         } else if (window.clipboardData) {
-            window.clipboardData.setData('Text', code);
+            window.clipboardData.setData('Text', text);
             report(true);
         } else {
             report(false);
