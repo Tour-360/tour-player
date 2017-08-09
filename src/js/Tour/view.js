@@ -32,6 +32,7 @@ Tour.view.set = function(options, replaceHistory) {
             Tour.options.limit[k]
         );
     }}
+    Tour.emmit('changeView', Tour.view.get());
 };
 
 Tour.view.get = function() {
