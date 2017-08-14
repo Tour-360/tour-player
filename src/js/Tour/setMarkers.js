@@ -44,7 +44,7 @@ Tour.setMarkers = function(id) {
             (markers[i].action.type == 'panorama' && this.data.panorams[markers[i].action.id].title);
 
             marker.setTitle(Lang.translate(title));
-            marker.setIcon(markers[i].icon || markers[i].action.type == 'panorama' ? 'up' : 'info');
+            marker.setIcon(markers[i].icon || (markers[i].action && markers[i].action.type == 'panorama' ? 'up' : 'info'));
             this.markers.push(marker);
         }
     }
