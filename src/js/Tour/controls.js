@@ -180,5 +180,9 @@ Tour.controls = {
 
     badBrowser: function() {
 
+    },
+
+    closeWindow: function() {
+        UI.popUp.set()
     }
 };
