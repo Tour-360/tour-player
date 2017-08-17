@@ -1,0 +1,66 @@
+#gallery
+    position absolute
+    width 200px
+    left -200px
+    height 100%
+    background rgba(0,0,0,.8)
+    z-index 2
+    transition left.3s ease
+    will-change left
+
+    &.visible
+        left 0
+
+    .gallery-toggler
+        cursor pointer
+        position absolute
+        background rgba(0,0,0,.8)
+        top 0
+        bottom 0
+        margin auto 0
+        right -18px
+        width 18px
+        height 50px
+        border-radius 0 5px 5px 0
+        background-image embedurl("../img/gallery-toogler.svg", "utf8")
+        background-position center
+        background-repeat no-repeat
+
+
+    ul
+        display flex
+        flex-direction column
+        padding 5px
+        height 100%
+        margin 5px
+        overflow hidden
+        overflow-y scroll
+        box-sizing border-box
+
+        li
+            position relative
+            margin 5px 0
+            cursor pointer
+            background-color #666
+
+
+            &.active
+                box-shadow 0 0 0 3px $blue
+
+            &:after
+                content ''
+                height 0
+                display block
+                margin-top 50%
+
+            .item-title
+                position absolute
+                bottom 0
+                background rgba(0,0,0,.8)
+                color white
+                padding .5em .8em
+                white-space nowrap
+                overflow hidden
+                text-overflow ellipsis
+                width 100%
+                box-sizing border-box

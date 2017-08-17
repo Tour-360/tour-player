@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../build/tour-player.css">
+        <script src="../build/tour-player.js"></script>
+        <title>Example Tour-360 player</title>
+        <style>
+            /* Цвет всех маркеров */
+            #markers .button {
+                background-color: rgba(0,0,0,.8);
+            }
+
+            /* Цвет информационных маркеров */
+            #markers .button.info{
+                background-color: #ed1c24;
+            }
+
+            /* Цвет полосы загрузки */
+            #control-panel .progress-bar .value {
+                background: #ed1c24;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="popup-layout">
+            <div class="popups">
+                <div class="close"></div>
+                <div class="popup" id="lana-del-rey-born-to-die">
+                    <img src="http://cdn1.umg3.net/89/files/2014/06/Lana-Del-Rey-Born-To-Die-Paradise-Edition-1500x1500-2012.png" alt="Lana Del Rey — Born To Die: Paradise Edition">
+                    <div class="content">
+                        <h1>Lana Del Rey — Born To Die: Paradise Edition</h1>
+                        <p>Другой альбом: <a href="#lana-del-rey-ultraviolence">Lana Del Rey — Ultraviolence</a></p>
+                        <p><b>«Born to Die: The Paradise Edition»</b> — переиздание американской певицы Ланы Дель Рей студийного альбома Born to Die (2012). Выпущен 9 ноября 2012 года под лейблами Polydor и Interscope. Также одновременно с переизданием был выпущен мини-альбом Paradise, в который вошли 8 новых треков, которыми был дополнен оригинальный альбом. Рик Новелл и Эмили Хейни были единственными, кто работал над двумя этими сборниками вместе.</p>
+                        <ol>
+                            <li>«Born to Die»</li>
+                            <li>«Off to the Races»</li>
+                            <li>«Blue Jeans»</li>
+                            <li>«Video Games»</li>
+                            <li>«Diet Mountain Dew»</li>
+                            <li>«National Anthem»</li>
+                            <li>«Dark Paradise»</li>
+                            <li>«Radio»</li>
+                            <li>«Carmen»</li>
+                            <li>«Million Dollar Man»</li>
+                            <li>«Summertime Sadness»</li>
+                            <li>«This Is What Makes Us Girls»</li>
+                            <li>«Without You»</li>
+                            <li>«Lolita»</li>
+                            <li>«Lucky Ones»</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="popup" id="lana-del-rey-ultraviolence">
+                    <img src="http://cdn1.umg3.net/89/files/2014/06/Lana-Del-Rey-Ultraviolence-2014-1500x1500.png" width="100" alt="Lana Del Rey — Ultraviolence">
+                    <div class="content">
+                        <h1>Lana Del Rey — Ultraviolence</h1>
+                        <p>Другой альбом: <a href="#lana-del-rey-born-to-die">Lana Del Rey — Born To Die: Paradise Edition</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        Tour.init(false, {
+            controlPanel: true
+        });
+        Tour.on('load', function(data) {
+            this.controls.autoRotate()
+        })
+        </script>
+    </body>
+</html>

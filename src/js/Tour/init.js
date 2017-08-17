@@ -10,6 +10,7 @@ Tour.init = function(data, options) {
     this.createScene();
     UI.notification.init();
     UI.popUp.init();
+    UI.gallery.init();
     this.setControlPanel();
     this.setMouseMenu();
     this.orientationControls.init();
