@@ -22,10 +22,23 @@
         width 18px
         height 50px
         border-radius 0 5px 5px 0
-        background-image embedurl("../img/gallery-toogler.svg", "utf8")
-        background-position center
-        background-repeat no-repeat
 
+        &:after
+            content ''
+            display block
+            position absolute
+            top 0
+            right 0
+            bottom 0
+            left 0
+            background-image embedurl("../img/gallery-toogler.svg", "utf8")
+            background-position center
+            background-repeat no-repeat
+            transform scale(-1, 1)
+
+    &.visible
+        .gallery-toggler:after
+            transform scale(1, 1)
 
     ul
         display flex
