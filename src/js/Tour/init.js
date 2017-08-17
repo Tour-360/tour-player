@@ -15,6 +15,19 @@ Tour.init = function(data, options) {
     this.setMouseMenu();
     this.orientationControls.init();
     this.load(data, function(data) {
+
+        for(var i=0; i<data.panorams.length; i++){
+            var pano = data.panorams[i];
+            UI.gallery.addItem({
+                image: 'panorams/'+pano.id+'/thumbnail/mini.jpg',
+                title: Lang.translate(data.panorams[i].title),
+                onclick: function(pano){
+                    this.view.set({id:pano.id})
+                }.bind(this, pano)
+            })
+        }
+
+
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;

@@ -8,7 +8,6 @@ UI.gallery = {
         this.ul = document.createElement('ul');
         this.toggler = document.createElement('div');
         this.toggler.classList.add('gallery-toggler');
-        console.log(UI.gallery.toggler);
         this.toggler.addEventListener('click', this.toggle.bind(this));
         this.domElement.appendChild(this.toggler);
         this.domElement.appendChild(this.ul);
@@ -28,9 +27,10 @@ UI.gallery = {
         }
         this.domElement.classList[visible ? 'add' : 'remove']('visible');
     },
-    addItem: function() {
+    addItem: function(options) {
         this.item = document.createElement('li');
-        this.item.style.backgroundImage = 'url(http://unsplash.it/200/200?random=' + options.title + ')';
+        this.item.onclick = options.onclick;
+        this.item.style.backgroundImage = 'url(' + options.image + ')';
 
         if(options.title) {
             this.titleElem = document.createElement('div');
