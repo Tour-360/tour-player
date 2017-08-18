@@ -41,36 +41,42 @@
             transform scale(1, 1)
 
     ul
-        display flex
-        flex-direction column
+        margin 0
         padding 5px
         height 100%
-        margin 5px
         overflow hidden
         overflow-y scroll
         box-sizing border-box
 
         li
+            box-sizing border-box
             background-size 100%
-            packground-position center
+            background-position center
             position relative
-            margin 5px 0
             cursor pointer
             background-color #666
+            padding 0
+            margin 5px 0
+            box-shadow 0 0 0 0 white
+            transition box-shadow.1s ease
 
 
             &.active
-                box-shadow 0 0 0 3px $blue
+                box-shadow 0 0 0 5px $blue
 
-            &:after
+            &:hover
+                box-shadow 0 0 0 2px white
+
+            &:before
                 content ''
                 height 0
                 display block
-                margin-top 50%
+                padding-top 50%
 
             .item-title
                 position absolute
                 bottom 0
+                margin 0
                 background rgba(0,0,0,.6)
                 color white
                 padding .5em .8em
