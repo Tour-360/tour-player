@@ -10,33 +10,15 @@ Tour.init = function(data, options) {
     this.createScene();
     UI.notification.init();
     UI.popUp.init();
-    UI.gallery.init();
     this.setControlPanel();
     this.setMouseMenu();
     this.orientationControls.init();
     this.load(data, function(data) {
-
-        for(var i=0; i<data.panorams.length; i++){
-            var pano = data.panorams[i];
-            UI.gallery.addItem({
-                id: pano.id,
-                image: 'panorams/'+pano.id+'/thumbnail/mini.jpg',
-                title: Lang.translate(data.panorams[i].title),
-                onclick: function(pano){
-                    this.view.set({id:pano.id})
-                }.bind(this, pano)
-            })
-        }
-
-        Tour.on('changeView', function(view){
-            UI.gallery.setActive(view.id)
-        })
-
-
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;
         this.view.set(query, true);
+        this.setGallery(data);
         this.addEventListeners();
         this.animate();
     }.bind(this));
