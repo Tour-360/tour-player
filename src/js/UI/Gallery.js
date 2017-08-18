@@ -13,6 +13,8 @@ UI.gallery = {
         this.domElement.appendChild(this.ul);
         document.body.appendChild(this.domElement);
 
+        this.items = [];
+
         this.display(true);
     },
     toggle: function(){
@@ -31,7 +33,7 @@ UI.gallery = {
         this.item = document.createElement('li');
         this.item.onclick = options.onclick;
         this.item.style.backgroundImage = 'url(' + options.image + ')';
-
+        this.items[options.id] = this.item;
         if(options.title) {
             this.titleElem = document.createElement('div');
             this.titleElem.classList.add('item-title');
@@ -41,6 +43,13 @@ UI.gallery = {
         }
 
         this.ul.appendChild(this.item);
+    },
+
+    setActive: function(id){
+        this.items.forEach(function(item){
+            item.classList.remove('active');
+        });
+        this.items[id].classList.add('active');
     },
     setVisible: function(type) {
 

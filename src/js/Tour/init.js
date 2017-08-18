@@ -19,6 +19,7 @@ Tour.init = function(data, options) {
         for(var i=0; i<data.panorams.length; i++){
             var pano = data.panorams[i];
             UI.gallery.addItem({
+                id: pano.id,
                 image: 'panorams/'+pano.id+'/thumbnail/mini.jpg',
                 title: Lang.translate(data.panorams[i].title),
                 onclick: function(pano){
@@ -26,6 +27,10 @@ Tour.init = function(data, options) {
                 }.bind(this, pano)
             })
         }
+
+        Tour.on('changeView', function(view){
+            UI.gallery.setActive(view.id)
+        })
 
 
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
