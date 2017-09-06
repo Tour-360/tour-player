@@ -1,16 +1,19 @@
 /* globals Tools */
 
 Tools.setPoint = function() {
-    var point = document.createElement('div');
+    var directions = ['up', 'right', 'down', 'left', 'point', 'info'];
+    var currentDirection = -1;
 
-    Object.assign(point.style, {
-        position: 'absolute',
-        width: '32px',
-        height: '32px',
-        border: '1px solid black',
+    var onclick = function(){
+        Tools.point = {icon: directions[++currentDirection%directions.length]}
+        point.setIcon(Tools.point.icon);
+    }
+
+    var point = new UI.Marker(onclick, false, false);
+
+    Object.assign(point.domElement.style, {
         top: 0, left: 0, right: 0, bottom: 0,
-        margin: 'auto',
-        borderRadius: '100%'
+        margin: 'auto'
     })
-    document.body.appendChild(point);
+    onclick();
 };

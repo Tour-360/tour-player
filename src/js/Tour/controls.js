@@ -1,4 +1,4 @@
-/* globals Tour, UI, Lang, BrouserInfo*/
+/* globals Tour, UI, Lang, BrouserInfo, Tools*/
 
 Tour.controls = {
     back: function() {
@@ -165,7 +165,7 @@ Tour.controls = {
     },
 
     editor: function() {
-
+        Tools.init();
     },
 
     suport: function() {
