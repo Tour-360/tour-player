@@ -18,6 +18,7 @@ Tour.init = function(data, options) {
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;
         this.view.set(query, true);
+        this.setGallery(data);
         this.addEventListeners();
         this.animate();
     }.bind(this));
