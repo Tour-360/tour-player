@@ -8,6 +8,7 @@ $progress-bar-height = 3px
     text-align center
     z-index 1
     opacity 0
+    left 0
     bottom - $btn-size
     transition all.4s ease
     user-select none
@@ -82,7 +83,7 @@ $progress-bar-height = 3px
             background-image embedurl("../img/controls/fullscreen.svg", "utf8")
         .rotate
             background-image embedurl("../img/controls/rotate.svg", "utf8")
-            
+
     &[data-orientation="landscape-primary"]
         .marker
             transform rotate(-90deg)
