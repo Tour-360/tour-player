@@ -1,12 +1,12 @@
 /* globals Tools */
 
-Tools.copyMarker = function(id, lat) {
-    console.info('Pano id:', Tour.view.id)
-    var code = JSON.stringify({
-        lat: lat || parseFloat(Tour.view.lat.value.toFixed(2)),
-        lon: parseFloat(Tour.view.lon.value.toFixed(2)),
-        action:{type:'panorama', id:id}
-    }, null, "");
-
-    Tour.controls.copyText(code);
+Tools.copyMarker = function(id) {
+    if(this.point.icon == 'info'){
+    	this.copyInfoMarker(
+    		prompt('Enter title for info marker', 'title'),
+    		prompt('Enter popup id', '')
+    	);
+    } else {
+    	this.copyDirectionMarker(parseInt(prompt('Enter pano id', Tour.view.id)));
+    }
 };
