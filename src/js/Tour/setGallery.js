@@ -1,14 +1,13 @@
 /* globals UI, Tour, Lang */
-
 Tour.setGallery = function(data) {
     if (this.options.gallery) {
     	UI.gallery.init();
 
         var panorams = data.panorams.map(function(n){
-            if (n.listNumber === undefined) n.listNumber = Infinity;
+            n.listNumber = n.listNumber===undefined ? Infinity : n.listNumber;
             return n;
         }).sort(function(a, b){
-            return a.listNumber - b.listNumber;
+            return a.listNumber - b.listNumber || a.id - b.id;
         })
 
     	for(var i=0; i<panorams.length; i++){
