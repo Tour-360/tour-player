@@ -13,12 +13,11 @@ Tour.setPanorama = function(id) {
         this.view.rotation.auto = this.data.panorams[id].autorotation !== false &&
             (this.data.panorams[id].autorotation || this.data.autorotation);
     };
-
     
 
     if (this.options.rendererType != 'css' && this.options.transition) {
 
-        var imageUrl = this.mesh.material.materials[0].map.image ?
+        var imageUrl = this.mesh.material[0].map.image ?
             this.renderer.domElement.toDataURL('image/jpeg') : this.data.backgroundImage;
 
         this.backgroundImage.set(
