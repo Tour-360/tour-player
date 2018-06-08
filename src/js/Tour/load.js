@@ -16,7 +16,8 @@ Tour.load = function(data, callback) {
                 UI.notification.show(Lang.get('notification.error-load-tour'), false);
             } else {
                 try {
-                    Tour.data = JSON.parse(xhr.responseText);
+                    var json = xhr.responseText.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/mg, '');
+                    Tour.data = JSON.parse(json);
                     callback(Tour.data);
                     Tour.emmit('load', Tour.data);
                 } catch (e) {
