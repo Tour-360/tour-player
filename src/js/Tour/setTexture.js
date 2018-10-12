@@ -17,6 +17,7 @@ Tour.setTexture = function(id) {
 
     var loader = new THREE.ImageLoader();
     loader.load(this.options.path + id + '/thumbnail/0.jpg', function(img) {
+
         document.body.classList.remove('transition');
 
         var canvas = document.createElement('canvas');
@@ -39,7 +40,8 @@ Tour.setTexture = function(id) {
             } else {
                 var texture = new THREE.Texture(tile);
                 texture.needsUpdate = true;
-                this.mesh.material.materials[i].map = this.options.rendererType != 'canvas' ? texture : tile;
+                this.needsUpdate = true;
+                this.mesh.material[i].map = this.options.rendererType != 'canvas' ? texture : tile;
             }
 
             setTimeout(function(i, imgeURL, manager) {

@@ -41,6 +41,7 @@
 		},{
 			"id": 1,
 			"title": "Центр",
+			"listNumber": 2,
 			"lon": 0,
 			"lat": 0,
 			"markers": [
@@ -83,6 +84,7 @@
 		},{
 			"id": 2,
 			"title": {"ru": "Касса", "en": "Сashbox"},
+			"listNumber": 1,
 			"lon": 0,
 			"lat": 0,
 			"markers": [

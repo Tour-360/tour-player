@@ -3,14 +3,22 @@ $arrow-size = 8px
 
 #markers
     position absolute
+    pointer-events none
+    width 100%
+    height 100%
     top 0
     left 0
+    
     .marker
         position absolute
         height $marker-size
         width $marker-size
         margin-left - ($marker-size / 2)
         margin-top - ($marker-size / 2)
+        user-select none
+        touch-action none
+        will-change left, top
+        pointer-events all
 
         .hidden
             display none
@@ -23,7 +31,13 @@ $arrow-size = 8px
         border-radius ($marker-size / 2)
         cursor pointer
         user-select none
+        transition transform .5s ease
+        will-change transform
 
+        &:hover
+            transition transform .2s ease
+            transform scale(1.15)
+            
         &.left
             background-image embedurl("../img/markers/left.svg", "utf8")
         &.right

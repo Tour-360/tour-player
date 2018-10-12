@@ -53,8 +53,8 @@ UI.Marker.prototype.setTitle = function(content) {
 UI.Marker.prototype.setPosition = function(x, y) {
     this.x = x || 0;
     this.y = y || 0;
-    this.domElement.style.left = this.x + 'px';
-    this.domElement.style.top = this.y + 'px';
+    this.domElement.style.left = this.x * window.devicePixelRatio + 'px';
+    this.domElement.style.top  = this.y * window.devicePixelRatio + 'px';
 
     /* Проверка и установка направления title (нужно вынести в отдельный метод) */
     if (this.title) {

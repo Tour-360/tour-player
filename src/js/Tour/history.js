@@ -17,6 +17,7 @@ Tour.history.set = function(push) {
         Tour.view.get(), title, Tour.query.set(Tour.view) + window.location.hash
     );
     document.title = title;
+    Tour.controls.autoRotate(true);
 };
 
 Tour.history.onpopstate = function(event) {

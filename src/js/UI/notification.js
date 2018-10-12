@@ -16,8 +16,9 @@ UI.notification = {
             this.domElement.classList.add('visible');
             this.domElement.classList.remove('hidden');
         } else {
+            this.setTimeout && clearTimeout(this.setTimeout);
             this.domElement.classList.remove('visible');
-            setTimeout(function() {
+            this.setTimeout = setTimeout(function() {
                 this.domElement.classList.add('hidden');
             }.bind(this), 300); // 300 - Длительность анимации скрытия уведомления
         }

@@ -14,7 +14,8 @@ Tour.setPlane = function(id, url, manager) {
         loader.load(url, function(img) {
             var texture = new THREE.Texture(img);
             texture.needsUpdate = true;
-            Tour.mesh.material.materials[id].map = texture;
+            Tour.mesh.material[id].map = texture;
+            Tour.needsUpdate = true;
         }, null, function() {
             UI.notification.show(Lang.get('notification.error-load-img'));
         });

@@ -7,7 +7,10 @@ Tour.animate = function() {
         if (Math.abs(this.view.rotation.lon) < Math.abs(this.options.autorotationSpeed)) {
             this.view.rotation.lon += this.options.autorotationSpeed / 100;
         }
-        this.view.lat.set(this.view.lat.value / 1.01);
+        if(this.options.autorotationAlign) {
+            this.view.lat.set(this.view.lat.value / 1.01);
+            this.view.fov.set(90 + ((this.view.fov.value - 90) / 1.005));
+        }
     } else {
         this.view.rotation.lon /= this.options.kineticResistance;
         this.view.rotation.lat /= this.options.kineticResistance;
@@ -24,9 +27,14 @@ Tour.animate = function() {
     target.y = Math.cos(phi);
     target.z = Math.sin(phi) * Math.sin(theta);
 
-    this.camera.lookAt(target);
+    if (this.orientationControls.controls.enabled) {
+        this.orientationControls.controls.update();
+    } else {
+        this.camera.lookAt(target);
+    }
+
     this.camera.fov = this.view.fov.value;
-    this.camera.projectionMatrix.makePerspective(this.camera.fov, this.camera.aspect, 1, 1100);
+    this.camera.updateProjectionMatrix();
 
     for (var k in this.view) {
         if (typeof this.view[k] == 'object') {

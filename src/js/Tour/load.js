@@ -20,7 +20,14 @@ Tour.load = function(data, callback) {
                     callback(Tour.data);
                     Tour.emmit('load', Tour.data);
                 } catch (e) {
-                    UI.notification.show('JSON ' + e.name + ' \n' + e.message, false);
+                    var position = parseInt(e.message.split(' ')[7]);
+                    if (position) {
+                        var lines = xhr.responseText.split('\n');
+                        for (var line = 0, bites = 0; bites <= position; line++) {
+                            bites += lines[line].length + 1;
+                        }
+                    }
+                    UI.notification.show(e.name + ' \n' + e.message + (line ? ' line ' + line : ''), false);
                 }
             }
         };
