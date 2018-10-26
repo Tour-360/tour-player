@@ -1,5 +1,5 @@
+// specification: https://github.com/Tour-360/tour-player/wiki/Формат-файла-Data.json
 {
-	"_specification": "https://github.com/Tour-360/tour-player/wiki/Формат-файла-Data.json",
 	"title": "Avant SHOP",
 	"start": 1,
 	"backgroundImage": "data:image/gif;base64,R0lGODdhCAAGAPIAAOjt86O4sp2np0tbTJKNi46gqLyyvcHK0iwAAAAACAAGAAADGhgGdxwiyFDEGaIckQ0mhtENhEBsFqFajJEAADs=",
