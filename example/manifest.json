@@ -31,7 +31,7 @@
 					"lon": -90,
 					"lat": 16,
 					"icon": "info",
-					"title": "<a href=\"https://ru.wikipedia.org/wiki/Linkin_Park\" target=\"_blank\">Linkin Park</a> — A Thousand Suns", 
+					"title": "<a href=\"https://ru.wikipedia.org/wiki/Linkin_Park\" target=\"_blank\">Linkin Park</a> — A Thousand Suns",
 					"action": {
 						"type": "url",
 						"href": "https://ru.wikipedia.org/wiki/Linkin_Park"
@@ -65,7 +65,7 @@
 					"lon": 280,
 					"lat": 13.73,
 					"icon": "info",
-					"title": "Lana Del Rey — Born To Die: Paradise Edition", 
+					"title": "Lana Del Rey — Born To Die: Paradise Edition",
 					"action": {
 						"type": "popup",
 						"id": "lana-del-rey-born-to-die"
@@ -74,7 +74,7 @@
 					"lon": 292,
 					"lat": 3,
 					"icon": "info",
-					"title": "Lana Del Rey — Ultraviolence", 
+					"title": "Lana Del Rey — Ultraviolence",
 					"action": {
 						"type": "popup",
 						"id": "lana-del-rey-ultraviolence"

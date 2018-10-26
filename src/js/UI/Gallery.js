@@ -1,8 +1,9 @@
 /* globals UI */
 
 UI.gallery = {
-    init: function() {
-        this.visible = false;
+    borderHoverSize: 5,
+    init: function(visible) {
+        this.visible = visible;
         this.domElement = document.createElement('div');
         this.domElement.id = 'gallery';
         this.ul = document.createElement('ul');
@@ -15,7 +16,7 @@ UI.gallery = {
 
         this.items = [];
 
-        this.display(true);
+        this.display(visible);
     },
     toggle: function(){
         this.display(!this.visible);
@@ -50,6 +51,7 @@ UI.gallery = {
             item.classList.remove('active');
         });
         this.items[id].classList.add('active');
+        this.ul.scrollTo(0, this.ul.scrollTop + this.items[id].getBoundingClientRect().y - this.borderHoverSize);
     },
     setVisible: function(type) {
 
