@@ -34,7 +34,7 @@ gulp.task('scripts', function() {
     return gulp.src([
         'src/js/*.js',
         'src/js/UI/*.js',
-        'src/js/**/*.js', 
+        'src/js/**/*.js',
         'src/lib/three.js',
         'src/lib/*.js'])
     .pipe(sourcemaps.init())
@@ -114,17 +114,17 @@ gulp.task('serve', ['build'], function() {
 
 //Публикация на сайте tour-360.ru по FTP
 gulp.task('deploy', function() {
-    gulp.src(['build/**/*', '!build/**/*.map'])
+    gulp.src(['build/**/*'])
         .pipe(sftp({
             host: 'tour-360.ru',
-            auth: 'beta',
-            remotePath: 'public_html/tour-player/latest'
+            auth: 'admin',
+            remotePath: '/var/www/tour-360.ru/tour-player/latest'
         }));
-    gulp.src(['build/**/*', '!build/**/*.map'])
+    gulp.src(['build/**/*'])
         .pipe(sftp({
             host: 'tour-360.ru',
-            auth: 'beta',
-            remotePath: 'public_html/tour-player/' + pjson.version
+            auth: 'admin',
+            remotePath: '/var/www/tour-360.ru/tour-player/' + pjson.version
         }));
 });
 
