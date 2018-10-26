@@ -51,9 +51,12 @@ UI.gallery = {
             item.classList.remove('active');
         });
         this.items[id].classList.add('active');
-        this.ul.scrollTo(0, this.ul.scrollTop + this.items[id].getBoundingClientRect().y - this.borderHoverSize);
-    },
-    setVisible: function(type) {
 
+        var itemRect = this.items[id].getBoundingClientRect();
+        var ulRect = this.ul.getBoundingClientRect();
+
+        if ((ulRect.height - itemRect.top) < 0 || (itemRect.top + itemRect.height) < 0) {
+            this.ul.scrollTo(0, this.ul.scrollTop + this.items[id].getBoundingClientRect().y - this.borderHoverSize);
+        }
     }
 };
