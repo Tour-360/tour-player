@@ -18,7 +18,7 @@ Tour.render = function() {
         Tour.emmit('render');
         this.needsUpdate = false;
     }
-    
+
     this.previousCamera = (new THREE.Vector4()).copy(this.camera.rotation);
     this.previousCamera.w = this.camera.fov;
 

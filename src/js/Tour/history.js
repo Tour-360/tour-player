@@ -9,7 +9,7 @@ Tour.history = {};
  */
 Tour.history.set = function(push) {
     var title = [Lang.translate(Tour.data.title) || Lang.get('virtual-tour'),
-    Lang.translate(Tour.data.panorams[Tour.view.id || 0].title)];
+    Lang.translate(Tour.getPanorama(Tour.view.id).title)];
 
     title = title.join(title[1] ? ' – ' : '');
 
