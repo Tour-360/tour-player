@@ -185,5 +185,12 @@ Tour.dictionary = {
         'uk': 'Помилка завантаження віртуального туру',
         'de': 'Fehler beim Laden Virtuelle Tour',
         'zh': '错误加载虚拟旅游'
+    },
+    'notification.error-load-tour-protocol': {
+        'en': 'Loading error. Use the http or https protocol for correct tour operation',
+        'ru': 'Ошибка загрузки. Используйте протокол http или https для корректной работы тура',
+        'uk': 'Помилка завантаження. Використовуйте протокол http або https для коректної роботи туру',
+        'de': 'Ladefehler. Verwenden Sie das http- oder https-Protokoll für den korrekten Tour-Vorgang',
+        'zh': '加载错误。 使用http或https协议进行正确的巡视操作'
     }
 };

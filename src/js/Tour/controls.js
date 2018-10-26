@@ -1,4 +1,4 @@
-/* globals Tour, UI, Lang, BrouserInfo*/
+/* globals Tour, UI, Lang, BrouserInfo, Tools*/
 
 Tour.controls = {
     back: function() {
@@ -21,12 +21,20 @@ Tour.controls = {
             } else if (e.msExitFullscreen) { e.msExitFullscreen();
             } else if (e.webkitCancelFullScreen) { e.webkitCancelFullScreen();
             } else if (e.mozCancelFullScreen) { e.mozCancelFullScreen(); }
+
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
         } else {
             e = document.documentElement;
             if (e.requestFullscreen) { e.requestFullscreen();
             } else if (e.msRequestFullscreen) { e.msRequestFullscreen();
             } else if (e.webkitRequestFullScreen) { e.webkitRequestFullScreen();
             } else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
+
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock(screen.orientation.type);
+            }
         }
     },
 
@@ -41,8 +49,30 @@ Tour.controls = {
         link.click();
     },
 
-    autoRotate: function() {
-        Tour.view.rotation.auto = !Tour.view.rotation.auto;
+    /**
+     * Парсит location.search
+     *
+     * @param {Number} timeout Интервал, на который откладывается автовращение
+     *                         30000     — Будет отложенно на 30 секунд
+     *                         true      — Будет отложенно на время поумолчанию
+     *                         false     — Будет удален интервал
+     *                         undefined — Будет запущен мгновенно
+     */
+
+    autoRotate: function(timeout) {
+        clearInterval(this.autorotateTimeout);
+        if (timeout) {
+            if (timeout === true) {
+                timeout = Tour.defaultOption.autorotationTimeout;
+            }
+            if (timeout) {
+                this.autorotateTimeout = setTimeout(this.autoRotate.bind(this), timeout);
+            }
+        } else if (timeout === 0 || timeout === false) {
+            Tour.view.rotation.auto = false;
+        } else if (timeout === undefined) {
+            Tour.view.rotation.auto = !Tour.view.rotation.auto;
+        }
     },
 
     reload: function() {
@@ -92,22 +122,30 @@ Tour.controls = {
         Tour.history.set();
     },
 
+    toggleControls: function() {
+        var ctrl = Tour.orientationControls.controls;
+        ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
+    },
+
     getCode: function() {
         var code = '<iframe src="' + location.href +
         '" width="640" height="480" frameborder="no" scrolling="no" allowfullscreen></iframe>';
+        Tour.controls.copyText(code);
+    },
 
+    copyText: function(text) {
         var report = function(done) {
             if (done) {
                 UI.notification.show(Lang.get('notification.successfully-copied'));
             } else {
                 var metaKey = BrouserInfo.apple ? '⌘' : 'Ctrl';
-                window.prompt(Lang.get('notification.embed-code').replace('*', metaKey + '+C'), code);
+                window.prompt(Lang.get('notification.embed-code').replace('*', metaKey + '+C'), text);
             }
         };
 
         if (document.execCommand) {
             var span = document.createElement('span');
-            span.textContent = code;
+            span.textContent = text;
             document.body.appendChild(span);
             var range = document.createRange();
             range.selectNode(span);
@@ -119,7 +157,7 @@ Tour.controls = {
             window.getSelection().removeAllRanges();
             document.body.removeChild(span);
         } else if (window.clipboardData) {
-            window.clipboardData.setData('Text', code);
+            window.clipboardData.setData('Text', text);
             report(true);
         } else {
             report(false);
@@ -127,7 +165,7 @@ Tour.controls = {
     },
 
     editor: function() {
-
+        Tools.init();
     },
 
     suport: function() {
@@ -142,5 +180,9 @@ Tour.controls = {
 
     badBrowser: function() {
 
+    },
+
+    closeWindow: function() {
+        UI.popUp.set()
     }
 };

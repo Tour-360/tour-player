@@ -9,7 +9,7 @@ Tour.getRenderer = function() {
     var rendererType;
 
     if (BrouserInfo.array) {
-        if (BrouserInfo.webgl && !(BrouserInfo.apple && BrouserInfo.mobile)) {
+        if (BrouserInfo.webgl) {
             rendererType = 'webgl';
         } else if (BrouserInfo.css) {
             rendererType = 'css';
