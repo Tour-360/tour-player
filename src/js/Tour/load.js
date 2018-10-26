@@ -13,7 +13,13 @@ Tour.load = function(data, callback) {
                 return;
             }
             if (xhr.status != 200) {
-                UI.notification.show(Lang.get('notification.error-load-tour'), false);
+                var errorText
+                if(xhr.status == 0 || window.location.protocol == 'file:'){
+                    errorText = Lang.get('notification.error-load-tour-protocol');
+                }else{
+                    errorText = Lang.get('notification.error-load-tour');
+                }
+                UI.notification.show(errorText, false);
             } else {
                 try {
                     Tour.data = JSON.parse(xhr.responseText);
