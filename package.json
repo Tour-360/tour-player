@@ -2,15 +2,14 @@
   "name": "tour-player",
   "version": "2.0.0",
   "description": "",
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tour-360/tour-player"
+  },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower i && ./node_modules/gulp/bin/gulp.js build",
     "start": "node index.js",
     "test": "gulp lint"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Tour-360/tour-player"
   },
   "keywords": [
     "tour",
@@ -23,13 +22,14 @@
   "author": "Maxim Borodin <borodinmk@gmail.com> (http://maximborodin.ru)",
   "contributors": [
     {
-      "name" : "Maxim Borodin",
-      "email" : "borodinmk@gmail.com",
-      "url" : "http://maximborodin.ru"
-    },{
-      "name" : "Denis Borodin",
-      "email" : "borodindk@gmail.com",
-      "url" : "http://denisborodin.ru"
+      "name": "Maxim Borodin",
+      "email": "borodinmk@gmail.com",
+      "url": "http://maximborodin.ru"
+    },
+    {
+      "name": "Denis Borodin",
+      "email": "borodindk@gmail.com",
+      "url": "http://denisborodin.ru"
     }
   ],
   "license": "MIT",

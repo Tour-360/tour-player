@@ -16,6 +16,9 @@ Tour.defaultOption = {
     touchScroll: false,
     scaleControl: true,
     autorotationAlign: true,
+    sentry: {
+        dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
+    },
     limit: {
         fov: { min: 20, max: 90},
         lat: { min: -85, max: 85},
