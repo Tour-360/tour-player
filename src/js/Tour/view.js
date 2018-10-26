@@ -8,6 +8,7 @@
 Tour.view = {};
 
 Tour.view.set = function(options, replaceHistory) {
+
     options = options || {};
 
     this.fov = new Tour.Transition(options.fov || this.fov || Tour.options.fov, Tour.options.limit.fov);
@@ -25,13 +26,17 @@ Tour.view.set = function(options, replaceHistory) {
     }
     Tour.history.set(!replaceHistory);
 
-    for (var k in this) {if (k != 'id') {
-        this[k].setOptions(
-            (Tour.data.panorams[this.id] && Tour.data.panorams[this.id].limit && Tour.data.panorams[this.id].limit[k]) ||
-            (Tour.data.limit && Tour.data.limit[k]) ||
-            Tour.options.limit[k]
-        );
-    }}
+    var panorama;
+    for (var k in this) {
+        if (k != 'id') {
+            panorama = Tour.getPanorama(this.id);
+            this[k].setOptions(
+                (panorama && panorama.limit && panorama.limit[k]) ||
+                (Tour.data.limit && Tour.data.limit[k]) ||
+                Tour.options.limit[k]
+            );
+        }
+    }
     Tour.emmit('changeView', Tour.view.get());
 };
 
