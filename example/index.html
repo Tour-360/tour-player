@@ -1,28 +1,28 @@
 <!doctype html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <link rel="stylesheet" href="../build/tour-player.css">
-        <script src="../build/tour-player.js"></script>
-        <title>Example Tour-360 player</title>
-        <style>
-            /* Цвет всех маркеров */
-            #markers .button {
-                background-color: rgba(0,0,0,.8);
-            }
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="../build/tour-player.css">
+    <script src="../build/tour-player.js"></script>
+    <title>Example Tour-360 player</title>
+    <style>
+        /* Цвет всех маркеров */
+        #markers .button {
+            background-color: rgba(0,0,0,.8);
+        }
 
-            /* Цвет информационных маркеров */
-            #markers .button.info{
-                background-color: #ed1c24;
-            }
+        /* Цвет информационных маркеров */
+        #markers .button.info{
+            background-color: #ed1c24;
+        }
 
-            /* Цвет полосы загрузки */
-            #control-panel .progress-bar .value {
-                background: #ed1c24;
-            }
-        </style>
-    </head>
+        /* Цвет полосы загрузки */
+        #control-panel .progress-bar .value {
+            background: #ed1c24;
+        }
+    </style>
+</head>
     <body>
         <div class="popup-layout">
             <div class="popups">
@@ -63,14 +63,14 @@
         </div>
 
         <script>
-        Tour.init(false, {
-            controlPanel: true,
-            gallery: true,
-            galleryVisible: false
-        });
-        Tour.on('load', function(data) {
-            this.controls.autoRotate()
-        })
+            Tour.init(false, {
+                controlPanel: true,
+                gallery: true,
+                galleryVisible: false
+            });
+            Tour.on('load', function(data) {
+                this.controls.autoRotate()
+            })
         </script>
     </body>
 </html>
