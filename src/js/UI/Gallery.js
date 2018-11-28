@@ -14,7 +14,7 @@ UI.gallery = {
         this.domElement.appendChild(this.ul);
         document.body.appendChild(this.domElement);
 
-        this.items = [];
+        this.items = {};
 
         this.display(visible);
     },
@@ -47,9 +47,9 @@ UI.gallery = {
     },
 
     setActive: function(id){
-        this.items.forEach(function(item){
-            item.classList.remove('active');
-        });
+        for (var k in this.items){
+            this.items[k].classList.remove('active');
+        }
 
         if(this.items[id]) {
             this.items[id].classList.add('active');
