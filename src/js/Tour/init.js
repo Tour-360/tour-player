@@ -1,6 +1,7 @@
 /* globals Tour, Lang, BrouserInfo, UI*/
 
 Tour.init = function(data, options) {
+    this.sentry();
     console.info('Tour-player', 'v' + this.version.join('.'), 'by http://Tour-360.ru');
     BrouserInfo();
     this.options.set(this.defaultOption);
