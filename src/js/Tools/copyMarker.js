@@ -7,6 +7,6 @@ Tools.copyMarker = function(id) {
     		prompt('Enter popup id', '')
     	);
     } else {
-    	this.copyDirectionMarker(parseInt(prompt('Enter pano id', Tour.view.id)));
+    	this.copyDirectionMarker(prompt('Enter pano id', Tour.view.id));
     }
 };
