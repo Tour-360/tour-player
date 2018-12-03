@@ -15,8 +15,13 @@ Tour.render = function() {
                 marker.draw();
             });
         }
-        Tour.emmit('render');
         this.needsUpdate = false;
+        if (this.videos) {
+            for(k in this.videos){
+                 this.videos[k].draw();
+            }
+        }
+        Tour.emmit('render');
     }
 
     this.previousCamera = (new THREE.Vector4()).copy(this.camera.rotation);

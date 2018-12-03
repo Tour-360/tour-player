@@ -4,6 +4,16 @@
 	"start": 1,
 	"backgroundImage": "data:image/gif;base64,R0lGODdhCAAGAPIAAOjt86O4sp2np0tbTJKNi46gqLyyvcHK0iwAAAAACAAGAAADGhgGdxwiyFDEGaIckQ0mhtENhEBsFqFajJEAADs=",
 	"backgroundColor": "#a3aaac",
+	"videos": [
+		{
+			"id": "cola",
+			"src": "videos/cola.mp4",
+			"loop": true,
+			"autoplay": true,
+			"width": 270,
+			"height": 480
+		}
+	],
 	"panorams": [
 		{
 			"id": 0,
@@ -36,6 +46,14 @@
 						"type": "url",
 						"href": "https://ru.wikipedia.org/wiki/Linkin_Park"
 					}
+				}
+			],
+			"videos": [
+				{
+					"position": { "x":-2.32, "y":0.177, "z":-1.84 },
+					"rotation": { "x":0, "y":1.5708, "z":0 },
+					"scale": { "x":1.3034, "y":1, "z":1 },
+					"videoId": "cola"
 				}
 			]
 		},{
@@ -80,6 +98,14 @@
 						"id": "lana-del-rey-ultraviolence"
 					}
 				}
+			],
+			"videos": [
+				{
+					"videoId":"cola",
+					"position": {"x": -4.762, "y": 0.193, "z": -1.79},
+					"rotation": {"x": 0, "y": 1.5708, "z": 0},
+					"scale": {"x": 1.3034, "y": 1.0533, "z": 1}
+				}
 			]
 		},{
 			"id": 2,
@@ -104,6 +130,14 @@
 						"type": "panorama",
 						"id": 1
 					}
+				}
+			],
+			"videos": [
+				{
+					"videoId": "cola",
+					"position": {"x": -6.632, "y":0.187, "z": -1.66},
+					"rotation": {"x": 0, "y": 1.5708, "z": 0},
+					"scale": {"x": 1.3034, "y": 1.0533, "z": 1}
 				}
 			]
 		}

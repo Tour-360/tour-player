@@ -10,6 +10,7 @@ Tour.setPanorama = function(id) {
     var change = function(id) {
         this.setTexture(id);
         this.setMarkers(id);
+        this.setMesh(id);
         var panorama = this.getPanorama(id);
         this.view.rotation.auto = panorama.autorotation !== false &&
             (panorama.autorotation || this.data.autorotation);

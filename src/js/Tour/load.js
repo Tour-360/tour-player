@@ -35,6 +35,9 @@ Tour.load = function(data, callback) {
                         }
                     }
                     UI.notification.show(e.name + ' \n' + e.message + (line ? ' line ' + line : ''), false);
+                } finally {
+                    callback(Tour.data);
+                    Tour.emmit('load', Tour.data);
                 }
             }
         };
