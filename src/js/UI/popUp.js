@@ -16,16 +16,24 @@ UI.popUp = {
         }
     },
     set: function(id) {
-        var scrollY = window.parent.scrollY;
-        var scrollTop = window.parent.document.body.scrollTop;
+
+        var canAccessIFrame = !!~Object.keys(window.parent.location).indexOf('host')
+        if(canAccessIFrame){
+            var scrollY = window.parent.scrollY;
+            var scrollX = window.parent.scrollX;
+        }
 
         window.location.hash = id || '';
 
-        window.parent.scrollY = scrollY;
-        window.parent.document.body.scrollTop = scrollTop; // issues #250
+        if(canAccessIFrame){
+            window.parent.scrollTo(scrollX, scrollY);
+        }
 
-        setTimeout(function() {window.scroll(0,0);}, 0); // issues #226
+        setTimeout(function() {
+            window.scroll(0,0);
+        }, 0); // issues #226
     },
+
     popstate: function() {
         this.domElement.classList[window.location.hash ? 'add' : 'remove']('visible');
     }

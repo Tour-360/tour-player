@@ -17,7 +17,6 @@ Tour.setGallery = function(data, visible) {
             }
         });
 
-
         UI.gallery.setActive(Tour.view.id);
 
         Tour.on('changeView', function(view){
