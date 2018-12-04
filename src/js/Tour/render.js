@@ -2,12 +2,12 @@
 
 Tour.render = function() {
 
-    if(!this.previousCamera || this.needsUpdate ||
+    if (!this.previousCamera || this.needsUpdate ||
         this.previousCamera.x != this.camera.rotation.x ||
         this.previousCamera.y != this.camera.rotation.y ||
         this.previousCamera.z != this.camera.rotation.z ||
         this.previousCamera.w != this.camera.fov
-    ){
+    ) {
         this.renderer.render(this.scene, this.camera);
         UI.controlPanel.setOrientation(Math.floor(THREE.Math.radToDeg(Tour.camera.rotation.z)));
         if (this.markers) {
@@ -17,8 +17,8 @@ Tour.render = function() {
         }
         this.needsUpdate = false;
         if (this.videos) {
-            for(k in this.videos){
-                 this.videos[k].draw();
+            for (k in this.videos) {
+                this.videos[k].draw();
             }
         }
         Tour.emmit('render');

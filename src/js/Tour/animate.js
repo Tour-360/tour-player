@@ -7,7 +7,7 @@ Tour.animate = function() {
         if (Math.abs(this.view.rotation.lon) < Math.abs(this.options.autorotationSpeed)) {
             this.view.rotation.lon += this.options.autorotationSpeed / 100;
         }
-        if(this.options.autorotationAlign) {
+        if (this.options.autorotationAlign) {
             this.view.lat.set(this.view.lat.value / 1.01);
             this.view.fov.set(90 + ((this.view.fov.value - 90) / 1.005));
         }

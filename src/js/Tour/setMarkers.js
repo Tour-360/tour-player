@@ -30,9 +30,9 @@ Tour.setMarkers = function(id) {
                 manager.onprogress = function(event) {
                     UI.controlPanel.setProgress(event.progress);
                 };
-                for(var k in this.planes) {
+                for (var k in this.planes) {
                     var planeId = this.planes[k][this.click % this.planes[k].length];
-                    var imgeURL = Tour.options.path + id + '/' + Tour.options.imageType + '/' + planeId+ '.jpg';
+                    var imgeURL = Tour.options.path + id + '/' + Tour.options.imageType + '/' + planeId + '.jpg';
 
                     Tour.setPlane(k, imgeURL, manager);
                 }
@@ -46,7 +46,10 @@ Tour.setMarkers = function(id) {
             (markers[i].action.type == 'panorama' && this.getPanorama(markers[i].action.id).title);
 
             marker.setTitle(Lang.translate(title));
-            marker.setIcon(markers[i].icon || (markers[i].action && markers[i].action.type == 'panorama' ? 'up' : 'info'));
+            marker.setIcon(
+                markers[i].icon ||
+                (markers[i].action && markers[i].action.type == 'panorama' ? 'up' : 'info')
+            );
             this.markers.push(marker);
         }
     }

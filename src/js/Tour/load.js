@@ -13,10 +13,10 @@ Tour.load = function(data, callback) {
                 return;
             }
             if (xhr.status != 200) {
-                var errorText
-                if(xhr.status == 0 || window.location.protocol == 'file:'){
+                var errorText;
+                if (xhr.status == 0 || window.location.protocol == 'file:') {
                     errorText = Lang.get('notification.error-load-tour-protocol');
-                }else{
+                } else {
                     errorText = Lang.get('notification.error-load-tour');
                 }
                 UI.notification.show(errorText, false);

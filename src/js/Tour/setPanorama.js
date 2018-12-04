@@ -16,7 +16,6 @@ Tour.setPanorama = function(id) {
             (panorama.autorotation || this.data.autorotation);
     };
 
-
     if (this.options.rendererType != 'css' && this.options.transition) {
 
         var imageUrl = this.mesh.material[0].map.image ?
@@ -26,7 +25,7 @@ Tour.setPanorama = function(id) {
             imageUrl,
             this.data.backgroundColor,
             function() {
-                Tour.mesh.rotation.set(0, Math.PI/2-((this.getPanorama(id).heading || 0) / 180 * Math.PI), 0);
+                Tour.mesh.rotation.set(0, Math.PI / 2 - ((this.getPanorama(id).heading || 0) / 180 * Math.PI), 0);
                 this.data.backgroundImage = false;
                 document.body.classList.add('transition');
                 change.call(this, id);
