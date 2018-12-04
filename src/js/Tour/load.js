@@ -21,11 +21,9 @@ Tour.load = function(data, callback) {
                 }
                 UI.notification.show(errorText, false);
             } else {
+                var json = xhr.responseText.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/mg, '');
                 try {
-                    var json = xhr.responseText.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/mg, '');
                     Tour.data = JSON.parse(json);
-                    callback(Tour.data);
-                    Tour.emmit('load', Tour.data);
                 } catch (e) {
                     var position = parseInt(e.message.split(' ')[7]);
                     if (position) {
