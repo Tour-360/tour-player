@@ -16,7 +16,7 @@ Tour.ImageLoader.prototype.load = function(url, onload, onprogress, onerror) {
     this.request.onload = this._onload.bind(this);
 
     this.request.onreadystatechange = function(event) {
-        if (this.onerror && event.target.readyState == 4 && event.target.status != 200) {
+        if (this.onerror && event.target.readyState == 4 && event.target.status != 200 && event.target.status != 0) {
             this.onerror({code: event.target.status});
         }
     }.bind(this);
@@ -24,6 +24,11 @@ Tour.ImageLoader.prototype.load = function(url, onload, onprogress, onerror) {
     this.request.open('GET', url, true);
     this.request.responseType = 'arraybuffer';
     this.request.send(null);
+};
+
+Tour.ImageLoader.prototype.abort = function() {
+    this.request.abort();
+    this.onload = false;
 };
 
 Tour.ImageLoader.prototype._onload = function() {
@@ -44,5 +49,8 @@ Tour.ImageLoader.prototype._onprogress = function(event) {
 };
 
 Tour.ImageLoader.prototype._onimageload = function() {
-    this.onload(this.image);
+    if (this.onload) {
+        this.onload(this.image);
+    }
 };
+
