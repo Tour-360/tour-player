@@ -1,24 +1,27 @@
 /* globals Tour, THREE*/
 
-Tour.Video = function (options) {
+Tour.Video = function(options) {
     this.videoElement = document.createElement('video');
     this.videoElement.src = options.src;
     // this.videoElement.autoplay =  options.autoplay || true;
     this.videoElement.loop = options.loop || true;
     this.videoElement.muted = options.muted || true;
 
-    var that = this
-    var sync = function(){
-        if(that.videoElement.duration && that.needsUpdate){
-            that.videoElement.currentTime = (Date.now()/1000)%that.videoElement.duration;
-        }
-    }
+    var _this = this;
 
-    if(options.sync){
-        clearTimeout(this.syncTimeout)
-        Tour.on('changeView', function(){
-            that.syncTimeout = setTimeout(sync, 2000); 
-        })
+    var sync = function() {
+        if (_this.videoElement.duration && _this.needsUpdate) {
+            _this.videoElement.currentTime = (Date.now() / 1000) % _this.videoElement.duration;
+        }
+    };
+
+    if (options.sync) {
+        clearTimeout(this.syncTimeout);
+
+        Tour.on('changeView', function() {
+            _this.syncTimeout = setTimeout(sync, 2000);
+        });
+
         this.syncInterval = setInterval(sync, 10000);
     }
 
@@ -28,28 +31,28 @@ Tour.Video = function (options) {
     this.videoElement.pause();
 
     this.canvas = document.createElement('canvas');
-    this.canvas.width = Math.pow(2 ,Math.ceil(Math.log(options.width) / Math.log(2)));
-    this.canvas.height = Math.pow(2 ,Math.ceil(Math.log(options.height) / Math.log(2)));
+    this.canvas.width = Math.pow(2, Math.ceil(Math.log(options.width) / Math.log(2)));
+    this.canvas.height = Math.pow(2, Math.ceil(Math.log(options.height) / Math.log(2)));
 
-    this.ctx = this.canvas.getContext( '2d' );
+    this.ctx = this.canvas.getContext('2d');
 
-    this.texture = new THREE.Texture( this.canvas );
-    this.texture.repeat.x = options.width/this.canvas.width;
-    this.texture.repeat.y = options.height/this.canvas.height;
+    this.texture = new THREE.Texture(this.canvas);
+    this.texture.repeat.x = options.width / this.canvas.width;
+    this.texture.repeat.y = options.height / this.canvas.height;
     this.texture.offset.y = 1 - this.texture.repeat.y;
     this.texture.needsUpdate = true;
     this.needsUpdate = false;
 
-    this.material = new THREE.MeshBasicMaterial( { map: this.texture, overdraw: 0,transparent: true} );
+    this.material = new THREE.MeshBasicMaterial({map: this.texture, overdraw: 0, transparent: true});
 };
 
-Tour.Video.prototype.draw = function(){
-    if(this.needsUpdate){
+Tour.Video.prototype.draw = function() {
+    if (this.needsUpdate) {
         this.videoElement.play();
         this.ctx.drawImage(this.videoElement, 0, 0);
         this.texture.needsUpdate = true;
         Tour.needsUpdate = true;
-    }else{
+    } else {
         this.videoElement.pause();
     }
-}
+};

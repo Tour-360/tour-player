@@ -183,6 +183,6 @@ Tour.controls = {
     },
 
     closeWindow: function() {
-        UI.popUp.set()
+        UI.popUp.set();
     }
 };

@@ -128,7 +128,7 @@ gulp.task('deploy', function() {
         }));
 });
 
-gulp.task('lint', ['jslint', 'jscs','stylint']);
+gulp.task('lint', ['jscs','stylint']);
 gulp.task('build', ['clean', 'clear', 'mainBowerFiles'], function() {
     gulp.run(['scripts', 'styles']);
 });

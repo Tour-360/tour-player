@@ -16,16 +16,15 @@ UI.popUp = {
         }
     },
     set: function(id) {
-
-        var canAccessIFrame = !!~Object.keys(window.parent.location).indexOf('host')
-        if(canAccessIFrame){
+        var canAccessIFrame = !!~Object.keys(window.parent.location).indexOf('host');
+        if (canAccessIFrame) {
             var scrollY = window.parent.scrollY;
             var scrollX = window.parent.scrollX;
         }
 
         window.location.hash = id || '';
 
-        if(canAccessIFrame){
+        if (canAccessIFrame) {
             window.parent.scrollTo(scrollX, scrollY);
         }
 
