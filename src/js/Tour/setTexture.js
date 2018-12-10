@@ -11,7 +11,7 @@ Tour.setTexture = function(id) {
     if (this.loadingManager) {
         this.loadingManager.abort();
     }
-    
+
     this.loadingManager = new Tour.LoadingManager();
     this.loadingManager.onprogress = function(event) {
         UI.controlPanel.setProgress(event.progress);
