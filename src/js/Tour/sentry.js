@@ -8,12 +8,12 @@ Tour.sentry = function() {
 
     script.onload = function() {
         Sentry.init(Tour.options.sentry);
-        Sentry.configureScope(function (scope) {
-          scope.setTag("player.version", Tour.version.join('.'));
-          scope.setTag("player.renderer", Tour.options.rendererType);
-          scope.setTag("player.gallery", Tour.options.gallery);
-          scope.setTag("player.mouseMenu", Tour.options.mouseMenu);
-          scope.setTag("player.controlPanel", Tour.options.controlPanel);
+        Sentry.configureScope(function(scope) {
+            scope.setTag('player.version', Tour.version.join('.'));
+            scope.setTag('player.renderer', Tour.options.rendererType);
+            scope.setTag('player.gallery', Tour.options.gallery);
+            scope.setTag('player.mouseMenu', Tour.options.mouseMenu);
+            scope.setTag('player.controlPanel', Tour.options.controlPanel);
         });
     };
 };
