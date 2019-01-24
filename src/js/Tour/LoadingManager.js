@@ -2,6 +2,7 @@
 
 Tour.LoadingManager = function(onload, onprogress, onerror) {
     this.images = [];
+    this.loaders = [];
     this.onload = this.onload || onload;
     this.onprogress = this.onprogress || onprogress;
     this.onerror = this.onerror || onerror;
@@ -9,6 +10,7 @@ Tour.LoadingManager = function(onload, onprogress, onerror) {
 
 Tour.LoadingManager.prototype.add = function(loader) {
     loader.onerror = this.onerror;
+    this.loaders.push(loader);
 
     loader.onprogress = function(event) {
         this.images[event.url] = event.progress;
@@ -22,4 +24,10 @@ Tour.LoadingManager.prototype.add = function(loader) {
     }.bind(this);
 
     this.images.length++;
+};
+
+Tour.LoadingManager.prototype.abort = function() {
+    this.loaders.map(function(loader) {
+        loader.abort();
+    });
 };

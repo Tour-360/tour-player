@@ -15,9 +15,16 @@ Tour.init = function(data, options) {
     this.setMouseMenu();
     this.orientationControls.init();
     this.load(data, function(data) {
+        this.setVideos(data.videos);
+        this.setImages(data.images);
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();
         query.id = query.id || data.start || 0;
+        if (query.id == data.start && !query.lon && !query.lat) {
+            var pano = this.getPanorama(query.id);
+            query.lat = pano.lat;
+            query.lon = pano.lon;
+        };
         this.view.set(query, true);
         this.setGallery(data, options.galleryVisible);
         this.addEventListeners();

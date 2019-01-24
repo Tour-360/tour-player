@@ -76,7 +76,7 @@ Tour.controls = {
     },
 
     reload: function() {
-        location.reload();
+        location.reload(true);
     },
 
     hideMenu: function() {
@@ -183,6 +183,6 @@ Tour.controls = {
     },
 
     closeWindow: function() {
-        UI.popUp.set()
+        UI.popUp.set();
     }
 };

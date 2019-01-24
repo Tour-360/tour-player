@@ -7,11 +7,16 @@
  */
 Tour.setTexture = function(id) {
     UI.controlPanel.setProgress(0);
-    var manager = new Tour.LoadingManager();
-    manager.onprogress = function(event) {
+
+    if (this.loadingManager) {
+        this.loadingManager.abort();
+    }
+
+    this.loadingManager = new Tour.LoadingManager();
+    this.loadingManager.onprogress = function(event) {
         UI.controlPanel.setProgress(event.progress);
     };
-    manager.onerror = function() {
+    this.loadingManager.onerror = function() {
         UI.notification.show(Lang.get('notification.error-load-pano'));
     };
 
@@ -46,7 +51,7 @@ Tour.setTexture = function(id) {
 
             setTimeout(function(i, imgeURL, manager) {
                 this.setPlane(i, imgeURL, manager);
-            }.bind(this, i, imgeURL, manager), 0);
+            }.bind(this, i, imgeURL, this.loadingManager), 0);
         }
     }.bind(this), undefined, function() {
         UI.notification.show(Lang.get('notification.error-load-pano'));

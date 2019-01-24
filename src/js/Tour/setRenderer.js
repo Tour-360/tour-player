@@ -25,5 +25,6 @@ Tour.setRenderer = function(rendererType, imageType) {
         return false;
     }
 
+    this.renderer.sortObjects = false;
     this.renderer.domElement.id = 'renderer';
 };

@@ -3,14 +3,13 @@ Tour.setGallery = function(data, visible) {
     if (this.options.gallery) {
         UI.gallery.init(visible);
 
-
-        data.panorams.map(function(pano){
+        data.panorams.map(function(pano) {
             if (pano.listNumber !== 0) {
                 UI.gallery.addItem({
                     id: pano.id,
-                    image: 'panorams/'+pano.id+'/thumbnail/mini.jpg',
+                    image: 'panorams/' + pano.id + '/thumbnail/mini.jpg',
                     title: Lang.translate(pano.title),
-                    onclick: function(){
+                    onclick: function() {
                         Tour.view.set(pano);
                     }
                 });
@@ -19,8 +18,8 @@ Tour.setGallery = function(data, visible) {
 
         UI.gallery.setActive(Tour.view.id);
 
-        Tour.on('changeView', function(view){
-            UI.gallery.setActive(view.id)
-        })
+        Tour.on('changeView', function(view) {
+            UI.gallery.setActive(view.id);
+        });
     }
 };

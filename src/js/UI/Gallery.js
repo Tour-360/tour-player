@@ -18,10 +18,10 @@ UI.gallery = {
 
         this.display(visible);
     },
-    toggle: function(){
+    toggle: function() {
         this.display(!this.visible);
     },
-    display: function(visible){
+    display: function(visible) {
         this.visible = visible;
         if (visible) {
             this.onOpen && this.onOpen();
@@ -35,7 +35,7 @@ UI.gallery = {
         this.item.onclick = options.onclick;
         this.item.style.backgroundImage = 'url(' + options.image + ')';
         this.items[options.id] = this.item;
-        if(options.title) {
+        if (options.title) {
             this.titleElem = document.createElement('div');
             this.titleElem.classList.add('item-title');
             this.titleElem.innerText = options.title;
@@ -46,19 +46,22 @@ UI.gallery = {
         this.ul.appendChild(this.item);
     },
 
-    setActive: function(id){
-        for (var k in this.items){
+    setActive: function(id) {
+        for (var k in this.items) {
             this.items[k].classList.remove('active');
         }
 
-        if(this.items[id]) {
+        if (this.items[id]) {
             this.items[id].classList.add('active');
 
             var itemRect = this.items[id].getBoundingClientRect();
             var ulRect = this.ul.getBoundingClientRect();
 
             if ((ulRect.height - itemRect.top) < 0 || (itemRect.top + itemRect.height) < 0) {
-                this.ul.scrollTo(0, this.ul.scrollTop + this.items[id].getBoundingClientRect().y - this.borderHoverSize);
+                this.ul.scrollTo(
+                    0,
+                    this.ul.scrollTop + this.items[id].getBoundingClientRect().y - this.borderHoverSize
+                );
             }
         }
     }

@@ -13,19 +13,17 @@ Tour.load = function(data, callback) {
                 return;
             }
             if (xhr.status != 200) {
-                var errorText
-                if(xhr.status == 0 || window.location.protocol == 'file:'){
+                var errorText;
+                if (xhr.status == 0 || window.location.protocol == 'file:') {
                     errorText = Lang.get('notification.error-load-tour-protocol');
-                }else{
+                } else {
                     errorText = Lang.get('notification.error-load-tour');
                 }
                 UI.notification.show(errorText, false);
             } else {
+                var json = xhr.responseText.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/mg, '');
                 try {
-                    var json = xhr.responseText.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/mg, '');
                     Tour.data = JSON.parse(json);
-                    callback(Tour.data);
-                    Tour.emmit('load', Tour.data);
                 } catch (e) {
                     var position = parseInt(e.message.split(' ')[7]);
                     if (position) {
@@ -35,6 +33,9 @@ Tour.load = function(data, callback) {
                         }
                     }
                     UI.notification.show(e.name + ' \n' + e.message + (line ? ' line ' + line : ''), false);
+                } finally {
+                    callback(Tour.data);
+                    Tour.emmit('load', Tour.data);
                 }
             }
         };
