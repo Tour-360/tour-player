@@ -31,6 +31,7 @@ Tour.setMouseMenu = function() {
         itemList.push(new UI.mouseMenu.Hr());
         itemList.push(new UI.mouseMenu.Item(this.controls.hideMenu, Lang.get('mousemenu.hidemenu'), 'M'));
         itemList.push(new UI.mouseMenu.Item(this.controls.getCode, Lang.get('mousemenu.getcode')));
+        itemList.push(new UI.mouseMenu.Item(this.controls.opennewtab, Lang.get('mousemenu.newtab')));
         itemList.push(new UI.mouseMenu.Item(this.controls.visitSite, Lang.get('mousemenu.visitsite') +
             ' tour-360.ru'));
 

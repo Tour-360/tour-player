@@ -99,6 +99,13 @@ Tour.dictionary = {
         'de': 'Besuch',
         'zh': '访问网站'
     },
+    'mousemenu.newtab': {
+        'en': 'Open tour in new tabe',
+        'ru': 'Открыть тур в новой вкладке',
+        'uk': 'Відкрити тур в новій вкладці',
+        'de': 'Tour in neuem Tab öffnen',
+        'zh': '在新标签中打开游览'
+    },
 
     'key.left': {
         'en': 'Left Arrow',
