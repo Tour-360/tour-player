@@ -15,7 +15,7 @@ Tour.setMarkers = function(id) {
         /* Типы действий
          * github.com/Tour-360/tour-player/wiki/Формат-файла-manifest.json#action
          */
-        var action = function() {
+        var action = function(marker) {
             if (this.type == 'panorama') {
                 Tour.view.set(this);
             } else if (this.type == 'url') {
@@ -26,6 +26,10 @@ Tour.setMarkers = function(id) {
 
             } else if (this.type == 'change') {
                 this.click = this.click + 1 || 0;
+                if(Array.isArray(marker.title)){
+                    console.log(this.click, marker.title.length)
+                    Tour.markers[marker.index].setTitle(Lang.translate(marker.title[this.click % marker.title.length]));
+                }
                 var manager = new Tour.LoadingManager();
                 manager.onprogress = function(event) {
                     UI.controlPanel.setProgress(event.progress);
@@ -40,9 +44,9 @@ Tour.setMarkers = function(id) {
         };
 
         for (var i = 0; i < markers.length; i++) {
-            var marker = new this.Marker(markers[i].lat, markers[i].lon, action.bind(markers[i].action));
+            var marker = new this.Marker(markers[i].lat, markers[i].lon, action.bind(markers[i].action, markers[i]));
 
-            var title = markers[i].title ||
+            var title = (Array.isArray(markers[i].title) ? markers[i].title[markers[i].title.length-1] : markers[i].title) ||
             (markers[i].action.type == 'panorama' && this.getPanorama(markers[i].action.id).title);
 
             marker.setTitle(Lang.translate(title));
@@ -50,7 +54,7 @@ Tour.setMarkers = function(id) {
                 markers[i].icon ||
                 (markers[i].action && markers[i].action.type == 'panorama' ? 'up' : 'info')
             );
-            this.markers.push(marker);
+            markers[i].index = this.markers.push(marker)-1;
         }
     }
 };
