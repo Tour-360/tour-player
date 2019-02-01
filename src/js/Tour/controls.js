@@ -9,6 +9,10 @@ Tour.controls = {
         window.history.forward();
     },
 
+    opennewtab: function() {
+        window.open(location.href,'_blank');
+    },
+
     fullscreen: function() {
         var e;
         if (document.fullscreenElement              ||
