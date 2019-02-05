@@ -42,3 +42,8 @@
         margin 5px 1px
         border none
         border-bottom 1px solid $light-gray
+
+@supports (backdrop-filter: none)
+    #mouse-menu
+        background rgba(255, 255, 255, .8)
+        backdrop-filter brightness(1.5) blur(40px)
