@@ -43,7 +43,7 @@ Tour.Video = function(options) {
     this.texture.needsUpdate = true;
     this.needsUpdate = false;
 
-    this.material = new THREE.MeshBasicMaterial({map: this.texture, overdraw: 0, transparent: true});
+    this.material = new THREE.MeshBasicMaterial({map: this.texture, transparent: true});
 };
 
 Tour.Video.prototype.draw = function() {
