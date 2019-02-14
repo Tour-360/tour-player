@@ -9,7 +9,9 @@ Tour.render = function() {
         this.previousCamera.w != this.camera.fov
     ) {
         this.renderer.render(this.scene, this.camera);
-        UI.controlPanel.setOrientation(Math.floor(THREE.Math.radToDeg(Tour.camera.rotation.z)));
+        if (window.isSecureContext) {
+            UI.controlPanel.setOrientation(Math.floor(THREE.Math.radToDeg(Tour.camera.rotation.z)));
+        }
         if (this.markers) {
             this.markers.forEach(function(marker) {
                 marker.draw();

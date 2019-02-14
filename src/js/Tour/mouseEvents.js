@@ -87,5 +87,6 @@ Tour.mouseEvents.up = function(event) {
         this.history.set();
     }
 
+    this.mouseEvents.cineticLon = this.mouseEvents.cineticLat = 0;
     this.mouseEvents.drag = false;
 };

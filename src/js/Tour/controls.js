@@ -127,8 +127,10 @@ Tour.controls = {
     },
 
     toggleControls: function() {
-        var ctrl = Tour.orientationControls.controls;
-        ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
+        if (window.isSecureContext) {
+            var ctrl = Tour.orientationControls.controls;
+            ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
+        }
     },
 
     getCode: function() {
