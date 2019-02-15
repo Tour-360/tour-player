@@ -49,7 +49,9 @@ Tour.setMarkers = function(id) {
             var title = (Array.isArray(markers[i].title) ? markers[i].title[markers[i].title.length-1] : markers[i].title) ||
             (markers[i].action.type == 'panorama' && this.getPanorama(markers[i].action.id).title);
 
-            marker.setTitle(Lang.translate(title));
+            if(!BrouserInfo.mobile){
+                marker.setTitle(Lang.translate(title));
+            }
             marker.setIcon(
                 markers[i].icon ||
                 (markers[i].action && markers[i].action.type == 'panorama' ? 'up' : 'info')
