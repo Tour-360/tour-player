@@ -20,7 +20,7 @@ Tour.mouseEvents._touches2mouse = function(event) {
     if (event.touches  && event.touches.length) {
         event.clientX = event.touches[0].pageX * window.devicePixelRatio;
         event.clientY = event.touches[0].pageY * window.devicePixelRatio;
-        event.preventDefault();
+        if(event.defaultPrevented) event.preventDefault();
     }
 };
 
@@ -39,7 +39,7 @@ Tour.mouseEvents.wheel = function(event) {
     // }
     if (this.options.scaleControl && event.composed && event.deltaY) {
         this.controls.autoRotate(false);
-        event.preventDefault();
+        if(event.defaultPrevented) event.preventDefault();
         this.view.fov.move(event.deltaY * (event.deltaMode ? 10 / 3 : 0.1));
 
         clearTimeout(this.mouseEvents.zoomTimeout);
