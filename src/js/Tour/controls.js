@@ -9,6 +9,14 @@ Tour.controls = {
         window.history.forward();
     },
 
+    next: function() {
+        Tour.view.go(1);
+    },
+
+    previous: function() {
+        Tour.view.go(-1);
+    },
+
     opennewtab: function() {
         window.open(location.href,'_blank');
     },
