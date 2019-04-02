@@ -78,6 +78,11 @@ Tour.mouseEvents.move = function(event) {
 
 Tour.mouseEvents.up = function(event) {
     if (this.mouseEvents.drag) {
+        var alpha = Date.now() - this.mouseEvents.lastclick;
+        if(this.mouseEvents.lastclick && alpha > 30 && alpha < 300){
+            this.controls.fullscreen();
+        }
+        this.mouseEvents.lastclick = Date.now();
         this.mouseEvents._touches2mouse(event);
         this.mouseEvents._setCinetic(event);
 
