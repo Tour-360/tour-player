@@ -1,3 +1,9 @@
+#renderer
+  will-change opacity
+
+#background-image
+  will-change transform
+
 body.transition
     #renderer,
     #markers
@@ -5,7 +11,12 @@ body.transition
 
 body:not(.transition)
     #renderer
-        transition opacity.3s linear
+        transition opacity .4s ease
+        transition-delay .1s
+
+    #background-image
+        transition transform .4s ease
+        transform scale(1.2)
 
 #markers
-    transition opacity.3s linear
+    transition opacity.4s ease
