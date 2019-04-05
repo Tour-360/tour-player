@@ -3,9 +3,14 @@
 Tour.backgroundImage = {};
 
 Tour.backgroundImage.init = function() {
+    var wrapper = document.createElement('div');
+    wrapper.className = "background-image__wrapper";
+
     this.domElement = new Image();
     this.domElement.id = 'background-image';
-    document.body.appendChild(this.domElement);
+
+    wrapper.appendChild(this.domElement);
+    document.body.appendChild(wrapper);
 };
 
 Tour.backgroundImage.set = function(url, color, callback) {
