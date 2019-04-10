@@ -9,7 +9,8 @@
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower i && ./node_modules/gulp/bin/gulp.js build",
     "start": "node index.js",
-    "test": "gulp lint"
+    "lint": "gulp lint",
+    "test": "echo \"DOTO Tests\" && exit 0"
   },
   "keywords": [
     "tour",
