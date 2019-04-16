@@ -2,21 +2,24 @@ $btn-size = 36px
 $progress-bar-height = 3px
 
 #control-panel
+    pointer-events none
     position absolute
     width 100%
-    height 0
     text-align center
     z-index 1
     opacity 0
     left 0
-    bottom - $btn-size
+    bottom 18px
     transition all.4s ease
     user-select none
     touch-action none
+    overflow hidden
 
     &.visible
-        bottom 18px + $btn-size
         opacity 1
+
+        .panel
+            pointer-events all
 
     .panel
         position relative
@@ -100,5 +103,6 @@ body.fullscreen
 
 @supports (backdrop-filter: none)
     #control-panel
-        background rgba(100%, 100%, 100%, .6)
-        backdrop-filter brightness(1.5) blur(40px)
+        .panel
+            background rgba(255, 255, 255, .8)
+            backdrop-filter brightness(1.5) blur(40px)

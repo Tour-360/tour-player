@@ -27,7 +27,7 @@ Tour.animate = function() {
     target.y = Math.cos(phi);
     target.z = Math.sin(phi) * Math.sin(theta);
 
-    if (this.orientationControls.controls.enabled) {
+    if (window.isSecureContext && this.orientationControls.controls.enabled) {
         this.orientationControls.controls.update();
     } else {
         this.camera.lookAt(target);

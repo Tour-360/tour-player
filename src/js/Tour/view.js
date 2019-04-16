@@ -40,6 +40,18 @@ Tour.view.set = function(options, replaceHistory) {
     Tour.emmit('changeView', Tour.view.get());
 };
 
+Tour.view.go = function(step) {
+    var index = Tour.data.panorams.indexOf(Tour.getPanorama(Tour.view.id));
+    index += step;
+    index = index % Tour.data.panorams.length;
+
+    if (index < 0) {
+        index = Tour.data.panorams.length + index;
+    }
+
+    Tour.view.set({id: index});
+};
+
 Tour.view.get = function() {
     var view = {};
     for (var k in this) {
@@ -50,3 +62,4 @@ Tour.view.get = function() {
 
 Object.defineProperty(Tour.view, 'set', {enumerable: false});
 Object.defineProperty(Tour.view, 'get', {enumerable: false});
+Object.defineProperty(Tour.view, 'go', {enumerable: false});

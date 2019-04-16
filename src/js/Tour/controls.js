@@ -9,6 +9,18 @@ Tour.controls = {
         window.history.forward();
     },
 
+    next: function() {
+        Tour.view.go(1);
+    },
+
+    previous: function() {
+        Tour.view.go(-1);
+    },
+
+    opennewtab: function() {
+        window.open(location.href,'_blank');
+    },
+
     fullscreen: function() {
         var e;
         if (document.fullscreenElement              ||
@@ -123,8 +135,10 @@ Tour.controls = {
     },
 
     toggleControls: function() {
-        var ctrl = Tour.orientationControls.controls;
-        ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
+        if (window.isSecureContext) {
+            var ctrl = Tour.orientationControls.controls;
+            ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
+        }
     },
 
     getCode: function() {

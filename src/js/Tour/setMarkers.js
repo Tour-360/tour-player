@@ -15,7 +15,7 @@ Tour.setMarkers = function(id) {
         /* Типы действий
          * github.com/Tour-360/tour-player/wiki/Формат-файла-manifest.json#action
          */
-        var action = function() {
+        var action = function(marker) {
             if (this.type == 'panorama') {
                 Tour.view.set(this);
             } else if (this.type == 'url') {
@@ -26,6 +26,9 @@ Tour.setMarkers = function(id) {
 
             } else if (this.type == 'change') {
                 this.click = this.click + 1 || 0;
+                if (Array.isArray(marker.title)) {
+                    Tour.markers[marker.index].setTitle(Lang.translate(marker.title[this.click % marker.title.length]));
+                }
                 var manager = new Tour.LoadingManager();
                 manager.onprogress = function(event) {
                     UI.controlPanel.setProgress(event.progress);
@@ -40,17 +43,28 @@ Tour.setMarkers = function(id) {
         };
 
         for (var i = 0; i < markers.length; i++) {
-            var marker = new this.Marker(markers[i].lat, markers[i].lon, action.bind(markers[i].action));
 
-            var title = markers[i].title ||
-            (markers[i].action.type == 'panorama' && this.getPanorama(markers[i].action.id).title);
+            var m = markers[i];
 
-            marker.setTitle(Lang.translate(title));
-            marker.setIcon(
-                markers[i].icon ||
-                (markers[i].action && markers[i].action.type == 'panorama' ? 'up' : 'info')
+            var marker = new this.Marker(
+                m.lat,
+                m.lon,
+                action.bind(m.action, m)
             );
-            this.markers.push(marker);
+
+            var title = (
+                Array.isArray(m.title) ? m.title[m.title.length - 1] : m.title) ||
+                (markers[i].action.type == 'panorama' && this.getPanorama(m.action.id).title
+            );
+
+            if (!BrouserInfo.mobile) {
+                marker.setTitle(Lang.translate(title));
+            }
+            marker.setIcon(
+                m.icon ||
+                (m.action && markers[i].action.type == 'panorama' ? 'up' : 'info')
+            );
+            m.index = this.markers.push(marker) - 1;
         }
     }
 };

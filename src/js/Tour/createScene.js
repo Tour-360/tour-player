@@ -34,7 +34,7 @@ Tour.createScene = function() {
         var geometry = new THREE.BoxGeometry(-100, 100, 100, segments, segments, segments);
         var materials = [];
         for (var i = 0; i < 6; i++) {
-            materials.push(new THREE.MeshBasicMaterial({map: new THREE.Texture(), overdraw: true}));
+            materials.push(new THREE.MeshBasicMaterial({map: new THREE.Texture()}));
         }
         this.mesh = new THREE.Mesh(geometry, materials);
     }

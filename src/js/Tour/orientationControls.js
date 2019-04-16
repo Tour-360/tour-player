@@ -2,9 +2,11 @@
 
 Tour.orientationControls = {
     init: function() {
-        this.controls = new THREE.DeviceOrientationControls(Tour.camera);
-        this.controls.disconnect();
-        window.addEventListener('deviceorientation', this.detectDevice);
+        if (window.isSecureContext) {
+            this.controls = new THREE.DeviceOrientationControls(Tour.camera);
+            this.controls.disconnect();
+            window.addEventListener('deviceorientation', this.detectDevice);
+        }
     },
     detectDevice: function(event) {
         if (event.alpha) {
