@@ -25,7 +25,9 @@ UI.popUp = {
         window.location.hash = id || '';
 
         if (canAccessIFrame) {
-            window.parent.scrollTo(scrollX, scrollY);
+            setTimeout(function() {
+                window.parent.scrollTo(scrollX, scrollY);
+            }, 0);
         }
 
         setTimeout(function() {
