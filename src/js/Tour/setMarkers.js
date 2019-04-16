@@ -26,8 +26,7 @@ Tour.setMarkers = function(id) {
 
             } else if (this.type == 'change') {
                 this.click = this.click + 1 || 0;
-                if(Array.isArray(marker.title)){
-                    console.log(this.click, marker.title.length)
+                if (Array.isArray(marker.title)) {
                     Tour.markers[marker.index].setTitle(Lang.translate(marker.title[this.click % marker.title.length]));
                 }
                 var manager = new Tour.LoadingManager();
@@ -44,19 +43,28 @@ Tour.setMarkers = function(id) {
         };
 
         for (var i = 0; i < markers.length; i++) {
-            var marker = new this.Marker(markers[i].lat, markers[i].lon, action.bind(markers[i].action, markers[i]));
 
-            var title = (Array.isArray(markers[i].title) ? markers[i].title[markers[i].title.length-1] : markers[i].title) ||
-            (markers[i].action.type == 'panorama' && this.getPanorama(markers[i].action.id).title);
+            var m = markers[i];
 
-            if(!BrouserInfo.mobile){
+            var marker = new this.Marker(
+                m.lat,
+                m.lon,
+                action.bind(m.action, m)
+            );
+
+            var title = (
+                Array.isArray(m.title) ? m.title[m.title.length - 1] : m.title) ||
+                (markers[i].action.type == 'panorama' && this.getPanorama(m.action.id).title
+            );
+
+            if (!BrouserInfo.mobile) {
                 marker.setTitle(Lang.translate(title));
             }
             marker.setIcon(
-                markers[i].icon ||
-                (markers[i].action && markers[i].action.type == 'panorama' ? 'up' : 'info')
+                m.icon ||
+                (m.action && markers[i].action.type == 'panorama' ? 'up' : 'info')
             );
-            markers[i].index = this.markers.push(marker)-1;
+            m.index = this.markers.push(marker) - 1;
         }
     }
 };

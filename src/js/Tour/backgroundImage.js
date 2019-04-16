@@ -4,7 +4,7 @@ Tour.backgroundImage = {};
 
 Tour.backgroundImage.init = function() {
     var wrapper = document.createElement('div');
-    wrapper.className = "background-image__wrapper";
+    wrapper.className = 'background-image__wrapper';
 
     this.domElement = new Image();
     this.domElement.id = 'background-image';

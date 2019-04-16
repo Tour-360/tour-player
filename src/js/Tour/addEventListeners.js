@@ -1,7 +1,7 @@
 /* globals Tour*/
 
 Tour.addEventListeners = function() {
-    var passive = {passive:true};
+    var passive = { passive: true };
     this.renderer.domElement.addEventListener('dblclick',  Tour.controls.fullscreen.bind(this), passive);
     this.renderer.domElement.addEventListener('mousedown', Tour.mouseEvents.down.bind(this), passive);
     this.renderer.domElement.addEventListener('touchstart', Tour.mouseEvents.down.bind(this), passive);
