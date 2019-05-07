@@ -20,6 +20,7 @@ Tour.Transition.prototype.setOptions = function(options) {
 
 Tour.Transition.prototype.set = function(value) {
     this.value = this.moveTo(value);
+    Tour.emmit('moveView');
 };
 
 Tour.Transition.prototype.move = function(value, noanim) {
@@ -38,7 +39,13 @@ Tour.Transition.prototype.moveTo = function(value, noanim) {
 };
 
 Tour.Transition.prototype.animate = function() {
-    this.value -= (this.value - this.follow) / this.speed;
+    var alpha = (this.value - this.follow) / this.speed;
+    if(Math.abs(alpha)>1e-5){
+        this.value -= (this.value - this.follow) / this.speed;
+        Tour.emmit('moveView');
+    }else{
+        this.value = this.follow;
+    }
 };
 
 Tour.Transition.prototype.toString = function() {

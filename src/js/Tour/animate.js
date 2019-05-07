@@ -14,6 +14,9 @@ Tour.animate = function() {
     } else {
         this.view.rotation.lon /= this.options.kineticResistance;
         this.view.rotation.lat /= this.options.kineticResistance;
+        if(Math.abs(Tour.view.rotation.lon) > 1e-5 && Math.abs(Tour.view.rotation.lon) > 1e-5){
+            Tour.emmit('moveView');
+        }
     }
 
     this.view.lat.move(this.view.rotation.lat, true);
