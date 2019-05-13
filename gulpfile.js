@@ -108,7 +108,7 @@ gulp.task('serve', ['build'], function() {
     });
 
     gulp.watch(['example/*'], browserSync.reload);
-    gulp.watch(['src/js/**/*.js', 'src/lib/*.js'], ['scripts', browserSync.reload]);
+    gulp.watch(['src/js/**/*.js', 'src/js/*.js', 'src/lib/*.js'], ['scripts', browserSync.reload]);
     gulp.watch(['src/css/**/*.{css,styl}', 'src/lib/*.css'], ['styles', browserSync.reload]);
 });
 

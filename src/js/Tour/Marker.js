@@ -3,6 +3,17 @@
 Tour.Marker = function(lat, lon, action, icon, title) {
     UI.Marker.call(this, action, icon, title);
     this.setLatLon(lat, lon);
+
+    this.spriteMap = new THREE.TextureLoader().load( "sprite.png" );
+    this.spriteMaterial = new THREE.SpriteMaterial( { map: this.spriteMap} );
+    this.sprite = new THREE.Sprite( this.spriteMaterial );
+
+
+    this.scale = this.sprite.position.distanceTo(Tour.camera.position) / 1;
+    // this.scale = this.scale
+
+    this.sprite.position.set( 8, - 2, 2 );
+    Tour.scene.add( this.sprite);
 };
 
 Tour.Marker.prototype = Object.create(UI.Marker.prototype);

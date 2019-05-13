@@ -28,6 +28,7 @@ Tour.init = function(data, options) {
         this.view.set(query, true);
         this.setGallery(data, options.galleryVisible);
         this.addEventListeners();
-        this.animate();
+        this.renderer.setAnimationLoop(this.animate.bind(this));
+        this.setVR();
     }.bind(this));
 };

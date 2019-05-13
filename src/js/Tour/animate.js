@@ -1,7 +1,7 @@
 /* globals Tour, THREE */
 
 Tour.animate = function() {
-    requestAnimationFrame(Tour.animate.bind(this));
+    // requestAnimationFrame(Tour.animate.bind(this));
 
     if (this.view.rotation.auto) {
         if (Math.abs(this.view.rotation.lon) < Math.abs(this.options.autorotationSpeed)) {
