@@ -1,7 +1,7 @@
 {
     "name": "tour-player",
     "dependencies": {
-        "threejs": "r101"
+        "threejs": "r104"
     },
     "overrides": {
         "threejs": {
@@ -10,7 +10,8 @@
                 "examples/js/renderers/CanvasRenderer.js",
                 "examples/js/renderers/Projector.js",
                 "examples/js/renderers/CSS3DRenderer.js",
-                "examples/js/controls/DeviceOrientationControls.js"
+                "examples/js/controls/DeviceOrientationControls.js",
+                "examples/js/vr/WebVR.js"
             ]
         }
     }

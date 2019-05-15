@@ -7,6 +7,10 @@ Tour.setMarkers = function(id) {
         });
     }
 
+    while(Tour.markersGroup.children.length > 0){ 
+        Tour.markersGroup.remove(Tour.markersGroup.children[0]); 
+    }
+
     this.markers = [];
     var pano = this.getPanorama(id);
     var markers = pano && pano.markers;

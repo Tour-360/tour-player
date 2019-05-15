@@ -2,18 +2,16 @@
 
 Tour.Marker = function(lat, lon, action, icon, title) {
     UI.Marker.call(this, action, icon, title);
-    this.setLatLon(lat, lon);
 
     this.spriteMap = new THREE.TextureLoader().load( "sprite.png" );
-    this.spriteMaterial = new THREE.SpriteMaterial( { map: this.spriteMap} );
+    this.spriteMaterial = new THREE.SpriteMaterial( { map: this.spriteMap, depthTest: false, transparent: true} );
     this.sprite = new THREE.Sprite( this.spriteMaterial );
+    this.sprite.scale.set(.1, .1, .1);
+    this.sprite.marker = this;
+    // this.sprite.visible = false;
 
-
-    this.scale = this.sprite.position.distanceTo(Tour.camera.position) / 1;
-    // this.scale = this.scale
-
-    this.sprite.position.set( 8, - 2, 2 );
-    Tour.scene.add( this.sprite);
+    this.setLatLon(lat, lon);
+    Tour.markersGroup.add( this.sprite);
 };
 
 Tour.Marker.prototype = Object.create(UI.Marker.prototype);
@@ -31,6 +29,7 @@ Tour.Marker.prototype.setLatLon = function(lat, lon) {
         Math.cos(y),
         Math.sin(x) * Math.sin(y)
     );
+    this.sprite.position.copy(this.vector);
 };
 
 Tour.Marker.prototype.draw = function() {
@@ -45,5 +44,6 @@ Tour.Marker.prototype.draw = function() {
             (-pos.y * height + height) / window.devicePixelRatio
         );
     }
-    this.setVisible(pos.z < 1);
+    this.setVisible(pos.z < 1 && !Tour.vrEnabled);
+    // this.sprite.visible = !!Tour.vrEnabled;
 };

@@ -6,6 +6,8 @@ Tour.createScene = function() {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera();
+    this.markersGroup = new THREE.Group();
+    this.scene.add(this.markersGroup);
 
     if (Tour.options.rendererType == 'css') {
         var sides = [

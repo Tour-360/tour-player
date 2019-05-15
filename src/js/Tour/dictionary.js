@@ -71,6 +71,13 @@ Tour.dictionary = {
         'de': 'voll Schrei',
         'zh': '全屏'
     },
+    'mousemenu.vr': {
+        'en': 'VR mode',
+        'ru': 'Режим VR',
+        'uk': 'Режим VR',
+        'de': 'VR-Modus',
+        'zh': 'VR模式'
+    },
     'mousemenu.hidemenu': {
         'en': 'Hide menu',
         'ru': 'Скрыть меню',

@@ -23,6 +23,9 @@ Tour.render = function() {
                 this.videos[k].draw();
             }
         }
+        if (this.pointer.plane){
+            this.pointer.draw();
+        }
         Tour.emmit('render');
     }
 
