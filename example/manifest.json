@@ -1,145 +1,193 @@
-// specification: https://github.com/Tour-360/tour-player/wiki/Формат-файла-Data.json
 {
-	"title": "Avant SHOP",
-	"start": 1,
-	"backgroundImage": "data:image/gif;base64,R0lGODdhCAAGAPIAAOjt86O4sp2np0tbTJKNi46gqLyyvcHK0iwAAAAACAAGAAADGhgGdxwiyFDEGaIckQ0mhtENhEBsFqFajJEAADs=",
-	"backgroundColor": "#a3aaac",
-	"videos": [
-		{
-			"id": "cola",
-			"src": "videos/cola.mp4",
-			"loop": true,
-			"autoplay": true,
-			"width": 270,
-			"height": 480
-		}
-	],
-	"panorams": [
-		{
-			"id": 0,
-			"title": "Стелаж",
-			"lon": 0,
-			"lat": 0,
-			"markers": [
-				{
-					"lon": 0,
-					"lat": -5,
-					"icon": "up",
-					"action": {
-						"type": "panorama",
-						"id": 2
-					}
-				},{
-					"lon": 0,
-					"lat": -50,
-					"icon": "point",
-					"action": {
-						"type": "panorama",
-						"id": 1
-					}
-				},{
-					"lon": -90,
-					"lat": 16,
-					"icon": "info",
-					"title": "<a href=\"https://ru.wikipedia.org/wiki/Linkin_Park\" target=\"_blank\">Linkin Park</a> — A Thousand Suns",
-					"action": {
-						"type": "url",
-						"href": "https://ru.wikipedia.org/wiki/Linkin_Park"
-					}
-				}
-			],
-			"videos": [
-				{
-					"position": { "x":-2.32, "y":0.177, "z":-1.84 },
-					"rotation": { "x":0, "y":1.5708, "z":0 },
-					"scale": { "x":1.3034, "y":1, "z":1 },
-					"videoId": "cola"
-				}
-			]
-		},{
-			"id": 1,
-			"title": "Центр",
-			"listNumber": 2,
-			"lon": 0,
-			"lat": 0,
-			"markers": [
-				{
-					"lon": 0,
-					"lat": -5,
-					"icon": "up",
-					"action": {
-						"type": "panorama",
-						"id": 2
-					}
-				},{
-					"lon": 180,
-					"lat": -5,
-					"icon": "up",
-					"action": {
-						"type": "panorama",
-						"id": 0
-					}
-				},{
-					"lon": 280,
-					"lat": 13.73,
-					"icon": "info",
-					"title": "Lana Del Rey — Born To Die: Paradise Edition",
-					"action": {
-						"type": "popup",
-						"id": "lana-del-rey-born-to-die"
-					}
-				},{
-					"lon": 292,
-					"lat": 3,
-					"icon": "info",
-					"title": "Lana Del Rey — Ultraviolence",
-					"action": {
-						"type": "popup",
-						"id": "lana-del-rey-ultraviolence"
-					}
-				}
-			],
-			"videos": [
-				{
-					"videoId":"cola",
-					"position": {"x": -4.762, "y": 0.193, "z": -1.79},
-					"rotation": {"x": 0, "y": 1.5708, "z": 0},
-					"scale": {"x": 1.3034, "y": 1.0533, "z": 1}
-				}
-			]
-		},{
-			"id": 2,
-			"title": {"ru": "Касса", "en": "Сashbox"},
-			"listNumber": 1,
-			"lon": 0,
-			"lat": 0,
-			"markers": [
-				{
-					"lon": 180,
-					"lat": -5,
-					"icon": "up",
-					"action": {
-						"type": "panorama",
-						"id": 0
-					}
-				},{
-					"lon": 180,
-					"lat": -40,
-					"icon": "point",
-					"action": {
-						"type": "panorama",
-						"id": 1
-					}
-				}
-			],
-			"videos": [
-				{
-					"videoId": "cola",
-					"position": {"x": -6.632, "y":0.187, "z": -1.66},
-					"rotation": {"x": 0, "y": 1.5708, "z": 0},
-					"scale": {"x": 1.3034, "y": 1.0533, "z": 1}
-				}
-			]
-		}
-	]
+  "title": "LOFT 904",
+  "videos": [
+    {
+      "id": "macbook",
+      "src": "videos/macbook.mp4",
+      "loop": true,
+      "autoplay": true,
+      "width": 320,
+      "height": 200
+    }
+  ],
+  "start": 9,
+  "panorams": [
+    {
+      "id": "9",
+      "title": {"ru": "У дивана", "en": "In the sofa"},
+      "heading": 83.95,
+      "markers": [
+        {"lat":-18.17,"lon":356.51,"icon":"point","action":{"type":"panorama","id":"4"}},
+        {"lat":-42.83,"lon":39.59,"icon":"point","action":{"type":"panorama","id":"1"}},
+        {"lat":-25.78,"lon":16.21,"icon":"point","action":{"type":"panorama","id":"2"}},
+        {"lat":-17.83,"lon":43.61,"icon":"point","action":{"type":"panorama","id":"3"}},
+        {"lat":-3.71,"lon":145.92,"icon":"up","action":{"type":"panorama","id":"8"}},
+        {"lat":-4.85,"lon":70.97,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
+        {"lat":45.97,"lon":25.21,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":-28.66,"lon":334.56,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product4"}},
+        {"lat":-14.12,"lon":416.43,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product3"}},
+        {"lat":8.68,"lon":276.35, "title": [
+          {"ru": "Включить свет", "en": "Turn on the light"},
+          {"ru": "Выключить свет", "en": "Turn the lights off"}
+        ], "action": { "type": "change", "planes": {
+          "3": ["5b", "5"],
+          "1": ["3b", "3"],
+          "4": ["0b", "0"]
+        }}}
+      ]
+    },
+    {
+      "id": "1",
+      "title": {"ru": "У дивана", "en": "In the sofa"},
+      "heading": 89.6,
+      "markers": [
+        {"lat":-22.94,"lon":338.22,"icon":"point","action":{"type":"panorama","id":"4"}},
+        {"lat":-41.69,"lon":-0.88,"icon":"point","action":{"type":"panorama","id":"2"}},
+        {"lat":-27.58,"lon":47.2,"icon":"point","action":{"type":"panorama","id":"3"}},
+        {"lat":-12.95,"lon":14.17,"icon":"point","action":{"type":"panorama","id":"6"}},
+        {"lat":-19.24,"lon":33.52,"icon":"point","action":{"type":"panorama","id":"7"}},
+        {"lat":-1.24,"lon":178.72,"icon":"up","action":{"type":"panorama","id":"8"}},
+        {"lat":-38.08,"lon":221.46,"icon":"point","action":{"type":"panorama","id":"9"}},
+        {"lat":-5.14,"lon":99.41,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
+        {"lat":-19.13,"lon":303.35,"title": {"ru": "Видео", "en": "Video"},"action":{"type":"popup","id":"video"}},
+        {"lat":71.95,"lon":219.56,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":-27.9,"lon":65.8,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product3"}},
+        {"lat":-21.96,"lon":-87.08,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product4"}},
+        {"lat":-20.99,"lon":376.08,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product2"}}
+      ],
+      "videos": [
+        {"position":{"x":3.271,"y":-1.348,"z":4.691},"rotation":{"x":0.3393,"y":3.0003,"z":-0.0644},"scale":{"x":0.9392,"y":1.069,"z":1},"videoId":"macbook"}
+      ]
+    },
+    {
+      "id": "2",
+      "title": {"ru": "По центру", "en": "In center"},
+      "heading": 268.77,
+      "markers": [
+        {"lat":-36.98,"lon":324.61,"icon":"point","action":{"type":"panorama","id":"4"}},
+        {"lat":-43.64,"lon":174.82,"icon":"point","action":{"type":"panorama","id":"1"}},
+        {"lat":-33.08,"lon":81.23,"icon":"point","action":{"type":"panorama","id":"3"}},
+        {"lat":-16.02,"lon":-17.94,"icon":"point","action":{"type":"panorama","id":"5"}},
+        {"lat":-4.44,"lon":16.15,"icon":"up","action":{"type":"panorama","id":"6"}},
+        {"lat":-26.08,"lon":58.96,"icon":"point","action":{"type":"panorama","id":"7"}},
+        {"lat":-0.64,"lon":177.95,"icon":"up","action":{"type":"panorama","id":"8"}},
+        {"lat":-22.48,"lon":203.1,"icon":"point","action":{"type":"panorama","id":"9"}},
+        {"lat":-1.49,"lon":133.61,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
+        {"lat":42.01,"lon":-10.51,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":37.25,"lon":-168.59,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":-18.11,"lon":-7.08,"title": {"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
+        {"lat":-22.47,"lon":41.8,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product2"}},
+        {"lat":-33.75,"lon":10.02,"title": {"ru": "Столик", "en": "Table"},"action":{"type":"popup","id":"product5"}},
+        {"lat":-23.1,"lon":111.68,"title":{"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product3"}},
+        {"lat":-19.98,"lon":228.16,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product4"}},
+
+        {"lat":-19.72,"lon":-98.61,"title": {"ru": "Видео", "en": "Video"},"action":{"type":"popup","id":"video"}}
+      ],
+      "videos": [
+        {"position":{"x":-0.305,"y":-1.275,"z":4.12},"rotation":{"x":0.2906,"y":2.9924,"z":-0.0644},"scale":{"x":0.9568,"y":0.9718,"z":1},"videoId":"macbook"}
+      ]
+    },
+    {
+      "id": "3",
+      "title": {"ru": "У стены", "en": "Near the wall"},
+      "heading": 450.63,
+      "markers": [
+        {"lat":-24.67,"lon":290.64,"icon":"point","action":{"type":"panorama","id":"4"}},
+        {"lat":-28.97,"lon":220.07,"icon":"point","action":{"type":"panorama","id":"1"}},
+        {"lat":-35.68,"lon":-99.66,"icon":"point","action":{"type":"panorama","id":"2"}},
+        {"lat":-20.87,"lon":-10.76,"icon":"point","action":{"type":"panorama","id":"6"}},
+        {"lat":-51.76,"lon":16.24,"icon":"point","action":{"type":"panorama","id":"7"}},
+        {"lat":-0.3,"lon":200.53,"icon":"up","action":{"type":"panorama","id":"8"}},
+        {"lat":-17.19,"lon":-135.65,"icon":"point","action":{"type":"panorama","id":"9"}},
+        {"lat":-1.13,"lon":177.77,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
+        {"lat":27.2,"lon":-67.67,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":23.13,"lon":-138.35,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":-16.19,"lon":315.6,"title":{"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
+        {"lat":-35.39,"lon":316.68,"title":{"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product2"}},
+        {"lat":-24.35,"lon":306.12,"title": {"ru": "Столик", "en": "Table"},"action":{"type":"popup","id":"product5"}},
+        {"lat":-35.75,"lon":189.12,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product3"}}
+      ],
+      "videos": [
+        {"position":{"x":-1.285,"y":-1.302,"z":8.35},"rotation":{"x":0.2906,"y":2.9924,"z":-0.0644},"scale":{"x":0.9568,"y":0.9718,"z":1},"videoId":"macbook"}
+      ]
+    },
+    {
+      "id": "4",
+      "title": {"ru": "На ковре", "en": "On the carpet"},
+      "heading": 1.86,
+      "markers": [
+        {"lat":-22.44,"lon":157.44,"icon":"point","action":{"type":"panorama","id":"1"}},
+        {"lat":-34.29,"lon":-211.64,"icon":"point","action":{"type":"panorama","id":"2"}},
+        {"lat":-20.54,"lon":113.79,"icon":"point","action":{"type":"panorama","id":"3"}},
+        {"lat":-27.9,"lon":4.72,"icon":"point","action":{"type":"panorama","id":"5"}},
+        {"lat":-3.05,"lon":39.47,"icon":"up","action":{"type":"panorama","id":"6"}},
+        {"lat":-20.92,"lon":87.39,"icon":"point","action":{"type":"panorama","id":"7"}},
+        {"lat":-0.3,"lon":167.22,"icon":"up","action":{"type":"panorama","id":"8"}},
+        {"lat":-22.63,"lon":-161.53,"title": {"ru": "Видео", "en": "Video"},"action":{"type":"popup","id":"video"}},
+        {"lat":46.69,"lon":95.4,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":-36.31,"lon":20.92,"title":{"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
+        {"lat":-37.97,"lon":65.82,"title": {"ru": "Столик", "en": "Table"},"action":{"type":"popup","id":"product5"}},
+        {"lat":-12.9,"lon":97.81,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product2"}}
+      ],
+      "videos": [
+        {"position":{"x":-4.06,"y":-1.251,"z":1.483},"rotation":{"x":0.3707,"y":2.8809,"z":-0.077},"scale":{"x":0.936,"y":0.9564,"z":1},"videoId":"macbook"}
+      ]
+    },
+    {
+      "id": "5",
+      "title": {"ru": "У правого окна", "en": "At the right window"},
+      "heading": -52.34,
+      "markers": [
+        {"lat":-27.88,"lon":183.09,"icon":"point","action":{"type":"panorama","id":"4"}},
+        {"lat":-14.01,"lon":168.95,"icon":"point","action":{"type":"panorama","id":"1"}},
+        {"lat":-17.72,"lon":-191.55,"icon":"point","action":{"type":"panorama","id":"2"}},
+        {"lat":-27.47,"lon":98.91,"icon":"point","action":{"type":"panorama","id":"6"}},
+        {"lat":-17.43,"lon":131.18,"icon":"point","action":{"type":"panorama","id":"7"}},
+        {"lat":24.23,"lon":159.7,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":-42.12,"lon":172.79,"title":{"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
+        {"lat":-24.06,"lon":151.05,"title": {"ru": "Столик", "en": "Table"},"action":{"type":"popup","id":"product5"}}
+      ]
+    },
+    {
+      "id": "6",
+      "title": {"ru": "У левого окна", "en": "At the left window"},
+      "heading": 58.36,
+      "markers": [
+        {"lat":-23.27,"lon":231.55,"icon":"point","action":{"type":"panorama","id":"4"}},
+        {"lat":-18.97,"lon":-156.42,"icon":"point","action":{"type":"panorama","id":"2"}},
+        {"lat":-21.06,"lon":165.49,"icon":"point","action":{"type":"panorama","id":"3"}},
+        {"lat":-31.2,"lon":-78.37,"icon":"point","action":{"type":"panorama","id":"5"}},
+        {"lat":-29.95,"lon":159.72,"icon":"point","action":{"type":"panorama","id":"7"}},
+        {"lat":26.39,"lon":216.46,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
+        {"lat":-28.19,"lon":250.31,"title":{"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
+        {"lat":-31.28,"lon":-148.1,"title": {"ru": "Столик", "en": "Table"},"action":{"type":"popup","id":"product5"}}
+      ]
+    },
+    {
+      "id": "7",
+      "title": {"ru": "У пальмы", "en": "Palm tree"},
+      "heading": 93.86,
+      "markers": [
+        {"lat":-24.32,"lon":265.28,"icon":"point","action":{"type":"panorama","id":"4"}},
+        {"lat":-19.51,"lon":211.63,"icon":"point","action":{"type":"panorama","id":"1"}},
+        {"lat":-26.82,"lon":-127.09,"icon":"point","action":{"type":"panorama","id":"2"}},
+        {"lat":-43.5,"lon":184.85,"icon":"point","action":{"type":"panorama","id":"3"}},
+        {"lat":-4.51,"lon":-56.22,"icon":"up","action":{"type":"panorama","id":"5"}},
+        {"lat":-29.54,"lon":-20.35,"icon":"point","action":{"type":"panorama","id":"6"}},
+        {"lat":-1.23,"lon":197.83,"icon":"up","action":{"type":"panorama","id":"8"}},
+        {"lat":30.35,"lon":258.94,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}}
+      ],
+      "videos": [
+        {"position":{"x":-4.105,"y":-1.284,"z":8.533},"rotation":{"x":0.3377,"y":2.9767,"z":-0.0644},"scale":{"x":0.9568,"y":0.9462,"z":1},"videoId":"macbook"}
+      ]
+    },
+    {
+      "id": "8",
+      "title": {"ru": "Гримерка", "en": "Dressing room"},
+      "heading": 175.66,
+      "markers": [
+        {"lat":-2.79,"lon":-22.83,"icon":"up","action":{"type":"panorama","id":"1"}}
+      ]
+    }
+  ]
 }

@@ -1,25 +1,35 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="../build/tour-player.css">
     <script src="../build/tour-player.js"></script>
-    <title>Example Tour-360 player</title>
+    <title>LOFT 904</title>
     <style>
         /* Цвет всех маркеров */
         #markers .button {
-            background-color: rgba(0,0,0,.8);
+            /*background-color: rgba(0,0,0,.8);*/
         }
 
         /* Цвет информационных маркеров */
         #markers .button.info{
-            background-color: #ed1c24;
+            background-color: #06f;
         }
 
         /* Цвет полосы загрузки */
         #control-panel .progress-bar .value {
             background: #ed1c24;
+        }
+
+        .popup-layout .popup {
+            max-width: 400px;
+            border-radius: 7px;
+        }
+
+        .popup-layout .popup video {
+            width: 500px;
+            max-width: 100%;
         }
     </style>
 </head>
@@ -27,55 +37,119 @@
         <div class="popup-layout">
             <div class="popups">
                 <div class="close"></div>
-                <div class="popup" id="lana-del-rey-born-to-die">
-                    <img data-src="http://cdn1.umg3.net/89/files/2014/06/Lana-Del-Rey-Born-To-Die-Paradise-Edition-1500x1500-2012.png" alt="Lana Del Rey — Born To Die: Paradise Edition">
+                <div class="popup" id="video">
+                    <video src="videos/macbook.mp4" type="video/mp4" controls >
+                        <p>Ваш браузер не поддерживает элемент video.</p>
+                    </video>
                     <div class="content">
-                        <h1>Lana Del Rey — Born To Die: Paradise Edition</h1>
-                        <p>Другой альбом: <a href="#lana-del-rey-ultraviolence">Lana Del Rey — Ultraviolence</a></p>
-                        <p><b>«Born to Die: The Paradise Edition»</b> — переиздание американской певицы Ланы Дель Рей студийного альбома Born to Die (2012). Выпущен 9 ноября 2012 года под лейблами Polydor и Interscope. Также одновременно с переизданием был выпущен мини-альбом Paradise, в который вошли 8 новых треков, которыми был дополнен оригинальный альбом. Рик Новелл и Эмили Хейни были единственными, кто работал над двумя этими сборниками вместе.</p>
-                        <ol>
-                            <li>«Born to Die»</li>
-                            <li>«Off to the Races»</li>
-                            <li>«Blue Jeans»</li>
-                            <li>«Video Games»</li>
-                            <li>«Diet Mountain Dew»</li>
-                            <li>«National Anthem»</li>
-                            <li>«Dark Paradise»</li>
-                            <li>«Radio»</li>
-                            <li>«Carmen»</li>
-                            <li>«Million Dollar Man»</li>
-                            <li>«Summertime Sadness»</li>
-                            <li>«This Is What Makes Us Girls»</li>
-                            <li>«Without You»</li>
-                            <li>«Lolita»</li>
-                            <li>«Lucky Ones»</li>
-                        </ol>
+                        <h1>Добавление видео в тур</h1>
+                        <p>В виртуальный тур мы можем добавить видео, это может быть анимация камина или рекламный ролик в телевизоре вашего интерьера.</p>
                     </div>
                 </div>
-                <div class="popup" id="lana-del-rey-ultraviolence">
-                    <img data-src="http://cdn1.umg3.net/89/files/2014/06/Lana-Del-Rey-Ultraviolence-2014-1500x1500.png" width="100" alt="Lana Del Rey — Ultraviolence">
+
+                <div class="popup" id="profoto">
+                    <img data-src="images/profoto.jpg" alt="">
+                    <div class="content">
+                        <h1>Моноблок Profoto D1</h1>
+                        <p><b>Время перезарядки:</b> 0,2-0,95 сек, <b>Длительность импульса:</b> 1/1000-1/2600, <b>Мощность:</b> 500 Дж, <b>Байонет:</b> ProFoto, <b>Страна производителя:</b> Швеция</p>
+                    </div>
+                </div>
+
+                <div class="popup" id="product0">
                     <div class="slider">
-                        <img data-src="http://unsplash.it/600/200">
-                        <img data-src="http://unsplash.it/600/200">
-                        <img data-src="http://unsplash.it/600/200">
+                        <img data-src="images/0-1.jpg" alt="">
+                        <img data-src="images/0-2.jpg" alt="">
+                        <img data-src="images/0-3.jpg" alt="">
                     </div>
                     <div class="content">
-                        <h1>Lana Del Rey — Ultraviolence</h1>
-                        <p>Другой альбом: <a href="#lana-del-rey-born-to-die">Lana Del Rey — Born To Die: Paradise Edition</a></p>
+                        <h1>Подвесной свет</h1>
+                        <p>10308 model</p>
                     </div>
                 </div>
+
+                <div class="popup" id="product1">
+                    <div class="slider">
+                        <img data-src="images/1-1.jpg" alt="">
+                        <img data-src="images/1-2.jpg" alt="">
+                        <img data-src="images/1-3.jpg" alt="">
+                        <img data-src="images/1-4.jpg" alt="">
+                        <img data-src="images/1-5.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <h1>Диван</h1>
+                        <p>Ширина 100 см., длина 243 см., высота 77 см., материал: дерево, ткань.</p>
+                    </div>
+                </div>
+
+                <div class="popup" id="product2">
+                    <div class="slider">
+                        <img data-src="images/2-1.jpg" alt="">
+                        <img data-src="images/2-2.jpg" alt="">
+                        <img data-src="images/2-3.jpg" alt="">
+                        <img data-src="images/2-4.jpg" alt="">
+                        <img data-src="images/2-5.jpg" alt="">
+                        <img data-src="images/2-6.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <h1>Кресло</h1>
+                        <p>Ширина 99 см, длина 71 см, высота 97 см, высота сидения 43 см, материал: металл,ткань</p>
+                    </div>
+                </div>
+
+                <div class="popup" id="product3">
+                    <div class="slider">
+                        <img data-src="images/3-1.jpg" alt="">
+                        <img data-src="images/3-2.jpg" alt="">
+                        <img data-src="images/3-3.jpg" alt="">
+                        <img data-src="images/3-4.jpg" alt="">
+                        <img data-src="images/3-5.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <h1>Кресло</h1>
+                        <p>Высота 84 см, высота посадочного места 37 см, глубина 98 см, ширина 66 см, материал: экокожа</p>
+                    </div>
+                </div>
+
+                <div class="popup" id="product4">
+                    <div class="slider">
+                        <img data-src="images/4-1.jpg" alt="">
+                        <img data-src="images/4-2.jpg" alt="">
+                        <img data-src="images/4-3.jpg" alt="">
+                        <img data-src="images/4-4.jpg" alt="">
+                        <img data-src="images/4-5.jpg" alt="">
+                        <img data-src="images/4-6.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <h1>Кресло</h1>
+                        <p>Высота 89 см, высота посадочного места 49 см, ширина 80 см, длина 82 см</p>
+                    </div>
+                </div>
+
+                <div class="popup" id="product5">
+                    <div class="slider">
+                        <img data-src="images/5-1.jpg" alt="">
+                        <img data-src="images/5-2.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <h1>Столик</h1>
+                        <p>Диаметр 80 см, высота 26 см, материал: металл, камень</p>
+                    </div>
+                </div>
+
             </div>
         </div>
-
         <script>
-            Tour.init(false, {
-                controlPanel: true,
-                gallery: true,
-                galleryVisible: false
-            });
-            Tour.on('load', function(data) {
-                this.controls.autoRotate()
-            })
+
+        Tour.init(false, {
+            controlPanel: true,
+            gallery: true,
+            galleryVisible: false
+        });
+
+        Tour.on('load', function(data) {
+            //this.controls.autoRotate()
+        })
+
         </script>
     </body>
 </html>
