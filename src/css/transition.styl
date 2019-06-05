@@ -4,12 +4,28 @@
 #background-image
   will-change transform
 
-body.transition
+//fadein
+body.transition-fadein
     #renderer,
     #markers
         opacity 0
 
-body:not(.transition)
+body:not(.transition-fadein)
+    #renderer
+        transition opacity .4s ease
+        transition-delay .1s
+
+    #background-image
+        transition transform .4s ease
+        transform scale(1.2)
+
+//zoomin
+body.transition-zoomin
+    #renderer,
+    #markers
+        opacity 0
+
+body:not(.transition-zoomin)
     #renderer
         transition opacity .4s ease
         transition-delay .1s

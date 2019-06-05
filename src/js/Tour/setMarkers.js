@@ -17,7 +17,7 @@ Tour.setMarkers = function(id) {
          */
         var action = function(marker) {
             if (this.type == 'panorama') {
-                Tour.view.set(this);
+                Tour.view.set(this, null, Math.abs(Tour.view.lat.value) < 45);
             } else if (this.type == 'url') {
                 window.open(this.href, this.target || '_blank');
             } else if (this.type == 'popup') {
@@ -26,19 +26,24 @@ Tour.setMarkers = function(id) {
 
             } else if (this.type == 'change') {
                 this.click = this.click + 1 || 0;
-                if (Array.isArray(marker.title)) {
-                    Tour.markers[marker.index].setTitle(Lang.translate(marker.title[this.click % marker.title.length]));
-                }
-                var manager = new Tour.LoadingManager();
-                manager.onprogress = function(event) {
-                    UI.controlPanel.setProgress(event.progress);
-                };
-                for (var k in this.planes) {
-                    var planeId = this.planes[k][this.click % this.planes[k].length];
-                    var imgeURL = Tour.options.path + id + '/' + Tour.options.imageType + '/' + planeId + '.jpg';
+                Tour.backgroundImage.transitionStart(function(){
+                    if (Array.isArray(marker.title)) {
+                        Tour.markers[marker.index].setTitle(Lang.translate(marker.title[this.click % marker.title.length]));
+                    }
+                    var manager = new Tour.LoadingManager();
+                    manager.onprogress = function(event) {
+                        UI.controlPanel.setProgress(event.progress);
+                    };
+                    manager.onload = function(event) {
+                        Tour.backgroundImage.transitionEnd();
+                    };
+                    for (var k in this.planes) {
+                        var planeId = this.planes[k][this.click % this.planes[k].length];
+                        var imgeURL = Tour.options.path + id + '/' + Tour.options.imageType + '/' + planeId + '.jpg';
 
-                    Tour.setPlane(k, imgeURL, manager);
-                }
+                        Tour.setPlane(k, imgeURL, manager);
+                    }
+                }.bind(this));
             }
         };
 
