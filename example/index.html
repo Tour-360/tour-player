@@ -139,17 +139,16 @@
             </div>
         </div>
         <script>
+          Tour.init(false, {
+              iFrameScaleControl: false,
+              controlPanel: true,
+              gallery: true,
+              galleryVisible: false
+          });
 
-        Tour.init(false, {
-            controlPanel: true,
-            gallery: true,
-            galleryVisible: false
-        });
-
-        Tour.on('load', function(data) {
-            //this.controls.autoRotate()
-        })
-
+          Tour.on('load', function(data) {
+              //this.controls.autoRotate()
+          })
         </script>
     </body>
 </html>

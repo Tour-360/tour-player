@@ -28,19 +28,14 @@ Tour.mouseEvents._touches2mouse = function(event) {
 };
 
 Tour.mouseEvents.wheel = function(event) {
-    // if (event.composed && (event.deltaX || event.deltaY)) {
-    //     if (this.options.scaleControl) {
-    //         event.preventDefault();
-    //         this.view.lat.move(-event.deltaY * (event.deltaMode ? 10 / 3 : 0.1), true);
-    //     }
-    //     this.view.lon.move(-event.deltaX * (event.deltaMode ? 10 / 3 : 0.1), true);
 
-    //     clearTimeout(this.mouseEvents.moveTimeout);
-    //     this.mouseEvents.moveTimeout = setTimeout(function() {
-    //         Tour.history.set();
-    //     }, 300);
-    // }
-    if (this.options.scaleControl && event.composed && event.deltaY) {
+    var isIframe = !(window.parent && window.parent == window);
+
+    if (
+        this.options.scaleControl &&
+        (this.options.iFrameScaleControl || !isIframe) &&
+        event.composed && event.deltaY
+    ) {
         this.controls.autoRotate(false);
         if (event.defaultPrevented) {
             event.preventDefault();
