@@ -9,6 +9,9 @@ Tour.render = function() {
         this.previousCamera.w != this.camera.fov
     ) {
         this.renderer.render(this.scene, this.camera);
+        this.renderers.forEach(function(render) {
+            render.renderer.render(render.scene || this.scene, render.camera || this.camera);
+        }.bind(this));
         if (window.isSecureContext) {
             UI.controlPanel.setOrientation(Math.floor(THREE.Math.radToDeg(Tour.camera.rotation.z)));
         }
