@@ -5,6 +5,8 @@ Tour.mouseEvents = {};
 Tour.mouseEvents._setCinetic = function(event) {
     if (
         (event.clientX || event.clientY) &&
+        (event.scale == undefined || event.scale == 1) &&
+        (event.touches == undefined || event.touches.length == 1) &&
         !(this.previousEvent.clientX == event.clientX && this.previousEvent.clientY == event.clientY)
     ) {
         var alpha = Tour.view.fov.value / Tour.options.fov / Tour.options.mouseSensitivity;
@@ -95,4 +97,18 @@ Tour.mouseEvents.up = function(event) {
 
     this.mouseEvents.cineticLon = this.mouseEvents.cineticLat = 0;
     this.mouseEvents.drag = false;
+};
+
+Tour.mouseEvents.gesturestart = function(event) {
+    this.mouseEvents.startFov = Tour.view.fov.value;
+    event.preventDefault();
+};
+
+Tour.mouseEvents.gesturechange = function(event) {
+    function degToRad(deg) { return deg / 180 * Math.PI; }
+    function radToDeg(rad) { return rad / Math.PI * 180; }
+
+    var a = 1 / (Math.PI / Math.tan(degToRad(this.mouseEvents.startFov) / 2));
+    Tour.view.fov.set(radToDeg(2 * Math.atan((a / event.scale) / 1 * Math.PI)));
+    event.preventDefault();
 };
