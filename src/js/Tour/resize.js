@@ -13,4 +13,5 @@ Tour.resize = function() {
         this.renderer.setPixelRatio(window.devicePixelRatio);
     }
     this.needsUpdate = true;
+    Tour.emmit('resize');
 };

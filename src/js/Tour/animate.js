@@ -41,6 +41,6 @@ Tour.animate = function() {
             this.view[k].animate();
         }
     }
-
+    Tour.emmit('animate');
     this.render();
 };
