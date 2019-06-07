@@ -1,13 +1,15 @@
 body, html
     height 100%
     overflow hidden
+    -webkit-text-size-adjust none
+    touch-action manipulation
 
 body
-    position relative
+    position fixed
     width 100%
     margin 0
-    overflow hidden
     font $font-size 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif
+    -webkit-tap-highlight-color transparent
 
 #renderer
     position absolute

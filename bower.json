@@ -1,7 +1,7 @@
 {
     "name": "tour-player",
     "dependencies": {
-        "threejs": "r101"
+        "threejs": "r105"
     },
     "overrides": {
         "threejs": {
