@@ -1,8 +1,8 @@
 /* globals Tour */
 
 Tour.resize = function() {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+    var width = Math.max(window.innerWidth, document.documentElement.scrollWidth);
+    var height = Math.max(window.innerHeight, document.documentElement.scrollHeight);
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
