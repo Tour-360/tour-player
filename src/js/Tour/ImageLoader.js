@@ -49,8 +49,7 @@ Tour.ImageLoader.prototype._onprogress = function(event) {
 };
 
 Tour.ImageLoader.prototype._onimageload = function() {
-    if (this.onload) {
-        this.onload(this.image);
-    }
+    if (this.onload) this.onload(this.image);
+    if (this.oncomplete) this.oncomplete(this.image);
 };
 

@@ -23,7 +23,7 @@ Tour.setTexture = function(id) {
     var loader = new THREE.ImageLoader();
     loader.load(this.options.path + id + '/thumbnail/0.jpg', function(img) {
 
-        document.body.classList.remove('transition');
+        this.backgroundImage.transitionEnd();
 
         var canvas = document.createElement('canvas');
         canvas.width = img.width;

@@ -29,7 +29,6 @@ Tour.createScene = function() {
             this.mesh.add(object);
         }
     } else {
-        document.body.classList.add('transition');
         var segments = this.options.rendererType == 'canvas' ? 8 : 1;
         var geometry = new THREE.BoxGeometry(-100, 100, 100, segments, segments, segments);
         var materials = [];

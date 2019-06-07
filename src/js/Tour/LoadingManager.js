@@ -23,6 +23,14 @@ Tour.LoadingManager.prototype.add = function(loader) {
         }
     }.bind(this);
 
+    var that = this;
+    loader.oncomplete = function(){
+        var completeAll = that.loaders.every(function(n){return n.image && n.image.complete})
+        if(completeAll && that.onload){
+            that.onload();
+        }
+    }
+
     this.images.length++;
 };
 

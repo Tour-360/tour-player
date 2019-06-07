@@ -7,7 +7,7 @@
  */
 Tour.view = {};
 
-Tour.view.set = function(options, replaceHistory) {
+Tour.view.set = function(options, replaceHistory, zoom) {
 
     options = options || {};
 
@@ -22,7 +22,7 @@ Tour.view.set = function(options, replaceHistory) {
 
     if (this.id != options.id && options.id !== undefined) {
         this.id = options.id;
-        Tour.setPanorama(this.id);
+        Tour.setPanorama(this.id, zoom);
     }
     Tour.history.set(!replaceHistory);
 
