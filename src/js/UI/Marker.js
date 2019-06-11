@@ -46,7 +46,7 @@ UI.Marker.prototype.setTitle = function(content) {
         this.titleDomElement.style.width = 'max-content';
         var newWidth = this.titleDomElement.clientWidth + 1;
         this.titleDomElement.style.width = newWidth + 'px';
-        this.titleDomElement.style.marginLeft = -(newWidth / 2 - this.size / 2) + 'px'
+        this.titleDomElement.style.marginLeft = -(newWidth / 2 - this.size / 2) + 'px';
         this.title = content;
     } else {
         return false;

@@ -30,15 +30,16 @@ Tour.backgroundImage.set = function(url, color, callback) {
     }
 };
 
-
 Tour.backgroundImage.transitionStart = function(callback, zoom) {
     this.zoom = zoom;
-    var after = function(){
+    var after = function() {
         Tour.data.backgroundImage = false;
         document.body.classList.add(zoom ? 'transition-zoomin-start' : 'transition-fadein-start');
         document.body.classList.remove('transition-zoomin-end', 'transition-fadein-end');
-        if(callback) callback();
-    }
+        if (callback) {
+            callback();
+        }
+    };
 
     if (Tour.options.rendererType != 'css' && Tour.options.transition) {
         var imageUrl = Tour.mesh.material[0].map.image ?
@@ -52,6 +53,4 @@ Tour.backgroundImage.transitionStart = function(callback, zoom) {
 Tour.backgroundImage.transitionEnd = function() {
     document.body.classList.add(Tour.backgroundImage.zoom ? 'transition-zoomin-end' : 'transition-fadein-end');
     document.body.classList.remove('transition-zoomin-start', 'transition-fadein-start');
-}
-
-
+};
