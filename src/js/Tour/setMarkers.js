@@ -26,15 +26,17 @@ Tour.setMarkers = function(id) {
 
             } else if (this.type == 'change') {
                 this.click = this.click + 1 || 0;
-                Tour.backgroundImage.transitionStart(function(){
+                Tour.backgroundImage.transitionStart(function() {
                     if (Array.isArray(marker.title)) {
-                        Tour.markers[marker.index].setTitle(Lang.translate(marker.title[this.click % marker.title.length]));
+                        Tour.markers[marker.index].setTitle(
+                            Lang.translate(marker.title[this.click % marker.title.length])
+                        );
                     }
                     var manager = new Tour.LoadingManager();
                     manager.onprogress = function(event) {
                         UI.controlPanel.setProgress(event.progress);
                     };
-                    manager.onload = function(event) {
+                    manager.onload = function() {
                         Tour.backgroundImage.transitionEnd();
                     };
                     for (var k in this.planes) {
