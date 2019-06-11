@@ -24,6 +24,7 @@ Tour.addEventListeners = function() {
 
     window.addEventListener('keydown', Tour.keyEvents.down.bind(this));
     window.addEventListener('resize',  this.resize.bind(this), active);
+    window.addEventListener('orientationchange',  this.resize.bind(this), active);
 
     window.addEventListener('popstate', Tour.history.onpopstate);
 
