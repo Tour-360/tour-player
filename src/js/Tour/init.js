@@ -11,7 +11,7 @@ Tour.init = function(data, options) {
     this.createScene();
     UI.notification.init();
     UI.popUp.init();
-    UI.slider.init();
+    this.setSliders();
     UI.devCursor.init(this.options.cursor);
     this.setControlPanel();
     this.setMouseMenu();
