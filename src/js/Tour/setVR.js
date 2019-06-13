@@ -7,14 +7,16 @@ Tour.setVR = function(){
     var onChange = function(){
         Tour.vrEnabled = btn.innerText == 'ENTER VR';
         Tour.renderer.vr.enabled = Tour.vrEnabled;
-        if(this.vrEnabled){
-
-        }
         btn.click();
-        Tour.needsUpdate = true;
+        if(Tour.vrEnabled){
+            // reportDisplays();
+        }else{
+            Tour.resize()
+        }
     }
     if(btn){
         UI.controlPanel.addBtn('vr', onChange, Lang.get('mousemenu.vr'));
         Tour.pointer.init();
     }
 }
+

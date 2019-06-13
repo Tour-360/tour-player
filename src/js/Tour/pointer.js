@@ -11,8 +11,8 @@ Tour.pointer.init = function(){
     this.texture = new THREE.Texture(this.canvas);
     this.material = new THREE.MeshBasicMaterial( { map: this.texture, transparent: true } );
     this.plane = new THREE.Mesh(this.geometry, this.material );
-    this.plane.position.set(0,0,-0.1);
-    this.plane.scale.set(.005, .005, .005);
+    this.plane.position.set(0,0,-12);
+    // this.plane.scale.set(.005, .005, .005);
     this.reviousIntersect = false;
     this.percent = 0;
     this.reviousintersect = false;
