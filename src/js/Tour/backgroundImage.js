@@ -8,6 +8,9 @@ Tour.backgroundImage.init = function() {
 
     this.domElement = new Image();
     this.domElement.id = 'background-image';
+    this.domElement.addEventListener('dragstart', function(event) {
+        event.preventDefault();
+    }, false);
 
     wrapper.appendChild(this.domElement);
     document.body.appendChild(wrapper);
