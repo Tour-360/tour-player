@@ -1,50 +1,62 @@
 /* globals UI */
 
-UI.slider = {
-    init: function() {
-        var currentSlide = 0;
+UI.Slider = function(domElement) {
+    this.frame = 0;
+    this.domElement = domElement;
+    this.popupId = this.domElement.parentNode.id;
+    this.images = this.domElement.getElementsByTagName('img');
+    this.length = this.images.length;
 
-        function Button(slider, type, onClick) {
-            this.domElement = document.createElement('div');
-            this.domElement.classList.add('slider-button', type);
-            this.domElement.onClick = onClick;
-            slider.appendChild(this.domElement);
-            this.domElement.addEventListener('click', onClick);
+    this.tape = document.createElement('div');
+    this.tape.className = 'tape';
 
-            this.setVisible = function(t) {
-                this.domElement.classList[t ? 'remove' : 'add']('hidden');
-            };
-        }
+    this.prevButton = new this.SliderButton(this, 'prev');
+    this.nextButton = new this.SliderButton(this, 'next');
 
-        this.domElements = document.querySelectorAll('.slider');
-        Array.from(this.domElements).map(function(slider) {
-            const images = slider.getElementsByTagName('img');
-            const tape = document.createElement('div');
-            tape.className = 'tape';
-
-            function setPosition(n) {
-                rightButton.setVisible(n != images.length - 1);
-                leftButton.setVisible(n != 0);
-                tape.style.transform = 'translateX(' + (n * -100) + '%)';
-            };
-
-            const leftButton = new Button(slider, 'prev', function() {
-                setPosition(--currentSlide);
-            });
-
-            const rightButton = new Button(slider, 'next', function() {
-                setPosition(++currentSlide);
-            });
-
-            setPosition(0);
-
-            Array.from(images).map(function(image) {
-                const newImage = image.cloneNode();
-                tape.appendChild(newImage);
-                image.remove();
-            });
-
-            slider.appendChild(tape);
-        });
+    while (this.images.length) {
+        this.tape.appendChild(this.images[0]);
     }
+    this.images = this.tape.getElementsByTagName('img');
+
+    this.setPosition(0);
+    this.domElement.appendChild(this.tape);
+
+    document.addEventListener('keydown', function(event) {
+        if (this.popupId == location.hash.slice(1)) {
+            switch (event.key) {
+                case 'ArrowLeft': this.move(-1); event.stopImmediatePropagation(); break;
+                case 'ArrowRight': this.move(1); event.stopImmediatePropagation(); break;
+            }
+        }
+    }.bind(this), false);
+};
+
+UI.Slider.prototype.setPosition = function(n) {
+    if (typeof n == 'number') {
+        this.frame = Math.max(0, Math.min(this.length - 1, n));
+    }
+    this.images[this.frame].onload = this.setPosition.bind(this);
+    this.tape.style.transform = 'translateX(' + (this.frame * -100) + '%)';
+    var height = this.images[this.frame].getBoundingClientRect().height;
+    if (height > 100) { this.tape.style.height = height + 'px'; }
+    this.prevButton.setVisible(this.frame > 0);
+    this.nextButton.setVisible(this.frame < this.length - 1);
+};
+
+UI.Slider.prototype.move = function(n) {
+    this.setPosition(this.frame += n);
+};
+
+UI.Slider.prototype.SliderButton = function(slider, type) {
+    this.slider = slider;
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('slider-button', type);
+    this.domElement.addEventListener('click', function() {
+        this.slider.move(type == 'next' ? 1 : -1);
+    }.bind(this), false);
+    this.slider.domElement.appendChild(this.domElement);
+};
+
+UI.Slider.prototype.SliderButton.prototype.setVisible = function(v) {
+    this.domElement.classList[v ? 'remove' : 'add']('hidden');
 };
