@@ -21,7 +21,7 @@ Tour.init = function(data, options) {
         this.setImages(data.images);
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();
-        query.id = query.id || data.start || 0;
+        query.id = query.id || data.start || data.panorams[0].id || 0;
         if (query.id == data.start && !query.lon && !query.lat) {
             var pano = this.getPanorama(query.id);
             query.lat = pano.lat;
