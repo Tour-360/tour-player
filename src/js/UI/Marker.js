@@ -54,20 +54,21 @@ UI.Marker.prototype.setTitle = function(content) {
 };
 
 UI.Marker.prototype.setPosition = function(x, y) {
-    this.x = x || 0;
-    this.y = y || 0;
-    this.domElement.style.left = this.x * window.devicePixelRatio + 'px';
-    this.domElement.style.top  = this.y * window.devicePixelRatio + 'px';
+    this.x = x * window.devicePixelRatio || 0;
+    this.y = y * window.devicePixelRatio || 0;
+    this.domElement.style.left = this.x + 'px';
+    this.domElement.style.top  = this.y + 'px';
 
-    /* Проверка и установка направления title (нужно вынести в отдельный метод) */
+    this.setTitlePosition();
+};
+
+UI.Marker.prototype.setTitlePosition = function() {
     if (this.title) {
 
         var direction = 'bottom';
-
-        if (this.y > window.innerHeight - 200) {direction = 'top';}
-        if (this.x > window.innerWidth - 200)  {direction = 'left';}
-        if (this.x < 200)                      {direction = 'right';}
-        if (this.y < 200)                      {direction = 'bottom';}
+        if (this.x > window.innerWidth - 200)         {direction = 'left';
+        } else if (this.x < 200)                      {direction = 'right';
+        } else if (this.y > window.innerHeight - 200) {direction = 'top';}
 
         if (direction == 'top' || direction == 'bottom') {
             this.titleDomElement.style.marginTop = '';
