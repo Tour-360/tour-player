@@ -10,13 +10,13 @@ UI.Slider = function(domElement) {
     this.tape = document.createElement('div');
     this.tape.className = 'tape';
 
-    this.prevButton = new this.SliderButton(this, 'prev');
-    this.nextButton = new this.SliderButton(this, 'next');
-
     while (this.images.length) {
         this.tape.appendChild(this.images[0]);
     }
     this.images = this.tape.getElementsByTagName('img');
+
+    this.prevButton = new this.SliderButton(this, 'prev');
+    this.nextButton = new this.SliderButton(this, 'next');
 
     this.setPosition(0);
     this.domElement.appendChild(this.tape);
@@ -35,9 +35,10 @@ UI.Slider.prototype.setPosition = function(n) {
     if (typeof n == 'number') {
         this.frame = Math.max(0, Math.min(this.length - 1, n));
     }
-    this.images[this.frame].onload = this.setPosition.bind(this);
     this.tape.style.transform = 'translateX(' + (this.frame * -100) + '%)';
-    var height = this.images[this.frame].getBoundingClientRect().height;
+    if (this.images) { this.images = this.tape.getElementsByTagName('img');} // IE
+    this.images[this.frame].onload = this.setPosition.bind(this);
+    var height = this.images[this.frame].clientHeight;
     if (height > 100) { this.tape.style.height = height + 'px'; }
     this.prevButton.setVisible(this.frame > 0);
     this.nextButton.setVisible(this.frame < this.length - 1);
@@ -51,9 +52,10 @@ UI.Slider.prototype.SliderButton = function(slider, type) {
     this.slider = slider;
     this.domElement = document.createElement('div');
     this.domElement.classList.add('slider-button', type);
+    this.domElement.classList.add(type);
     this.domElement.addEventListener('click', function() {
-        this.slider.move(type == 'next' ? 1 : -1);
-    }.bind(this), false);
+        this.move(type == 'next' ? 1 : -1);
+    }.bind(this.slider), false);
     this.slider.domElement.appendChild(this.domElement);
 };
 
