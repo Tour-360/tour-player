@@ -38,7 +38,8 @@ Tour.backgroundImage.transitionStart = function(callback, zoom) {
     var after = function() {
         Tour.data.backgroundImage = false;
         document.body.classList.add(zoom ? 'transition-zoomin-start' : 'transition-fadein-start');
-        document.body.classList.remove('transition-zoomin-end', 'transition-fadein-end');
+        document.body.classList.remove('transition-zoomin-end');
+        document.body.classList.remove('transition-fadein-end');
         if (callback) {
             callback();
         }
@@ -55,5 +56,6 @@ Tour.backgroundImage.transitionStart = function(callback, zoom) {
 
 Tour.backgroundImage.transitionEnd = function() {
     document.body.classList.add(Tour.backgroundImage.zoom ? 'transition-zoomin-end' : 'transition-fadein-end');
-    document.body.classList.remove('transition-zoomin-start', 'transition-fadein-start');
+    document.body.classList.remove('transition-zoomin-start');
+    document.body.classList.remove('transition-fadein-start');
 };

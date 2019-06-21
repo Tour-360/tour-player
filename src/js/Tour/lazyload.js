@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     } else {
         lazyImages.forEach(function(lazyImage) {
-            lazyImage.src = lazyImage.dataset.src;
-            delete lazyImage.dataset.src;
+            lazyImage.src = lazyImage.getAttribute('data-src');
+            lazyImage.removeAttribute('data-src');
         });
     }
 });

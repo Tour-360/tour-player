@@ -51,17 +51,15 @@ UI.gallery = {
             this.items[k].classList.remove('active');
         }
 
-        if (this.items[id]) {
+        if (this.items[id] && document.body.getBoundingClientRect) {
             this.items[id].classList.add('active');
 
             var itemRect = this.items[id].getBoundingClientRect();
             var ulRect = this.ul.getBoundingClientRect();
 
             if ((ulRect.height - itemRect.top) < 0 || (itemRect.top + itemRect.height) < 0) {
-                this.ul.scrollTo(
-                    0,
-                    this.ul.scrollTop + this.items[id].getBoundingClientRect().y - this.borderHoverSize
-                );
+                var y = this.ul.scrollTop + this.items[id].getBoundingClientRect().y - this.borderHoverSize;
+                this.ul.scrollTop = y;
             }
         }
     }
