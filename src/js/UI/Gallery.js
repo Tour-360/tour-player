@@ -28,6 +28,7 @@ UI.gallery = {
         } else {
             this.onClose && this.onClose();
         }
+        this.toggler.title = visible ?  Lang.get('gallery.hide') : Lang.get('gallery.show');
         this.domElement.classList[visible ? 'add' : 'remove']('visible');
     },
     addItem: function(options) {
