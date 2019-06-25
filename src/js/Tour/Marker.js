@@ -30,8 +30,8 @@ Tour.Marker.prototype.draw = function() {
         var height = Tour.renderer.domElement.clientHeight / 2;
 
         this.setPosition(
-            (pos.x  * width  + width)  / window.devicePixelRatio,
-            (-pos.y * height + height) / window.devicePixelRatio
+            (pos.x  * width  + width),
+            (-pos.y * height + height)
         );
     }
     this.setVisible(pos.z < 1);
