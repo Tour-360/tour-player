@@ -41,7 +41,7 @@ Tour.Video = function(options) {
     this.texture.repeat.y = options.height / this.canvas.height;
     this.texture.offset.y = 1 - this.texture.repeat.y;
     this.texture.needsUpdate = true;
-    this.needsUpdate = true;
+    this.needsUpdate = false;
 
     this.material = new THREE.MeshBasicMaterial({map: this.texture, transparent: true});
 };
