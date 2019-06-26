@@ -41,7 +41,7 @@ Tour.Video = function(options) {
     this.texture.repeat.y = options.height / this.canvas.height;
     this.texture.offset.y = 1 - this.texture.repeat.y;
     this.texture.needsUpdate = true;
-    this.needsUpdate = false;
+    this.needsUpdate = true;
 
     this.material = new THREE.MeshBasicMaterial({map: this.texture, transparent: true});
 };
@@ -49,7 +49,9 @@ Tour.Video = function(options) {
 Tour.Video.prototype.draw = function() {
     if (this.needsUpdate) {
         this.videoElement.play();
-        this.ctx.drawImage(this.videoElement, 0, 0);
+        if (Tour.options.rendererType != 'css') {
+            this.ctx.drawImage(this.videoElement, 0, 0);
+        }
         this.texture.needsUpdate = true;
         Tour.needsUpdate = true;
     } else {
