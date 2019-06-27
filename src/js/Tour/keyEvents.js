@@ -17,7 +17,7 @@ Tour.keyEvents.down = function(event) {
         case 83: case 40:  this.controls.moveDown(); break;        // S ↓
         case 16: case 187: this.controls.zoomIn(); break;          // + Shift
         case 17: case 189: this.controls.zoomOut(); break;         // - Ctrl
-        case 72: case 77:  this.controls.hideMenu(); break;        // H M
+        case 72: case 77:  this.controls.toggleMenu(); break;      // H M
         case 82: case 32:  this.controls.autoRotate(); break;      // R Space
         case 190:          this.controls.next(); break;            // >
         case 188:          this.controls.previous(); break;        // <

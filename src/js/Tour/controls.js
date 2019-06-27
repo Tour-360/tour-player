@@ -91,8 +91,14 @@ Tour.controls = {
         location.reload(true);
     },
 
-    hideMenu: function() {
-        UI.controlPanel.setVisible();
+    toggleMenu: function() {
+        var panel = UI.controlPanel;
+        panel.setVisible(!panel.visibility);
+        if (Tour.toggleMenuItem) {
+            var text = Lang.get('mousemenu.' + (panel.visibility ? 'hide' : 'show') + 'menu');
+            console.log(text);
+            Tour.toggleMenuItem.setText(text);
+        }
     },
 
     stopRotate: function() {

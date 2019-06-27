@@ -30,6 +30,7 @@ UI.controlPanel.init = function(visibility) {
 };
 
 UI.controlPanel.setVisible = function(visibility) {
+    this.visibility = visibility || false;
     this.domElement.classList[visibility ? 'add' : 'remove']('visible');
 };
 
