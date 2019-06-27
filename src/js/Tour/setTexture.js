@@ -31,6 +31,8 @@ Tour.setTexture = function(id) {
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
 
+        var faces = this.detectFaceInCamera();
+
         for (var i = 0; i < 6; i++) {
             var planeId = this.options.tileset[i];
             var imgeURL = this.options.path + id + '/' + this.options.imageType + '/' + planeId + '.jpg';
@@ -51,7 +53,7 @@ Tour.setTexture = function(id) {
 
             setTimeout(function(i, imgeURL, manager) {
                 this.setPlane(i, imgeURL, manager);
-            }.bind(this, i, imgeURL, this.loadingManager), 0);
+            }.bind(this, i, imgeURL, this.loadingManager), faces[i] ? 0 : 500);
         }
     }.bind(this), undefined, function() {
         UI.notification.show(Lang.get('notification.error-load-pano'));
