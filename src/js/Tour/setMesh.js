@@ -17,18 +17,28 @@ Tour.setMesh = function(id) {
     if (videos) {
         for (var i = 0; i < videos.length; i++) {
             var options = videos[i];
-            var plane = new THREE.PlaneGeometry(1, 1, 1, 1);
-            var video = new THREE.Mesh(plane, Tour.videos[options.videoId].material);
+            if (Tour.options.rendererType == 'css') {
+                var video = new THREE.Object3D();
+                var object = new THREE.CSS3DObject(Tour.videos[options.videoId].videoElement);
+                video.add(object);
+                video.scale.set(
+                    options.scale.x / 512,
+                    options.scale.y / 512,
+                    options.scale.z
+                );
+            } else {
+                var plane = new THREE.PlaneGeometry(1, 1, 1, 1);
+                var video = new THREE.Mesh(plane, Tour.videos[options.videoId].material);
+                var alpha = Tour.videos[options.videoId].canvas.height / Tour.videos[options.videoId].canvas.width;
+                video.scale.set(
+                    options.scale.x * Tour.videos[options.videoId].texture.repeat.x,
+                    options.scale.y * Tour.videos[options.videoId].texture.repeat.y * alpha,
+                    options.scale.z
+                );
+            }
             Tour.videos[options.videoId].needsUpdate = true;
-
             video.position.set(options.position.x, options.position.y, options.position.z);
             video.rotation.set(options.rotation.x, options.rotation.y, options.rotation.z);
-            var alpha = Tour.videos[options.videoId].canvas.height / Tour.videos[options.videoId].canvas.width;
-            video.scale.set(
-                options.scale.x * Tour.videos[options.videoId].texture.repeat.x,
-                options.scale.y * Tour.videos[options.videoId].texture.repeat.y * alpha,
-                options.scale.z
-            );
             video._videoId = options.videoId;
             this.meshs.push(video);
             Tour.scene.add(video);
