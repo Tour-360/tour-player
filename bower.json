@@ -2,7 +2,7 @@
     "name": "tour-player",
     "dependencies": {
         "threejs": "r105",
-        "threejs-old": "threejs#r97",
+        "threejs-r97": "threejs#r97",
         "weakmap-polyfill": "2.0.0"
     },
     "overrides": {
