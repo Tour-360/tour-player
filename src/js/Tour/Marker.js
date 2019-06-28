@@ -35,7 +35,10 @@ Tour.Marker.prototype.draw = function() {
             (-pos.y * height + height)
         );
 
-        this.setRotation(rotation);
+        var oc = Tour.orientationControls;
+        if (oc && oc.controls && oc.controls.enabled) {
+            this.setRotation(rotation);
+        }
     }
     this.setVisible(pos.z < 1);
 };

@@ -60,7 +60,6 @@ Lang.translate = function(value) {
  */
 Lang.get = function(key) {
     if (this.dictionary[key]) {
-        console.log(Lang.translate(Lang.dictionary[key]));
         return this.translate(this.dictionary[key]);
     } else {
         return '[' + key + ']';
