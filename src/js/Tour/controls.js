@@ -45,7 +45,9 @@ Tour.controls = {
             } else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
 
             if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock(screen.orientation.type);
+                screen.orientation.lock(screen.orientation.type).catch(function() {
+                    // Блокировка поворота экрана недоступна для этого устройства
+                });
             }
         }
     },
