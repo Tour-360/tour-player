@@ -62,6 +62,11 @@ UI.Marker.prototype.setPosition = function(x, y) {
     this.setTitlePosition();
 };
 
+UI.Marker.prototype.setRotation = function(z) {
+    z = z || 0;
+    this.domElement.style.transform = 'rotate(' + z + 'deg)';
+};
+
 UI.Marker.prototype.setTitlePosition = function() {
     if (this.title) {
 

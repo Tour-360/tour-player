@@ -28,11 +28,14 @@ Tour.Marker.prototype.draw = function() {
     if (pos.z < 1) {
         var width = Tour.renderer.domElement.clientWidth / 2;
         var height = Tour.renderer.domElement.clientHeight / 2;
+        var rotation = THREE.Math.radToDeg(Tour.camera.rotation.z);
 
         this.setPosition(
             (pos.x  * width  + width)  / window.devicePixelRatio,
             (-pos.y * height + height) / window.devicePixelRatio
         );
+
+        this.setRotation(rotation);
     }
     this.setVisible(pos.z < 1);
 };
