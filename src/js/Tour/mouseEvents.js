@@ -66,6 +66,7 @@ Tour.mouseEvents.down = function(event) {
     this.mouseEvents.drag = true;
     this.controls.autoRotate(false);
     this.mouseEvents.previousEvent = event;
+    Tour.emmit('touchstart');
 };
 
 Tour.mouseEvents.move = function(event) {
@@ -76,6 +77,7 @@ Tour.mouseEvents.move = function(event) {
         this.view.lon.set(this.view.lon.value + (event.clientX - this.mouseEvents.previousEvent.clientX) * alpha);
         this.view.lat.set(this.view.lat.value + (event.clientY - this.mouseEvents.previousEvent.clientY) * alpha);
         this.mouseEvents._setCinetic(event);
+        Tour.emmit('touchmove');
     }
 };
 
@@ -88,6 +90,7 @@ Tour.mouseEvents.up = function(event) {
         this.view.rotation.lon = this.mouseEvents.cineticLon;
 
         this.history.set();
+        Tour.emmit('touchend');
     }
 
     this.mouseEvents.cineticLon = this.mouseEvents.cineticLat = 0;
