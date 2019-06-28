@@ -54,8 +54,8 @@ UI.Marker.prototype.setTitle = function(content) {
 };
 
 UI.Marker.prototype.setPosition = function(x, y) {
-    this.x = x * window.devicePixelRatio || 0;
-    this.y = y * window.devicePixelRatio || 0;
+    this.x = x;
+    this.y = y;
     this.domElement.style.left = this.x + 'px';
     this.domElement.style.top  = this.y + 'px';
 

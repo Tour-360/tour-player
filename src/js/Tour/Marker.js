@@ -31,8 +31,8 @@ Tour.Marker.prototype.draw = function() {
         var rotation = THREE.Math.radToDeg(Tour.camera.rotation.z);
 
         this.setPosition(
-            (pos.x  * width  + width)  / window.devicePixelRatio,
-            (-pos.y * height + height) / window.devicePixelRatio
+            (pos.x  * width  + width),
+            (-pos.y * height + height)
         );
 
         this.setRotation(rotation);
