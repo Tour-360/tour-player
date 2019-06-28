@@ -49,7 +49,7 @@ Tour.view.go = function(step) {
         index = Tour.data.panorams.length + index;
     }
 
-    Tour.view.set({id: index});
+    Tour.view.set({id: Tour.data.panorams[index].id});
 };
 
 Tour.view.get = function() {
