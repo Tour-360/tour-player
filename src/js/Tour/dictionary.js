@@ -199,5 +199,20 @@ Tour.dictionary = {
         'uk': 'Помилка завантаження. Використовуйте протокол http або https для коректної роботи туру',
         'de': 'Ladefehler. Verwenden Sie das http- oder https-Protokoll für den korrekten Tour-Vorgang',
         'zh': '加载错误。 使用http或https协议进行正确的巡视操作'
+    },
+
+    'gallery.show': {
+        'en': 'Show gallery',
+        'ru': 'Показать галерею',
+        'uk': 'Show gallery',
+        'de': 'Galerie anzeigen',
+        'zh': '显示图库'
+    },
+    'gallery.hide': {
+        'en': 'Hide gallery',
+        'ru': 'Скрыть галерею',
+        'uk': 'Приховати галерею',
+        'de': 'Galerie ausblenden',
+        'zh': '隐藏图库'
     }
 };
