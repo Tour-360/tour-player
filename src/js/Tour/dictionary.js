@@ -78,6 +78,13 @@ Tour.dictionary = {
         'de': 'Menü ausblenden',
         'zh': '隐藏菜单'
     },
+    'mousemenu.showmenu': {
+        'en': 'Show menu',
+        'ru': 'Показать меню',
+        'uk': 'Показати меню',
+        'de': 'Zeige das Menü',
+        'zh': '显示菜单'
+    },
     'mousemenu.getcode': {
         'en': 'Copy embed code',
         'ru': 'Скопировать код для вставки',
