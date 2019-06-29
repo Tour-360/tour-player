@@ -3,8 +3,8 @@
 Tour.load = function(data, callback) {
     if (typeof data === 'object') {
         this.data = data;
-        callback(this.data);
         this.emmit('load', this.data);
+        callback(this.data);
     } else {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', data || Tour.options.mainifest, true);
@@ -34,8 +34,8 @@ Tour.load = function(data, callback) {
                     }
                     UI.notification.show(e.name + ' \n' + e.message + (line ? ' line ' + line : ''), false);
                 } finally {
-                    callback(Tour.data);
                     Tour.emmit('load', Tour.data);
+                    callback(Tour.data);
                 }
             }
         };
