@@ -144,3 +144,19 @@ $arrow-size = 8px
             &.left
                 padding-right $title-padding
                 left auto
+
+@media (prefers-color-scheme: dark)
+    #markers .marker .title
+        color white
+        span
+            background-color $dark-black
+
+        &.bottom span:before
+            border-bottom-color $dark-black
+        &.top span:before
+            border-top-color $dark-black
+        &.left span:before
+            border-left-color $dark-black
+        &.right span:before
+            border-right-color $dark-black
+          
