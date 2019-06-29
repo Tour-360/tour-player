@@ -77,7 +77,7 @@ Tour.controls = {
         clearInterval(this.autorotateTimeout);
         if (timeout) {
             if (timeout === true) {
-                timeout = Tour.defaultOption.autorotationTimeout;
+                timeout = Tour.options.autorotationTimeout;
             }
             if (timeout) {
                 this.autorotateTimeout = setTimeout(this.autoRotate.bind(this), timeout);
