@@ -10,6 +10,18 @@ Tour.keyEvents.down = function(event) {
         return;
     }
 
+    if ((event.shiftKey && event.metaKey && event.keyCode == 70) || event.keyCode == 122) { // ⌘⇧F, F11
+        event.preventDefault();
+        Tour.controls.fullscreen();
+        return;
+    }
+
+    if ((event.keyCode == 82 && event.metaKey) || event.keyCode == 116) { // ⌘R, F5
+        event.preventDefault();
+        this.controls.reload();
+        return;
+    }
+
     switch (event.keyCode) {
         case 65: case 37:  this.controls.moveLeft(); break;        // A ←
         case 68: case 39:  this.controls.moveRight(); break;       // D →

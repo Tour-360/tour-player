@@ -5,26 +5,31 @@ Tour.setMouseMenu = function() {
         UI.mouseMenu.init();
 
         var itemList = [];
-        var metaKey = BrouserInfo.apple ? '⌘' : 'Alt';
         var info = 'Tour-Player v' + Tour.version.join('.') + ' (' +
         {webgl: 'WebGL', css: 'CSS', canvas: 'Canvas'}[this.options.rendererType] + 'Renderer)';
 
         var Item = UI.mouseMenu.Item;
         var ctrl = this.controls;
 
-        itemList.push(new Item(ctrl.back, Lang.get('mousemenu.back'), metaKey + '+' + Lang.get('key.left')));
-        itemList.push(new Item(ctrl.forward, Lang.get('mousemenu.forward'), metaKey + '+' + Lang.get('key.right')));
-        itemList.push(new Item(ctrl.reload, Lang.get('mousemenu.reload'), 'Ctrl+R'));
+        var apple = BrouserInfo.apple;
+        var metaKey = apple ? '⌘' : 'Ctrl+';
+        var reloadKey = apple ? '⌘R' : 'F5';
+        var backBtn    = apple ? '[' : Lang.get('mousemenu.back');
+        var forwardBtn = apple ? ']' : Lang.get('mousemenu.forward');
+
+        itemList.push(new Item(ctrl.back, Lang.get('mousemenu.back'), metaKey + backBtn));
+        itemList.push(new Item(ctrl.forward, Lang.get('mousemenu.forward'), metaKey + forwardBtn));
+        itemList.push(new Item(ctrl.reload, Lang.get('mousemenu.reload'), apple ? '⌘R' : 'F5'));
 
         itemList.push(new UI.mouseMenu.Hr());
         itemList.push(new Item(ctrl.zoomIn, Lang.get('mousemenu.zoomin'), 'Shift, +'));
         itemList.push(new Item(ctrl.zoomOut, Lang.get('mousemenu.zoomout'), 'Ctrl, -'));
         itemList.push(new Item(ctrl.autoRotate, Lang.get('mousemenu.autorotate'), 'R, ' + Lang.get('key.spase')));
-        itemList.push(new Item(ctrl.fullscreen, Lang.get('mousemenu.fullscreen'), 'F11'));
+        itemList.push(new Item(ctrl.fullscreen, Lang.get('mousemenu.fullscreen'), apple ? '⌘⇧F' : 'F11'));
 
         if (this.options.rendererType != 'css') {
             itemList.push(new UI.mouseMenu.Hr());
-            itemList.push(new Item(ctrl.download, Lang.get('mousemenu.saveimage'), metaKey + '+S'));
+            itemList.push(new Item(ctrl.download, Lang.get('mousemenu.saveimage'), metaKey + 'S'));
         }
 
         itemList.push(new UI.mouseMenu.Hr());
