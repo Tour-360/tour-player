@@ -40,10 +40,10 @@ Tour.Transition.prototype.moveTo = function(value, noanim) {
 
 Tour.Transition.prototype.animate = function() {
     var alpha = (this.value - this.follow) / this.speed;
-    if(Math.abs(alpha)>1e-5){
+    if (Math.abs(alpha) > 1e-5) {
         this.value -= (this.value - this.follow) / this.speed;
         Tour.emmit('moveview');
-    }else{
+    } else {
         this.value = this.follow;
     }
 };
