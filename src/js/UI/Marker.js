@@ -15,6 +15,8 @@ UI.Marker = function(action, icon, title) {
     this.domElement = document.createElement('div');
     this.domElement.classList.add('marker');
     this.domElement.appendChild(this.buttonDomElement);
+    this.domElement.addEventListener('mouseover', this.setTitlePosition.bind(this));
+    this.visible = true;
 
     markersContayner.appendChild(this.domElement);
     this.size = this.domElement.clientWidth;
@@ -56,24 +58,32 @@ UI.Marker.prototype.setTitle = function(content) {
 UI.Marker.prototype.setPosition = function(x, y) {
     this.x = x;
     this.y = y;
-    this.domElement.style.left = this.x + 'px';
-    this.domElement.style.top  = this.y + 'px';
+    if (this.x && this.y &&
+        this.x > -this.size && this.y > -this.size &&
+        this.x < window.innerWidth + this.size &&
+        this.y < window.innerHeight + this.size) {
+        this.domElement.style.transform = 'translate(' + this.x + 'px,' + this.y + 'px)';
+        this.setVisible(true);
+    } else {
+        this.setVisible(false);
+    }
 
-    this.setTitlePosition();
 };
 
 UI.Marker.prototype.setRotation = function(z) {
     z = z || 0;
-    this.domElement.style.transform = 'rotate(' + z + 'deg)';
+    if (this.visible) {
+        this.domElement.style.transform = 'rotate(' + z + 'deg)';
+    }
 };
 
 UI.Marker.prototype.setTitlePosition = function() {
+    var offset = 100;
     if (this.title) {
-
         var direction = 'bottom';
-        if (this.x > window.innerWidth - 200)         {direction = 'left';
-        } else if (this.x < 200)                      {direction = 'right';
-        } else if (this.y > window.innerHeight - 200) {direction = 'top';}
+        if (this.x > window.innerWidth - offset)         {direction = 'left';
+        } else if (this.x < offset)                      {direction = 'right';
+        } else if (this.y > window.innerHeight - offset) {direction = 'top';}
 
         if (direction == 'top' || direction == 'bottom') {
             this.titleDomElement.style.marginTop = '';
@@ -88,7 +98,10 @@ UI.Marker.prototype.setTitlePosition = function() {
 };
 
 UI.Marker.prototype.setVisible = function(type) {
-    this.domElement.style.display = type ? 'block' : 'none';
+    if (this.visible != type) {
+        this.domElement.style.visibility = type ? 'visible' : 'hidden';
+        this.visible = type;
+    }
 };
 
 UI.Marker.prototype.setIcon = function(name) {
