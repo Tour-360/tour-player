@@ -29,17 +29,17 @@ Tour.Marker.prototype.draw = function() {
     var height = Tour.clientHeight / 2;
 
     if (pos.z < 1) {
-        var rotation = THREE.Math.radToDeg(Tour.camera.rotation.z);
+        var rotation = 0;
+        var oc = Tour.orientationControls;
+        if (oc && oc.controls && oc.controls.enabled) {
+            rotation = THREE.Math.radToDeg(Tour.camera.rotation.z);
+        }
 
         this.setPosition(
             (pos.x  * width  + width),
-            (-pos.y * height + height)
+            (-pos.y * height + height),
+            rotation
         );
-
-        var oc = Tour.orientationControls;
-        if (oc && oc.controls && oc.controls.enabled) {
-            this.setRotation(rotation);
-        }
     } else {
         this.setVisible(false);
     }

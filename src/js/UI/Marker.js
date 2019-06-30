@@ -55,26 +55,20 @@ UI.Marker.prototype.setTitle = function(content) {
     }
 };
 
-UI.Marker.prototype.setPosition = function(x, y) {
+UI.Marker.prototype.setPosition = function(x, y, r) {
     this.x = x;
     this.y = y;
     if (this.x && this.y &&
         this.x > -this.size && this.y > -this.size &&
         this.x < window.innerWidth + this.size &&
         this.y < window.innerHeight + this.size) {
-        this.domElement.style.transform = 'translate(' + this.x + 'px,' + this.y + 'px)';
+        this.domElement.style.transform = 'translate(' + this.x + 'px,' + this.y + 'px) ' +
+            'rotate(' + r + 'deg)';
         this.setVisible(true);
     } else {
         this.setVisible(false);
     }
 
-};
-
-UI.Marker.prototype.setRotation = function(z) {
-    z = z || 0;
-    if (this.visible) {
-        this.domElement.style.transform = 'rotate(' + z + 'deg)';
-    }
 };
 
 UI.Marker.prototype.setTitlePosition = function() {
