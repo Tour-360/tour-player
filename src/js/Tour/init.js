@@ -6,6 +6,7 @@ Tour.init = function(data, options) {
     BrouserInfo();
     this.options.set(this.defaultOption);
     this.options.set(options);
+    this.options.set(Tour.query.get());
     Lang.set(this.options.lang, Tour.dictionary);
     this.backgroundImage.init();
     this.createScene();
