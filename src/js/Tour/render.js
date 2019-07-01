@@ -20,6 +20,7 @@ Tour.render = function() {
         if (window.isSecureContext) {
             UI.controlPanel.setOrientation(Math.floor(THREE.Math.radToDeg(Tour.camera.rotation.z)));
         }
+
         if (this.markers) {
             this.markers.forEach(function(marker) {
                 marker.draw();

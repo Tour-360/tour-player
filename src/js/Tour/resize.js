@@ -7,6 +7,9 @@ Tour.resize = function() {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
 
+    this.clientWidth = width;
+    this.clientHeight = height;
+
     this.renderer.setSize(width, height);
 
     if (this.renderer.setPixelRatio) {
