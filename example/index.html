@@ -131,6 +131,54 @@
             </div>
         </div>
         <script>
+          function fn(worker){
+            importScripts('http://notmasteryet.github.io/jpgjs/jpg.js');
+
+            function loadAsUint8Array(url, callback) {
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', url);
+              xhr.responseType = 'arraybuffer';
+              xhr.onload = function () {
+                callback(new Uint8Array(xhr.response), url);
+              };
+              xhr.send();
+            }
+
+            onmessage = function(event) {
+              loadAsUint8Array(event.data, function(encoded, url){
+                var img = new JpegDecoder();
+                console.time('plane')
+                img.parse(encoded);
+                console.timeEnd('plane')
+                postMessage(url);
+                postMessage(img.getData(img.width, img.height))
+              })
+            }
+          }
+
+          var worker = new Worker(URL.createObjectURL(
+            new Blob([fn.toString(), ';fn()'],
+            {type : 'application/javascript'}))
+          );
+
+          worker.onmessage = function(event) {
+            if(typeof event.data == 'string'){
+              cursor = event.data;
+            }else{
+              stack[cursor](event.data);
+            }
+            typeof event.data == 'string';
+          }
+
+          var stack = {};
+          var cursor = '';
+
+          function loadImage(url, callback){
+            var url = location.protocol+'//'+location.host+location.pathname+url;
+            stack[url] = callback;
+            worker.postMessage(url);
+          }
+
           Tour.init(false, {
               iFrameScaleControl: false,
               controlPanel: true,
