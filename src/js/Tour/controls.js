@@ -150,8 +150,10 @@ Tour.controls = {
     },
 
     getCode: function() {
+        var allow = ['accelerometer', 'autoplay', 'gyroscope'];
         var code = '<iframe src="' + location.href +
-        '" width="640" height="480" frameborder="no" scrolling="no" allowfullscreen></iframe>';
+        '" width="640" height="480" frameborder="no" scrolling="no" allow="' + allow.join('; ') +
+        '" allowfullscreen></iframe>';
         Tour.controls.copyText(code);
     },
 
