@@ -10,6 +10,7 @@ Tools.setPoint = function() {
     };
 
     var point = new UI.Marker(onclick, false, false);
+    point.setVisible(true);
 
     Object.assign(point.domElement.style, {
         top: 0,
