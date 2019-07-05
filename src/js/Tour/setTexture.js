@@ -53,7 +53,7 @@ Tour.setTexture = function(id) {
 
             setTimeout(function(i, imgeURL, manager) {
                 this.setPlane(i, imgeURL, manager);
-            }.bind(this, i, imgeURL, this.loadingManager), faces[i] ? 0 : 500);
+            }.bind(this, i, imgeURL, this.loadingManager), (100 - faces[i]));
         }
     }.bind(this), undefined, function() {
         UI.notification.show(Lang.get('notification.error-load-pano'));
