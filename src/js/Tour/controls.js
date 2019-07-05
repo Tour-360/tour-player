@@ -57,10 +57,23 @@ Tour.controls = {
     },
 
     download: function() {
-        var link = document.createElement('a');
-        link.href = Tour.renderer.domElement.toDataURL('image/jpeg');
-        link.download = document.title + '.jpg';
-        link.click();
+        var type = 'image/jpeg';
+        var quality = .95;
+
+        function save(url) {
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = document.title + '.jpg';
+            link.dispatchEvent(new MouseEvent('click'));
+        }
+
+        if (Tour.renderer.domElement.toBlob) {
+            Tour.renderer.domElement.toBlob(function(blob) {
+                save(URL.createObjectURL(blob));
+            }, type, quality);
+        } else if (Tour.renderer.domElement) {
+            save(Tour.renderer.domElement.toDataURL(type, quality));
+        }
     },
 
     /**

@@ -26,10 +26,30 @@ Tour.backgroundImage.set = function(url, color, callback) {
     }
 
     if (url) {
-        this.domElement.onload = callback;
-        this.domElement.src = url;
+        if (this.domElement.decode) {
+            this.domElement.src = url;
+            this.domElement.decode().then(callback);
+        } else {
+            this.domElement.onload = callback;
+            this.domElement.src = url;
+        }
     } else if (callback) {
         callback();
+    }
+};
+
+Tour.backgroundImage.getUrl = function(callback) {
+    var type = 'image/jpeg';
+    var quality = .5;
+
+    if (!Tour.mesh.material[0].map.image) {
+        callback(Tour.data.backgroundImage);
+    } else if (Tour.renderer.domElement.toBlob) {
+        Tour.renderer.domElement.toBlob(function(blob) {
+            callback(URL.createObjectURL(blob));
+        }, type, quality);
+    } else if (Tour.renderer.domElement) {
+        callback(Tour.renderer.domElement.toDataURL(type, quality));
     }
 };
 
@@ -46,9 +66,9 @@ Tour.backgroundImage.transitionStart = function(callback, zoom) {
     };
 
     if (Tour.options.rendererType != 'css' && Tour.options.transition) {
-        var imageUrl = Tour.mesh.material[0].map.image ?
-            Tour.renderer.domElement.toDataURL('image/jpeg') : Tour.data.backgroundImage;
-        this.set(imageUrl, Tour.data.backgroundColor, after);
+        this.getUrl(function(url) {
+            this.set(url, Tour.data.backgroundColor, after);
+        }.bind(this));
     } else {
         after();
     }
