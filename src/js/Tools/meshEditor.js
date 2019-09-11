@@ -30,7 +30,6 @@ Tools.meshEditor = function() {
 
     window.addEventListener('keydown', function(event) {
         var alpha = 0.1;
-        console.log(event);
 
         if (event.altKey) { alpha /= 10; }
         if (event.ctrlKey) { alpha /= 10; }
@@ -39,7 +38,6 @@ Tools.meshEditor = function() {
         var sm = Tools.selectedMesh;
 
         if (sm) {
-            console.log(event.keyCode);
             if (event.keyCode == 74) { // J
                 sm.position.z -= 1 * alpha;
             } else if (event.keyCode == 76) { // L
