@@ -27,10 +27,10 @@ Tour.addEventListeners = function() {
 
     window.addEventListener('popstate', Tour.history.onpopstate);
 
-    document.addEventListener('touchmove', function(event) {
-        if (event.scale !== 1) {
-            event.preventDefault();
-        }
-    }, active);
+    // document.addEventListener('touchmove', function(event) {
+    //     if (event.scale !== 1) {
+    //         event.preventDefault();
+    //     }
+    // }, active);
 
 };
