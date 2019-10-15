@@ -18,20 +18,40 @@ UI.Slider = function(domElement) {
     this.prevButton = new this.SliderButton(this, 'prev');
     this.nextButton = new this.SliderButton(this, 'next');
 
+    this.bulletsElement = document.createElement('div');
+    this.bulletsElement.classList.add('bullets');
+    this.domElement.appendChild(this.bulletsElement);
+
+    for (var i = 0; i < this.images.length; i++) {
+        var bullet = document.createElement('div');
+        bullet.classList.add('bullet');
+        bullet.addEventListener('click', function(i) {
+            this.setPosition(i, true);
+        }.bind(this, i), false);
+        this.bulletsElement.appendChild(bullet);
+    }
+
     this.setPosition(0);
     this.domElement.appendChild(this.tape);
 
     document.addEventListener('keydown', function(event) {
         if (this.popupId == location.hash.slice(1)) {
             switch (event.key) {
-                case 'ArrowLeft': this.move(-1); event.stopImmediatePropagation(); break;
-                case 'ArrowRight': this.move(1); event.stopImmediatePropagation(); break;
+                case 'ArrowLeft': this.move(-1, true); event.stopImmediatePropagation(); break;
+                case 'ArrowRight': this.move(1, true); event.stopImmediatePropagation(); break;
             }
         }
     }.bind(this), false);
+
+    if (Tour.options.sliderAutoNextFrameInterval) {
+        this.autoNextInterval = setInterval(this.next.bind(this), Tour.options.sliderAutoNextFrameInterval);
+    }
 };
 
-UI.Slider.prototype.setPosition = function(n) {
+UI.Slider.prototype.setPosition = function(n, userEvent) {
+    if (userEvent) {
+        clearInterval(this.autoNextInterval);
+    }
     if (typeof n == 'number') {
         this.frame = Math.max(0, Math.min(this.length - 1, n));
     }
@@ -42,10 +62,21 @@ UI.Slider.prototype.setPosition = function(n) {
     if (height > 100) { this.tape.style.height = height + 'px'; }
     this.prevButton.setVisible(this.frame > 0);
     this.nextButton.setVisible(this.frame < this.length - 1);
+
+    for (var i = 0; i < this.images.length; i++) {
+        this.bulletsElement.children[i].classList[this.frame == i ? 'add' : 'remove']('select');
+    }
 };
 
-UI.Slider.prototype.move = function(n) {
-    this.setPosition(this.frame += n);
+UI.Slider.prototype.move = function(n, userEvent) {
+    this.setPosition(this.frame += n, userEvent);
+};
+
+UI.Slider.prototype.next = function() {
+    if (window.location.hash.substr(1) == this.popupId) {
+        this.frame = ++this.frame % this.images.length;
+        this.setPosition(this.frame);
+    }
 };
 
 UI.Slider.prototype.SliderButton = function(slider, type) {
@@ -54,7 +85,7 @@ UI.Slider.prototype.SliderButton = function(slider, type) {
     this.domElement.classList.add('slider-button', type);
     this.domElement.classList.add(type);
     this.domElement.addEventListener('click', function() {
-        this.move(type == 'next' ? 1 : -1);
+        this.move(type == 'next' ? 1 : -1, true);
     }.bind(this.slider), false);
     this.slider.domElement.appendChild(this.domElement);
 };
