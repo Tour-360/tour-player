@@ -51,19 +51,20 @@
         will-change scroll-position
         -webkit-overflow-scrolling touch
 
-        &::-webkit-scrollbar
-            width 8px
-            background rgba(black, .5)
+        @supports (-webkit-overflow-scrolling: touch)
+            &::-webkit-scrollbar
+                width 8px
+                background rgba(black, .5)
 
-        &::-webkit-scrollbar-thumb
-            background rgba(white, .8)
-            width 4px
-            margin 3px
-            border-radius 4px
-            transform scale(0.1)
+            &::-webkit-scrollbar-thumb
+                background rgba(white, .8)
+                width 4px
+                margin 3px
+                border-radius 4px
+                transform scale(0.1)
 
-            &:hover
-                background white
+                &:hover
+                    background white
 
         li
             box-sizing border-box
