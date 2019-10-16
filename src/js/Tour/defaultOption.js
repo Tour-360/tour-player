@@ -21,7 +21,7 @@ Tour.defaultOption = {
         dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
     },
     limit: {
-        fov: { min: 20, max: 90},
+        fov: { min: 40, max: 90},
         lat: { min: -85, max: 85},
         lon: { min: false, max: false}
     }
