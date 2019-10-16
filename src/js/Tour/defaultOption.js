@@ -4,7 +4,7 @@ Tour.defaultOption = {
     path: 'panorams/',
     mainifest: 'manifest.json',
     tileset: [1, 3, 4, 5, 0, 2],
-    fov: 75,
+    initFov: 75,
     kineticResistance: 1.1,
     autorotationSpeed: -0.05,
     autorotationTimeout: 0,
