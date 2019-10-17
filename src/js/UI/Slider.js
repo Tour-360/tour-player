@@ -18,17 +18,23 @@ UI.Slider = function(domElement) {
     this.prevButton = new this.SliderButton(this, 'prev');
     this.nextButton = new this.SliderButton(this, 'next');
 
-    this.bulletsElement = document.createElement('div');
-    this.bulletsElement.classList.add('bullets');
-    this.domElement.appendChild(this.bulletsElement);
+    if (Tour.options.sliderBullets) {
+        this.bulletsElement = document.createElement('div');
+        this.bulletsElement.classList.add('bullets');
+        this.domElement.appendChild(this.bulletsElement);
 
-    for (var i = 0; i < this.images.length; i++) {
-        var bullet = document.createElement('div');
-        bullet.classList.add('bullet');
-        bullet.addEventListener('click', function(i) {
-            this.setPosition(i, true);
-        }.bind(this, i), false);
-        this.bulletsElement.appendChild(bullet);
+        for (var i = 0; i < this.images.length; i++) {
+            var bullet = document.createElement('div');
+            bullet.classList.add('bullet');
+            bullet.addEventListener('click', function(i) {
+                this.setPosition(i, true);
+            }.bind(this, i), false);
+            this.bulletsElement.appendChild(bullet);
+        }
+
+        if (Tour.options.sliderAutoNextFrameInterval) {
+            this.autoNextInterval = setInterval(this.next.bind(this), Tour.options.sliderAutoNextFrameInterval);
+        }
     }
 
     this.setPosition(0);
@@ -42,10 +48,6 @@ UI.Slider = function(domElement) {
             }
         }
     }.bind(this), false);
-
-    if (Tour.options.sliderAutoNextFrameInterval) {
-        this.autoNextInterval = setInterval(this.next.bind(this), Tour.options.sliderAutoNextFrameInterval);
-    }
 };
 
 UI.Slider.prototype.setPosition = function(n, userEvent) {
@@ -63,8 +65,10 @@ UI.Slider.prototype.setPosition = function(n, userEvent) {
     this.prevButton.setVisible(this.frame > 0);
     this.nextButton.setVisible(this.frame < this.length - 1);
 
-    for (var i = 0; i < this.images.length; i++) {
-        this.bulletsElement.children[i].classList[this.frame == i ? 'add' : 'remove']('select');
+    if (this.bulletsElement) {
+        for (var i = 0; i < this.images.length; i++) {
+            this.bulletsElement.children[i].classList[this.frame == i ? 'add' : 'remove']('select');
+        }
     }
 };
 

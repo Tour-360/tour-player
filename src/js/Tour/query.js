@@ -16,8 +16,11 @@ Tour.query.get = function() {
     for (var i = 0; i < search.length; i++) {
         var querie = search[i].split('=');
         if (querie[0]) {
-            if (querie[1] === undefined) {
+            if (querie[1] === undefined || querie[1] == 'true') {
                 querie[1] = true;
+            }
+            if (querie[1] == 'false') {
+                querie[1] = false;
             }
             this.list[querie[0]] = querie[1];
         }
