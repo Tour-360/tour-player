@@ -1,22 +1,23 @@
 a
     color $linkColor
-    border-bottom 1px solid rgba($linkColor, .5)
-    text-decoration none
-    transition color.3s ease, border-color.3s ease
+    text-decoration underline
+    text-decoration-color rgba($linkColor, .3)
+    text-underline-position under
+    transition color.3s ease, text-decoration-color.3s ease
 
     &:visited,
         color $visitedLinkColor
-        border-color rgba($visitedLinkColor, .5)
+        text-decoration-color rgba($visitedLinkColor, .3)
 
     &:active,
     &:hover
         color $activeLinkColor
-        border-color rgba($activeLinkColor, .5)
-        transition color.1s ease, border-color.1s ease
+        text-decoration-color rgba($activeLinkColor, .3)
+        transition color.1s ease, text-decoration-color.3s ease
 
     &[download],
     &[href=""],
     &[href^="#"],
     &[href^="mailto:"],
     &[href^="callto:"]
-        border-bottom-style dotted
+        text-decoration-style dashed

@@ -45,7 +45,9 @@ Tour.controls = {
             } else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
 
             if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock(screen.orientation.type);
+                screen.orientation.lock(screen.orientation.type).catch(function() {
+                    // Блокировка поворота экрана недоступна для этого устройства
+                });
             }
         }
     },
@@ -55,10 +57,23 @@ Tour.controls = {
     },
 
     download: function() {
-        var link = document.createElement('a');
-        link.href = Tour.renderer.domElement.toDataURL('image/jpeg');
-        link.download = document.title + '.jpg';
-        link.click();
+        var type = 'image/jpeg';
+        var quality = .95;
+
+        function save(url) {
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = document.title + '.jpg';
+            link.dispatchEvent(new MouseEvent('click'));
+        }
+
+        if (Tour.renderer.domElement.toBlob) {
+            Tour.renderer.domElement.toBlob(function(blob) {
+                save(URL.createObjectURL(blob));
+            }, type, quality);
+        } else if (Tour.renderer.domElement) {
+            save(Tour.renderer.domElement.toDataURL(type, quality));
+        }
     },
 
     /**
@@ -75,7 +90,7 @@ Tour.controls = {
         clearInterval(this.autorotateTimeout);
         if (timeout) {
             if (timeout === true) {
-                timeout = Tour.defaultOption.autorotationTimeout;
+                timeout = Tour.options.autorotationTimeout;
             }
             if (timeout) {
                 this.autorotateTimeout = setTimeout(this.autoRotate.bind(this), timeout);
@@ -91,8 +106,13 @@ Tour.controls = {
         location.reload(true);
     },
 
-    hideMenu: function() {
-        UI.controlPanel.setVisible();
+    toggleMenu: function() {
+        var panel = UI.controlPanel;
+        panel.setVisible(!panel.visibility);
+        if (Tour.toggleMenuItem) {
+            var text = Lang.get('mousemenu.' + (panel.visibility ? 'hide' : 'show') + 'menu');
+            Tour.toggleMenuItem.setText(text);
+        }
     },
 
     stopRotate: function() {
@@ -142,8 +162,10 @@ Tour.controls = {
     },
 
     getCode: function() {
+        var allow = ['accelerometer', 'autoplay', 'gyroscope'];
         var code = '<iframe src="' + location.href +
-        '" width="640" height="480" frameborder="no" scrolling="no" allowfullscreen></iframe>';
+        '" width="640" height="480" frameborder="no" scrolling="no" allow="' + allow.join('; ') +
+        '" allowfullscreen></iframe>';
         Tour.controls.copyText(code);
     },
 

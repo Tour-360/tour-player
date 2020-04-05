@@ -1,4 +1,5 @@
 #mouse-menu
+    font-family $system-font
     position absolute
     display none
     background #fff
@@ -47,3 +48,12 @@
     #mouse-menu
         background rgba(255, 255, 255, .8)
         backdrop-filter brightness(1.5) blur(40px)
+
+@media (prefers-color-scheme: dark)
+    #mouse-menu
+        background rgba(50, 50, 50, .8)
+        color white
+        border-color $dark-gray
+   
+        hr
+            border-bottom-color $dark-gray

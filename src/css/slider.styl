@@ -1,0 +1,61 @@
+.slider
+  position relative
+  overflow hidden
+
+  .tape
+    will-change transform
+    transition transform.3s ease, height.2s ease
+    font-size 0
+    line-height 0
+    white-space nowrap
+
+    img
+      width 100%
+      vertical-align top
+      display inline-block
+
+  &-button
+    z-index 2
+    position absolute
+    top 50%
+    margin-top -16px
+    background-color rgba(0, 0, 0, .6)
+    height 32px
+    width 32px
+    border-radius 50%
+    cursor pointer
+
+    &.hidden
+      pointer-events none
+      opacity .3
+
+    &.prev
+      left 16px
+      background-image url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22%3E %3Cpath fill=%22none%22 stroke=%22%23fff%22 stroke-width=%222%22 d=%22M18.5 10L12.5 16L18.5 22%22/%3E %3C/svg%3E")
+
+    &.next
+      right 16px
+      background-image url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22%3E %3Cpath fill=%22none%22 stroke=%22%23fff%22 stroke-width=%222%22 d=%22M13.5 10L19.5 16L13.5 22%22/%3E %3C/svg%3E")
+
+  .bullets
+    position absolute
+    z-index 1
+    width 100%
+    height 30px
+    bottom 0
+    display flex
+    justify-content center
+    align-items center
+    
+    .bullet
+      width 6px
+      height 6px
+      border-radius 50%
+      background-color rgba(0, 0, 0, .6)
+      margin 3px
+      cursor pointer
+      transition background-color.3s ease
+      
+      &.select
+        background-color white
+      

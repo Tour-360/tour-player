@@ -49,7 +49,9 @@ Tour.Video = function(options) {
 Tour.Video.prototype.draw = function() {
     if (this.needsUpdate) {
         this.videoElement.play();
-        this.ctx.drawImage(this.videoElement, 0, 0);
+        if (Tour.options.rendererType != 'css') {
+            this.ctx.drawImage(this.videoElement, 0, 0);
+        }
         this.texture.needsUpdate = true;
         Tour.needsUpdate = true;
     } else {

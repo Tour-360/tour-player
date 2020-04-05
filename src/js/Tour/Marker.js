@@ -23,16 +23,24 @@ Tour.Marker.prototype.setLatLon = function(lat, lon) {
 };
 
 Tour.Marker.prototype.draw = function() {
-    var pos = (new THREE.Vector3(this.vector.x , this.vector.y , this.vector.z)).project(Tour.camera);
+    var pos = this.vector.clone().project(Tour.camera);
+
+    var width = Tour.clientWidth / 2;
+    var height = Tour.clientHeight / 2;
 
     if (pos.z < 1) {
-        var width = Tour.renderer.domElement.clientWidth / 2;
-        var height = Tour.renderer.domElement.clientHeight / 2;
+        var rotation = 0;
+        var oc = Tour.orientationControls;
+        if (oc && oc.controls && oc.controls.enabled) {
+            rotation = THREE.Math.radToDeg(Tour.camera.rotation.z);
+        }
 
         this.setPosition(
-            (pos.x  * width  + width)  / window.devicePixelRatio,
-            (-pos.y * height + height) / window.devicePixelRatio
+            (pos.x  * width  + width),
+            (-pos.y * height + height),
+            rotation
         );
+    } else {
+        this.setVisible(false);
     }
-    this.setVisible(pos.z < 1);
 };

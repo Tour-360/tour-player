@@ -1,13 +1,20 @@
+*
+    outline none
+    -webkit-font-smoothing antialiased
+    -moz-osx-font-smoothing grayscale
+
 body, html
     height 100%
     overflow hidden
+    -webkit-text-size-adjust none
+    touch-action manipulation
 
 body
-    position relative
+    position fixed
     width 100%
     margin 0
-    overflow hidden
     font $font-size 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif
+    -webkit-tap-highlight-color transparent
 
 #renderer
     position absolute
@@ -15,3 +22,5 @@ body
     left 0
     user-select none
     touch-action none
+    user-drag none
+    -webkit-user-drag none

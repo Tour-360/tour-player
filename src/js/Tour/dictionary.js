@@ -78,6 +78,13 @@ Tour.dictionary = {
         'de': 'Menü ausblenden',
         'zh': '隐藏菜单'
     },
+    'mousemenu.showmenu': {
+        'en': 'Show menu',
+        'ru': 'Показать меню',
+        'uk': 'Показати меню',
+        'de': 'Zeige das Menü',
+        'zh': '显示菜单'
+    },
     'mousemenu.getcode': {
         'en': 'Copy embed code',
         'ru': 'Скопировать код для вставки',
@@ -199,5 +206,20 @@ Tour.dictionary = {
         'uk': 'Помилка завантаження. Використовуйте протокол http або https для коректної роботи туру',
         'de': 'Ladefehler. Verwenden Sie das http- oder https-Protokoll für den korrekten Tour-Vorgang',
         'zh': '加载错误。 使用http或https协议进行正确的巡视操作'
+    },
+
+    'gallery.show': {
+        'en': 'Show gallery',
+        'ru': 'Показать галерею',
+        'uk': 'Show gallery',
+        'de': 'Galerie anzeigen',
+        'zh': '显示图库'
+    },
+    'gallery.hide': {
+        'en': 'Hide gallery',
+        'ru': 'Скрыть галерею',
+        'uk': 'Приховати галерею',
+        'de': 'Galerie ausblenden',
+        'zh': '隐藏图库'
     }
 };

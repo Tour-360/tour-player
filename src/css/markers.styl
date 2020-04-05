@@ -18,7 +18,7 @@ $arrow-size = 8px
         margin-top - ($marker-size / 2)
         user-select none
         touch-action none
-        will-change left, top
+        will-change transform
         pointer-events all
 
         .hidden
@@ -29,7 +29,7 @@ $arrow-size = 8px
         height 100%
         position absolute
         background-color $transparent-black
-        border-radius ($marker-size / 2)
+        border-radius 50%
         cursor pointer
         user-select none
         transition transform .5s ease
@@ -55,6 +55,7 @@ $arrow-size = 8px
     .title
         position absolute
         width 300px
+        width max-content
         left -9999px
         opacity 0
         font-size 0
@@ -143,3 +144,19 @@ $arrow-size = 8px
             &.left
                 padding-right $title-padding
                 left auto
+
+@media (prefers-color-scheme: dark)
+    #markers .marker .title
+        color white
+        span
+            background-color $dark-black
+
+        &.bottom span:before
+            border-bottom-color $dark-black
+        &.top span:before
+            border-top-color $dark-black
+        &.left span:before
+            border-left-color $dark-black
+        &.right span:before
+            border-right-color $dark-black
+          

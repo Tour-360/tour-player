@@ -59,7 +59,7 @@ Lang.translate = function(value) {
  * @return {String}     Фраза из словаря
  */
 Lang.get = function(key) {
-    if (Lang.dictionary[key]) {
+    if (this.dictionary[key]) {
         return this.translate(this.dictionary[key]);
     } else {
         return '[' + key + ']';

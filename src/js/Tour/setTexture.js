@@ -23,13 +23,15 @@ Tour.setTexture = function(id) {
     var loader = new THREE.ImageLoader();
     loader.load(this.options.path + id + '/thumbnail/0.jpg', function(img) {
 
-        document.body.classList.remove('transition');
+        this.backgroundImage.transitionEnd();
 
         var canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
+
+        var faces = this.detectFaceInCamera();
 
         for (var i = 0; i < 6; i++) {
             var planeId = this.options.tileset[i];
@@ -51,7 +53,7 @@ Tour.setTexture = function(id) {
 
             setTimeout(function(i, imgeURL, manager) {
                 this.setPlane(i, imgeURL, manager);
-            }.bind(this, i, imgeURL, this.loadingManager), 0);
+            }.bind(this, i, imgeURL, this.loadingManager), (100 - faces[i]));
         }
     }.bind(this), undefined, function() {
         UI.notification.show(Lang.get('notification.error-load-pano'));

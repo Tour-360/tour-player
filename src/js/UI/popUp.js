@@ -11,7 +11,7 @@ UI.popUp = {
             }.bind(this));
             this.closeElement = document.querySelector('.popup-layout .close');
             this.closeElement.addEventListener('click', this.set.bind(this, false));
-            window.addEventListener('popstate', this.popstate.bind(this));
+            window.addEventListener('hashchange', this.popstate.bind(this));
             this.popstate();
         }
     },
@@ -25,7 +25,9 @@ UI.popUp = {
         window.location.hash = id || '';
 
         if (canAccessIFrame) {
-            window.parent.scrollTo(scrollX, scrollY);
+            setTimeout(function() {
+                window.parent.scrollTo(scrollX, scrollY);
+            }, 0);
         }
 
         setTimeout(function() {
@@ -34,6 +36,7 @@ UI.popUp = {
     },
 
     popstate: function() {
-        this.domElement.classList[window.location.hash ? 'add' : 'remove']('visible');
+        var hash = window.location.hash.length > 1;
+        this.domElement.classList[hash ? 'add' : 'remove']('visible');
     }
 };

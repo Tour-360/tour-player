@@ -1,15 +1,16 @@
 {
   "name": "tour-player",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "",
   "repository": {
     "type": "git",
     "url": "https://github.com/Tour-360/tour-player"
   },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower i && ./node_modules/gulp/bin/gulp.js build",
+    "postinstall": "./node_modules/bower/bin/bower i && npm run delete-models && ./node_modules/gulp/bin/gulp.js build",
     "start": "node index.js",
-    "test": "gulp lint"
+    "test": "gulp lint",
+    "delete-models": "rm -rf ./bower_components/threejs/examples/models/ && rm -rf ./bower_components/threejs-r97/examples/models/"
   },
   "keywords": [
     "tour",
