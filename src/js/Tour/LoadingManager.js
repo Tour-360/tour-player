@@ -26,7 +26,7 @@ Tour.LoadingManager.prototype.add = function(loader) {
     var _this = this;
     loader.oncomplete = function() {
         var completeAll = _this.loaders.every(function(n) {
-            return n.image && n.image.complete;
+            return n.complete || (n.image && n.image.complete);
         });
         if (completeAll && _this.onload) {
             _this.onload();

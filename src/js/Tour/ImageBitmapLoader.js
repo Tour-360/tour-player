@@ -34,10 +34,18 @@ Tour.ImageBitmapLoader.prototype.abort = function() {
 Tour.ImageBitmapLoader.prototype._onload = function() {
     var headers = this.request.getAllResponseHeaders();
     var mimeType = headers.match(/^Content-Type\:\s*(.*?)$/mi)[1] || 'image/jpeg';
-    var options = { imageOrientation: 'flipY', resizeQuality: 'high' };
+    var options = { imageOrientation: 'flipY'};
     var that = this;
-    createImageBitmap(new Blob([this.request.response], {type: mimeType}), options).then(function(bitmap){
+
+    (function(){
+        if (BrouserInfo.brouser.name != "Firefox") {
+            return createImageBitmap(new Blob([that.request.response], {type: mimeType}), options);
+        } else {
+            return createImageBitmap(new Blob([that.request.response], {type: mimeType}));
+        }
+    })().then(function(bitmap){
         that.bitmap = bitmap;
+        that.complete = true;
         that._onimageload();
     }).catch(function (err){
         that.onerror(err);
