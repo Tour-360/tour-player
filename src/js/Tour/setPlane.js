@@ -10,9 +10,10 @@ Tour.setPlane = function(id, url, manager) {
     if (this.options.rendererType == 'css') {
         this.mesh.children[id].element.src = url;
     } else {
-        var loader = new Tour.ImageBitmapLoader(manager);
+        var cib = typeof createImageBitmap !== 'undefined'
+        var loader = cib ? new Tour.ImageBitmapLoader(manager) : new Tour.ImageLoader(manager);
         loader.load(url, function(img) {
-            var texture = new THREE.CanvasTexture(img);
+            var texture = cib ? new THREE.CanvasTexture(img) : new THREE.Texture(img);
             texture.needsUpdate = true;
             Tour.mesh.material[id].map = texture;
             Tour.needsUpdate = true;
