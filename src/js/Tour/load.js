@@ -7,7 +7,7 @@ Tour.load = function(data, callback) {
         callback(this.data);
     } else {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', data || Tour.options.mainifest, true);
+        xhr.open('GET', data || this.options.mainifest + this.getRandomQuery(), true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState != 4) {
                 return;
