@@ -4,6 +4,7 @@
   right 0
   bottom 0
   left 0
+  padding 16px
   display flex
   visibility hidden
   justify-content center
@@ -43,6 +44,7 @@
 
   .popup
     display none
+    flex-direction column
     position relative
     min-width 200px
     max-width 400px
@@ -55,12 +57,12 @@
     -webkit-overflow-scrolling touch
 
     &:target
-      display block
+      display flex
 
-    img, video
+    img, video, .slider
       width 100%
       display block
-    
+
     ul
       padding-left 2em
 
@@ -69,8 +71,33 @@
         line-height 1.4em
 
     .content
+      box-sizing border-box
       padding 22px
 
     p
       margin-right 2em
       line-height 1.6em
+
+@media (min-width: 640px)
+  .popup-layout.landscape .popup,
+  .popup-layout .popup.landscape
+    flex-direction row
+    align-items self-start
+    max-width 800px
+
+    img, video, .slider
+      width 62%
+
+      img
+        width 100%
+
+    .content
+      min-width 150px
+      max-width: 200px
+
+      h1
+        margin-top 0
+
+      p
+        margin-right 0
+
