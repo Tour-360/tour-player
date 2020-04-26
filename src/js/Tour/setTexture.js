@@ -21,7 +21,7 @@ Tour.setTexture = function(id) {
     };
 
     var loader = new THREE.ImageLoader();
-    loader.load(this.options.path + id + '/thumbnail/0.jpg', function(img) {
+    loader.load(this.options.path + id + '/thumbnail/0.jpg' + Tour.getRandomQuery(), function(img) {
 
         this.backgroundImage.transitionEnd();
 

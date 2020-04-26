@@ -21,7 +21,7 @@ Tour.ImageLoader.prototype.load = function(url, onload, onprogress, onerror) {
         }
     }.bind(this);
 
-    this.request.open('GET', url, true);
+    this.request.open('GET', url + Tour.getRandomQuery(), true);
     this.request.responseType = 'arraybuffer';
     this.request.send(null);
 };
