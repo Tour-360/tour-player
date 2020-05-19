@@ -6,6 +6,7 @@ Tour.createScene = function() {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera();
+    this.camera.rotation._order = "YXZ";
 
     if (Tour.options.rendererType == 'css') {
         var sides = [
@@ -41,5 +42,6 @@ Tour.createScene = function() {
     this.mesh.rotation.y = Math.PI / 2;
 
     this.scene.add(this.mesh);
+    this.scene.add(this.camera);
     this.resize();
 };

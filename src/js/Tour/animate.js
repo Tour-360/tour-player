@@ -39,6 +39,8 @@ Tour.animate = function() {
     this.camera.fov = this.view.fov.value;
     this.camera.updateProjectionMatrix();
 
+    this.nadirControl.update();
+
     for (var k in this.view) {
         if (typeof this.view[k] == 'object') {
             this.view[k].animate();
