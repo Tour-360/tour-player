@@ -12,7 +12,6 @@ Tour.render = function() {
         compare(this.camera.rotation.z, this.previousCamera.z) ||
         compare(this.camera.fov,        this.previousCamera.f)
     ) {
-        var n = Date.now();
         this.renderer.render(this.scene, this.camera);
         this.renderers.forEach(function(render) {
             render.renderer.render(render.scene || this.scene, render.camera || this.camera);

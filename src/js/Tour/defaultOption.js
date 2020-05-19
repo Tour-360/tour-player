@@ -19,6 +19,7 @@ Tour.defaultOption = {
     autorotationAlign: true,
     sliderBullets: true,
     sliderAutoNextFrameInterval: 6000,
+    nadirControl: false,
     sentry: {
         dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
     },
