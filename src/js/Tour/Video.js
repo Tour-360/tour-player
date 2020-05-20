@@ -5,7 +5,10 @@ Tour.Video = function(options) {
     this.videoElement.src = options.src;
     // this.videoElement.autoplay =  options.autoplay || true;
     this.videoElement.loop = options.loop || true;
-    this.videoElement.muted = options.muted || true;
+    this.videoElement.muted = options.muted == undefined ? true : false;
+    this.previousFrame = 0
+    this.sprite = options.sprite || 1;
+    this.frameRate = options.frameRate || 0;
 
     var _this = this;
 
@@ -37,9 +40,10 @@ Tour.Video = function(options) {
     this.ctx = this.canvas.getContext('2d');
 
     this.texture = new THREE.Texture(this.canvas);
-    this.texture.repeat.x = options.width / this.canvas.width;
+    this.texture.repeat.x = (options.width / this.canvas.width) * (1/this.sprite);
     this.texture.repeat.y = options.height / this.canvas.height;
     this.texture.offset.y = 1 - this.texture.repeat.y;
+    this.texture.offset.x = 0;
     this.texture.needsUpdate = true;
     this.needsUpdate = false;
 
@@ -49,8 +53,10 @@ Tour.Video = function(options) {
 Tour.Video.prototype.draw = function() {
     if (this.needsUpdate) {
         this.videoElement.play();
-        if (Tour.options.rendererType != 'css') {
+        var currentFrame = Math.floor(this.videoElement.currentTime * this.frameRate);
+        if (Tour.options.rendererType != 'css' && (!this.frameRate || currentFrame != this.previousFrame)) {
             this.ctx.drawImage(this.videoElement, 0, 0);
+            this.previousFrame = currentFrame;
         }
         this.texture.needsUpdate = true;
         Tour.needsUpdate = true;
