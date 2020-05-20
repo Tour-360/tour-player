@@ -12,7 +12,7 @@ Tour.setMesh = function(id) {
 
     this.meshs = [];
 
-    var videos = this.data.panorams && this.data.panorams[id] && this.data.panorams[id].videos;
+    var videos = Tour.getPanorama(id).videos;
 
     if (videos) {
         for (var i = 0; i < videos.length; i++) {
