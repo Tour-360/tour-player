@@ -1,23 +1,25 @@
 /* globals Tools */
 
 Tools.init = function() {
-    this.setPoint();
     window.addEventListener('keydown', function(event) {
-        switch (event.keyCode) {
-            case 13:  Tools.copyMarker(); break;  // Enter
-            case 49:  Tools.copyLon(); break;     // 1
-            case 50:  Tools.meshEditor(); break;  // 2
+        switch (event.code) {
+            case 'Digit1':  Tools.copyLon(); break;
+            case 'Digit2':  Tools.markerEditor.init(); break;
+            case 'Digit3':  Tools.pointEditor.init(); break;
+            case 'Digit4':  Tools.meshEditor(); break;
         }
     });
 
     new UI.mouseMenu.Hr();
     new UI.mouseMenu.Item(Tools.copyLon, 'Copy lon', '1');
-    new UI.mouseMenu.Item(Tools.meshEditor, 'Mesh editor', '2');
-
-    this.meshEditor();
+    new UI.mouseMenu.Item(Tools.markerEditor.init.bind(Tools.markerEditor), 'Marker editor', '2');
+    new UI.mouseMenu.Item(Tools.pointEditor.init.bind(Tools.pointEditor), 'Pointer editor', '3');
+    new UI.mouseMenu.Item(Tools.meshEditor, 'Mesh editor', '4');
 
     Tour.view.fov.min = 5;
     Tour.view.fov.max = 130;
+
+    UI.notification.show('You are in edit mode');
 };
 
 Tools.copyLon = function() {

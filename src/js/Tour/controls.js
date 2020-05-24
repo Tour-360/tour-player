@@ -180,18 +180,12 @@ Tour.controls = {
         };
 
         if (document.execCommand) {
-            var span = document.createElement('span');
-            span.textContent = text;
-            document.body.appendChild(span);
-            var range = document.createRange();
-            range.selectNode(span);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
             report(document.execCommand('copy'));
-
-            window.getSelection().removeAllRanges();
-            document.body.removeChild(span);
+            document.body.removeChild(textarea);
         } else if (window.clipboardData) {
             window.clipboardData.setData('Text', text);
             report(true);

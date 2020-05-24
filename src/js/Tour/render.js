@@ -31,6 +31,7 @@ Tour.render = function() {
                 this.videos[k].draw();
             }
         }
+        UI.layout.applyActive(true);
         Tour.emmit('render');
     }
 
