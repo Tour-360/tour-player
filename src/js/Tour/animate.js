@@ -2,7 +2,6 @@
 
 Tour.animate = function() {
     requestAnimationFrame(Tour.animate.bind(this));
-
     if (this.view.rotation.auto) {
         if (Math.abs(this.view.rotation.lon) < Math.abs(this.options.autorotationSpeed)) {
             this.view.rotation.lon += this.options.autorotationSpeed / 100;

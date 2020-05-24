@@ -19,11 +19,11 @@
       "title": {"ru": "У дивана", "en": "In the sofa"},
       "heading": 83.95,
       "markers": [
-        {"lat":-18.17,"lon":356.51,"icon":"point","action":{"type":"panorama","id":"4"}},
-        {"lat":-42.83,"lon":39.59,"icon":"point","action":{"type":"panorama","id":"1"}},
-        {"lat":-25.78,"lon":16.21,"icon":"point","action":{"type":"panorama","id":"2"}},
-        {"lat":-17.83,"lon":43.61,"icon":"point","action":{"type":"panorama","id":"3"}},
-        {"lat":-3.71,"lon":145.92,"icon":"up","action":{"type":"panorama","id":"8"}},
+        // {"lat":-18.17,"lon":356.51,"icon":"point","action":{"type":"panorama","id":"4"}},
+        // {"lat":-42.83,"lon":39.59,"icon":"point","action":{"type":"panorama","id":"1"}},
+        // {"lat":-25.78,"lon":16.21,"icon":"point","action":{"type":"panorama","id":"2"}},
+        // {"lat":-17.83,"lon":43.61,"icon":"point","action":{"type":"panorama","id":"3"}},
+        // {"lat":-3.71,"lon":145.92,"icon":"up","action":{"type":"panorama","id":"8"}},
         {"lat":-4.85,"lon":70.97,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
         {"lat":45.97,"lon":25.21,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
         {"lat":-28.66,"lon":334.56,"title": {"ru": "Кресло", "en": "Armchair"},"action":{"type":"popup","id":"product4"}},
@@ -36,6 +36,14 @@
           "1": ["3b", "3"],
           "4": ["0b", "0"]
         }}}
+      ],
+      "points": [
+        {"lon":30.78,"distance":2.6,"level":-2,"pano":"1"},
+        {"lon":15.59,"distance":4.48,"level":-2,"pano":"2"},
+        {"lon":41.08,"distance":6.2,"level":-2,"pano":"3"},
+        {"lon":355.35,"distance":6.34,"level":-2,"pano":"4"},
+        {"lon":392.84,"distance":8.14,"level":-2,"pano":"7"},
+        {"lon":149.81,"distance":6.1,"level":-2,"pano":"8","opacity":0.6}
       ]
     },
     {
@@ -43,13 +51,13 @@
       "title": {"ru": "У дивана", "en": "In the sofa"},
       "heading": 89.6,
       "markers": [
-        {"lat":-22.94,"lon":338.22,"icon":"point","action":{"type":"panorama","id":"4"}},
-        {"lat":-41.69,"lon":-0.88,"icon":"point","action":{"type":"panorama","id":"2"}},
-        {"lat":-27.58,"lon":47.2,"icon":"point","action":{"type":"panorama","id":"3"}},
-        {"lat":-12.95,"lon":14.17,"icon":"point","action":{"type":"panorama","id":"6"}},
-        {"lat":-19.24,"lon":33.52,"icon":"point","action":{"type":"panorama","id":"7"}},
-        {"lat":-1.24,"lon":178.72,"icon":"up","action":{"type":"panorama","id":"8"}},
-        {"lat":-38.08,"lon":221.46,"icon":"point","action":{"type":"panorama","id":"9"}},
+        // {"lat":-22.94,"lon":338.22,"icon":"point","action":{"type":"panorama","id":"4"}},
+        // {"lat":-41.69,"lon":-0.88,"icon":"point","action":{"type":"panorama","id":"2"}},
+        // {"lat":-27.58,"lon":47.2,"icon":"point","action":{"type":"panorama","id":"3"}},
+        // {"lat":-12.95,"lon":14.17,"icon":"point","action":{"type":"panorama","id":"6"}},
+        // {"lat":-19.24,"lon":33.52,"icon":"point","action":{"type":"panorama","id":"7"}},
+        // {"lat":-1.24,"lon":178.72,"icon":"up","action":{"type":"panorama","id":"8"}},
+        // {"lat":-38.08,"lon":221.46,"icon":"point","action":{"type":"panorama","id":"9"}},
         {"lat":-5.14,"lon":99.41,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
         {"lat":-19.13,"lon":303.35,"title": {"ru": "Видео", "en": "Video"},"action":{"type":"popup","id":"video"}},
         {"lat":71.95,"lon":219.56,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
@@ -59,6 +67,16 @@
       ],
       "videos": [
         {"position":{"x":3.271,"y":-1.348,"z":4.691},"rotation":{"x":0.3393,"y":3.0003,"z":-0.0644},"scale":{"x":0.9392,"y":1.069,"z":1},"videoId":"macbook"}
+      ],
+      "points": [
+        {"lon":-139.96,"distance":2.54,"level":-2,"pano":"9"},
+        {"lon":-5.41,"distance":2.28,"level":-2,"pano":"2"},
+        {"lon":45.91,"distance":3.89,"level":-2,"pano":"3"},
+        {"lon":335.83,"distance":4.84,"level":-2,"pano":"4"},
+        {"lon":346.52,"distance":8.43,"level":-2,"pano":"5","opacity":0.6},
+        {"lon":14.05,"distance":7.94,"level":-2,"pano":"6"},
+        {"lon":30.93,"distance":5.78,"level":-2,"pano":"7"},
+        {"lon":172.12,"distance":7.96,"level":-2,"pano":"8","opacity":0.6}
       ]
     },
     {
@@ -66,14 +84,14 @@
       "title": {"ru": "По центру", "en": "In center"},
       "heading": 268.77,
       "markers": [
-        {"lat":-36.98,"lon":324.61,"icon":"point","action":{"type":"panorama","id":"4"}},
-        {"lat":-43.64,"lon":174.82,"icon":"point","action":{"type":"panorama","id":"1"}},
-        {"lat":-33.08,"lon":81.23,"icon":"point","action":{"type":"panorama","id":"3"}},
-        {"lat":-16.02,"lon":-17.94,"icon":"point","action":{"type":"panorama","id":"5"}},
-        {"lat":-4.44,"lon":16.15,"icon":"up","action":{"type":"panorama","id":"6"}},
-        {"lat":-26.08,"lon":58.96,"icon":"point","action":{"type":"panorama","id":"7"}},
-        {"lat":-0.64,"lon":177.95,"icon":"up","action":{"type":"panorama","id":"8"}},
-        {"lat":-22.48,"lon":203.1,"icon":"point","action":{"type":"panorama","id":"9"}},
+        // {"lat":-36.98,"lon":324.61,"icon":"point","action":{"type":"panorama","id":"4"}},
+        // {"lat":-43.64,"lon":174.82,"icon":"point","action":{"type":"panorama","id":"1"}},
+        // {"lat":-33.08,"lon":81.23,"icon":"point","action":{"type":"panorama","id":"3"}},
+        // {"lat":-16.02,"lon":-17.94,"icon":"point","action":{"type":"panorama","id":"5"}},
+        // {"lat":-4.44,"lon":16.15,"icon":"up","action":{"type":"panorama","id":"6"}},
+        // {"lat":-26.08,"lon":58.96,"icon":"point","action":{"type":"panorama","id":"7"}},
+        // {"lat":-0.64,"lon":177.95,"icon":"up","action":{"type":"panorama","id":"8"}},
+        // {"lat":-22.48,"lon":203.1,"icon":"point","action":{"type":"panorama","id":"9"}},
         {"lat":-1.49,"lon":133.61,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
         {"lat":42.01,"lon":-10.51,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
         {"lat":37.25,"lon":-168.59,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
@@ -87,6 +105,16 @@
       ],
       "videos": [
         {"position":{"x":-0.305,"y":-1.275,"z":4.12},"rotation":{"x":0.2906,"y":2.9924,"z":-0.0644},"scale":{"x":0.9568,"y":0.9718,"z":1},"videoId":"macbook"}
+      ],
+      "points": [
+        {"lon":-519.49,"distance":4.35,"level":-2,"pano":"9"},
+        {"lon":175.62,"distance":2,"level":-2,"pano":"1"},
+        {"lon":81.46,"distance":3,"level":-2,"pano":"3"},
+        {"lon":322.27,"distance":2.93,"level":-2,"pano":"4"},
+        {"lon":345.13,"distance":6.56,"level":-2,"pano":"5","opacity":0.6},
+        {"lon":21.63,"distance":6.68,"level":-2,"pano":"6"},
+        {"lon":45.79,"distance":4.49,"level":-2,"pano":"7","opacity":0.4},
+        {"lon":174.23,"distance":10.24,"level":-2,"pano":"8","opacity":0.6}
       ]
     },
     {
@@ -94,13 +122,13 @@
       "title": {"ru": "У стены", "en": "Near the wall"},
       "heading": 450.63,
       "markers": [
-        {"lat":-24.67,"lon":290.64,"icon":"point","action":{"type":"panorama","id":"4"}},
-        {"lat":-28.97,"lon":220.07,"icon":"point","action":{"type":"panorama","id":"1"}},
-        {"lat":-35.68,"lon":-99.66,"icon":"point","action":{"type":"panorama","id":"2"}},
-        {"lat":-20.87,"lon":-10.76,"icon":"point","action":{"type":"panorama","id":"6"}},
-        {"lat":-51.76,"lon":16.24,"icon":"point","action":{"type":"panorama","id":"7"}},
-        {"lat":-0.3,"lon":200.53,"icon":"up","action":{"type":"panorama","id":"8"}},
-        {"lat":-17.19,"lon":-135.65,"icon":"point","action":{"type":"panorama","id":"9"}},
+        // {"lat":-24.67,"lon":290.64,"icon":"point","action":{"type":"panorama","id":"4"}},
+        // {"lat":-28.97,"lon":220.07,"icon":"point","action":{"type":"panorama","id":"1"}},
+        // {"lat":-35.68,"lon":-99.66,"icon":"point","action":{"type":"panorama","id":"2"}},
+        // {"lat":-20.87,"lon":-10.76,"icon":"point","action":{"type":"panorama","id":"6"}},
+        // {"lat":-51.76,"lon":16.24,"icon":"point","action":{"type":"panorama","id":"7"}},
+        // {"lat":-0.3,"lon":200.53,"icon":"up","action":{"type":"panorama","id":"8"}},
+        // {"lat":-17.19,"lon":-135.65,"icon":"point","action":{"type":"panorama","id":"9"}},
         {"lat":-1.13,"lon":177.77,"title":"Моноблок Profoto D1","action":{"type":"popup","id":"profoto"}},
         {"lat":27.2,"lon":-67.67,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
         {"lat":23.13,"lon":-138.35,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
@@ -111,6 +139,15 @@
       ],
       "videos": [
         {"position":{"x":-1.285,"y":-1.302,"z":8.35},"rotation":{"x":0.2906,"y":2.9924,"z":-0.0644},"scale":{"x":0.9568,"y":0.9718,"z":1},"videoId":"macbook"}
+      ],
+      "points": [
+        {"lon":-137.4,"distance":5.76,"level":-2,"pano":"9"},
+        {"lon":221.56,"distance":3.6,"level":-2,"pano":"1"},
+        {"lon":-100.55,"distance":2.62,"level":-2,"pano":"2"},
+        {"lon":290.77,"distance":4.84,"level":-2,"pano":"4"},
+        {"lon":318.97,"distance":7.82,"level":-2,"pano":"5","opacity":0.6},
+        {"lon":-12.11,"distance":5.04,"level":-2,"pano":"6"},
+        {"lon":9.59,"distance":2.07,"level":-2,"pano":"7"}
       ]
     },
     {
@@ -118,13 +155,13 @@
       "title": {"ru": "На ковре", "en": "On the carpet"},
       "heading": 1.86,
       "markers": [
-        {"lat":-22.44,"lon":157.44,"icon":"point","action":{"type":"panorama","id":"1"}},
-        {"lat":-34.29,"lon":-211.64,"icon":"point","action":{"type":"panorama","id":"2"}},
-        {"lat":-20.54,"lon":113.79,"icon":"point","action":{"type":"panorama","id":"3"}},
-        {"lat":-27.9,"lon":4.72,"icon":"point","action":{"type":"panorama","id":"5"}},
-        {"lat":-3.05,"lon":39.47,"icon":"up","action":{"type":"panorama","id":"6"}},
-        {"lat":-20.92,"lon":87.39,"icon":"point","action":{"type":"panorama","id":"7"}},
-        {"lat":-0.3,"lon":167.22,"icon":"up","action":{"type":"panorama","id":"8"}},
+        // {"lat":-22.44,"lon":157.44,"icon":"point","action":{"type":"panorama","id":"1"}},
+        // {"lat":-34.29,"lon":-211.64,"icon":"point","action":{"type":"panorama","id":"2"}},
+        // {"lat":-20.54,"lon":113.79,"icon":"point","action":{"type":"panorama","id":"3"}},
+        // {"lat":-27.9,"lon":4.72,"icon":"point","action":{"type":"panorama","id":"5"}},
+        // {"lat":-3.05,"lon":39.47,"icon":"up","action":{"type":"panorama","id":"6"}},
+        // {"lat":-20.92,"lon":87.39,"icon":"point","action":{"type":"panorama","id":"7"}},
+        // {"lat":-0.3,"lon":167.22,"icon":"up","action":{"type":"panorama","id":"8"}},
         {"lat":-22.63,"lon":-161.53,"title": {"ru": "Видео", "en": "Video"},"action":{"type":"popup","id":"video"}},
         {"lat":46.69,"lon":95.4,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
         {"lat":-36.31,"lon":20.92,"title":{"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
@@ -133,6 +170,14 @@
       ],
       "videos": [
         {"position":{"x":-4.06,"y":-1.251,"z":1.483},"rotation":{"x":0.3707,"y":2.8809,"z":-0.077},"scale":{"x":0.936,"y":0.9564,"z":1},"videoId":"macbook"}
+      ],
+      "points": [
+        {"lon":-182.13,"distance":6.69,"level":-2,"pano":"9","opacity":0.6},
+        {"lon":157.59,"distance":4.39,"level":-2,"pano":"1"},
+        {"lon":-215.3,"distance":2.81,"level":-2,"pano":"2"},
+        {"lon":113.62,"distance":5.12,"level":-2,"pano":"3"},
+        {"lon":363.17,"distance":3.6,"level":-2,"pano":"5"},
+        {"lon":85.18,"distance":5.13,"level":-2,"pano":"7"}
       ]
     },
     {
@@ -140,14 +185,22 @@
       "title": {"ru": "У правого окна", "en": "At the right window"},
       "heading": -52.34,
       "markers": [
-        {"lat":-27.88,"lon":183.09,"icon":"point","action":{"type":"panorama","id":"4"}},
-        {"lat":-14.01,"lon":168.95,"icon":"point","action":{"type":"panorama","id":"1"}},
-        {"lat":-17.72,"lon":-191.55,"icon":"point","action":{"type":"panorama","id":"2"}},
-        {"lat":-27.47,"lon":98.91,"icon":"point","action":{"type":"panorama","id":"6"}},
-        {"lat":-17.43,"lon":131.18,"icon":"point","action":{"type":"panorama","id":"7"}},
+        // {"lat":-27.88,"lon":183.09,"icon":"point","action":{"type":"panorama","id":"4"}},
+        // {"lat":-14.01,"lon":168.95,"icon":"point","action":{"type":"panorama","id":"1"}},
+        // {"lat":-17.72,"lon":-191.55,"icon":"point","action":{"type":"panorama","id":"2"}},
+        // {"lat":-27.47,"lon":98.91,"icon":"point","action":{"type":"panorama","id":"6"}},
+        // {"lat":-17.43,"lon":131.18,"icon":"point","action":{"type":"panorama","id":"7"}},
         {"lat":24.23,"lon":159.7,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
         {"lat":-42.12,"lon":172.79,"title":{"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
         {"lat":-24.06,"lon":151.05,"title": {"ru": "Столик", "en": "Table"},"action":{"type":"popup","id":"product5"}}
+      ],
+      "points": [
+        {"lon":-180.26,"distance":10.3,"level":-2,"pano":"9","opacity":0.6},
+        {"lon":168.66,"distance":8,"level":-2,"pano":"1"},
+        {"lon":-195.89,"distance":6.16,"level":-2,"pano":"2"},
+        {"lon":185.02,"distance":3.79,"level":-2,"pano":"4"},
+        {"lon":97.43,"distance":3.64,"level":-2,"pano":"6"},
+        {"lon":128.65,"distance":6,"level":-2,"pano":"7"}
       ]
     },
     {
@@ -155,14 +208,23 @@
       "title": {"ru": "У левого окна", "en": "At the left window"},
       "heading": 58.36,
       "markers": [
-        {"lat":-23.27,"lon":231.55,"icon":"point","action":{"type":"panorama","id":"4"}},
-        {"lat":-18.97,"lon":-156.42,"icon":"point","action":{"type":"panorama","id":"2"}},
-        {"lat":-21.06,"lon":165.49,"icon":"point","action":{"type":"panorama","id":"3"}},
-        {"lat":-31.2,"lon":-78.37,"icon":"point","action":{"type":"panorama","id":"5"}},
-        {"lat":-29.95,"lon":159.72,"icon":"point","action":{"type":"panorama","id":"7"}},
+        // {"lat":-23.27,"lon":231.55,"icon":"point","action":{"type":"panorama","id":"4"}},
+        // {"lat":-18.97,"lon":-156.42,"icon":"point","action":{"type":"panorama","id":"2"}},
+        // {"lat":-21.06,"lon":165.49,"icon":"point","action":{"type":"panorama","id":"3"}},
+        // {"lat":-31.2,"lon":-78.37,"icon":"point","action":{"type":"panorama","id":"5"}},
+        // {"lat":-29.95,"lon":159.72,"icon":"point","action":{"type":"panorama","id":"7"}},
         {"lat":26.39,"lon":216.46,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}},
         {"lat":-28.19,"lon":250.31,"title":{"ru": "Диван", "en": "Sofa"},"action":{"type":"popup","id":"product1"}},
         {"lat":-31.28,"lon":-148.1,"title": {"ru": "Столик", "en": "Table"},"action":{"type":"popup","id":"product5"}}
+      ],
+      "points": [
+        {"lon":-159.37,"distance":10.02,"level":-2,"pano":"9"},
+        {"lon":196.66,"distance":7.6,"level":-2,"pano":"1"},
+        {"lon":-157.5,"distance":5.8,"level":-2,"pano":"2"},
+        {"lon":169.51,"distance":5.38,"level":-2,"pano":"3","opacity":0.6},
+        {"lon":231.37,"distance":4.87,"level":-2,"pano":"4"},
+        {"lon":-79.25,"distance":3.28,"level":-2,"pano":"5"},
+        {"lon":158.29,"distance":3.22,"level":-2,"pano":"7"}
       ]
     },
     {
@@ -170,17 +232,26 @@
       "title": {"ru": "У пальмы", "en": "Palm tree"},
       "heading": 93.86,
       "markers": [
-        {"lat":-24.32,"lon":265.28,"icon":"point","action":{"type":"panorama","id":"4"}},
-        {"lat":-19.51,"lon":211.63,"icon":"point","action":{"type":"panorama","id":"1"}},
-        {"lat":-26.82,"lon":-127.09,"icon":"point","action":{"type":"panorama","id":"2"}},
-        {"lat":-43.5,"lon":184.85,"icon":"point","action":{"type":"panorama","id":"3"}},
-        {"lat":-4.51,"lon":-56.22,"icon":"up","action":{"type":"panorama","id":"5"}},
-        {"lat":-29.54,"lon":-20.35,"icon":"point","action":{"type":"panorama","id":"6"}},
-        {"lat":-1.23,"lon":197.83,"icon":"up","action":{"type":"panorama","id":"8"}},
+        // {"lat":-24.32,"lon":265.28,"icon":"point","action":{"type":"panorama","id":"4"}},
+        // {"lat":-19.51,"lon":211.63,"icon":"point","action":{"type":"panorama","id":"1"}},
+        // {"lat":-26.82,"lon":-127.09,"icon":"point","action":{"type":"panorama","id":"2"}},
+        // {"lat":-43.5,"lon":184.85,"icon":"point","action":{"type":"panorama","id":"3"}},
+        // {"lat":-4.51,"lon":-56.22,"icon":"up","action":{"type":"panorama","id":"5"}},
+        // {"lat":-29.54,"lon":-20.35,"icon":"point","action":{"type":"panorama","id":"6"}},
+        // {"lat":-1.23,"lon":197.83,"icon":"up","action":{"type":"panorama","id":"8"}},
         {"lat":30.35,"lon":258.94,"title": {"ru": "Подвесной свет", "en": "Light"},"action":{"type":"popup","id":"product0"}}
       ],
       "videos": [
         {"position":{"x":-4.105,"y":-1.284,"z":8.533},"rotation":{"x":0.3377,"y":2.9767,"z":-0.0644},"scale":{"x":0.9568,"y":0.9462,"z":1},"videoId":"macbook"}
+      ],
+      "points": [
+        {"lon":-145.85,"distance":7.73,"level":-2,"pano":"9"},
+        {"lon":212.05,"distance":5.32,"level":-2,"pano":"1"},
+        {"lon":-127.87,"distance":4.05,"level":-2,"pano":"2"},
+        {"lon":184.41,"distance":2.13,"level":-2,"pano":"3"},
+        {"lon":266.76,"distance":4.71,"level":-2,"pano":"4"},
+        {"lon":-50.96,"distance":6.2,"level":-2,"pano":"5","opacity":0.6},
+        {"lon":339.29,"distance":3.51,"level":-2,"pano":"6"}
       ]
     },
     {
@@ -189,6 +260,9 @@
       "heading": 175.66,
       "markers": [
         {"lat":-2.79,"lon":-22.83,"icon":"up","action":{"type":"panorama","id":"1"}}
+      ],
+      "points": [
+        {"lon":152.49,"distance":2.62,"level":-0.3,"pano":"1"}
       ]
     }
   ]

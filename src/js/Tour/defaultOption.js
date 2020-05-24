@@ -20,6 +20,9 @@ Tour.defaultOption = {
     sliderBullets: true,
     sliderAutoNextFrameInterval: 6000,
     nadirControl: false,
+    pointersOpacity: 0.6,
+    arrowsDistance: 35,
+    heightFloor: 2,
     sentry: {
         dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
     },
