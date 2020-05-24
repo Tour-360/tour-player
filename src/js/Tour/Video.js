@@ -4,6 +4,8 @@ Tour.Video = function(options) {
     this.videoElement = document.createElement('video');
     this.videoElement.preload = options.preload || 'none';
     this.videoElement.src = options.src;
+    this.width = options.width;
+    this.height = options.height;
     // this.videoElement.autoplay =  options.autoplay || true;
     this.videoElement.loop = options.loop || true;
     this.videoElement.muted = options.muted == undefined ? true : false;
@@ -35,14 +37,14 @@ Tour.Video = function(options) {
     this.videoElement.pause();
 
     this.canvas = document.createElement('canvas');
-    this.canvas.width = Math.pow(2, Math.ceil(Math.log(options.width) / Math.log(2)));
-    this.canvas.height = Math.pow(2, Math.ceil(Math.log(options.height) / Math.log(2)));
+    this.canvas.width = Math.pow(2, Math.ceil(Math.log(this.width) / Math.log(2)));
+    this.canvas.height = Math.pow(2, Math.ceil(Math.log(this.height) / Math.log(2)));
 
     this.ctx = this.canvas.getContext('2d');
 
     this.texture = new THREE.Texture(this.canvas);
-    this.texture.repeat.x = (options.width / this.canvas.width) * (1/this.sprite);
-    this.texture.repeat.y = options.height / this.canvas.height;
+    this.texture.repeat.x = (this.width / this.canvas.width) * (1/this.sprite);
+    this.texture.repeat.y = this.height / this.canvas.height;
     this.texture.offset.y = 1 - this.texture.repeat.y;
     this.texture.offset.x = 0;
     this.texture.needsUpdate = true;
@@ -58,9 +60,9 @@ Tour.Video.prototype.draw = function() {
         if (Tour.options.rendererType != 'css' && (!this.frameRate || currentFrame != this.previousFrame)) {
             this.ctx.drawImage(this.videoElement, 0, 0);
             this.previousFrame = currentFrame;
+            this.texture.needsUpdate = true;
+            Tour.needsUpdate = true;
         }
-        this.texture.needsUpdate = true;
-        Tour.needsUpdate = true;
     } else {
         this.videoElement.pause();
     }

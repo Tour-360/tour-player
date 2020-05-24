@@ -6,6 +6,12 @@ Tour.render = function() {
         return !(Math.abs(a - b) < 1e-4);
     };
 
+    if (this.videos) {
+        for (k in this.videos) {
+            this.videos[k].draw();
+        }
+    }
+
     if (!this.previousCamera || this.needsUpdate ||
         compare(this.camera.rotation.x, this.previousCamera.x) ||
         compare(this.camera.rotation.y, this.previousCamera.y) ||
@@ -26,11 +32,6 @@ Tour.render = function() {
             });
         }
         this.needsUpdate = false;
-        if (this.videos) {
-            for (k in this.videos) {
-                this.videos[k].draw();
-            }
-        }
         UI.layout.applyActive(true);
         Tour.emmit('render');
     }

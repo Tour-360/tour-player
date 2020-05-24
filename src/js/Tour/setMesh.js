@@ -36,7 +36,7 @@ Tour.setMesh = function(id) {
                 if(videoOpt.sprite > 1){
                     video.onBeforeRender = function(e){
                         video.material.map.offset.x = this;
-                    }.bind(options.sprite * (1/videoOpt.sprite))
+                    }.bind(options.sprite * (1/videoOpt.sprite) * (videoOpt.width / videoOpt.canvas.width))
                 }
 
                 var alpha = videoOpt.canvas.height / videoOpt.canvas.width;
