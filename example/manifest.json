@@ -259,10 +259,10 @@
       "title": {"ru": "Гримерка", "en": "Dressing room"},
       "heading": 175.66,
       "markers": [
-        {"lat":-2.79,"lon":-22.83,"icon":"up","action":{"type":"panorama","id":"1"}}
+        // {"lat":-2.79,"lon":-22.83,"icon":"up","action":{"type":"panorama","id":"1"}}
       ],
       "points": [
-        {"lon":152.49,"distance":2.62,"level":-0.3,"pano":"1"}
+        {"lon":-21.19,"distance":7.76,"level":-2,"pano":"1","opacity":0.6}
       ]
     }
   ]
