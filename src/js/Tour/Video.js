@@ -2,6 +2,7 @@
 
 Tour.Video = function(options) {
     this.videoElement = document.createElement('video');
+    this.videoElement.preload = options.preload || 'none';
     this.videoElement.src = options.src;
     // this.videoElement.autoplay =  options.autoplay || true;
     this.videoElement.loop = options.loop || true;
