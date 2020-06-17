@@ -4,7 +4,7 @@ Tour.Point = function(options, index){
     this.material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true} );
     this.materialActive = new THREE.MeshBasicMaterial( { color: 0xffffff} );
 
-    this.ringGeometry = new THREE.RingGeometry( 0.3, 0.4, 32 );
+    this.ringGeometry = new THREE.RingGeometry( 0.3, 0.38, 32 );
     this.ring = new THREE.Mesh( this.ringGeometry, this.material );
     this.ring.rotation.set(-Math.PI/2, 0, 0);
 
@@ -13,14 +13,28 @@ Tour.Point = function(options, index){
     this.circle.visible = false;
     this.circle.rotation.set(-Math.PI/2, 0, 0);
 
+    this.circle._onclick = this.go.bind(this)
+    this.circle._onhover = this.setActive.bind(this, true);
+    this.circle._onover = this.setActive.bind(this, false);
+
     this.level = options.level || -2;
     this.opacity = options.opacity || 1;
     this.distance = options.distance || 0
     this.lon = options.lon || 0;
+    this.pano = options.pano;
 
     Tour.pointsManager.rings.add(this.ring);
     Tour.pointsManager.circles.add(this.circle);
     this.set();
+}
+
+Tour.Point.prototype.go = function(value){
+    Tour.view.set({id:this.pano}, null, Math.abs((this.lon - Tour.view.lon)%360) < 20);
+}
+
+Tour.Point.prototype.setActive = function(value){
+    this.ring.material = value ? this.materialActive : this.material;
+    Tour.needsUpdate = true;
 }
 
 
@@ -32,7 +46,8 @@ Tour.Point.prototype.set = function(){
 }
 
 Tour.Point.prototype.remove = function(){
-
+    Tour.pointsManager.rings.remove(this.ring);
+    Tour.pointsManager.circles.remove(this.circle);
 }
 
 Tour.pointsManager = {};
@@ -40,81 +55,21 @@ Tour.pointsManager = {};
 Tour.pointsManager.init = function() {
     this.rings = new THREE.Group();
     this.circles = new THREE.Group();
-    this.move = false;
 
     Tour.scene.add(this.rings);
     Tour.scene.add(this.circles);
     Tour.points = [];
-
-    Tour.renderer.domElement.addEventListener('mousemove', this.onMouseMowe.bind(this), false);
-    Tour.renderer.domElement.addEventListener('mouseup', this.onMouseUp.bind(this), false);
-    Tour.renderer.domElement.addEventListener('mousedown', this.onMouseDown.bind(this), false);
 }
 
 Tour.pointsManager.set = function(id) {
-    while(this.rings.children.length > 0){ 
-        this.rings.remove(this.rings.children[0]); 
-        this.circles.remove(this.circles.children[0]); 
-    }
+    Tour.points.forEach(function(e){
+        e.remove();
+    })
     Tour.points = [];
 
     var points = Tour.getPanorama(id).points || [];
     points.forEach(function(pointOptions) {
-        var point = new Tour.Point(pointOptions);
-        Tour.points.push(point);
+        Tour.points.push(new Tour.Point(pointOptions));
     })
     Tour.needsUpdate = true;
 }
-
-Tour.pointsManager.onMouseDown = function(event){
-    this.detectPoint(event);
-    this.move = false;
-}
-
-
-Tour.pointsManager.onMouseUp = function(event){
-    this.detectPoint(event);
-    if(this.aciveIndex >= 0 && !this.move) {
-        var point = Tour.getPanorama().points[this.aciveIndex];
-        Tour.view.set({id:point.pano}, null, Math.abs(point.lon - Tour.view.lon) < 20);
-    }
-    UI.layout.setActive(true);
-}
-
-Tour.pointsManager.onMouseMowe = function(event){
-    this.move = true;
-    this.detectPoint(event);
-}
-
-Tour.pointsManager.detectPoint = function(event){
-    var mouse = new THREE.Vector2();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    var raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, Tour.camera);
-    var intersects = raycaster.intersectObjects(this.circles.children);
-
-    if(intersects.length){
-        UI.layout.setActive(true);
-    }
-
-    this.circles.children.forEach(function(circle, index) {
-        if(intersects[0] && circle.id == intersects[ 0 ].object.id){
-            this.aciveIndex = index
-            if(this.rings.children[index].material == Tour.points[index].material){
-                this.rings.children[index].material = Tour.points[index].materialActive;
-                Tour.needsUpdate = true;
-            }
-        }else if(this.rings.children[index].material != Tour.points[index].material) {
-            this.rings.children[index].material = Tour.points[index].material;
-            Tour.needsUpdate = true;
-        }
-    }.bind(this));
-
-    if(!intersects[0]){
-        this.aciveIndex = -1;
-    }
-}
-
-
-

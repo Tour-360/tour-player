@@ -32,7 +32,6 @@ Tour.render = function() {
             });
         }
         this.needsUpdate = false;
-        UI.layout.applyActive(true);
         Tour.emmit('render');
     }
 

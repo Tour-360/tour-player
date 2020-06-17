@@ -10,9 +10,10 @@ Tour.init = function(data, options) {
     Lang.set(this.options.lang, Tour.dictionary);
     this.backgroundImage.init();
     this.createScene();
-    UI.layout.init(Tour.renderer.domElement);
+    this.mousManager.init();
     this.nadirControl.init();
     this.pointsManager.init();
+    this.areasManager.init();
     UI.notification.init();
     UI.popUp.init();
     this.setSliders();
