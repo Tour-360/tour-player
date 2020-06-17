@@ -7,6 +7,7 @@ Tools.init = function() {
             case 'Digit2':  Tools.markerEditor.init(); break;
             case 'Digit3':  Tools.pointEditor.init(); break;
             case 'Digit4':  Tools.meshEditor(); break;
+            case 'Digit5':  Tools.areaEditor.init(); break;
         }
     });
 
@@ -19,6 +20,7 @@ Tools.init = function() {
     Tour.view.fov.min = 5;
     Tour.view.fov.max = 130;
 
+    this.active = true;
     UI.notification.show('You are in edit mode');
 };
 
