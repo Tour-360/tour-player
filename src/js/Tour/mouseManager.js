@@ -33,6 +33,7 @@ Tour.mousManager.check = function(event){
                 this.target && this.target._onover && this.target._onover();
                 this.target = obj;
                 obj._onhover();
+                obj._title && UI.tooltip.setTitle(obj._title)
             }
         }else{
             this.target && this.target._onover && this.target._onover();
@@ -40,12 +41,15 @@ Tour.mousManager.check = function(event){
         }
 
         UI.layout.setActive(!!obj._onclick);
+        UI.tooltip.setVisible(!!obj._title);
+        obj._title && UI.tooltip.setPosition(event.clientX, event.clientY)
     }
 }
 
 Tour.mousManager.onMouseMowe = function(event){
     this.move = true;
     if(event.which){
+        UI.tooltip.setVisible(false)
         return false
     }
     this.check(event)

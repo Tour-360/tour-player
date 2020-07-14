@@ -75,6 +75,7 @@ Tools.areaEditor.copyAll = function(){
 }
 
 Tools.areaEditor.save = function(){
+    console.log('save')
 
     var id = prompt('Enter popup id');
     var area = {
@@ -93,12 +94,6 @@ Tools.areaEditor.save = function(){
             parseFloat(this.plane.position.z.toFixed(3))
         ]
     }
-
-    var panorama = Tour.getPanorama()
-    if(! panorama.areas){
-        panorama.areas = [];
-    }
-    panorama.areas.push(area);
 
     var panorama = Tour.getPanorama()
     if(! panorama.areas){

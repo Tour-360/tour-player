@@ -16,6 +16,7 @@ Tour.Area = function(options){
     this.mesh._onclick = this.go.bind(this)
     this.mesh._onhover = this.setActive.bind(this, true);
     this.mesh._onover = this.setActive.bind(this, false);
+    this.mesh._title = options.title;
 
     Tour.areasManager.areas.add( this.mesh );
 }
