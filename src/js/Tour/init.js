@@ -15,6 +15,7 @@ Tour.init = function(data, options) {
     this.pointsManager.init();
     this.areasManager.init();
     UI.notification.init();
+    UI.tooltip.init();
     UI.popUp.init();
     this.setSliders();
     UI.devCursor.init(this.options.cursor);
