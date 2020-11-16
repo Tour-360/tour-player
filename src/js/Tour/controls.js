@@ -156,8 +156,7 @@ Tour.controls = {
 
     toggleControls: function() {
         if (window.isSecureContext) {
-            var ctrl = Tour.orientationControls.controls;
-            ctrl.enabled ? ctrl.disconnect() : ctrl.connect();
+            Tour.orientationControls.toggle()
         }
     },
 
