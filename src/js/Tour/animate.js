@@ -18,6 +18,11 @@ Tour.animate = function() {
         }
     }
 
+    Tour.view.lat.max = Tour.options.limit.lat.max-((Tour.view.fov.value)/2);
+    Tour.view.lat.min = Tour.options.limit.lat.min+((Tour.view.fov.value)/2);
+    Tour.view.lon.max = Tour.options.limit.lon.max-(Tour.view.fov.value/2);
+    Tour.view.lon.min = Tour.options.limit.lon.min+(Tour.view.fov.value/2);
+
     this.view.lat.move(this.view.rotation.lat, true);
     this.view.lon.move(this.view.rotation.lon, true);
 
