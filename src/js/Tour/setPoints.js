@@ -18,7 +18,7 @@ Tour.Point = function(options, index){
     this.circle._onover = this.setActive.bind(this, false);
 
     this.level = options.level || -2;
-    this.opacity = options.opacity || 1;
+    this.opacity = options.opacity == undefined ? 1 : (options.opacity || 0);
     this.distance = options.distance || 0
     this.lon = options.lon || 0;
     this.pano = options.pano;
@@ -67,9 +67,11 @@ Tour.pointsManager.set = function(id) {
     })
     Tour.points = [];
 
-    var points = Tour.getPanorama(id).points || [];
-    points.forEach(function(pointOptions) {
-        Tour.points.push(new Tour.Point(pointOptions));
-    })
-    Tour.needsUpdate = true;
+    if(Tour.options.points){
+        var points = Tour.getPanorama(id).points || [];
+        points.forEach(function(pointOptions) {
+            Tour.points.push(new Tour.Point(pointOptions));
+        })
+        Tour.needsUpdate = true;
+    }
 }
