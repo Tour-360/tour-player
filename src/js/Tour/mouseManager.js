@@ -8,14 +8,15 @@ Tour.mousManager.init = function(){
     Tour.renderer.domElement.addEventListener('mouseup', this.onMouseUp.bind(this), false);
 }
 
-Tour.mousManager.onMouseDown = function(event){
-    this.move = false;
+Tour.mousManager.getVector = function(event){
+    var vector = new THREE.Vector2();
+    vector.x = (event.clientX / window.innerWidth) * 2 - 1;
+    vector.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    return vector;
 }
 
 Tour.mousManager.check = function(event){
-    var mouse = new THREE.Vector2();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    var mouse = this.getVector(event);
 
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, Tour.camera);
@@ -46,6 +47,11 @@ Tour.mousManager.check = function(event){
     }
 }
 
+Tour.mousManager.onMouseDown = function(event){
+    this.move = false;
+    this.startMouse = this.getVector(event);
+}
+
 Tour.mousManager.onMouseMowe = function(event){
     this.move = true;
     if(event.which){
@@ -57,7 +63,10 @@ Tour.mousManager.onMouseMowe = function(event){
 
 Tour.mousManager.onMouseUp = function(event){
     this.check(event);
-    if(!this.move){
-        this.target && this.target._onclick && this.target._onclick(event);
+    if(this.getVector(event).distanceTo(this.startMouse) < 0.01){
+        if(this.target && this.target._onclick){
+            window.navigator.vibrate && Tour.options.vibrate && window.navigator.vibrate(25)
+            this.target._onclick(event);
+        }
     }
 }
