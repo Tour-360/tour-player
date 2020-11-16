@@ -11,9 +11,14 @@ Tour.view.set = function(options, replaceHistory, zoom) {
 
     options = options || {};
 
-    this.fov = new Tour.Transition(options.fov || this.fov || Tour.options.initFov, Tour.options.limit.fov);
-    this.lat = new Tour.Transition(options.lat || this.lat || 0, Tour.options.limit.lat);
-    this.lon = new Tour.Transition(options.lon || this.lon || 0, Tour.options.limit.lon);
+    var set = function(){
+      this.fov = new Tour.Transition(options.fov || this.fov || Tour.options.initFov, Tour.options.limit.fov);
+      this.lat = new Tour.Transition(options.lat || this.lat || 0, Tour.options.limit.lat);
+      this.lon = new Tour.Transition(options.lon || this.lon || 0, Tour.options.limit.lon);
+      Tour.history.set(!replaceHistory);
+    }.bind(this)
+
+    if(!this.fov && !this.lat && !this.lon) set();
 
     this.lon.limit = 360;
 
@@ -22,9 +27,10 @@ Tour.view.set = function(options, replaceHistory, zoom) {
 
     if (this.id != options.id && options.id !== undefined) {
         this.id = options.id;
-        Tour.setPanorama(this.id, zoom);
+        Tour.setPanorama(this.id, zoom, set);
+    }else{
+        set();
     }
-    Tour.history.set(!replaceHistory);
 
     var panorama;
     for (var k in this) {
