@@ -8,7 +8,6 @@ body, html
     overflow hidden
     -webkit-text-size-adjust none
     touch-action manipulation
-    user-select none
 
 body
     position fixed
@@ -16,6 +15,7 @@ body
     margin 0
     font $font-size 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif
     -webkit-tap-highlight-color transparent
+    user-select none           /* Non-prefixed version */
 
 #renderer
     position absolute
