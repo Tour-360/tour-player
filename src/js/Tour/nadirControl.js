@@ -3,7 +3,7 @@ Tour.Arrow = function(point){
     var b = a-0.03; // толщина стрелки
     var c = 0; // Сдвиг по высоте
     var s = 0.4; // Удаленность от центра
-    var n = 0.05; // Увиличениее интеерактивной зоны
+    var n = BrouserInfo.mobile ? 0.15 : 0.05; // Увиличениее интеерактивной зоны
 
     this.point = point;
 
@@ -98,6 +98,19 @@ Tour.nadirControl.init = function() {
     this.shadowMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true, opacity: 0.2} );
 }
 
+Tour.nadirControl.getDistance = function(rot1, rot2) {
+    var modulo = function(x, y) {
+        var xPrime = x;
+        while(xPrime < 0) {
+          xPrime += y;
+        }
+        return xPrime % y;
+    }
+
+    var distance = Math.abs(modulo(rot1,360) - modulo(rot2,360))
+    return distance = Math.min(distance, 360-distance)
+}
+
 Tour.nadirControl.getPoints = function() {
     var points = Tour.getPanorama().points || [];
     points = points.sort(function(a, b){
@@ -107,14 +120,13 @@ Tour.nadirControl.getPoints = function() {
     var result = [];
     points.forEach(function(point){
         if(!result.some(function(selected){
-            return Math.abs((point.lon-selected.lon)%360) < Tour.options.arrowsDistance;
+            return Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance;
         })){
             result.push(point)
         }
     })
     return result;
 }
-
 
 Tour.nadirControl.set = function() {
     if (!Tour.options.nadirControl ) {
