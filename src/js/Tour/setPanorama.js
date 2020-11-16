@@ -5,7 +5,7 @@
  *
  * @param {Number} id идентификатор панорамы
  */
-Tour.setPanorama = function(id, zoomin) {
+Tour.setPanorama = function(id, zoomin, callback) {
     Tour.backgroundImage.transitionStart(function() {
         Tour.mesh.rotation.set(0, Math.PI / 2 - ((this.getPanorama(id).heading || 0) / 180 * Math.PI), 0);
         this.setTexture(id);
@@ -17,5 +17,6 @@ Tour.setPanorama = function(id, zoomin) {
         var panorama = this.getPanorama(id);
         this.view.rotation.auto = panorama.autorotation !== false &&
             (panorama.autorotation || this.data.autorotation);
+        callback && callback();
     }.bind(this), zoomin);
 };
