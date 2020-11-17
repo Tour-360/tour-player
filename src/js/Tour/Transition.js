@@ -24,14 +24,14 @@ Tour.Transition.prototype.set = function(value) {
 };
 
 Tour.Transition.prototype.move = function(value, noanim) {
-    if (typeof value == "number" ) {
+    if (value) {
         this.moveTo(this.follow + value, noanim);
     }
     return this.follow;
 };
 
 Tour.Transition.prototype.moveTo = function(value, noanim) {
-    this.follow = Math.max(typeof this.min == "number" ? this.min : -Infinity, Math.min(typeof this.max == "number"? this.max : Infinity, value));
+    this.follow = Math.max(this.min || -Infinity, Math.min(this.max || Infinity, value));
     if (noanim) {
         this.value = this.follow;
     }
