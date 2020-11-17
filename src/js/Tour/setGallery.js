@@ -1,13 +1,13 @@
 /* globals UI, Tour, Lang */
 Tour.setGallery = function(data, visible) {
-    if (this.options.gallery) {
+    if (Tour.options.gallery) {
         UI.gallery.init(visible);
 
         data.panorams.map(function(pano) {
             if (pano.listNumber !== 0) {
                 UI.gallery.addItem({
                     id: pano.id,
-                    image: 'panorams/' + pano.id + '/thumbnail/mini.jpg' + Tour.getRandomQuery(),
+                    image: Tour.options.path + pano.id + '/thumbnail/mini.jpg' + Tour.getRandomQuery(),
                     title: Lang.translate(pano.title),
                     onclick: function() {
                         Tour.view.set(pano);
