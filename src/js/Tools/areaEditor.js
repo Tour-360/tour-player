@@ -7,13 +7,13 @@ Tools.areaEditor = {
 Tools.areaEditor.set = function() {
     UI.notification.show('Draw mode on', 300);
     Tour.renderer.domElement.style.pointerEvents = 'none'
-    document.body.style.cursor = 'crosshair'
+    Tour.domElement.style.cursor = 'crosshair'
     UI.controlPanel.visibility = true; Tour.controls.toggleMenu();
 
     var dist = 10
 
     var vFOV = THREE.Math.degToRad( Tour.camera.fov );
-    var height = 2 * Math.tan( vFOV / 2 ) * dist; 
+    var height = 2 * Math.tan( vFOV / 2 ) * dist;
     var width = height * Tour.camera.aspect;
 
     var geometry = new THREE.PlaneGeometry(width, height);
@@ -107,7 +107,7 @@ Tools.areaEditor.save = function(){
 }
 
 Tools.areaEditor.mouseup = function(event){
-    if(document.body.style.cursor == 'copy'){
+    if(Tour.domElement.style.cursor === 'copy'){
         this.save();
         this.init();
     }else{
@@ -132,10 +132,10 @@ Tools.areaEditor.getVector = function(event){
 Tools.areaEditor.mousemove = function(event){
     var vector = this.getVector(event)
     if(this.peaks[0] && Math.sqrt(Math.pow(Math.abs(vector.x - this.peaks[0].x), 2) + Math.abs(vector.y - this.peaks[0].y)) < 0.2){
-        document.body.style.cursor = 'copy'
+        Tour.domElement.style.cursor = 'copy'
         this.points = this.peaks.concat();
     }else{
-        document.body.style.cursor = 'crosshair'
+        Tour.domElement.style.cursor = 'crosshair'
         this.points = this.peaks.concat([vector]);
     }
     this.draw();
@@ -157,7 +157,7 @@ Tools.areaEditor.draw = function(){
 }
 
 Tools.areaEditor.clear = function() {
-    Tour.renderer.domElement.style.pointerEvents = document.body.style.cursor = ''
+    Tour.renderer.domElement.style.pointerEvents = Tour.domElement.style.cursor = 'initial'
     Tour.scene.remove(this.plane);
     Tour.scene.remove(this.mesh);
 

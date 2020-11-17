@@ -3,15 +3,15 @@ Tour.mousManager = {
 };
 
 Tour.mousManager.init = function(){
-    Tour.renderer.domElement.addEventListener('mousemove', this.onMouseMowe.bind(this), false);
+    Tour.renderer.domElement.addEventListener('mousemove', this.onMouseMove.bind(this), false);
     Tour.renderer.domElement.addEventListener('mousedown', this.onMouseDown.bind(this), false);
     Tour.renderer.domElement.addEventListener('mouseup', this.onMouseUp.bind(this), false);
 }
 
 Tour.mousManager.getVector = function(event){
     var vector = new THREE.Vector2();
-    vector.x = (event.clientX / window.innerWidth) * 2 - 1;
-    vector.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    vector.x = ((event.clientX - Tour.domElement.offsetLeft) / Tour.width) * 2 - 1;
+    vector.y = -((event.clientY - Tour.domElement.offsetTop) / Tour.height) * 2 + 1;
     return vector;
 }
 
@@ -52,7 +52,7 @@ Tour.mousManager.onMouseDown = function(event){
     this.startMouse = this.getVector(event);
 }
 
-Tour.mousManager.onMouseMowe = function(event){
+Tour.mousManager.onMouseMove = function(event){
     this.move = true;
     if(event.which){
         UI.tooltip.setVisible(false)

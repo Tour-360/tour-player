@@ -1,10 +1,10 @@
-/* globals UI */
+/* globals Tour, UI */
 
 UI.tooltip = {
     init: function() {
         this.domElement = document.createElement('div');
         this.domElement.id = 'tooltip';
-        document.body.appendChild(this.domElement);
+        Tour.domElement.appendChild(this.domElement);
     },
 
     setTitle: function(text) {

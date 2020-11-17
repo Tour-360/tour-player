@@ -1,11 +1,11 @@
-/* globals UI */
+/* globals Tour, UI */
 
 UI.Marker = function(action, icon, title) {
     var markersContayner = document.getElementById('markers');
     if (!markersContayner) {
         markersContayner = document.createElement('div');
         markersContayner.id = 'markers';
-        document.body.appendChild(markersContayner);
+        Tour.domElement.appendChild(markersContayner);
     }
 
     this.buttonDomElement = document.createElement('div');

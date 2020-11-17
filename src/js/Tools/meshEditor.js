@@ -141,5 +141,5 @@ Tools.meshEditor = function() {
         }
     });
 
-    document.body.addEventListener('click', onMouseMove, false);
+    Tour.domElement.addEventListener('click', onMouseMove, false);
 };

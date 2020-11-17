@@ -13,7 +13,7 @@ Tour.setMarkers = function(id) {
 
     if (markers) {
         /* Типы действий
-         * github.com/Tour-360/tour-player/wiki/Формат-файла-manifest.json#action
+         * github.com/Tour-360/tour-player/wiki/Формат-файла-tour.json#action
          */
         var action = function(marker) {
             if (this.type == 'panorama') {

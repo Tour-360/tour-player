@@ -38,7 +38,7 @@ Tour.controls = {
                 screen.orientation.unlock();
             }
         } else {
-            e = document.documentElement;
+            e = Tour.domElement;
             if (e.requestFullscreen) { e.requestFullscreen();
             } else if (e.msRequestFullscreen) { e.msRequestFullscreen();
             } else if (e.webkitRequestFullScreen) { e.webkitRequestFullScreen();
@@ -181,10 +181,10 @@ Tour.controls = {
         if (document.execCommand) {
             var textarea = document.createElement('textarea');
             textarea.value = text;
-            document.body.appendChild(textarea);
+            Tour.domElement.appendChild(textarea);
             textarea.select();
             report(document.execCommand('copy'));
-            document.body.removeChild(textarea);
+            Tour.domElement.removeChild(textarea);
         } else if (window.clipboardData) {
             window.clipboardData.setData('Text', text);
             report(true);

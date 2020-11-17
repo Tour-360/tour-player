@@ -1,4 +1,4 @@
-/* globals UI */
+/* globals Tour, UI */
 
 UI.controlPanel = {};
 
@@ -26,7 +26,7 @@ UI.controlPanel.init = function(visibility) {
     this.setProgress(0);
     this.setVisible(visibility);
 
-    document.body.appendChild(this.domElement);
+    Tour.domElement.appendChild(this.domElement);
 };
 
 UI.controlPanel.setVisible = function(visibility) {
@@ -44,7 +44,7 @@ UI.controlPanel.addBtn = function(className, callback, title) {
 };
 
 UI.controlPanel.setProgress = function(value) {
-    document.body.classList[value < 1 ? 'add' : 'remove']('load');
+    Tour.domElement.classList[value < 1 ? 'add' : 'remove']('load');
 
     if (this.progressBar) {
         this.progressBar.classList[value >= 1 ? 'add' : 'remove']('hidden');

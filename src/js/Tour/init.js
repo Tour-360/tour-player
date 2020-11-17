@@ -1,12 +1,14 @@
 /* globals Tour, Lang, BrouserInfo, UI*/
 
-Tour.init = function(data, options) {
+Tour.init = function(domElement, options) {
     this.sentry();
     console.info('Tour-player', 'v' + this.version.join('.'), 'by http://Tour-360.ru');
     BrouserInfo();
     this.options.set(this.defaultOption);
+    options.domElement = domElement;
     this.options.set(options);
     this.options.set(Tour.query.get());
+    this.domElement = document.querySelector(this.options.domElement);
     Lang.set(this.options.lang, Tour.dictionary);
     this.backgroundImage.init();
     this.createScene();
@@ -22,7 +24,7 @@ Tour.init = function(data, options) {
     this.setControlPanel();
     this.setMouseMenu();
     this.orientationControls.init();
-    this.load(data, function(data) {
+    this.load(this.options.manifest, function(data) {
         this.setVideos(data.videos);
         this.setImages(data.images);
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
@@ -32,9 +34,9 @@ Tour.init = function(data, options) {
             var pano = this.getPanorama(query.id);
             query.lat = pano.lat;
             query.lon = pano.lon;
-        };
+        }
         this.view.set(query, true);
-        this.setGallery(data, options.galleryVisible);
+        this.setGallery(data, this.options.galleryVisible);
         this.addEventListeners();
         Tour.emmit('init');
         this.animate();

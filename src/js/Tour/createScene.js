@@ -2,7 +2,9 @@
 
 Tour.createScene = function() {
     this.setRenderer(Tour.options.rendererType, Tour.options.imageType);
-    document.body.appendChild(this.renderer.domElement);
+    this.renderer.setSize(Tour.width, Tour.height);
+    Tour.domElement.classList.add('tour-player');
+    Tour.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera();
