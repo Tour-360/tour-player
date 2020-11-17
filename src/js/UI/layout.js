@@ -4,5 +4,5 @@ UI.layout = {
 };
 
 UI.layout.setActive = function(value) {
-    document.body.classList[value? 'add' : 'remove']('active');
+    Tour.domElement.classList[value? 'add' : 'remove']('active');
 }

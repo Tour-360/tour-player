@@ -10,5 +10,5 @@ Tour.fullscreenEvents.change = function() {
     document.webkitIsFullScreen ||
     document.msFullscreenElement;
 
-    document.body.classList[fullscreen ? 'add' : 'remove']('fullscreen');
+    Tour.domElement.classList[fullscreen ? 'add' : 'remove']('fullscreen');
 };

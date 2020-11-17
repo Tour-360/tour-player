@@ -1,14 +1,14 @@
 .popup-layout
   position absolute
+  overflow auto
   top 0
   right 0
   bottom 0
   left 0
-  padding 16px
   display flex
   visibility hidden
   justify-content center
-  align-items center
+  padding 32px
   z-index 2
   background rgba(#000, .6)
   opacity 0
@@ -24,6 +24,7 @@
       transform scale(1)
 
   .popups
+    margin auto
     position relative
     transform scale(.8)
 
@@ -49,12 +50,11 @@
     min-width 200px
     max-width 400px
     min-height 140px
-    max-height calc(100vh - 150px)
     background #fff
     box-shadow $block-shadow
-    overflow auto
     border-radius 7px
     -webkit-overflow-scrolling touch
+    overflow hidden
 
     &:target
       display block

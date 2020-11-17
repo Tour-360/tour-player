@@ -16,6 +16,7 @@ UI.popUp = {
         }
     },
     set: function(id) {
+        this.domElement.scrollTo(0,0);
         var canAccessIFrame = !!~Object.keys(window.parent.location).indexOf('host');
         if (canAccessIFrame) {
             var scrollY = window.parent.scrollY;

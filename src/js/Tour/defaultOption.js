@@ -1,8 +1,9 @@
 /* globals Tour */
 
 Tour.defaultOption = {
+    element: '#tour-player',
     path: 'panorams/',
-    mainifest: 'manifest.json',
+    manifest: 'tour.json',
     tileset: [1, 3, 4, 5, 0, 2],
     initFov: 75,
     kineticResistance: 1.1,

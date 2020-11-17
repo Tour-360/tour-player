@@ -1,4 +1,4 @@
-/* globals UI */
+/* globals Tour, UI */
 
 UI.notification = {
     init: function() {
@@ -8,7 +8,7 @@ UI.notification = {
         this.textDomElement = document.createElement('span');
 
         this.domElement.appendChild(this.textDomElement);
-        document.body.appendChild(this.domElement);
+        Tour.domElement.appendChild(this.domElement);
         this.setVisible(false);
     },
     setVisible: function(type) {

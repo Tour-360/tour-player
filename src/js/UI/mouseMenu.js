@@ -1,4 +1,4 @@
-/* globals UI */
+/* globals Tour, UI */
 
 UI.mouseMenu = {};
 
@@ -8,7 +8,7 @@ UI.mouseMenu.init = function() {
     this.domElement.addEventListener('selectstart', function() {
         event.preventDefault();
     });
-    document.body.appendChild(this.domElement);
+    Tour.domElement.appendChild(this.domElement);
 
     document.addEventListener('contextmenu', function(event) {
         event.preventDefault();

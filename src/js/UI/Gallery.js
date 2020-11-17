@@ -1,4 +1,4 @@
-/* globals UI */
+/* globals UI, Tour */
 
 UI.gallery = {
     borderHoverSize: 5,
@@ -12,7 +12,7 @@ UI.gallery = {
         this.toggler.addEventListener('click', this.toggle.bind(this));
         this.domElement.appendChild(this.toggler);
         this.domElement.appendChild(this.ul);
-        document.body.appendChild(this.domElement);
+        Tour.domElement.appendChild(this.domElement);
 
         this.items = {};
 
@@ -52,7 +52,7 @@ UI.gallery = {
             this.items[k].classList.remove('active');
         }
 
-        if (this.items[id] && document.body.getBoundingClientRect) {
+        if (this.items[id] && Tour.domElement.getBoundingClientRect) {
             this.items[id].classList.add('active');
 
             var itemRect = this.items[id].getBoundingClientRect();
