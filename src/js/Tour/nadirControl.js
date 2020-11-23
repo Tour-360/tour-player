@@ -120,7 +120,7 @@ Tour.nadirControl.getPoints = function() {
     var result = [];
     points.forEach(function(point){
         if(!result.some(function(selected){
-            return Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance;
+            return Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance && Math.abs(point.level - selected.level) < 3;
         })){
             result.push(point)
         }
