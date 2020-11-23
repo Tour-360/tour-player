@@ -8,10 +8,10 @@ Tour.history = {};
  * @param {Boolean} push если указанно true, то создается новая запись
  */
 Tour.history.set = function(push) {
-    var title = [Lang.translate(Tour.data.title) || Lang.get('virtual-tour'),
-    Lang.translate(Tour.getPanorama(Tour.view.id).title)];
-
-    title = title.join(title[1] ? ' – ' : '');
+    var title = [
+      Lang.translate(Tour.data.title) || false,
+      Lang.translate(Tour.getPanorama(Tour.view.id).title)
+    ].filter(Boolean).join(' – ');
 
     window.history[(push ? 'pushState' : 'replaceState')](
         Tour.view.get(), title, Tour.query.set(Tour.view) + window.location.hash
