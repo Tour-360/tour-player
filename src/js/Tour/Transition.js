@@ -24,7 +24,7 @@ Tour.Transition.prototype.set = function(value) {
 };
 
 Tour.Transition.prototype.move = function(value, noanim) {
-    if (value) {
+    if (value !== undefined) {
         this.moveTo(this.follow + value, noanim);
     }
     return this.follow;
