@@ -3,8 +3,23 @@
 Tools.mapEditor = {}
 
 Tools.mapEditor.init = function(){
-    Tools.editor = window.open('tools/tool.html', '_blank', "width=1280,height=800,top=10,left=10,toolbar=0,location=0,menubar=0");
-    Tools.mapEditor.link()
+    Tools.editor = window.open(
+      Tour.options.tools,
+      '_blank',
+      Object.entries({
+        width: 1280,
+        height: 800,
+        left: 10,
+        top: 10,
+        toolbar: 0,
+        location: 0,
+        menubar: 0,
+      }).map(function(e) {
+        return e.join("=");
+      }).join(',')
+    );
+
+    Tools.mapEditor.link();
 
     window.addEventListener("beforeunload", function(e){
         Tools.editor.close()

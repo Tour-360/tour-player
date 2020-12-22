@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="css/tool.css" rel="stylesheet" >
+  <title>Tool</title>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <ul class="menu">
+        <li>
+          <span class="menu-item">File</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Copy code</span>
+            </li>
+            <li class="sub-menu-item" onclick="utils.clearStorage()">
+              <span class="sub-menu-item-title">Cear storage</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Open</span>
+              <span class="sub-menu-item-hotkay">⌘O</span>
+            </li>
+            <li class="sub-menu-item" onclick="state.saveAsFile()">
+              <span class="sub-menu-item-title">Save as…</span>
+              <span class="sub-menu-item-hotkay">⌘S</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="menu-item">Edit</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item" onclick="state.undo()">
+              <span class="sub-menu-item-title">Undo</span>
+              <span class="sub-menu-item-hotkay">⌘Z</span>
+            </li>
+            <li class="sub-menu-item" onclick="state.redo()">
+              <span class="sub-menu-item-title">Redo</span>
+              <span class="sub-menu-item-hotkay">⌘⇧Z</span>
+            </li>
+            <li class="sub-menu-item" onclick="select.all(true)">
+              <span class="sub-menu-item-title">Select all points</span>
+              <span class="sub-menu-item-hotkay">⌘A</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Add new point</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Remove all points</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Remove selected points</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="menu-item">Camera</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item" onclick="camera.lookAt({x:0,y:0})">
+              <span class="sub-menu-item-title">Move to 0 coordinate</span>
+            </li>
+            <li class="sub-menu-item" onclick="utils.showActivePoint()">
+              <span class="sub-menu-item-title">Show active point</span>
+            </li>
+            <li class="sub-menu-item" onclick="utils.showFOVPoint()">
+              <span class="sub-menu-item-title">Show fov point</span>
+            </li>
+<!--             <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Set background</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Show all panorams</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Show selected panoram</span>
+            </li> -->
+          </ul>
+        </li>
+        <li>
+          <span class="menu-item">View</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Points</span>
+              <span class="sub-menu-item-hotkay">▶︎</span>
+              <ul class="sub-menu">
+                <li class="sub-menu-item" onclick="map.domElement.dataset.points = 'default'">
+                  <span class="sub-menu-item-title">default</span>
+                </li>
+                <li class="sub-menu-item" onclick="map.domElement.dataset.points = 'lite'">
+                  <span class="sub-menu-item-title">lite</span>
+                </li>
+                <li class="sub-menu-item" onclick="map.domElement.dataset.points = 'full'">
+                  <span class="sub-menu-item-title">full</span>
+                </li>
+                <li class="sub-menu-item" onclick="map.domElement.dataset.points = 'transparent'">
+                  <span class="sub-menu-item-title">transparent</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="menu-item">Select</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item" onclick="select.all(true)">
+              <span class="sub-menu-item-title">Select all</span>
+              <span class="sub-menu-item-hotkay">⌘A</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="menu-item">Align</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item" onclick="utils.alignSelectedPoints()">
+              <span class="sub-menu-item-title">Selected points to grid</span>
+              <span class="sub-menu-item-hotkay">⌘G</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Selected point to line</span>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Other</span>
+              <span class="sub-menu-item-hotkay">▸</span>
+              <ul class="sub-menu">
+                <li class="sub-menu-item">
+                  <span class="sub-menu-item-title">Item 1</span>
+                </li>
+                <li class="sub-menu-item">
+                  <span class="sub-menu-item-title">Item 2</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><span class="menu-item">Points</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item" onclick="utils.findAndShowPoint()">
+              <span class="sub-menu-item-title">Find and show point…</span>
+              <span class="sub-menu-item-hotkay">⌘F</span>
+            </li>
+            <li class="sub-menu-item" onclick="utils.findAndMovePoint()">
+              <span class="sub-menu-item-title">Find and move point…</span>
+              <span class="sub-menu-item-hotkay">⌘⇧F</span>
+            </li>
+            <li class="sub-menu-item" onclick="utils.findAndMovePoint()">
+              <span class="sub-menu-item-title">Set floor at selected points…</span>
+            </li>
+          </ul>
+        </li>
+        <li><span class="menu-item">Actions</span></li>
+        <li><span class="menu-item">Links</span></li>
+        <li><span class="menu-item">Floor</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Select floor</span>
+              <span class="sub-menu-item-hotkay">▶︎</span>
+              <ul class="sub-menu floor-list">
+              </ul>
+            </li>
+            <li class="sub-menu-item" onclick="floors.showFloor()">
+              <span class="sub-menu-item-title">Hide all floors</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </header>
+    <div class="main">
+      <div class="map">
+
+        <div class="plans">
+          <!-- <img width="2846.038383908" src="../floors/0.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
+          <!-- <img width="2846.038383908" src="../floors/1.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
+          <!-- <img width="2846.038383908" src="../floors/2.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
+          <!-- <img width="2846.038383908" src="../floors/3.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
+          <!-- <img width="2846.038383908" src="../floors/4.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
+          <!-- <img width="2846.038383908" src="../floors/5.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
+        </div>
+
+
+        <div class="points">
+<!--           <div style="background-image: url('./uwn.jpg'); transform: translate(200px, 200px)" class="point">
+            <div class="point-number">121</div>
+            <div class="point-rotate-control"></div>
+          </div>
+          <div style="background-image: url('./uwn.jpg'); transform: translate(339px, 72px)" class="point active">
+            <div class="point-number">123</div>
+            <div class="point-rotate-control"></div>
+          </div>
+          <div style="background-image: url('./uwn.jpg'); transform: translate(639px, 272px) rotate(45deg);" class="point active rotate">
+            <div style="transform: rotate(-45deg);" class="point-number">123</div>
+            <div class="point-rotate-control"></div>
+          </div> -->
+        </div>
+
+        <canvas class="point-fov"></canvas>
+
+        <svg class="connections-layer" xmlns="http://www.w3.org/2000/svg">
+          <!-- <line x1="319.262" y1="181.449" x2="496.262" y2="325.449" /> -->
+        </svg>
+
+        <div class="select-control" style="width: 400px; height: 200px; transform: translate(350px, 350px)"></div>
+      </div>
+
+      <div class="sidebar">
+        <ul class="sidebar-tabs">
+          <li class="sidebar-tab active">Property</li>
+          <li class="sidebar-tab">Links</li>
+          <li class="sidebar-tab">Markers</li>
+        </ul>
+
+        <div class="sidebar-content properties">
+          <label class="field">
+            <span class="field-label">title</span>
+            <input type="text" value="Панорама" data-key="title">
+            <span class="field-border"></span>
+          </label>
+          <label class="field">
+            <span class="field-label">id</span>
+            <input type="text" value="122" data-key="id">
+            <span class="field-border"></span>
+          </label>
+          <div class="sidebar-row">
+          <label class="field">
+            <span class="field-label">x</span>
+            <input type="number" value="" step="0.1" data-key="x">
+            <span class="field-border"></span>
+          </label>
+          <label class="field">
+            <span class="field-label">y</span>
+            <input type="number" value="" step="0.1" data-key="y">
+            <span class="field-border"></span>
+          </label>
+          <label class="field">
+            <span class="field-label">r</span>
+            <input type="number" value="" step="0.1" data-key="heading">
+            <span class="field-border"></span>
+          </label>
+        </div>
+          <label class="field">
+            <span class="field-label">floor</span>
+            <input type="number" value="2" step="0.01" data-key="floor">
+            <span class="field-border"></span>
+          </label>
+
+          <label class="field">
+            <span class="field-label">heightFromFloor</span>
+            <input type="number" value="145" data-key="heightFromFloor">
+            <span class="field-border"></span>
+          </label>
+
+          <hr>
+          <div class="sidebar-row">
+            <label class="field">
+              <span class="field-label">lat</span>
+              <input type="number" value="" step="0.01">
+              <span class="field-border"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">lon</span>
+              <input type="number" value="" step="0.01">
+              <span class="field-border"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">fov</span>
+              <input type="number" value="" step="0.1">
+              <span class="field-border"></span>
+            </label>
+          </div>
+
+          <hr>
+          <div class="sidebar-row">
+            <label class="field">
+              <span class="field-label">lat</span>
+              <input type="number" value="" step="0.01">
+              <span class="field-border"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">lon</span>
+              <input type="number" value="" step="0.01">
+              <span class="field-border"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">fov</span>
+              <input type="number" value="" step="0.1">
+              <span class="field-border"></span>
+            </label>
+          </div>
+
+          <hr>
+          <div class="sidebar-row">
+            <label class="field">
+              <span class="field-label">lat</span>
+              <input type="number" value="" step="0.01">
+              <span class="field-border"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">lon</span>
+              <input type="number" value="" step="0.01">
+              <span class="field-border"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">fov</span>
+              <input type="number" value="" step="0.1">
+              <span class="field-border"></span>
+            </label>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type='file' id='fileinput'>
+  <script src="js/tool.js"></script>
+</body>
+</html>

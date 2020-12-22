@@ -114,17 +114,23 @@ gulp.task('serve', ['build'], function() {
 
 //Публикация на сайте tour-360.ru по FTP
 gulp.task('deploy', function() {
-    gulp.src(['build/**/*'])
-        .pipe(sftp({
-            host: 'tour-360.ru',
-            auth: 'admin',
-            remotePath: '/var/www/tour-360.ru/tour-player/latest'
-        }));
+    // gulp.src(['build/**/*'])
+    //     .pipe(sftp({
+    //         host: 'tour-360.ru',
+    //         auth: 'admin',
+    //         remotePath: '/var/www/tour-360.ru/tour-player/latest'
+    //     }));
     gulp.src(['build/**/*'])
         .pipe(sftp({
             host: 'tour-360.ru',
             auth: 'admin',
             remotePath: '/var/www/tour-360.ru/tour-player/' + pjson.version
+        }));
+    gulp.src(['tools/**/*'])
+        .pipe(sftp({
+            host: 'tour-360.ru',
+            auth: 'admin',
+            remotePath: '/var/www/tour-360.ru/tour-player/' + pjson.version + '/tools/'
         }));
 });
 

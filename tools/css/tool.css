@@ -1,0 +1,478 @@
+:root {
+  --white: #fff;
+  --accent-source: 0, 99, 255;
+  --accent: rgb(var(--accent-source));
+  --dark-gray: #888;
+  --light-gray: #CCC;
+  --black: #111;
+  --alt-accent: #ed0;
+
+  --point-size: 129.36px;
+  --point-wide-ratio: 3;
+
+  --meter-size: 42px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--light-gray);
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+}
+
+.header {
+  background: var(--white);
+  padding: 0 8px;
+  border-bottom: 1px solid var(--dark-gray);
+  /*padding: 5px;*/
+  z-index: 10;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  display: block;
+  padding: 6px 12px;
+}
+
+.sub-menu {
+  min-width: 240px;
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  background: var(--white);
+  border: 1px solid var(--dark-gray);
+}
+
+.menu li:hover > .sub-menu {
+  display: block !important;
+}
+
+
+.sub-menu-item {
+  position: relative;
+  color: var(--black);
+  display: flex;
+  padding: 6px 12px;
+}
+
+.sub-menu-item .sub-menu {
+  left: 100%;
+  top: 0;
+}
+
+.menu-item,
+.sub-menu-item {
+  cursor: pointer;
+}
+
+.menu-item:hover,
+.sub-menu-item:hover {
+  background: var(--accent);
+  color: var(--white);
+}
+
+.sub-menu-item-title {
+  margin-right: auto;
+}
+
+.sub-menu-item-hotkay {
+  margin-left: 6px;
+  color: var(--dark-gray);
+}
+
+.sub-menu-item:hover > .sub-menu-item-hotkay {
+  color: var(--white);
+}
+
+
+
+
+
+/* sidebar */
+
+.sidebar {
+  width: 290px;
+  background: var(--white);
+  border-left: 1px solid var(--dark-gray);
+}
+
+.sidebar hr {
+  display: block;
+  border: none;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.sidebar-tabs {
+  display: flex;
+  list-style: none;
+  padding: 0 12px;
+  margin: 0;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.sidebar-tab {
+  padding: 12px 12px;
+  opacity: .5;
+  cursor: pointer;
+}
+
+.sidebar-tab.active {
+  opacity: 1;
+}
+
+.sidebar-row {
+  display: flex;
+  margin: 12px 0;
+  padding: 0 6px;
+}
+
+.sidebar-row .field {
+  margin: 0 6px;
+}
+
+.field {
+  position: relative;
+  margin: 12px;
+  display: flex;
+  padding: 6px 8px;
+}
+
+.field-border {
+  pointer-events: none;
+  display: block;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.field:hover .field-border {
+  border-color: var(--light-gray);
+}
+
+.field-label {
+  color: var(--dark-gray);
+  margin-right: 6px;
+}
+
+.field input {
+  width: 100%;
+  font: inherit;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
+.field input:focus + .field-border {
+  border-color: var(--accent);
+}
+
+
+
+
+
+/* Point */
+
+.map {
+  /*transform: translateZ(0);
+  will-change: transform;*/
+  image-rendering: pixelated;
+  --scale: 1;
+  --offset-x: 0;
+  --offset-y: 0;
+  --origin-offset: calc(var(--scale) * .5px + 8px);
+  position: relative;
+  flex: 1;
+  background-image: url('../assets/origin.png'), url('../assets/bg.png');
+  background-repeat: no-repeat, repeat;
+  background-position:
+    calc(var(--offset-x) - var(--origin-offset)) calc(var(--offset-y) - var(--origin-offset)),
+    var(--offset-x) var(--offset-y);
+  background-size: 17px 17px, calc(210px * var(--scale));
+  user-select: none;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.map:active {
+  cursor: grabbing;
+}
+
+.points {
+  position: relative;
+  z-index: 1;
+}
+
+
+.point {
+  /*--point-color: transparent;
+  --point-text-color: var(--width);*/
+
+  transform: translateZ(0);
+  will-change: transform;
+  position: absolute;
+  display: flex;
+  background-color: var(--light-gray);
+  background-size: calc(100% * var(--point-wide-ratio));
+  background-position: center;
+  border-radius: 50%;
+  left: calc(var(--point-size) / -2);
+  top: calc(var(--point-size) / -2);
+  width: var(--point-size);
+  height: var(--point-size);
+  cursor: move;
+}
+
+.point:hover,
+.point:active {
+  z-index: 2;
+}
+
+.point:before {
+  pointer-events: none;
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  display: block;
+  border-radius: inherit;
+  box-sizing: border-box;
+  box-shadow:
+    0 0 0 2px var(--point-color, transparent),
+    inset 0 0 0 2px var(--point-color, transparent);
+  content: '';
+}
+
+
+.point.active {
+  z-index: 1;
+  --point-color: var(--accent);
+  --point-text-color: var(--white);
+}
+
+.point.view {
+  --point-color: var(--alt-accent);
+  --point-text-color: var(--black);
+}
+
+.point.hidden {
+  display: none;
+}
+
+.point.secondary {
+  opacity: .5;
+}
+
+.point:after {
+  display: block;
+  pointer-events: none;
+  /*content: '';*/
+  /*display: block;*/
+  background: inherit;
+  background-size: 100%;
+  position: absolute;
+  height: calc(100% * var(--point-wide-ratio));
+  width: calc(100% * var(--point-wide-ratio));
+  z-index: -1;
+  --offset: calc(
+    calc(var(--point-size) * var(--point-wide-ratio) - var(--point-size)) / -2
+  );
+  transform: translate(
+    var(--offset),
+    var(--offset)
+  );
+  border-radius: inherit;
+  opacity: 0;
+}
+
+.point:hover:after {
+  opacity: .50;
+  content: '';
+}
+
+.point.rotate {
+  cursor: ew-resize;
+}
+
+.point.rotate:after {
+  content: '';
+  opacity: .8;
+}
+
+.point-number {
+  pointer-events: none;
+  font-size: 11px;
+  display: block;
+  padding: 2px 3px;
+  background: var(--point-color, rgba(0,0,0,.4));
+  border-radius: 4px;
+  margin: auto;
+  z-index: 1;
+  color: var(--point-text-color, var(--white))
+}
+
+.point-rotate-control {
+  display: none;
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 50%;
+  background-color: var(--white);
+  height: 8px;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.point:hover .point-rotate-control,
+.point.active .point-rotate-control,
+.point.rotate .point-rotate-control {
+  display: block;
+}
+
+
+
+
+.map[data-points="lite"] .point {
+  --point-size: 32px !important;
+  background: var(--accent) !important;
+}
+
+.map[data-points="lite"] .point::before,
+.map[data-points="lite"] .point::after {
+  content: none;
+}
+
+.map[data-points="lite"] .point-rotate-control {
+  display: none;
+}
+
+.map[data-points="lite"] .point-number {
+  background: none;
+}
+
+.map[data-points="lite"] .point.active {
+  background: #f00 !important;
+}
+
+
+
+
+
+
+
+
+
+
+.point-fov {
+  --size: 100px;
+  z-index: 4;
+  will-change: transform;
+  display: none;
+  position: absolute;
+  top: calc(var(--size) / -2);
+  left: calc(var(--size) / -2);
+  height: var(--size);
+  width: var(--size);
+  pointer-events: none;
+}
+
+.point-fov.visible {
+  display: block;
+}
+
+
+.select-control {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(var(--accent-source), .2);
+  border: 1px solid var(--accent);
+  z-index: 3;
+}
+
+.select-control.active {
+  display: block;
+}
+
+
+.plans {
+  transform-origin: 0 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.plans .plan {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.plans .plan.active {
+  display: block;
+}
+
+.connections-layer {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.connections-layer.hidden {
+  display: none;
+}
+
+.connections-layer line {
+  stroke: var(--accent);
+  stroke-width: 4;
+  pointer-events: all;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+
+input[type="file"] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}

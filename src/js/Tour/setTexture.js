@@ -34,7 +34,7 @@ Tour.setTexture = function(id) {
         var faces = this.detectFaceInCamera();
 
         for (var i = 0; i < 6; i++) {
-            var planeId = this.options.tileset[i];
+            var planeId = this.options.tileSet[i];
             var imgeURL = this.options.path + id + '/' + this.options.imageType + '/' + planeId + '.jpg';
             var tile = ctx.getImageData(planeId * img.height, 0, img.height, img.height);
 
