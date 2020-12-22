@@ -20,11 +20,14 @@ Tour.defaultOption = {
     autorotationAlign: true,
     sliderBullets: true,
     sliderAutoNextFrameInterval: 6000,
-    nadirControl: false,
+    nadirControl: true,
+    nadirControlArrowFilter: 'links',
+    hideInvisiblePoints: true,
     pointersOpacity: 0.6,
     arrowsDistance: 35,
-    heightFloor: 2,
+    heightFloor: 2, // todo remove
     points: true,
+    autoPoints: true,
     vibrate: true,
     sentry: {
         dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'

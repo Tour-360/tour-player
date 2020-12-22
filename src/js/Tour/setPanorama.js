@@ -11,8 +11,8 @@ Tour.setPanorama = function(id, zoomin, callback) {
         this.setTexture(id);
         this.setMarkers(id);
         this.setMesh(id);
-        this.nadirControl.set();
         this.pointsManager.set();
+        this.nadirControl.set();
         this.areasManager.set();
         var panorama = this.getPanorama(id);
         this.view.rotation.auto = panorama.autorotation !== false &&

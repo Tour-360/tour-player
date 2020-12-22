@@ -30,9 +30,9 @@ Tour.Arrow = function(point){
 
     this.arrow = new THREE.Mesh( geometry, Tour.nadirControl.arrowMaterial);
     var pitch = 0;
-    if(point.level != -Tour.options.heightFloor){
-        pitch = Math.atan((point.level+Tour.options.heightFloor)/point.distance) / 1.5;
-    }
+    // if(point.level != Tour.getPanorama().heightFromFloor){
+        pitch = Math.atan(((Tour.getPanorama().heightFromFloor || 145)-point.level)/point.distance) / 1.5;
+    // }
     var d = Math.atan((point.level+1.8)/point.distance)
 
     var rotation = point.lon * (Math.PI/180);
@@ -112,21 +112,43 @@ Tour.nadirControl.getDistance = function(rot1, rot2) {
 }
 
 Tour.nadirControl.getPoints = function() {
-    var points = Tour.getPanorama().points || [];
-    points = points.sort(function(a, b){
-        return a.distance - b.distance;
-    });
+    var points = Tour.points || [];
 
     var result = [];
-    points.forEach(function(point){
-        if(!result.some(function(selected){
-            return Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance && Math.abs(point.level - selected.level) < 3;
-        })){
-            result.push(point)
+
+    if(Tour.options.nadirControlArrowFilter == 'all'){
+        points.forEach(function(point){
+            result.push(Tour.options.nadirControl == 'all');
+        })
+    }else if(Tour.options.nadirControlArrowFilter == 'likePoints'){
+        points = points.sort(function(a, b){
+            return a.distance - b.distance;
+        });
+
+        points.forEach(function(point){
+            if(!result.some(function(selected){
+                var inRadius = Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance
+                var anotherLevel = point.distance<1000 && Math.abs(point.level - selected.level) < 5;
+                return inRadius || anotherLevel;
+            })){
+                result.push(point)
+            }
+        })
+    }else if(Tour.options.nadirControlArrowFilter == 'links'){
+        var pano = Tour.getPanorama()
+
+        if(pano.links){
+            result = pano.links.map(function(link){
+                var point = Tour.getPanorama(link.id);
+                var vector = Tour.utils.getVector(pano, point);
+                return {lon:vector.rotate, distance:vector.distance, level:vector.level, pano:point.id}
+            })
         }
-    })
+    }
+
     return result;
 }
+
 
 Tour.nadirControl.set = function() {
     if (!Tour.options.nadirControl ) {
