@@ -47,7 +47,8 @@ var state = {
     Tour.setPanorama(Tour.view.id);
   },
   get: function(){
-    this.name = this.name || localStorage.projectName || prompt('project name:', 'myProject');
+    // this.name = this.name || localStorage.projectName || prompt('project name:', 'myProject');
+    this.name = this.name || prompt('project name:', 'myProject');
     this.current = localStorage[this.name]? JSON.parse(localStorage[this.name]) : Tour.data;
     localStorage.projectName = this.current.name = this.name;
     if(!this.current.floors){
