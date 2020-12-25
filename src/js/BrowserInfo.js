@@ -94,7 +94,7 @@ BrouserInfo = function() {
         }
 
         switch (name) {
-            case 'Mac OS X': version = /Mac OS X (10[\.\_\d]+)/.exec(navigator.userAgent)[1]; break;
+            case 'Mac OS X': version = /Mac OS X (\d+(\.?_?\d+)+)/.exec(navigator.userAgent)[1]; break;
             case 'Android':  version = /Android ([\.\_\d]+)/.exec(navigator.userAgent)[1]; break;
             case 'iOS':      version = /OS (\d+)_(\d+)_?(\d+)?/.exec(navigator.appVersion);
                 version = version[1] + '.' + version[2] + '.' + (version[3] | 0); break;
