@@ -2,6 +2,7 @@
   --white: #fff;
   --accent-source: 0, 99, 255;
   --accent: rgb(var(--accent-source));
+  --danger: #F88B00;
   --dark-gray: #888;
   --light-gray: #CCC;
   --black: #111;
@@ -41,70 +42,6 @@ body {
   border-bottom: 1px solid var(--dark-gray);
   /*padding: 5px;*/
   z-index: 10;
-}
-
-.menu {
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
-}
-
-.menu-item {
-  display: block;
-  padding: 6px 12px;
-}
-
-.sub-menu {
-  min-width: 240px;
-  display: none;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  background: var(--white);
-  border: 1px solid var(--dark-gray);
-}
-
-.menu li:hover > .sub-menu {
-  display: block !important;
-}
-
-
-.sub-menu-item {
-  position: relative;
-  color: var(--black);
-  display: flex;
-  padding: 6px 12px;
-}
-
-.sub-menu-item .sub-menu {
-  left: 100%;
-  top: 0;
-}
-
-.menu-item,
-.sub-menu-item {
-  cursor: pointer;
-}
-
-.menu-item:hover,
-.sub-menu-item:hover {
-  background: var(--accent);
-  color: var(--white);
-}
-
-.sub-menu-item-title {
-  margin-right: auto;
-}
-
-.sub-menu-item-hotkay {
-  margin-left: 6px;
-  color: var(--dark-gray);
-}
-
-.sub-menu-item:hover > .sub-menu-item-hotkay {
-  color: var(--white);
 }
 
 
@@ -193,6 +130,12 @@ body {
 
 .field input:focus + .field-border {
   border-color: var(--accent);
+  opacity: 1;
+}
+
+.field.danger .field-border {
+  opacity: .5;
+  border-color: var(--danger) !important;
 }
 
 
@@ -475,4 +418,40 @@ input[type="file"] {
   position: absolute;
   top: -9999px;
   left: -9999px;
+}
+
+
+.toasts {
+  position: absolute;
+  width: max-content;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.toast {
+  --offese: 15px;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background: rgba(0,0,0,.75);
+  color: var(--white);
+  z-index: 10;
+  max-width: 360px;
+  animation: toast-push 5s ease;
+  animation-fill-mode: both;
+}
+
+@keyframes toast-push {
+  0% {
+    opacity: 0;
+    transform: translate(0, var(--offese));
+  }
+  5%, 95% {
+    opacity: 1;
+    transform: translate(0,0);
+  }
+  100% {
+    opacity: 0;
+  }
 }

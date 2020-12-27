@@ -1,0 +1,80 @@
+.header > .menu {
+  position: relative !important;
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+}
+
+.header > .menu > .menu-item {
+  display: block;
+}
+
+.menu-item {
+  cursor: pointer;
+  position: relative;
+}
+
+.header > .menu > .menu-item > .menu-item-title {
+  display: block;
+  padding: 6px 12px;
+}
+
+.menu-item-arrow {
+  display: none;
+}
+
+.menu .menu .menu:not(:empty) + .menu-item-arrow {
+  display: block;
+}
+
+.menu .menu .menu:not(:empty) ~ .menu-item-hotkey {
+  display: none;
+}
+
+.menu-item.open,
+.menu-item .menu-item:hover {
+  background-color: var(--accent);
+  color: var(--white) !important;
+}
+
+.menu-item.open > .menu-item-hotkey,
+.menu-item:hover > .menu-item-hotkey {
+  color: inherit !important;
+}
+
+.menu-item > .menu {
+  min-width: 240px;
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  background: var(--white);
+  border: 1px solid var(--dark-gray);
+}
+
+.menu-item.open > .menu:not(:empty) {
+  display: block !important;
+}
+
+.menu .menu > .menu-item {
+  position: relative;
+  color: var(--black);
+  display: flex;
+  padding: 6px 12px;
+}
+
+.menu .menu .menu {
+  top: 0;
+  left: 100%;
+}
+
+.menu .menu .menu-item-title {
+  margin-right: auto;
+}
+
+.menu .menu .menu-item-hotkey {
+  color: var(--dark-gray);
+}

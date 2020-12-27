@@ -5,7 +5,8 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="css/tool.css" rel="stylesheet" >
+  <link href="css/tool.css" rel="stylesheet">
+  <link href="css/menu.css" rel="stylesheet">
   <title>Tool</title>
 </head>
 <body>
@@ -187,7 +188,7 @@
             </li>
             <li class="sub-menu-item" onclick="utils.setDefaultView(true)">
               <span class="sub-menu-item-title">Set default view: lon only</span>
-            </li> 
+            </li>
             <li class="sub-menu-item" onclick="utils.setStartPanorama(true)">
               <span class="sub-menu-item-title">Set start panorama</span>
             </li>
@@ -210,7 +211,9 @@
     </header>
     <div class="main">
       <div class="map">
-
+        <div class="toasts">
+          <div class="toast">Project saved</div>
+        </div>
         <div class="plans">
           <!-- <img width="2846.038383908" src="../floors/0.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
           <!-- <img width="2846.038383908" src="../floors/1.svg" alt="" style="transform: translate(-400px, -400px)" class="plan active"> -->
@@ -356,5 +359,7 @@
   </div>
   <input type='file' id='fileinput'>
   <script src="js/tool.js"></script>
+  <script src="js/toasts.js"></script>
+  <script src="js/menu.js"></script>
 </body>
 </html>
