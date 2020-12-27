@@ -953,10 +953,26 @@ var links = {
             line.setAttribute("y1", aPosition.y);
             line.setAttribute("x2", bPosition.x);
             line.setAttribute("y2", bPosition.y);
-            if(a.panorama.floor != b.panorama.floor){
+
+            if(a.panorama.floor !== b.panorama.floor){
               line.setAttribute("stroke-dasharray", "5, 5");
             }
             links.domElement.appendChild(line);
+
+
+            // CIRCLE:
+            // <circle cx="4" cy="4" r="4" fill="#0066FF"/>
+
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+
+
+            circle.setAttribute("cx", (aPosition.x + bPosition.x) / 2); // temp
+            circle.setAttribute("cy", (aPosition.y + bPosition.y) / 2); // temp
+
+
+            circle.setAttribute("r", '4');
+
+            links.domElement.appendChild(circle);
           }
         })
       }

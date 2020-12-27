@@ -301,6 +301,29 @@ body {
   display: block;
 }
 
+.connection-points {
+  display: none;
+  z-index: 1;
+  position: relative;
+}
+
+.connection-points.visible {
+  display: block;
+}
+
+.connection-point {
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  left: -4px;
+  top: -4px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateZ(0);
+  will-change: transform;
+  cursor: pointer;
+}
+
 
 
 
@@ -413,6 +436,13 @@ body {
   display: none;
 }
 
+.connections-layer circle {
+  fill: var(--accent);
+  pointer-events: all;
+  cursor: pointer;
+  opacity: 0;
+}
+
 .connections-layer line {
   stroke: var(--accent);
   stroke-width: 4;
@@ -421,6 +451,14 @@ body {
   opacity: 0.5;
 }
 
+.connections-layer line:hover {
+  /*opacity: 0.75;*/
+}
+
+.connections-layer line:hover + circle,
+.connections-layer circle:hover {
+  opacity: 1;
+}
 
 input[type="file"] {
   position: absolute;
