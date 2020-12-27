@@ -266,7 +266,7 @@ body {
 
 .point.rotate:after {
   content: '';
-  opacity: .8;
+  opacity: 1;
 }
 
 .point-number {
@@ -328,6 +328,14 @@ body {
 
 
 
+
+
+
+
+.map[data-points="full"] .point::after {
+  content: '';
+  opacity: 1;
+}
 
 
 
@@ -428,6 +436,7 @@ input[type="file"] {
   left: 0;
   right: 0;
   margin: auto;
+  z-index: 100;
 }
 
 .toast {
@@ -436,10 +445,13 @@ input[type="file"] {
   padding: 8px 12px;
   background: rgba(0,0,0,.75);
   color: var(--white);
-  z-index: 10;
   max-width: 360px;
   animation: toast-push 5s ease;
   animation-fill-mode: both;
+}
+
+.toast:empty {
+  display: none;
 }
 
 @keyframes toast-push {

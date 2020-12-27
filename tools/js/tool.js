@@ -1,4 +1,4 @@
-// SHIFT 
+// SHIFT
 
 
 var points = [];
@@ -40,7 +40,7 @@ var state = {
     }
   },
   set: function(){
-    var preSelectId = select.points[0] && select.points[0].panorama.id 
+    var preSelectId = select.points[0] && select.points[0].panorama.id
 
     points = [];
     select.points = [];
@@ -71,7 +71,7 @@ var state = {
     if(!this.current.floors){
       this.current.floors = [
         {height: 400, title:'Lower lavel (garage)', plan: null },
-        // plan: {imageURL: '../floors/0.svg', x:0, y:0, width:6830.492121379737}
+        // plan: {imageUrl: '../floors/0.svg', x:0, y:0, width:6830.492121379737}
       ]
     }
     floors.setFloors();
@@ -877,28 +877,29 @@ var floors = {
     // this.showFloor(0);
   },
   setFloors: function(){
-    this.floorList.innerHTML = '';
+    menu.items.floor.addItem('selectFloor', {
+      title: 'Select Floor',
+      type: 'select',
+      options: Object.fromEntries(
+        state.current.floors
+          .map((floor, id) => ([ id, floor.title ]))
+      ),
+      action: (id) => {
+        toasts.push(`Selected ${state.current.floors[id].title}`);
+        floors.showFloor(id);
+      }
+    });
+
     state.current.floors.forEach(function(floor, n){
-      var li = document.createElement('li');
-      li.classList.add('sub-menu-item');
-      var span = document.createElement('span')
-      var selectSpan = document.createElement('span');
-      selectSpan.classList.add('selectedFloor');
-      span.classList.add('sub-menu-item-title');
-      span.innerText = floor.title;
-      li.appendChild(span);
-      li.appendChild(selectSpan);
-      li.addEventListener('click', function(){
-        floors.showFloor(n)
-      })
-
-      floors.floorList.appendChild(li);
-
       if (floor.plan) {
         var img = document.createElement('img');
         img.classList.add('plan');
         // img.classList.add('active');
-        img.src = parent.location.origin+'/'+floor.plan.imageURL;
+        img.src = [
+          parent.location.origin,
+          parent.location.pathname,
+          floor.plan.imageUrl
+        ].join('/');
         img.style.transform = 'translate(0px, 0px)'; //todo
 
         if(floor.plan.width) img.width = floor.plan.width;

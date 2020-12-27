@@ -63,7 +63,15 @@
   position: relative;
   color: var(--black);
   display: flex;
-  padding: 6px 12px;
+  padding: 6px 12px 6px 22px;
+}
+
+.menu .menu > .menu-item.check::before {
+  position: absolute;
+  font-weight: bold;
+  left: 6px;
+  content: '✓';
+  display: block;
 }
 
 .menu .menu .menu {

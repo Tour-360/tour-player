@@ -2,7 +2,8 @@ class MenuItem {
   #parent;
   #key;
   #arrowDomElement;
-  onClick;
+  #value;
+  action;
   items;
   opened = false;
   domElement;
@@ -12,13 +13,20 @@ class MenuItem {
   hotKeyDomElement;
 
   constructor(item) {
-    if (item.options) this.options = item.options;
+    if (item.value) this.#value = item.value;
+
+    if (item.options) {
+      this.options = item.options;
+      this.#value = item.value || Object.keys(this.options)[0];
+    }
+    if (item.type) this.type = item.type;
+
     this.domElement = document.createElement('li');
     this.domElement.classList.add('menu-item');
     this.domElement.addEventListener('click', this.#handleClick.bind(this));
 
-    if (item.onClick) {
-      this.onClick = item.onClick;
+    if (item.action) {
+      this.action = item.action;
     }
 
     if (item.title) {
@@ -33,7 +41,6 @@ class MenuItem {
     this.subItemsDomElement.classList.add('menu');
 
     if (this.items) {
-
       Object.keys(this.items).forEach(key => {
         const i = item.items[key] = new MenuItem(this.items[key]);
         i.#parent = this;
@@ -43,6 +50,22 @@ class MenuItem {
 
       this.subTitleDomElement?.remove();
       this.hotKeyDomElement?.remove();
+
+      console.log(222, this.items);
+    }
+
+    if (this.type === 'select' && this.options) {
+      this.items = item.items = {};
+      Object.keys(this.options).forEach(key => {
+        const i = item.items[key] = new MenuItem({ title: this.options[key] });
+        i.#parent = this;
+        i.#key = i.#value = key;
+
+        if (this.#value === key) {
+          i.check(true);
+        }
+        this.subItemsDomElement.appendChild(i.domElement);
+      });
     }
 
 
@@ -67,6 +90,11 @@ class MenuItem {
       this.subTitleDomElement?.classList.add('menu-item-subtitle');
       this.domElement?.appendChild(this.subTitleDomElement);
     }
+  }
+
+  check(value) {
+    const newValue = value === undefined ? !this.value : value;
+    this.domElement.classList[newValue ? 'add' : 'remove']('check');
   }
 
   #handleEsc = (e) => {
@@ -96,9 +124,29 @@ class MenuItem {
       !this.subItemsDomElement?.contains(e.target)
     ) {
       this.toggle();
+    } else if (this.type === 'checkbox') {
+      this.#mainParent.close();
+      this.#value = this.action(this.#value) || !this.#value;
+      this.check(this.value);
+    } else if (this.type === 'select') {
+      this.toggle();
+    } else if (this.#parent.type === 'select') {
+      Object.keys(this.#parent.items).forEach((key) => {
+        const item = this.#parent.items[key];
+        if (this.#key === key) {
+          const value = this.#parent.action(this.#value);
+          const newValue = value === undefined ? key : value;
+          item.check(newValue);
+          this.#parent.#value = newValue;
+        } else {
+          item.check(false);
+        }
+      });
+      this.check(true);
+      this.#mainParent.close();
     } else {
       this.#mainParent.close();
-      this.onClick && this.onClick();
+      this.action && this.action();
     }
   }
 
@@ -107,11 +155,12 @@ class MenuItem {
   }
 
   open() {
-    if (!this.#parent.#parent) {
+    if (!this.#parent?.#parent) {
       this.#parent.close();
       document.addEventListener('keydown', this.#handleEsc);
-      document.addEventListener('click', this.#handleOutsideClick);
+      document.addEventListener('pointerdown', this.#handleOutsideClick);
     } else if (Object.keys(this.#parent.items).length > 1) {
+      // Закрывать соседей при переключении
       Object.values(this.#parent.items).forEach(item => {
         console.log(item);
         item.close();
@@ -131,15 +180,17 @@ class MenuItem {
     });
 
     document.removeEventListener('keydown', this.#handleEsc);
-    document.removeEventListener('keydown', this.#handleOutsideClick);
+    document.removeEventListener('pointerdown', this.#handleOutsideClick);
   }
 
   addItem(name, item) {
     if (!this.items) {
       this.items = [];
     }
-    this.items[name] = new MenuItem(item, this);
+    this.items[name] = new MenuItem(item);
+    this.items[name].#parent = this;
     this.subItemsDomElement.appendChild(this.items[name].domElement);
+    return this;
   }
 
   remove() {
@@ -173,6 +224,29 @@ class MenuItem {
     return this.subTitleDomElement.innerText;
   }
 
+  set value(value) {
+    if (this.type === 'select') {
+      Object.keys(this.items).forEach((key) => {
+        if (value === key) {
+          this.items[key].check(true);
+        } else {
+          this.items[key].check(false);
+        }
+      });
+
+      this.#value = value;
+    } else if (this.type === 'checkbox') {
+      this.#value = value;
+      this.check(this.#value);
+    } else {
+      this.#value = value;
+    }
+  }
+
+  get value() {
+    return this.#value;
+  }
+
   get #mainParent() {
     return this.#parent?.#parent ? this.#parent.#mainParent : this;
   }
@@ -193,31 +267,46 @@ const menu = new Menu('.header',{
     title: "File",
     items: {
       copyCode: { title: "Copy code" },
-      clearStorage: { title: "Clear storage", onClick: utils.clearStorage },
-      open: { title: "Open", hotKey: '⌘O', onClick: () => alert() },
-      saveAs: { title: "Save as...", hotKey: "⌘S", onClick: state.saveAsFile },
+      clearStorage: { title: "Clear storage", action: utils.clearStorage },
+      open: { title: "Open", hotKey: '⌘O', action: () => alert() },
+      saveAs: { title: "Save as...", hotKey: "⌘S", action: () => state.saveAsFile() },
+      saveToServer: { title: "Save to server", hotKey: "⌘ Alt S", action: () => state.saveToServer() },
     },
   },
   edit: {
     title: "Edit",
     items: {
-      undo: { title: "Undo", hotKey: '⌘Z', onClick: state.undo },
-      redo: { title: "Redo", hotKey: '⌘⇧Z', onClick: state.redo },
-      selectAllPoints: { title: "Select All Points", hotKey: '⌘⇧Z', onClick: () => select.all(true)}
+      undo: { title: "Undo", hotKey: '⌘Z', action: state.undo },
+      redo: { title: "Redo", hotKey: '⌘⇧Z', action: state.redo },
+      selectAllPoints: { title: "Select All Points", hotKey: '⌘A', action: () => select.all(true)}
     }
   },
   camera: {
     title: "Camera",
     items: {
-      moveToOrigin: { title: "Move to origin", onClick: () => camera.lookAt({x:0,y:0}) },
-      showActivePoint: { title: "Show active point", onClick: utils.showActivePoint },
-      showFOVPoint: { title: "Show fov point", onClick: () => utils.showActivePoint() },
+      moveToOrigin: { title: "Move to origin", action: () => camera.lookAt({x:0,y:0}) },
+      showActivePoint: { title: "Show active point", action: () => utils.showActivePoint() },
+      showFOVPoint: { title: "Show fov point", action: () => utils.showActivePoint() },
+      tourCameraFollowMap: {
+        title: "Tour camera follow map",
+        type: "checkbox",
+        action: (value) => {
+          return !value;
+        }
+      },
+      mapCameraFollowTour: {
+        title: "Map camera follow tour",
+        type: "checkbox",
+        action: (value) => {
+          return !value;
+        }
+      },
     }
   },
   select: {
     title: "Select",
     items: {
-      select: { title: 'select', hotKey: '⌘A', onClick: () => select.all(true) }
+      select: { title: 'select', hotKey: '⌘A', action: () => select.all(true) }
     }
   },
   view: {
@@ -225,37 +314,76 @@ const menu = new Menu('.header',{
     items: {
       points: {
         title: "Points",
-        items: {
-          default: { title: 'default', onClick: () => map.domElement.dataset.points = 'default' }
-          // ...
-        }
+        type: 'select',
+        options: {
+          default: "Default",
+          lite: "Lite",
+          full: "Full",
+          transparent: "Transparent",
+        },
+        action: (value) => map.domElement.dataset.points = value
       }
     }
   },
   align: {
     title: "Align",
     items: {
-      groupedPoints: { title: "Grouped points", hotKey: '⌘G' }
+      groupedPoints: { title: "Grouped points", hotKey: '⌘G', action: () => utils.alignSelectedPoints() }
+    }
+  },
+  points: {
+    title: "Points",
+    items: {
+      findAndShowPoint: {
+        title: 'Find and show point…',
+        hotKey: '⌘F',
+        action: () => utils.findAndShowPoint()
+      },
+      findAndMovePoint: {
+        title: 'Find and move point…',
+        hotKey: '⌘⇧F',
+        action: () => utils.findAndMovePoint()
+      },
+      findAndMovePoint2: {
+        title: 'Set floor at selected points…',
+        // hotKey: '⌘⇧F',
+        action: () => utils.findAndMovePoint()
+      }
+    }
+  },
+  actions: {
+    title: 'Actions',
+    items: {
+      removeAllLinks: {
+        title: 'Remove all links',
+        hotKey: '⌘⇧L',
+        action: () => utils.removeAllLinks()
+      },
+    }
+  },
+  panorama: {
+    title: 'Panorama',
+    items: {
+      setDefaultView: {
+        title: 'Set default view',
+        action: () => utils.setDefaultView()
+      },
+      setDefaultViewLonOnly: {
+        title: 'Set default view: lon only',
+        action: () => utils.setDefaultView(true)
+      },
+      setStartPanorama: {
+        title: 'Set start panorama',
+        action: () => utils.setStartPanorama(true)
+      }
     }
   },
   floor: {
     title: "Floor",
     items: {
-      selectFloor: {
-        title: 'Select floor',
-        items: {
-          1: { title: "floor 1" },
-          2: { title: "floor 2" },
-          3: { title: "floor 3" },
-        }
-      },
-      test: {
-        title: 'Select floor',
-        items: {
-          1: { title: "floor 1" },
-          2: { title: "floor 2" },
-          3: { title: "floor 3" },
-        }
+      hideAll: {
+        title: 'Hide all floors',
+        action: () => floors.showFloor()
       }
     }
   }
