@@ -1,3 +1,6 @@
+// SHIFT 
+
+
 var points = [];
 
 function debounce(func, wait, immediate) {
@@ -18,7 +21,7 @@ function debounce(func, wait, immediate) {
 
 var state = {
   current: null,
-  count: 0,
+  count: -1,
   name: null,
   states: [],
 
@@ -30,12 +33,17 @@ var state = {
     return JSON.stringify(this.current, null, format && 2);
   },
   save: function(){
-    var code = this.getCode();
-    localStorage[this.name] = code;
-    this.push(code);
+    if(!this.clear){
+      var code = this.getCode();
+      localStorage[this.name] = code;
+      this.states[++this.count] = code;
+    }
   },
   set: function(){
+    var preSelectId = select.points[0] && select.points[0].panorama.id 
+
     points = [];
+    select.points = [];
     map.pointsElement.innerHTML = '';
     Tour.data = this.current;
     //slice(0,100)
@@ -44,28 +52,47 @@ var state = {
       point.draw(true);
       points.push(point);
     })
+
+
+    var activePoint = utils.findPoinnt(preSelectId || Tour.view.id);
+    activePoint.select(true);
+    if(!preSelectId)camera.lookAt(activePoint);
+
     Tour.setPanorama(Tour.view.id);
+    properties.set();
+    camera.draw();
+    links.draw();
   },
   get: function(){
-    // this.name = this.name || localStorage.projectName || prompt('project name:', 'myProject');
-    this.name = this.name || prompt('project name:', 'myProject');
+    this.name = Tour.data.name || prompt('project name:', 'myProject');
+    // this.name = this.name || prompt('project name:', 'myProject');
     this.current = localStorage[this.name]? JSON.parse(localStorage[this.name]) : Tour.data;
-    localStorage.projectName = this.current.name = this.name;
+    this.current.name = this.name;
     if(!this.current.floors){
       this.current.floors = [
         {height: 400, title:'Lower lavel (garage)', plan: null },
         // plan: {imageURL: '../floors/0.svg', x:0, y:0, width:6830.492121379737}
       ]
     }
-    this.set()
+    floors.setFloors();
+    this.set();
+    this.save();
     return this.current;
   },
   undo: function(){
-    this.current = JSON.parse(this.states[--this.count]);
-    this.set();
+    if(this.count>0){
+      this.count--;
+      this.current = JSON.parse(this.states[this.count]);
+      this.set();
+    };
   },
   redo: function(){
-
+    console.log(this.count<this.states.length+1)
+    if(this.count<this.states.length-1){
+      this.count++;
+      this.current = JSON.parse(this.states[this.count]);
+      this.set();
+    };
   },
   saveAsFile: function(){
     var date = new Date();
@@ -85,6 +112,11 @@ var state = {
     a.href        = url;
     a.textContent = a.download;
     a.click()
+  },
+  saveToServer: function(){
+    fetch('/save', { method: "POST", headers: {
+      'Content-Type': 'application/json'
+    }, body: JSON.stringify({ manifest: parent.Tour.options.manifest, password: '1', tour: {a: 1}})});
   }
 };
 
@@ -146,6 +178,11 @@ var camera = {
   fovChange: function(e){
     this.fovPoint =  utils.findPoinnt(e.id);
     map.setFov();
+  },
+  updateLinks: function(){
+    Tour.pointsManager.set(Tour.view.id)
+    Tour.nadirControl.set()
+    Tour.needsUpdate = true;
   }
 }
 
@@ -254,6 +291,7 @@ var map = {
     this.setFov();
   },
   keyDown: function(event){
+    console.log(event.code)
     if (event.code == 'KeyA' && (event.ctrlKey || event.metaKey)){
       event.preventDefault();
       select.all(true);
@@ -274,6 +312,10 @@ var map = {
       event.preventDefault();
       camera.setScale(camera.defaultScale);
     }
+    if (event.code == 'KeyL' && (event.ctrlKey || event.metaKey) && event.shiftKey){
+      event.preventDefault();
+      utils.removeAllLinks()
+    }
     if (event.code == 'KeyF' && (event.ctrlKey || event.metaKey) && !event.shiftKey){
       event.preventDefault();
       utils.findAndShowPoint();
@@ -281,6 +323,38 @@ var map = {
     if (event.code == 'KeyF' && (event.ctrlKey || event.metaKey) && event.shiftKey){
       event.preventDefault();
       utils.findAndMovePoint();
+    }
+    if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey) && !event.shiftKey){
+      event.preventDefault();
+      state.undo();
+    }
+    if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey) && event.shiftKey){
+      event.preventDefault();
+      state.redo();
+    }
+    if (event.code == 'KeyS' && (event.ctrlKey || event.metaKey) && !event.shiftKey){
+      event.preventDefault();
+      state.saveAsFile()
+    }
+    if (event.code == 'KeyS' && (event.ctrlKey || event.metaKey) && !event.shiftKey && event.altKey){
+      event.preventDefault();
+      state.saveToServer()
+    }
+    if (event.code == 'ArrowUp'){
+      event.preventDefault();
+      utils.movePoints('up', event.shiftKey);
+    }
+    if (event.code == 'ArrowDown'){
+      event.preventDefault();
+      utils.movePoints('down', event.shiftKey);
+    }
+    if (event.code == 'ArrowLeft'){
+      event.preventDefault();
+      utils.movePoints('left', event.shiftKey);
+    }
+    if (event.code == 'ArrowRight'){
+      event.preventDefault();
+      utils.movePoints('right', event.shiftKey);
     }
   }
 }
@@ -335,6 +409,8 @@ var Point = function(panorama){
   this.radius = 388.08 / 2;
   this.update = false;
   this.visible = false;
+  this.hidden = false;
+  this.secondary = false;
 
   this.mouse = {x: 0, y:0};
   this.start = {x: 0, y:0};
@@ -355,12 +431,14 @@ var Point = function(panorama){
   this.onMouseMove = this.mouseMove.bind(this);
   this.onMouseUp = this.mouseUp.bind(this);
   this.onMouseDown = this.mouseDown.bind(this);
+  this.onDblClick = this.dblClick.bind(this);
 
   this.onMouseDownRotate = this.mouseDownRotate.bind(this);
   this.onMouseMoveRotate = this.mouseMoveRotate.bind(this);
   this.onMouseUpRotate = this.mouseUpRotate.bind(this);
 
   this.domElement.addEventListener('mousedown', this.onMouseDown);
+  this.domElement.addEventListener('dblclick', this.onDblClick);
   this.rotateElement.addEventListener('mousedown', this.onMouseDownRotate);
 }
 
@@ -378,6 +456,15 @@ Point.prototype.select = function(value, invert){
   select.active = this;
 }
 
+Point.prototype.getDispaly = function(){
+  var links = this.panorama.links && this.panorama.links.length && this.panorama.links.some(function(link){
+    return Math.floor(Tour.getPanorama(link.id).floor) == floors.active;
+  })
+
+  this.hidden = !links && (floors.active >= this.floor + 1 || floors.active <= this.floor - 1);
+  this.secondary = floors.active != this.floor || (this.hidden && links);
+}
+
 Point.prototype.setPosition = function(norotate, forse){
   this.panorama.x = this.x;
   this.panorama.y = this.y;
@@ -387,23 +474,22 @@ Point.prototype.setPosition = function(norotate, forse){
   var size = this.heightFromFloor*2*camera.scale;
   this.radius = size/2;
 
-  var hidden = floors.active >= this.floor + 1 || floors.active <= this.floor - 1;
-  var secondary = floors.active != this.floor;
+  this.getDispaly() //todo optim
 
   var draw = forse || (
     x>-this.radius &&
     y>-this.radius &&
     x<camera.width+this.radius &&
     y<camera.height+this.radius &&
-    !hidden
+    !this.hidden
   )
 
   if(draw || this.update){
     this.domElement.style.transform = 'translate('+x+'px, '+y+'px) rotate('+this.rotate+'deg)';
     if(!norotate)this.numberElement.style.transform = 'rotate('+(-this.rotate)+'deg)';
     this.domElement.style.setProperty('--point-size', size+'px');
-    this.domElement.classList[hidden?'add':'remove']('hidden');
-    this.domElement.classList[secondary?'add':'remove']('secondary');
+    this.domElement.classList[this.hidden?'add':'remove']('hidden');
+    this.domElement.classList[this.secondary?'add':'remove']('secondary');
     this.visible = true;
   }else{
     this.visible = false;
@@ -440,6 +526,10 @@ Point.prototype.draw = function(forse){
   this.setPosition(false, forse);
 }
 
+Point.prototype.dblClick = function(event){
+  Tour.view.set({id:this.panorama.id})
+}
+
 Point.prototype.mouseDown = function(event){
   event.stopPropagation();
   if(!event.altKey){
@@ -472,7 +562,7 @@ Point.prototype.mouseDown = function(event){
         that.panorama.links.push({id: point.panorama.id})
       }
     })
-    links.draw()
+    links.draw();
 
     if(!select.points.lenght){
       //todo
@@ -502,15 +592,14 @@ Point.prototype.mouseMove = function(event){
   links.hide()
   map.setFov();
 
-  Tour.pointsManager.set(Tour.view.id)
-  Tour.needsUpdate = true;
+  camera.updateLinks()
 }
 
 Point.prototype.mouseUp = function(event){
   event.stopPropagation()
-  if(this.start.x==this.x && this.start.x==this.x){
-    Tour.view.set({id:this.panorama.id})
-  }
+  // if(this.start.x==this.x && this.start.x==this.x){
+  //   Tour.view.set({id:this.panorama.id})
+  // }
   document.removeEventListener('mousemove', this.onMouseMove);
   document.removeEventListener('mouseup', this.onMouseUp);
   properties.set();
@@ -526,6 +615,9 @@ Point.prototype.mouseDownRotate = function(event){
   this.domElement.classList.add('rotate')
   document.addEventListener('mousemove', this.onMouseMoveRotate);
   document.addEventListener('mouseup', this.onMouseUpRotate);
+  if(Tour.view.id == this.panorama.id){
+    this.cameraShift = -this.panorama.heading-Tour.view.lon.value
+  }
 }
 
 Point.prototype.mouseMoveRotate = function(event){
@@ -533,10 +625,16 @@ Point.prototype.mouseMoveRotate = function(event){
   var b = event.pageY - (camera.y+this.y*camera.scale) - camera.offsetTop;
   this.panorama.heading = this.rotate = (THREE.Math.radToDeg(Math.atan2(b, a))+90) % 360;
   if(Tour.view.id == this.panorama.id){
-    Tour.mesh.rotation.set(0, Math.PI / 2 - ((this.panorama.heading || 0) / 180 * Math.PI), 0);
+    if(event.altKey){
+      Tour.view.set({lon:-this.panorama.heading-this.cameraShift})
+    }else{
+      this.cameraShift = -this.panorama.heading-Tour.view.lon.value
+    }
+    Tour.mesh.rotation.set(0, Math.PI / 2 - THREE.Math.degToRad(this.panorama.heading || 0), 0);
     Tour.needsUpdate = true;
   }
   this.setPosition();
+  camera.updateLinks()
 }
 
 Point.prototype.mouseUpRotate = function(event){
@@ -544,22 +642,21 @@ Point.prototype.mouseUpRotate = function(event){
   this.domElement.classList.remove('rotate')
   document.removeEventListener('mousemove', this.onMouseMoveRotate);
   document.removeEventListener('mouseup', this.onMouseUpRotate);
+  properties.set();
   state.save()
 }
 
 
 function init(){
-  map.init()
-  links.init();
-  state.get();
   floors.init()
-  select.init();
+  map.init()
   camera.update();
-
+  links.init();
   properties.init()
-  var activePoint = utils.findPoinnt(Tour.view.id);
-  activePoint.select(true);
-  camera.lookAt(activePoint);
+  state.get();
+  select.init();
+
+  window.onbeforeunload = state.save.bind(state);
 }
 
 var properties = {
@@ -594,11 +691,12 @@ var properties = {
     var type = input.getAttribute('data-type');
     var value = input.value;
 
-    if(input.type == 'number')[
+    if(input.type == 'number'){
       value = parseFloat(value)
-    ]
+    }
 
     this.setPointsValue(key, value);
+    links.draw();
   },
   init: function(){
     this.inputs = document.querySelectorAll('.properties input[data-key]');
@@ -613,6 +711,36 @@ var properties = {
 }
 
 utils = {
+  movePoints: function(direction, shift){
+    var x = 0;
+    var y = 0;
+    var distance = 1;
+    if(camera.scale < 0.3){
+      distance = 100;
+    }else if(camera.scale < 1){
+      distance = 10;
+    }
+
+    if(shift)distance *= 10;
+
+    if(direction == 'up'){
+      y = -distance
+    }else if(direction == 'down'){
+      y = distance
+    }else if(direction == 'left'){
+      x = -distance
+    }else if(direction == 'right'){
+      x = +distance
+    }
+
+    select.points.forEach(function(point){
+      point.move(x, y)
+    })
+
+    links.draw();
+    properties.set()
+    state.save();
+  },
   alignSelectedPoints: function(){
     if(select.points.length){
       var greedSize = Math.max.apply(null, select.points.map(function(point){
@@ -633,11 +761,71 @@ utils = {
         point.y = point.panorama.x = centerY + Math.floor(n/greedWidth) * greedSize;
         point.setPosition()
       })
+      state.save()
     }else{
       //todo
     }
   },
+  setStartPanorama: function(){
+    if(select.points.length == 1){
+      var panoramaId = select.points[0].panorama.id;
+      if(panoramaId == Tour.view.id){
+        Tour.data.start = panoramaId;
+        state.save()
+        //todo ok
+      }else{
+        //todo 'this panorama is not in view'
+      }
+    }else if(select.points.length > 1){
+      //todo 'more than 1 panorama selected'
+    }else if(!select.points.length){
+      //todo 'No panoramas selected'
+    }
+  },
+  setDefaultView: function(lonOnly){
+    if(select.points.length == 1){
+      var panorama = select.points[0].panorama
+      if(panorama.id == Tour.view.id){
+        panorama.lon = Tour.view.lon.value;
+        if(!lonOnly){
+          panorama.lat = Tour.view.lat.value;
+          panorama.fov = Tour.view.fov.value;
+        }
+        properties.set();
+        state.save()
+        //todo ok
+      }else{
+        //todo 'this panorama is not in view'
+      }
+    }else if(select.points.length > 1){
+      //todo 'more than 1 panorama selected'
+    }else if(!select.points.length){
+      //todo 'No panoramas selected'
+    }
+  },
+  removeAllLinks: function(lonOnly){
+    var removeFlag = false;
+    if(select.points.length){
+      select.points.forEach(function(point){
+        if(point.panorama.links && point.panorama.links.length)point.panorama.links.forEach(function(p){
+          removeFlag = true;
+          var panorama = utils.findPoinnt(p.id).panorama;
+          console.log(panorama.links)
+          panorama.links = panorama.links.filter(function(n){
+            return n.id != point.panorama.id;
+          })
+          console.log(panorama.links)
+        })
+        point.panorama.links = [];
+      })
+      if(removeFlag)state.save()
+      links.draw();
+    }else{
+
+    }
+  },
   clearStorage: function(){
+    state.clear = true;
     if(confirm("clear storage?")){
       localStorage.clear();
       parent.location.reload();
@@ -654,6 +842,7 @@ utils = {
       point.y = view.y;
       point.floor = point.panorama.floor = floors.active;
       point.setPosition()
+      state.save()
     }else{
       //todo
     }
@@ -684,8 +873,8 @@ var floors = {
   init: function(){
     this.floorList = document.querySelector('.floor-list');
     this.plans = document.querySelector('.plans');
-    this.setFloors();
-    this.showFloor(0);
+    // this.setFloors();
+    // this.showFloor(0);
   },
   setFloors: function(){
     this.floorList.innerHTML = '';
@@ -693,9 +882,12 @@ var floors = {
       var li = document.createElement('li');
       li.classList.add('sub-menu-item');
       var span = document.createElement('span')
+      var selectSpan = document.createElement('span');
+      selectSpan.classList.add('selectedFloor');
       span.classList.add('sub-menu-item-title');
       span.innerText = floor.title;
       li.appendChild(span);
+      li.appendChild(selectSpan);
       li.addEventListener('click', function(){
         floors.showFloor(n)
       })
@@ -723,8 +915,12 @@ var floors = {
     if(n != undefined){
       this.active = n;
     }
-    camera.draw(true);
-    links.draw()
+    camera.draw();
+    camera.draw();
+    links.draw();
+    Array.from(document.querySelectorAll('.selectedFloor')).forEach(function(span, n){
+      span.innerHTML = floors.active==n? '✓' : ''
+    })
   },
   setPosition: function(){
     this.plans.style.transform = 'translate('+camera.x+'px, '+camera.y+'px) scale('+camera.scale+')';
@@ -738,7 +934,6 @@ var links = {
   },
   hide: function(){
     this.domElement.classList.add('hidden');
-
   },
   draw: function(){
     console.log('draw')
@@ -748,10 +943,11 @@ var links = {
         point.panorama.links.forEach(function(link){
           var a = point;
           var b = utils.findPoinnt(link.id)
-          if(a.panorama.id < b.panorama.id || !b.visible){
+          if(a.panorama.id < b.panorama.id){
             var aPosition = a.getAbsolutePosition();
             var bPosition = b.getAbsolutePosition();
             var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            // line.title = '123'
             line.setAttribute("x1", aPosition.x);
             line.setAttribute("y1", aPosition.y);
             line.setAttribute("x2", bPosition.x);
@@ -765,6 +961,7 @@ var links = {
       }
     })
     this.domElement.classList.remove('hidden');
+    camera.updateLinks();
   }
 }
 

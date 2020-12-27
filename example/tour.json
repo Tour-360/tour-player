@@ -1222,6 +1222,15 @@
       "height": 500,
       "title": "First floor",
       "plan": null
+    },
+    {
+      "height": 500,
+      "title": "2 floor",
+      "plan": null
+    },{
+      "height": 500,
+      "title": "3 floor",
+      "plan": null
     }
   ]
 }

@@ -26,8 +26,12 @@
               <span class="sub-menu-item-hotkay">⌘O</span>
             </li>
             <li class="sub-menu-item" onclick="state.saveAsFile()">
-              <span class="sub-menu-item-title">Save as…</span>
+              <span class="sub-menu-item-title">Save file as…</span>
               <span class="sub-menu-item-hotkay">⌘S</span>
+            </li>
+            <li class="sub-menu-item" onclick="state.saveToServer()">
+              <span class="sub-menu-item-title">Save to server</span>
+              <span class="sub-menu-item-hotkay">⌘ alt S</span>
             </li>
           </ul>
         </li>
@@ -69,6 +73,28 @@
             <li class="sub-menu-item" onclick="utils.showFOVPoint()">
               <span class="sub-menu-item-title">Show fov point</span>
             </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Tour camera follow map</span>
+              <ul class="sub-menu">
+                <li class="sub-menu-item">
+                  <span class="sub-menu-item-title">on</span>
+                </li>
+                <li class="sub-menu-item">
+                  <span class="sub-menu-item-title">off</span>
+                </li>
+              </ul>
+            </li>
+            <li class="sub-menu-item">
+              <span class="sub-menu-item-title">Map camera follow tour</span>
+              <ul class="sub-menu">
+                <li class="sub-menu-item">
+                  <span class="sub-menu-item-title">on</span>
+                </li>
+                <li class="sub-menu-item">
+                  <span class="sub-menu-item-title">off</span>
+                </li>
+              </ul>
+            </li>
 <!--             <li class="sub-menu-item">
               <span class="sub-menu-item-title">Set background</span>
             </li>
@@ -85,7 +111,7 @@
           <ul class="sub-menu">
             <li class="sub-menu-item">
               <span class="sub-menu-item-title">Points</span>
-              <span class="sub-menu-item-hotkay">▶︎</span>
+              <span>▸</span>
               <ul class="sub-menu">
                 <li class="sub-menu-item" onclick="map.domElement.dataset.points = 'default'">
                   <span class="sub-menu-item-title">default</span>
@@ -124,15 +150,7 @@
             </li>
             <li class="sub-menu-item">
               <span class="sub-menu-item-title">Other</span>
-              <span class="sub-menu-item-hotkay">▸</span>
-              <ul class="sub-menu">
-                <li class="sub-menu-item">
-                  <span class="sub-menu-item-title">Item 1</span>
-                </li>
-                <li class="sub-menu-item">
-                  <span class="sub-menu-item-title">Item 2</span>
-                </li>
-              </ul>
+              <span>▸</span>
             </li>
           </ul>
         </li>
@@ -152,12 +170,34 @@
           </ul>
         </li>
         <li><span class="menu-item">Actions</span></li>
-        <li><span class="menu-item">Links</span></li>
+        <li>
+          <span class="menu-item">Links</span>
+            <ul class="sub-menu">
+              <li class="sub-menu-item" onclick="utils.removeAllLinks()">
+                <span class="sub-menu-item-title">Remove all links</span>
+                <span class="sub-menu-item-hotkay">⌘⇧L</span>
+              </li>
+            </ul>
+        </li>
+        <li>
+          <span class="menu-item">Panorama</span>
+          <ul class="sub-menu">
+            <li class="sub-menu-item" onclick="utils.setDefaultView()">
+              <span class="sub-menu-item-title">Set default view</span>
+            </li>
+            <li class="sub-menu-item" onclick="utils.setDefaultView(true)">
+              <span class="sub-menu-item-title">Set default view: lon only</span>
+            </li> 
+            <li class="sub-menu-item" onclick="utils.setStartPanorama(true)">
+              <span class="sub-menu-item-title">Set start panorama</span>
+            </li>
+          </ul>
+        </li>
         <li><span class="menu-item">Floor</span>
           <ul class="sub-menu">
             <li class="sub-menu-item">
               <span class="sub-menu-item-title">Select floor</span>
-              <span class="sub-menu-item-hotkay">▶︎</span>
+              <span>▸</span>
               <ul class="sub-menu floor-list">
               </ul>
             </li>
@@ -256,17 +296,17 @@
           <div class="sidebar-row">
             <label class="field">
               <span class="field-label">lat</span>
-              <input type="number" value="" step="0.01">
+              <input type="number" value="" data-key="lat" step="0.01">
               <span class="field-border"></span>
             </label>
             <label class="field">
               <span class="field-label">lon</span>
-              <input type="number" value="" step="0.01">
+              <input type="number" value="" data-key="lon" step="0.01">
               <span class="field-border"></span>
             </label>
             <label class="field">
               <span class="field-label">fov</span>
-              <input type="number" value="" step="0.1">
+              <input type="number" value="" data-key="fov" step="0.1">
               <span class="field-border"></span>
             </label>
           </div>
