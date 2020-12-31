@@ -103,9 +103,12 @@ Tour.utils.getVector = function(pano1, pano2){
     var a = pano1.x-pano2.x;
     var b = pano1.y-pano2.y;
     var distance = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
-    var rotate = -THREE.Math.radToDeg(Math.atan2(b, a))+90
-    var level = pano1.heightFromFloor + (pano1.floor != pano2.floor?(Tour.utils.getHeight(pano1.floor) - Tour.utils.getHeight(pano2.floor)) : 0);
-    return {distance:distance, rotate:rotate, level:level, id: pano2.id}
+    var rotate = -THREE.Math.radToDeg(Math.atan2(b, a))+90;
+    var result = {distance:distance, rotate:rotate, id: pano2.id};
+    if(pano1.heightFromFloor != undefined && pano1.floor != undefined && pano2.floor != undefined ){
+        result.level = pano1.heightFromFloor + (pano1.floor != pano2.floor?(Tour.utils.getHeight(pano1.floor) - Tour.utils.getHeight(pano2.floor)) : 0);
+    }
+    return result
 }
 
 
@@ -120,7 +123,7 @@ Tour.utils.getVisibilityPoint = function(vector, result, index){
             var pano2 = Tour.getPanorama(link.id);
             var vector2 = Tour.utils.getVector(pano, pano2);
             var offset = Math.abs(Tour.utils.getAngleOffset(vector.rotate, vector2.rotate));
-            if(offset < 40 || !offset){
+            if(!link.hidePoint && (offset < 40 || !offset)){
                 result[vector2.id] = true;
                 Tour.utils.getVisibilityPoint(vector2, result, index+1)
             }

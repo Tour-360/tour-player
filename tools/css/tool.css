@@ -7,6 +7,7 @@
   --light-gray: #CCC;
   --black: #111;
   --alt-accent: #ed0;
+  --warning: #F70;
 
   --point-size: 129.36px;
   --point-wide-ratio: 3;
@@ -130,6 +131,11 @@ body {
 
 .field input:focus + .field-border {
   border-color: var(--accent);
+  opacity: 1;
+}
+
+.field input.warning + .field-border {
+  border-color: var(--warning);
   opacity: 1;
 }
 
@@ -449,6 +455,10 @@ body {
   pointer-events: all;
   cursor: pointer;
   opacity: 0.5;
+}
+
+.connections-layer line.secondary{
+  opacity: 0.15;
 }
 
 .connections-layer line:hover {

@@ -71,7 +71,7 @@ class MenuItem {
 
     this.#arrowDomElement = document.createElement('span');
     this.#arrowDomElement.classList.add('menu-item-arrow');
-    this.#arrowDomElement.innerText = '▶';
+    this.#arrowDomElement.innerText = '▸';
 
     this.domElement?.appendChild(this.subItemsDomElement);
     this.domElement?.appendChild(this.#arrowDomElement);
@@ -284,21 +284,26 @@ const menu = new Menu('.header',{
   camera: {
     title: "Camera",
     items: {
+      scaleIn: { title: "Scale in", hotKey: '⌘+', action: () => camera.setScale(camera.scale * 1.2) },
+      ScaleOut: { title: "Scale out", hotKey: '⌘-', action: () => camera.setScale(camera.scale / 1.2) },
+      defaultScale: { title: "Default scale", hotKey: '⌘0', action: () => camera.setScale(camera.defaultScale) },
       moveToOrigin: { title: "Move to origin", action: () => camera.lookAt({x:0,y:0}) },
       showActivePoint: { title: "Show active point", action: () => utils.showActivePoint() },
       showFOVPoint: { title: "Show fov point", action: () => utils.showActivePoint() },
       tourCameraFollowMap: {
         title: "Tour camera follow map",
         type: "checkbox",
-        action: (value) => {
-          return !value;
+        action: () => {
+          camera.trackingMap = !camera.trackingMap
+          return camera.trackingMap;
         }
       },
       mapCameraFollowTour: {
         title: "Map camera follow tour",
         type: "checkbox",
-        action: (value) => {
-          return !value;
+        action: () => {
+          camera.trackingTour = !camera.trackingTour
+          return camera.trackingTour;
         }
       },
     }

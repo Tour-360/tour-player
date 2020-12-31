@@ -16,6 +16,7 @@ Tour.view.set = function(options, replaceHistory, zoom) {
       this.lat = new Tour.Transition(options.lat || this.lat || 0, Tour.options.limit.lat);
       this.lon = new Tour.Transition(options.lon || this.lon || 0, Tour.options.limit.lon);
       Tour.history.set(!replaceHistory);
+      Tour.emmit('changeView', Tour.view.get());
     }.bind(this)
 
     if(!this.fov && !this.lat && !this.lon) set();
@@ -43,7 +44,6 @@ Tour.view.set = function(options, replaceHistory, zoom) {
             );
         }
     }
-    Tour.emmit('changeView', Tour.view.get());
 };
 
 Tour.view.go = function(step) {

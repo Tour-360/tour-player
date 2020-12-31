@@ -62,7 +62,7 @@ Tour.Arrow.prototype.setActive = function(value){
 }
 
 Tour.Arrow.prototype.go = function(){
-    Tour.view.set({id:this.point.pano}, null, Math.abs((this.point.lon-Tour.view.lon)%360) < 20);
+    Tour.view.set({id:this.point.pano, lon:this.point.panoLon-(this.point.lon-Tour.view.lon.value)}, null, Math.abs((this.point.lon-Tour.view.lon)%360) < 20);
 }
 
 Tour.Arrow.prototype.remove = function(){
@@ -118,7 +118,7 @@ Tour.nadirControl.getPoints = function() {
 
     if(Tour.options.nadirControlArrowFilter == 'all'){
         points.forEach(function(point){
-            result.push(Tour.options.nadirControl == 'all');
+            result.push(point);
         })
     }else if(Tour.options.nadirControlArrowFilter == 'likePoints'){
         points = points.sort(function(a, b){
@@ -127,9 +127,9 @@ Tour.nadirControl.getPoints = function() {
 
         points.forEach(function(point){
             if(!result.some(function(selected){
-                var inRadius = Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance
-                var anotherLevel = point.distance<1000 && Math.abs(point.level - selected.level) < 5;
-                return inRadius || anotherLevel;
+                var distance = Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance
+                var anotherLevel = point.distance<1000 && Math.abs(point.level - selected.level) > 50;
+                return distance || anotherLevel;
             })){
                 result.push(point)
             }
@@ -138,10 +138,29 @@ Tour.nadirControl.getPoints = function() {
         var pano = Tour.getPanorama()
 
         if(pano.links){
-            result = pano.links.map(function(link){
+            var arrows = pano.links.map(function(link){
                 var point = Tour.getPanorama(link.id);
-                var vector = Tour.utils.getVector(pano, point);
-                return {lon:vector.rotate, distance:vector.distance, level:vector.level, pano:point.id}
+                var vector
+                var lon 
+                if(link.x == undefined && link.y == undefined){
+                    vector = Tour.utils.getVector(pano, point);
+                }else{
+                    vector = Tour.utils.getVector(pano, Object.assign({floor: point.floor}, link));
+                    lon = Tour.utils.getVector(link, point).rotate
+                }
+                return {lon:vector.rotate, distance:vector.distance, level:vector.level, pano:point.id, panoLon:lon}
+            }).sort(function(a, b){
+                return a.distance - b.distance;
+            });
+
+            arrows.forEach(function(point){
+                if(!result.some(function(selected){
+                    var distance = Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance
+                    var anotherLevel = Math.abs(point.level - selected.level) < 50;
+                    return distance && anotherLevel;
+                })){
+                    result.push(point)
+                }
             })
         }
     }

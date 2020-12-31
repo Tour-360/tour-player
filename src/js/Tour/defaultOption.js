@@ -28,7 +28,7 @@ Tour.defaultOption = {
   nadirControlArrowFilter: 'links',
   hideInvisiblePoints: true,
   pointersOpacity: 0.6,
-  arrowsDistance: 35,
+  arrowsDistance: 20,
   heightFloor: 2, // todo remove
   points: true,
   autoPoints: true,

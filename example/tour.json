@@ -1228,16 +1228,11 @@
     },
     {
       "height": 400,
-      "title": "second floor",
+      "title": "Second floor",
       "plan": {
         "imageUrl": "floors/1.svg",
         "width": 690
       }
-    },
-    {
-      "height": 400,
-      "title": "3 floor",
-      "plan": null
     }
   ]
 }
