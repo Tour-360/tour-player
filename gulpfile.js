@@ -130,7 +130,7 @@ gulp.task('deploy', function() {
         .pipe(sftp({
             host: 'tour-360.ru',
             auth: 'admin',
-            remotePath: '/var/www/tour-360.ru/tour-player/' + pjson.version + '/tools/'
+            remotePath: '/var/www/tour-360.ru/tour-player/' + pjson.version + '/tools'
         }));
 });
 
