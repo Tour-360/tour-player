@@ -1117,10 +1117,10 @@ var links = {
       connectiPoints[0].remove();
     }
     points.forEach(function(point){
-      point.panorama.links.forEach(function(link){
-          if(point.panorama.id > link.id && link.x!=undefined && link.y!=undefined){
-            new ConnectiPoint(link, [link, utils.findPoinnt(link.id).panorama.links.find(function(l){return l.id == point.panorama.id})]);
-          }
+      if(point.panorama.links)point.panorama.links.forEach(function(link){
+        if(point.panorama.id > link.id && link.x!=undefined && link.y!=undefined){
+          new ConnectiPoint(link, [link, utils.findPoinnt(link.id).panorama.links.find(function(l){return l.id == point.panorama.id})]);
+        }
       })
     })
   },
