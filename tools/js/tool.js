@@ -24,7 +24,7 @@ var state = {
   count: -1,
   name: null,
   states: [],
-  firstLoad: true, 
+  firstLoad: true,
 
   push: function(code){
     this.states[this.count] = code;
@@ -41,7 +41,7 @@ var state = {
     }
   },
   set: function(){
-    var startView = localStorage.view && JSON.parse(localStorage.view) 
+    var startView = localStorage.view && JSON.parse(localStorage.view)
 
     points = [];
     select.points = [];
@@ -55,7 +55,7 @@ var state = {
     })
 
     if(this.firstLoad){
-      var startView = localStorage.view && JSON.parse(localStorage.view) 
+      var startView = localStorage.view && JSON.parse(localStorage.view)
       var activePoint = utils.findPoinnt(Tour.view.id);
       activePoint.select(true);
       console.log(startView)
@@ -508,7 +508,7 @@ ConnectiPoint.prototype.mouseDown = function(event){
 
 ConnectiPoint.prototype.mouseMove = function(event){
   event.stopPropagation();
-  var mouseX = event.pageX - this.mouse.x  + camera.offsetLeft 
+  var mouseX = event.pageX - this.mouse.x  + camera.offsetLeft
   var mouseY = event.pageY - this.mouse.y + camera.offsetTop
 
   this.x = mouseX/camera.scale// - this.x;
@@ -1077,7 +1077,7 @@ var floors = {
           parent.location.origin,
           parent.location.pathname,
           floor.plan.imageUrl
-        ].join('/');
+        ].join('');
         img.style.transform = 'translate(0px, 0px)'; //todo
 
         if(floor.plan.width) img.width = floor.plan.width;
