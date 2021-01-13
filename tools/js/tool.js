@@ -35,6 +35,7 @@ var state = {
   },
   save: function(){
     if(!this.clear){
+      this.current.lastModified = Date.now();
       var code = this.getCode();
       localStorage[this.name] = code;
       this.states[++this.count] = code;
@@ -58,7 +59,6 @@ var state = {
       var startView = localStorage.view && JSON.parse(localStorage.view)
       var activePoint = utils.findPoinnt(Tour.view.id);
       activePoint.select(true);
-      console.log(startView)
       camera.lookAt(startView || activePoint);
       this.firstLoad = false;
     }
@@ -70,9 +70,22 @@ var state = {
     links.setPoints();
   },
   get: function(){
-    this.name = Tour.data.name || prompt('project name:', 'myProject');
+    this.name = Tour.data.name || prompt('project name:', Tour.data.title || 'myProject');
     // this.name = this.name || prompt('project name:', 'myProject');
     this.current = localStorage[this.name]? JSON.parse(localStorage[this.name]) : Tour.data;
+    if(Tour.data.lastModified > this.current.lastModified){
+      var a = Object.assign({}, Tour.data);
+      var b = Object.assign({}, this.current);
+      a.lastModified = b.lastModified = 0;
+      var diff = JSON.stringify(a) != JSON.stringify(b)
+      if(diff && confirm(
+`File ${Tour.defaultOption.manifest} has been modified and is more recent than its local version to.
+localStorage — ${new Date(this.current.lastModified).toLocaleString()}
+${Tour.defaultOption.manifest} — ${new Date(Tour.data.lastModified).toLocaleString()}
+Use a more recent file?`)){
+        this.current = Tour.data
+      }
+    }
     this.current.name = this.name;
     if(!this.current.floors){
       this.current.floors = [
@@ -871,6 +884,7 @@ var properties = {
 
     this.setPointsValue(key, value);
     links.draw();
+    state.save();
   },
   init: function(){
     this.inputs = document.querySelectorAll('.properties input[data-key]');

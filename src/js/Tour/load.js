@@ -24,6 +24,10 @@ Tour.load = function(data, callback) {
                 var json = xhr.responseText.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/mg, '');
                 try {
                     Tour.data = JSON.parse(json);
+                    if(xhr.getResponseHeader('Last-Modified')){
+                        var time = new Date(xhr.getResponseHeader('Last-Modified'));
+                        Tour.data.lastModified = time.getTime();
+                    }
                 } catch (e) {
                     var position = parseInt(e.message.split(' ')[7]);
                     if (position) {
