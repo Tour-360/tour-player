@@ -887,7 +887,7 @@ var properties = {
     state.save();
   },
   init: function(){
-    this.inputs = document.querySelectorAll('.properties input[data-key]');
+    this.inputs = document.querySelectorAll('.properties *[data-key]');
     var that = this;
     this.inputs.forEach(function(input){
       input.addEventListener('change', that.onChange.bind(that));

@@ -8,7 +8,6 @@ class Toasts {
     toastDomElement.classList.add('toast');
     toastDomElement.innerText = text;
     this.domElement.appendChild(toastDomElement);
-
   }
 }
 

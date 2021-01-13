@@ -50,8 +50,6 @@ class MenuItem {
 
       this.subTitleDomElement?.remove();
       this.hotKeyDomElement?.remove();
-
-      console.log(222, this.items);
     }
 
     if (this.type === 'select' && this.options) {
@@ -162,7 +160,6 @@ class MenuItem {
     } else if (Object.keys(this.#parent.items).length > 1) {
       // Закрывать соседей при переключении
       Object.values(this.#parent.items).forEach(item => {
-        console.log(item);
         item.close();
       });
     }
@@ -194,8 +191,6 @@ class MenuItem {
   }
 
   remove() {
-    console.log(this.#key);
-    console.log(this.#parent?.items[this.#key]);
     this.domElement?.remove();
     delete this.#parent?.items[this.#key];
   }
