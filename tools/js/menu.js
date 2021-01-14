@@ -322,6 +322,10 @@ const menu = new Menu('.header',{
           transparent: "Transparent",
         },
         action: (value) => map.domElement.dataset.points = value
+      },
+      minimize: {
+        title: "Minimize",
+        action: () => window.resizeTo(320, 740)
       }
     }
   },
