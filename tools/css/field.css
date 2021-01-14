@@ -9,6 +9,7 @@
   background: var(--white);
   padding: 6px 8px;
   display: flex;
+  cursor: text;
 }
 
 .field-border {
