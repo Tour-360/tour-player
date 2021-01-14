@@ -1,17 +1,14 @@
 class AreaItem extends HTMLElement {
   #idElement;
   #titleElement;
+  #svgPath;
 
   constructor() {
     super();
   }
 
   static get observedAttributes() {
-    return ['id', 'title'];
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-
+    return ['id', 'title', 'd'];
   }
 
   connectedCallback() {
@@ -123,6 +120,7 @@ class AreaItem extends HTMLElement {
 
     this.#idElement = this.shadow.querySelector('x-field[label="id"]');
     this.#titleElement = this.shadow.querySelector('x-field[label="title"]');
+    this.#svgPath = this.shadow.querySelector('svg path');
 
     this.#idElement.addEventListener('change', (e) => {
       e.preventDefault();
@@ -158,6 +156,13 @@ class AreaItem extends HTMLElement {
       case "title": {
         if (this.#titleElement) {
           this.#titleElement.value = newValue;
+        }
+        break;
+      }
+      case "d": {
+        console.log(name, newValue, this.#svgPath);
+        if (this.#svgPath) {
+          this.#svgPath.setAttribute('d', newValue);
         }
         break;
       }
