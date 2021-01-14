@@ -1,7 +1,7 @@
 class AreaItem extends HTMLElement {
   #idElement;
   #titleElement;
-  #svgPath;
+  #previewElement;
 
   constructor() {
     super();
@@ -33,19 +33,16 @@ class AreaItem extends HTMLElement {
         cursor: pointer;
         height: 62px;
         width: 62px;
-        background: var(--extra-light-gray);
+        background-color: var(--extra-light-gray);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
         margin-right: 6px;
         overflow: hidden;
       }
       
-      .area-item .preview svg {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-      
-      .area-item .preview svg path {
-        fill: var(--dark-gray);
+      .area-item .properties {
+        flex: 1;
       }
       
       .area-item .controls {
@@ -92,11 +89,7 @@ class AreaItem extends HTMLElement {
       }
     </style>
     <li class="area-item">
-      <div class="preview">
-        <svg fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="${this.getAttribute('d')}"/>
-        </svg>
-      </div>
+      <div class="preview"></div>
       <div class="properties">
         <x-field label="id" value="${this.getAttribute('id')}" ></x-field>
         <x-field label="title" value="${this.getAttribute('title')}" ></x-field>
@@ -120,12 +113,22 @@ class AreaItem extends HTMLElement {
 
     this.#idElement = this.shadow.querySelector('x-field[label="id"]');
     this.#titleElement = this.shadow.querySelector('x-field[label="title"]');
-    this.#svgPath = this.shadow.querySelector('svg path');
+    this.#previewElement = this.shadow.querySelector('.preview');
+
+    this.#previewElement.style.backgroundImage = `url("${this.getAttribute('image')}")`;
 
     this.#idElement.addEventListener('change', (e) => {
       e.preventDefault();
       e.stopPropagation();
+      this.setAttribute('id', e.target.value);
       this.dispatchEvent(new Event('changeId'));
+    });
+
+    this.#titleElement.addEventListener('change', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setAttribute('title', e.target.value);
+      this.dispatchEvent(new Event('changeTitle'));
     });
   }
 
@@ -145,6 +148,14 @@ class AreaItem extends HTMLElement {
     return this.getAttribute('title');
   }
 
+  set image(value) {
+    this.setAttribute('image', value);
+  }
+
+  get image() {
+    return this.getAttribute('image');
+  }
+
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name){
       case "id": {
@@ -159,10 +170,9 @@ class AreaItem extends HTMLElement {
         }
         break;
       }
-      case "d": {
-        console.log(name, newValue, this.#svgPath);
-        if (this.#svgPath) {
-          this.#svgPath.setAttribute('d', newValue);
+      case "image": {
+        if (this.#previewElement) {
+          this.#previewElement.style.backgroundImage = `url("${newValue}")`;
         }
         break;
       }

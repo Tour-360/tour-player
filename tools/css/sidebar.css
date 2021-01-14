@@ -1,7 +1,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 290px;
+  width: var(--sidebar-width);
   background: var(--white);
   border-left: 1px solid var(--dark-gray);
 }
@@ -69,4 +69,11 @@
 
 .sidebar .properties {
   padding: 6px 0;
+}
+
+@media (max-width: 400px) {
+  .sidebar {
+    width: 100%;
+    border: none;
+  }
 }

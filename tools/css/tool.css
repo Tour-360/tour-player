@@ -5,7 +5,7 @@
   --danger: #F88B00;
   --dark-gray: #888;
   --light-gray: #CCC;
-  --extra-light-gray: #F0F0F0;
+  --extra-light-gray: #F6F6F6;
   --black: #111;
   --alt-accent: #ed0;
   --warning: #F70;
@@ -14,6 +14,8 @@
   --point-wide-ratio: 3;
 
   --meter-size: 42px;
+
+  --sidebar-width: 290px;
 }
 
 html, body {
@@ -447,5 +449,13 @@ input[type="file"] {
   }
   100% {
     opacity: 0;
+  }
+}
+
+
+
+@media (max-width: 400px) {
+  .header {
+    display: none;
   }
 }
