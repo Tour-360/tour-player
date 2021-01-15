@@ -39,13 +39,21 @@
 
       <div class="sidebar">
         <ul class="sidebar-tabs">
+          <li data-id="global" class="sidebar-tab">Global</li>
           <li data-id="properties" class="sidebar-tab">Properties</li>
           <li data-id="areas" class="sidebar-tab">Areas</li>
         </ul>
 
         <div class="sidebar-content properties" data-id="properties">
+
+          <label>Main</label>
+
           <x-field label="title" data-key="title"></x-field>
           <x-field label="id" data-key="id"></x-field>
+
+          <hr>
+
+          <label>Position on map</label>
 
           <div class="sidebar-row">
             <x-field label="x" type="number" step="0.1" data-key="x"></x-field>
@@ -53,10 +61,16 @@
             <x-field label="r" type="number" step="0.1" data-key="heading"></x-field>
           </div>
 
-          <x-field label="floor" type="number" step="0.01" data-key="floor"></x-field>
-          <x-field label="heightFromFloor" type="number" step="0.01" data-key="heightFromFloor"></x-field>
+          <hr>
+
+          <label>Floor</label>
+
+          <x-field label="Floor number" type="number" step="0.01" data-key="floor"></x-field>
+          <x-field label="Height from floor" type="number" step="0.01" data-key="heightFromFloor"></x-field>
 
           <hr>
+
+          <label>Viewing angle</label>
 
           <div class="sidebar-row">
             <x-field label="lat" type="number" step="0.01" data-key="lat"></x-field>
@@ -66,20 +80,24 @@
 
           <hr>
 
-          <div class="sidebar-row">
-            <x-field label="lat" type="number" step="0.01"></x-field>
-            <x-field label="lon" type="number" step="0.01"></x-field>
-            <x-field label="fov" type="number" step="0.1"></x-field>
-          </div>
+<!--          <label>More angle</label>-->
 
-          <hr>
-          <div class="sidebar-row">
-            <x-field label="lat" type="number" step="0.01"></x-field>
-            <x-field label="lon" type="number" step="0.01"></x-field>
-            <x-field label="fov" type="number" step="0.1"></x-field>
-          </div>
+<!--          <div class="sidebar-row">-->
+<!--            <x-field label="lat" type="number" step="0.01"></x-field>-->
+<!--            <x-field label="lon" type="number" step="0.01"></x-field>-->
+<!--            <x-field label="fov" type="number" step="0.1"></x-field>-->
+<!--          </div>-->
 
-          <hr>
+<!--          <hr>-->
+
+<!--          <label>Lots of angle</label>-->
+
+<!--          <div class="sidebar-row">-->
+<!--            <x-field label="lat" type="number" step="0.01"></x-field>-->
+<!--            <x-field label="lon" type="number" step="0.01"></x-field>-->
+<!--            <x-field label="fov" type="number" step="0.1"></x-field>-->
+<!--          </div>-->
+
         </div>
 
         <div class="sidebar-content" data-id="areas">
@@ -87,6 +105,12 @@
           <div class="sidebar-footer">
             <button class="primary" onclick="areaEditor.init()" title="key A">Add new area</button>
           </div>
+        </div>
+
+        <div class="sidebar-content global" data-id="global">
+          <x-field label="Title" data-key="title"></x-field>
+          <x-field label="Start panorama id" data-key="start"></x-field>
+          <hr>
         </div>
       </div>
     </div>

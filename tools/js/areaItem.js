@@ -60,6 +60,7 @@ class AreaItem extends HTMLElement {
       
       .area-item .properties {
         flex: 1;
+        min-width: 0;
       }
       
       .area-item .controls {
@@ -105,7 +106,7 @@ class AreaItem extends HTMLElement {
         background-image: url('assets/delete.svg');
       }
     </style>
-    <li class="area-item">
+    <div class="area-item">
       <div class="preview"></div>
       <div class="properties">
         <x-field label="id" value="${this.getAttribute('id')}" ></x-field>
@@ -114,7 +115,7 @@ class AreaItem extends HTMLElement {
       <div class="controls">
         <button class="delete" type="Remove"></button>
       </div>
-    </li>`
+    </div>`
 
     this.shadow.querySelector('.preview').addEventListener('click', (e) => {
       e.preventDefault();

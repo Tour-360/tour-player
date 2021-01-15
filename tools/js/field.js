@@ -55,7 +55,6 @@ class Field extends HTMLElement {
         
         .field input {
           background: none;
-          width: 100%;
           font: inherit;
           display: block;
           margin: 0;
@@ -63,6 +62,8 @@ class Field extends HTMLElement {
           border: none;
           outline: none;
           z-index: 1;
+          flex: 1;
+          min-width: 0;
         }
         
         .field:not(:hover) input::-webkit-outer-spin-button,
