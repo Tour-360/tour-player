@@ -68,6 +68,7 @@ var state = {
     camera.draw();
     links.draw();
     links.setPoints();
+    areas.set();
   },
   get: function(){
     this.name = Tour.data.name || prompt('project name:', Tour.data.title || 'myProject');
@@ -130,17 +131,89 @@ Use a more recent file?`)){
     var url  = URL.createObjectURL(blob);
 
     var a = document.createElement('a');
-    a.download    = dateStr+".json";
+    a.download    = this.name+' '+dateStr+".json";
     a.href        = url;
     a.textContent = a.download;
     a.click()
   },
   saveToServer: function(){
-    fetch('/save', { method: "POST", headers: {
-      'Content-Type': 'application/json'
-    }, body: JSON.stringify({ manifest: parent.Tour.options.manifest, password: '1', tour: {a: 1}})});
+    if(confirm('Update '+parent.Tour.options.manifest+' file?')){
+      toasts.push("Saving...");
+      fetch('/save', { method: "POST", headers: {
+        'Content-Type': 'application/json'
+      }, body: JSON.stringify({
+        manifest: parent.Tour.options.manifest,
+        password: '1',
+        tour: this.current
+      })}).then(response => {
+        return response.json().catch(error => {
+          throw `JSON Parse error: ${error}`;
+        });
+      }).then(json => {
+        if (json.success) {
+          toasts.push("Save success");
+        } else {
+          throw "Save fail"
+        }
+      }).catch(error => {
+        toasts.push(error);
+      });
+    }
   }
 };
+
+function getAreaPreView(area, callback){
+  var size = 1024
+  var alpha = size/42
+  var pano = Tour.getPanorama(area.view.id)
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera( 130, 1, 1, 1100);
+  var geometry = new THREE.SphereBufferGeometry( size, 32, 32 );
+  geometry.scale( - 1, 1, 1 );
+  var texture = new THREE.TextureLoader().load( 'panorams/'+area.view.id+'/thumbnail/equidistant.jpg', function(){
+    var phi = THREE.Math.degToRad(90 - area.view.lat);
+    var theta = THREE.Math.degToRad(90-area.view.lon+(90-(pano.heading||0)));
+    var target = new THREE.Vector3();
+    target.x = Math.sin(phi) * Math.cos(theta);
+    target.y = Math.cos(phi);
+    target.z = Math.sin(phi) * Math.sin(theta);
+
+    camera.lookAt(target);
+    camera.updateProjectionMatrix();
+    renderer.render( scene, camera );
+
+    var flatX = [];
+    var flatY = [];
+    var points = area.points.forEach(function(cord){
+      flatX.push((size/2)+cord[0]*alpha);
+      flatY.push((size/2)-cord[1]*alpha);
+    })
+    var vx = Math.min.apply(null, flatX);
+    var vy = Math.min.apply(null, flatY);
+    var vw = Math.max.apply(null, flatX)-vx;
+    var vh = Math.max.apply(null, flatY)-vy;
+
+    var canvas = document.createElement('canvas');
+    canvas.width = vw
+    canvas.height = vh
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(renderer.domElement, vx, vy, vw, vh, 0, 0, vw, vh)
+
+    ctx.globalCompositeOperation = 'destination-in';
+    ctx.beginPath();
+    area.points.forEach(function(cord, n){
+      ctx[n==0?'moveTo': 'lineTo']((size/2)+cord[0]*alpha-vx, (size/2)-cord[1]*alpha-vy)
+    })
+    ctx.fill();
+
+    callback(canvas.toDataURL());
+  });
+  var material = new THREE.MeshBasicMaterial( { map: texture } );
+  var mesh = new THREE.Mesh( geometry, material );
+  scene.add( mesh );
+  var renderer = new THREE.WebGLRenderer({});
+  renderer.setSize( size, size );
+}
 
 var camera = {
   x: 0,
@@ -404,11 +477,11 @@ var map = {
       event.preventDefault();
       state.redo();
     }
-    if (event.code == 'KeyS' && (event.ctrlKey || event.metaKey) && !event.shiftKey){
+    if (event.code == 'KeyS' && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
       event.preventDefault();
       state.saveAsFile()
     }
-    if (event.code == 'KeyS' && (event.ctrlKey || event.metaKey) && !event.shiftKey && event.altKey){
+    if (event.code == 'KeyS' && (event.ctrlKey || event.metaKey) && event.altKey){
       event.preventDefault();
       state.saveToServer()
     }
@@ -828,6 +901,7 @@ function init(){
   camera.update();
   links.init();
   properties.init()
+  areas.init();
   state.get();
   select.init();
   //links.setPoints()
@@ -891,11 +965,258 @@ var properties = {
     var that = this;
     this.inputs.forEach(function(input){
       input.addEventListener('change', that.onChange.bind(that));
-      input.addEventListener('keydown', function(event){
-        event.stopPropagation()
-      });
     })
   }
+}
+
+// var Area = function(){
+
+// }
+
+var areaCache = {}
+
+areas = {
+  init: function(){
+    this.domElement = document.querySelector('.area-list');
+    Tour.on('changePano', areas.set.bind(areas));
+    this.set();
+    parent.addEventListener('keydown', function(event){
+        if (event.code == 'KeyA' && !event.ctrlKey && !event.metaKey){
+          event.preventDefault();
+          areaEditor.init()
+        }
+    })
+  },
+  set: function(){
+    console.log('set')
+    areas.domElement.innerHTML = '';
+    var pano = Tour.getPanorama(Tour.view.id)
+    if(pano.areas)pano.areas.forEach(function(area, n){
+      var areaItem = document.createElement('area-item');
+      areaItem.id = area.id;
+      areaItem.title = area.title || '';
+
+
+      // var flatX = [];
+      // var flatY = [];
+      // var points = 'M'+area.points.map(function(cord){
+      //   flatX.push(cord[0]);
+      //   flatY.push(-cord[1]);
+      //   return [cord[0], -cord[1]].join(' ');
+      // }).join('L')+'Z';
+      // var vx = Math.min.apply(null, flatX);
+      // var vy = Math.min.apply(null, flatY);
+      // var vw = Math.max.apply(null, flatX);
+      // var vh = Math.max.apply(null, flatY);
+
+      // var viewBox = [vx, vy, vw-vx, vh-vy].join(' ');
+      var setArea = function(e){
+        area.id = e.target.id;
+        area.title = e.target.title;
+        Tour.areasManager.set()
+        state.save()
+      }
+      areaItem.addEventListener('changeId', setArea);
+      areaItem.addEventListener('changeTitle', setArea);
+      areaItem.addEventListener('click', function(){
+        Tour.view.set(area.view)
+      });
+      areaItem.addEventListener('delete', function(){
+        pano.areas.splice(n, 1);
+        Tour.areasManager.set()
+        state.save();
+        areas.domElement.removeChild(areaItem);
+      });
+
+      var key = JSON.stringify(area);
+
+      if(areaCache[key]){
+        areaItem.image = areaCache[key]
+      }else{
+        getAreaPreView(area, function(url){
+          areaItem.image = url;
+          areaCache[key] = url;
+        })
+      }
+
+      // areaItem.image="data:image/svg+xml,%3Csvg viewBox='"+viewBox+"' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='"+points+"' fill='%23C4C4C4'/%3E%3C/svg%3E%0A"
+      areas.domElement.appendChild(areaItem);
+    })
+  }
+}
+
+
+areaEditor = {
+    drawMode: false
+}
+
+areaEditor.set = function() {
+    UI.notification.show('Draw mode on', 300);
+    Tour.renderer.domElement.style.pointerEvents = 'none'
+    Tour.domElement.style.cursor = 'crosshair'
+    UI.controlPanel.visibility = true; Tour.controls.toggleMenu();
+
+    var dist = 10
+
+    var vFOV = THREE.Math.degToRad( Tour.camera.fov );
+    var height = 2 * Math.tan( vFOV / 2 ) * dist;
+    var width = height * Tour.camera.aspect;
+
+    var geometry = new THREE.PlaneGeometry(width, height);
+    var material = new THREE.MeshBasicMaterial( {color: 0x000000, transparent: true} );
+    material.opacity = 0.2;
+    this.plane = new THREE.Mesh( geometry, material );
+
+    var vector = new THREE.Vector3(0, 0, -1);
+    vector.applyEuler(Tour.camera.rotation, Tour.camera.rotation.order);
+    this.plane.position.set(vector.x*dist, vector.y*dist, vector.z*dist);
+    this.plane.lookAt(Tour.camera.position)
+    Tour.scene.add( this.plane );
+
+
+    var geometry = new THREE.ShapeGeometry( new THREE.Shape() );
+    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true } );
+    material.opacity = 0.6;
+    this.mesh = new THREE.Mesh( geometry, material ) ;
+    this.mesh.rotation.copy(this.plane.rotation);
+    this.mesh.position.copy(this.plane.position);
+    Tour.scene.add( this.mesh );
+
+    this.points = [];
+    this.peaks = [];
+
+    this.mouseupUpEvent = this.mouseup.bind(this);
+    this.mousemoveEvent = this.mousemove.bind(this);
+    this.keyDownEvent = this.keyDown.bind(this);
+
+    parent.addEventListener('mouseup', this.mouseupUpEvent);
+    parent.addEventListener('mousemove', this.mousemoveEvent);
+    parent.addEventListener('keydown', this.keyDownEvent);
+}
+
+areaEditor.keyDown = function(event) {
+    switch (event.code) {
+        // case 'Slash': this.copyAll(); break;
+    }
+}
+
+
+// areaEditor.copyAll = function(){
+//     var panorama = Tour.getPanorama()
+//     if(!panorama.areas){
+//         panorama.areas = [];
+//     }
+//     var strings = [',', '      "areas": ['];
+//     var areas = [];
+
+//     panorama.areas.forEach(function(area){
+//         areas.push('        ' + JSON.stringify(area, null, ''));
+//     })
+//     strings.push(areas.join(',\n'));
+
+//     strings.push('      ]');
+//     Tour.controls.copyText(strings.join('\n'));
+//     UI.notification.show('Id of this panorama: ' + Tour.view.id);
+//     areaEditor.init();
+// }
+
+areaEditor.save = function(){
+    var panorama = Tour.getPanorama();
+    var defaultid = panorama.areas && panorama.areas.slice(-1)[0] && panorama.areas.slice(-1)[0].id
+    var id = parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0);
+    var view = Tour.view.get()
+    var area = {
+        action: {type: 'popup', id: id},
+        id: id,
+        view: view,
+        points: this.peaks.map(function(peak){
+            return [parseFloat(peak.x.toFixed(3)), parseFloat(peak.y.toFixed(3))]
+        }),
+        rotation: [
+            parseFloat(this.plane.rotation.x.toFixed(3)),
+            parseFloat(this.plane.rotation.y.toFixed(3)),
+            parseFloat(this.plane.rotation.z.toFixed(3))
+        ],
+        position: [
+            parseFloat(this.plane.position.x.toFixed(3)),
+            parseFloat(this.plane.position.y.toFixed(3)),
+            parseFloat(this.plane.position.z.toFixed(3))
+        ]
+    }
+
+    if(! panorama.areas){
+        panorama.areas = [];
+    }
+    panorama.areas.push(area);
+    Tour.areasManager.set();
+    areas.set();
+}
+
+areaEditor.mouseup = function(event){
+    if(Tour.domElement.style.cursor === 'copy'){
+        this.save();
+        this.init();
+    }else{
+        this.peaks.push(this.getVector(event))
+        this.draw();
+    }
+}
+
+areaEditor.getVector = function(event){
+    var mouse = new THREE.Vector2();
+    mouse.x = (event.clientX / parent.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / parent.innerHeight) * 2 + 1;
+    var raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, Tour.camera);
+    var intersects = raycaster.intersectObject(this.plane);
+    var vector = new THREE.Vector3().copy( intersects[ 0 ].point );
+    intersects[ 0 ].object.worldToLocal( vector );
+    return vector;
+}
+
+
+areaEditor.mousemove = function(event){
+    var vector = this.getVector(event)
+    if(this.peaks[0] && Math.sqrt(Math.pow(Math.abs(vector.x - this.peaks[0].x), 2) + Math.abs(vector.y - this.peaks[0].y)) < 0.2){
+        Tour.domElement.style.cursor = 'copy'
+        this.points = this.peaks.concat();
+    }else{
+        Tour.domElement.style.cursor = 'crosshair'
+        this.points = this.peaks.concat([vector]);
+    }
+    this.draw();
+}
+
+areaEditor.draw = function(){
+    if(this.points.length >= 3){
+        var shape = new THREE.Shape();
+        shape.moveTo(this.points[0].x, this.points[0].y);
+
+        for(var i=1; i<this.points.length; i++){
+            shape.lineTo(this.points[i].x, this.points[i].y);
+        }
+        shape.lineTo(this.points[0].x, this.points[0].y);
+
+        this.mesh.geometry = new THREE.ShapeGeometry( shape );
+        Tour.needsUpdate = true;
+    }
+}
+
+areaEditor.clear = function() {
+    Tour.renderer.domElement.style.pointerEvents = Tour.domElement.style.cursor = 'initial'
+    Tour.scene.remove(this.plane);
+    Tour.scene.remove(this.mesh);
+
+    parent.removeEventListener('mouseup', this.mouseupUpEvent);
+    parent.removeEventListener('mousemove', this.mousemoveEvent);
+    parent.removeEventListener('keydown', this.keyDownEvent)
+}
+
+areaEditor.init = function() {
+    this.drawMode = !this.drawMode;
+    this.drawMode? this.set() : this.clear();
+    Tour.needsUpdate = true;
+    // parent.focus()
 }
 
 utils = {

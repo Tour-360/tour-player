@@ -42,6 +42,10 @@ class Field extends HTMLElement {
       this.dispatchEvent(new Event('change'));
     });
 
+    this.inputDomElement.addEventListener('keydown', function(event){
+      event.stopPropagation();
+    });
+
     this.inputDomElement.addEventListener('input', (e) => {
       e.stopPropagation();
       e.preventDefault();

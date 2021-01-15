@@ -28,7 +28,10 @@ Tour.view.set = function(options, replaceHistory, zoom) {
 
     if (this.id != options.id && options.id !== undefined) {
         this.id = options.id;
-        Tour.setPanorama(this.id, zoom, set);
+        Tour.setPanorama(this.id, zoom, function(){
+            set();
+            Tour.emmit('changePano', Tour.view.get());
+        });
     }else{
         set();
     }

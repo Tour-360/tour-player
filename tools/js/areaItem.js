@@ -8,7 +8,7 @@ class AreaItem extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['id', 'title', 'd'];
+    return ['id', 'title', 'image'];
   }
 
   connectedCallback() {
@@ -33,7 +33,6 @@ class AreaItem extends HTMLElement {
         cursor: pointer;
         height: 62px;
         width: 62px;
-        background-color: var(--extra-light-gray);
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;

@@ -31,6 +31,7 @@ Tools.mapEditor.link = function(){
         Tools.editor.Tour = Tour;
         Tools.editor.THREE = THREE;
         Tools.editor.parent = window;
+        Tools.editor.UI = UI;
         Tools.editor.addEventListener('unload', function(){
             setTimeout(Tools.mapEditor.link, 1);
         }, false);
