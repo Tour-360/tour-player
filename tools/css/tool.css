@@ -5,7 +5,7 @@
   --danger: #F88B00;
   --dark-gray: #888;
   --light-gray: #CCC;
-  --extra-light-gray: #F6F6F6;
+  --extra-light-gray: #F0F0F0;
   --black: #111;
   --alt-accent: #ed0;
   --warning: #F70;
@@ -38,6 +38,7 @@ body {
 .main {
   flex: 1;
   display: flex;
+  min-height: 0;
 }
 
 .header {

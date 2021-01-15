@@ -12,6 +12,84 @@ class Field extends HTMLElement {
   connectedCallback() {
     this.shadow = this.attachShadow({mode: "open"});
 
+    this.shadow.innerHTML = `
+      <style>
+        :host {
+          display: block;
+          position: relative;
+          margin: var(--margin, 12px);
+        }
+        
+        .field {
+          border-radius: 4px;
+          /*background: var(--white);*/
+          padding: 6px 8px;
+          display: flex;
+          cursor: text;
+        }
+        
+        .field-border {
+          pointer-events: none;
+          display: block;
+          border: 1px solid transparent;
+          border-radius: 4px;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 0;
+        }
+        
+        .field:hover .field-border {
+          border-color: var(--light-gray);
+          background: var(--white);
+        }
+        
+        .field-label {
+          position: relative;
+          color: var(--dark-gray);
+          margin-right: 6px;
+          z-index: 1;
+        }
+        
+        .field input {
+          background: none;
+          width: 100%;
+          font: inherit;
+          display: block;
+          margin: 0;
+          padding: 0;
+          border: none;
+          outline: none;
+          z-index: 1;
+        }
+        
+        .field:not(:hover) input::-webkit-outer-spin-button,
+        .field:not(:hover) input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        
+        .field input:focus + .field-border {
+          background: var(--white);
+          border-color: var(--accent);
+          opacity: 1;
+        }
+        
+        .field input.warning + .field-border {
+          border-color: var(--warning);
+          opacity: 1;
+        }
+        
+        .field.danger .field-border {
+          opacity: .5;
+          border-color: var(--danger) !important;
+        }
+
+      </style>
+    `;
+
     this.labelDomElement = document.createElement('label');
     this.labelDomElement.classList.add('field');
 
@@ -53,11 +131,6 @@ class Field extends HTMLElement {
       this.value = e.target.value;
       this.dispatchEvent(new Event('input'));
     });
-
-    const linkElem = document.createElement('link');
-    linkElem.setAttribute('rel', 'stylesheet');
-    linkElem.setAttribute('href', 'css/field.css');
-    this.shadow.appendChild(linkElem);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {

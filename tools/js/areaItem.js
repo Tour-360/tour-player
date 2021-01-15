@@ -17,15 +17,29 @@ class AreaItem extends HTMLElement {
     this.shadow.innerHTML = `
     <style>
       .area-item {
+        position: relative;
         display: flex;
         align-items: center;
         padding: 12px;
-        border: 1px solid transparent;
         box-sizing: border-box;
       }
       
+      .area-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        display: block;
+        height: var(--border-size, 1px);
+        width: calc(100% - 32px);
+        background: var(--extra-light-gray);
+      }
+      
       .area-item:hover {
-        border: 1px solid var(--light-gray);
+        /*border: 1px solid var(--light-gray);*/
+        /*background: var(--extra-light-gray);*/
       }
       
       .area-item .preview {
@@ -38,6 +52,10 @@ class AreaItem extends HTMLElement {
         background-size: contain;
         margin-right: 6px;
         overflow: hidden;
+      }
+      
+      .area-item:hover .preview {
+        filter: drop-shadow(1px 0 0 black) drop-shadow(-1px 0 0 black) drop-shadow(0 1px 0 black) drop-shadow(0 -1px 0 black);
       }
       
       .area-item .properties {
@@ -129,6 +147,11 @@ class AreaItem extends HTMLElement {
       this.setAttribute('title', e.target.value);
       this.dispatchEvent(new Event('changeTitle'));
     });
+
+    this.shadow.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    })
   }
 
   set id(value) {
