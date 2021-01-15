@@ -1075,7 +1075,7 @@ areaEditor.set = function() {
 
 
     var geometry = new THREE.ShapeGeometry( new THREE.Shape() );
-    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true } );
+    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true} );
     material.opacity = 0.6;
     this.mesh = new THREE.Mesh( geometry, material ) ;
     this.mesh.rotation.copy(this.plane.rotation);
@@ -1126,7 +1126,7 @@ areaEditor.save = function(){
     var id = parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0);
     var view = Tour.view.get()
     var area = {
-        action: {type: 'popup', id: id},
+        action: {},
         id: id,
         view: view,
         points: this.peaks.map(function(peak){
@@ -1149,6 +1149,7 @@ areaEditor.save = function(){
     }
     panorama.areas.push(area);
     Tour.areasManager.set();
+    state.save()
     areas.set();
 }
 
