@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    :root {
+      --accent: #08F;
+    }
+    body {
+      background: url("https://unsplash.it/500/500");
+      background-size: cover;
+      margin: 0;
+    }
+    svg {
+      position: absolute;
+      display: block;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    path {
+        stroke: var(--accent);
+        stroke-width: 1px;
+    }
+
+    rect {
+        width: 6px;
+        height: 6px;
+        fill: white;
+        stroke: var(--accent);
+        stroke-width: 1px;
+        cursor: grab;
+    }
+
+    rect:active {
+        cursor: grabbing;
+    }
+  </style>
+</head>
+<body>
+
+<svg viewBox="0 0 1020 659" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M1020 0H0V659H1020V0ZM357.5 426L272 453.5L216 477.5L197.5 543.5L234.5 573.5H289L343 585L490.5 543.5L522 520.5H572L600.5 477.5L593.5 466L582 453.5L536 442L454.5 426H357.5Z" fill="black" fill-opacity="0.53"/>
+  <rect x="28" y="26" />
+  <rect x="128" y="66" />
+  <rect x="48" y="86" />
+  <rect x="18" y="300" />
+</svg>
+</body>
+</html>
