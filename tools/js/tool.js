@@ -1523,7 +1523,7 @@ var links = {
             line.setAttribute("x2", bPosition.x);
             line.setAttribute("y2", bPosition.y);
 
-            if(a.panorama.floor !== b.panorama.floor){
+            if(a.panorama.floor != b.panorama.floor){
               line.setAttribute("stroke-dasharray", "5, 5");
             }
 
