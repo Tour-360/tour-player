@@ -29,10 +29,11 @@ Tour.defaultOption = {
   hideInvisiblePoints: true,
   pointersOpacity: 0.6,
   arrowsDistance: 20,
-  heightFloor: 2, // todo remove
   points: true,
   autoPoints: true,
   vibrate: true,
+  arrowsTitle: false,
+  pointsTitle: false,
   sentry: {
     dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
   },

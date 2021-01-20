@@ -13,15 +13,18 @@ Tour.Point = function(options, index){
     this.circle.visible = false;
     this.circle.rotation.set(-Math.PI/2, 0, 0);
 
-    this.circle._onclick = this.go.bind(this)
-    this.circle._onhover = this.setActive.bind(this, true);
-    this.circle._onover = this.setActive.bind(this, false);
-
     this.level = options.level || -2;
     this.opacity = options.opacity == undefined ? 1 : (options.opacity || 0);
     this.distance = options.distance || 0
     this.lon = options.lon || 0;
     this.pano = options.pano;
+
+    this.circle._onclick = this.go.bind(this)
+    this.circle._onhover = this.setActive.bind(this, true);
+    this.circle._onover = this.setActive.bind(this, false);
+    if(Tour.options.pointsTitle){
+        this.circle._title = Lang.translate(Tour.getPanorama(this.pano).title);
+    }
 
     Tour.pointsManager.rings.add(this.ring);
     Tour.pointsManager.circles.add(this.circle);

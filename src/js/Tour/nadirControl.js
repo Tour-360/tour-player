@@ -53,6 +53,9 @@ Tour.Arrow = function(point){
     this.rect._onclick = this.go.bind(this)
     this.rect._onhover = this.setActive.bind(this, true);
     this.rect._onover = this.setActive.bind(this, false);
+    if(Tour.options.arrowsTitle){
+        this.rect._title = Lang.translate(Tour.getPanorama(this.point.pano).title);
+    }
     Tour.nadirControl.rects.add(this.rect);
 }
 
