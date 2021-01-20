@@ -264,8 +264,9 @@ var camera = {
     var view = camera.getView();
     this.scale = Math.max(0.08, Math.min(1.68, scale));
     this.lookAt(view);
-    links.hide()
-    links.debounceDraw()
+    links.hide();
+    links.debounceDraw();
+    map.domElement.style.imageRendering = this.scale>(42/100)?'pixelated':'auto';
   },
   save: function(){
     var cameraPosition = this.getView()
@@ -1250,6 +1251,48 @@ utils = {
     links.draw();
     properties.set()
     state.save();
+  },
+  addPanorams: function(){
+    var start = parseInt(prompt('start id', parseInt(state.current.panorams.slice(-1)[0].id)+1))
+    var end = parseInt(prompt('end id', start));
+    var position = camera.getView()
+    for (var i=start; i<=end; i++){
+      state.current.panorams.push({
+        id: i+'',
+        heightFromFloor: 154,
+        heading: 0,
+        x: position.x,
+        y: position.y,
+        floor: floors.active,
+        markers: [],
+        title: i+''
+      })
+    }
+    state.save();
+    state.set();
+    for (var i=start; i<=end; i++){
+      utils.findPoinnt(i+'').select(true);
+    }
+    utils.showActivePoint();
+    utils.alignSelectedPoints()
+  },
+  addPanorama: function(){
+    var id = prompt('panorama id', parseInt(state.current.panorams.slice(-1)[0].id)+1);
+    var position = camera.getView()
+    state.current.panorams.push({
+      id: id,
+      heightFromFloor: 154,
+      heading: 0,
+      x: position.x,
+      y: position.y,
+      floor: floors.active,
+      markers: [],
+      title: id
+    })
+    state.save();
+    state.set();
+    utils.findPoinnt(id).select(true);
+    utils.showActivePoint()
   },
   alignSelectedPoints: function(){
     if(select.points.length){

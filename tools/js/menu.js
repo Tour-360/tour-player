@@ -379,7 +379,19 @@ const menu = new Menu('.header',{
       setStartPanorama: {
         title: 'Set start panorama',
         action: () => utils.setStartPanorama(true)
-      }
+      },
+      deleteSelectedPanoramas: {
+        title: 'Delete selected panoramas',
+        action: () => utils.deleteSelectedPanoramas()
+      },
+      addPanorama: {
+        title: 'Add panorama',
+        action: () => utils.addPanorama()
+      },
+      addPanorams: {
+        title: 'Add panorams',
+        action: () => utils.addPanorams()
+      },
     }
   },
   floor: {

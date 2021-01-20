@@ -90,7 +90,7 @@ button.delete {
 .map {
   /*transform: translateZ(0);
   will-change: transform;*/
-  image-rendering: pixelated;
+  image-rendering: optimizespeed;
   --scale: 1;
   --offset-x: 0;
   --offset-y: 0;
