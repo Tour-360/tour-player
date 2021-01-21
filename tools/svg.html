@@ -30,10 +30,20 @@
     rect {
         width: 6px;
         height: 6px;
+        transform: translate(-3px, -3px);
+/*        width: 20px;
+        height: 20px;
+        transform: translate(-10px, -10px);*/
         fill: white;
         stroke: var(--accent);
         stroke-width: 1px;
         cursor: grab;
+    }
+    .intermediatePoints rect{
+      width: 4px;
+      height: 4px;
+      transform: translate(-2px, -2px);
+      fill: var(--accent);
     }
 
     rect:active {
@@ -44,11 +54,143 @@
 <body>
 
 <svg viewBox="0 0 1020 659" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M1020 0H0V659H1020V0ZM357.5 426L272 453.5L216 477.5L197.5 543.5L234.5 573.5H289L343 585L490.5 543.5L522 520.5H572L600.5 477.5L593.5 466L582 453.5L536 442L454.5 426H357.5Z" fill="black" fill-opacity="0.53"/>
-  <rect x="28" y="26" />
-  <rect x="128" y="66" />
-  <rect x="48" y="86" />
-  <rect x="18" y="300" />
+  <path fill-rule="evenodd" d="" fill="black" fill-opacity="0.53"/>
+  <g class="points">
+<!--     <rect x="28" y="26" />
+    <rect x="128" y="66" />
+    <rect x="48" y="86" />
+    <rect class="intermediate" x="18" y="300" /> -->
+  </g>
+  <g class="intermediatePoints">
+
+  </g>
 </svg>
+
+<script>
+  //M1020 0H0V659H1020V0ZM357.5 426L272 453.5L216 477.5L197.5 543.5L234.5 573.5H289L343 585L490.5 543.5L522 520.5H572L600.5 477.5L593.5 466L582 453.5L536 442L454.5 426H357.5Z
+
+  AreaIntermediatePoint = function(index){
+    this.x = 0;
+    this.y = 0;
+    this.index = index;
+
+    this.domElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    areaEditor.intermediatePointsGroupElement.appendChild(this.domElement);
+
+    this.onMouseDown = this.mouseDown.bind(this);
+    this.domElement.addEventListener('mousedown', this.onMouseDown);
+  }
+
+  AreaIntermediatePoint.prototype.draw = function(){
+    this.domElement.setAttribute('x', this.x);
+    this.domElement.setAttribute('y', this.y);
+  }
+
+  AreaIntermediatePoint.prototype.mouseDown = function(event){
+    var point = new AreaPoint(this.x, this.y);
+    areaEditor.points.splice(this.index+1, 0, point);
+    areaEditor.set();
+    point.mouseDown(event);
+  }
+
+  AreaIntermediatePoint.prototype.remove = function(){
+    areaEditor.intermediatePointsGroupElement.removeChild(this.domElement);
+    document.removeEventListener('mousedown', this.onMouseDown);
+  }
+
+
+  AreaPoint = function(x, y){
+    this.x = x;
+    this.y = y;
+    this.domElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    areaEditor.pointsGroupElement.appendChild(this.domElement);
+    this.mouse = {x:0, y:0};
+
+
+    this.onMouseMove = this.mouseMove.bind(this);
+    this.onMouseUp = this.mouseUp.bind(this);
+    this.onMouseDown = this.mouseDown.bind(this);
+    this.domElement.addEventListener('mousedown', this.onMouseDown);
+  }
+
+  AreaPoint.prototype.mouseDown = function(event){
+    this.mouse.x = event.pageX - this.x;
+    this.mouse.y = event.pageY - this.y;
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  AreaPoint.prototype.mouseMove = function(event){
+    this.x = event.pageX - this.mouse.x;
+    this.y = event.pageY - this.mouse.y;
+    areaEditor.draw();
+    this.draw();
+  }
+
+  AreaPoint.prototype.mouseUp = function(){
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  AreaPoint.prototype.draw = function(){
+    this.domElement.setAttribute('x', this.x);
+    this.domElement.setAttribute('y', this.y);
+  }
+
+  AreaPoint.prototype.remove = function(){
+    areaEditor.pointsGroupElement.removeChild(this.domElement);
+    document.removeEventListener('mousedown', this.onMouseDown);
+  }
+
+  areaEditor = {
+    init: function(){
+      this.domElement = document.querySelector('svg');
+      this.pathElement = document.querySelector('svg path');
+      this.pointsGroupElement = document.querySelector('svg g.points');
+      this.intermediatePointsGroupElement = document.querySelector('svg g.intermediatePoints');
+      this.points = [];
+      this.intermediatePoints = [];
+      this.onMouseDown = this.push.bind(this);
+      this.pathElement.addEventListener('mousedown', this.onMouseDown);
+    },
+    set: function(points){
+      this.intermediatePoints.forEach(function(intermediatePoint){
+        intermediatePoint.remove();
+        delete intermediatePoint;   
+      })
+
+      if(points)this.points = points.map(function(point){
+        return new AreaPoint(point[0], point[1])
+      });
+      this.intermediatePoints = this.points.map(function(point, index){
+        return new AreaIntermediatePoint(index);
+      });
+      this.domElement.setAttribute('viewBox', [0, 0, window.innerWidth, window.innerHeight].join(' '));
+      this.draw(true);
+    },
+    draw: function(force){
+      var b = 6; //border
+      var rect = 'M'+window.innerWidth+b+' '+(-b)+'H'+(-b)+'V'+window.innerHeight+b+'H'+window.innerWidth+b+'V'+(-b)+'Z';
+      var shape = this.points.length?'M'+this.points.map(function(point){
+        if(force)point.draw();
+        return [point.x, point.y].join(' ')
+      }).join('L')+'Z':'';
+      this.intermediatePoints.forEach(function(point, n){
+        var index = n!=areaEditor.points.length-1?n+1:0;
+        point.x = (areaEditor.points[n].x+areaEditor.points[index].x)/2
+        point.y = (areaEditor.points[n].y+areaEditor.points[index].y)/2
+        point.draw();
+      })
+      this.pathElement.setAttribute('d', rect+shape)
+    },
+    push: function(event){
+      this.points.push(new AreaPoint(event.pageX, event.pageY));
+      this.set();
+    }
+  }
+
+  areaEditor.init();
+  areaEditor.set()
+</script>
 </body>
 </html>
