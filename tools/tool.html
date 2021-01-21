@@ -44,6 +44,42 @@
           <li data-id="areas" class="sidebar-tab">Areas</li>
         </ul>
 
+
+        <div class="sidebar-content global" data-id="global">
+          <x-field label="Title" data-key="title"></x-field>
+          <x-field label="Start panorama id" data-key="start"></x-field>
+          <hr>
+          <label>Status</label>
+          <ul class="sidebar-list">
+            <li>
+              <span>width</span>
+              <strong>10,5m</strong>
+            </li>
+            <li>
+              <span>width</span>
+              <strong>10,5m</strong>
+            </li>
+          </ul>
+
+          <hr>
+
+          <label>Bars</label>
+
+          <x-bar
+            value="200"
+            secondary-value="350"
+            max="1000"
+            postfix="MB"
+          >Memory usage</x-bar>
+
+          <x-bar></x-bar>
+
+          <x-bar value="10" max="100">Title</x-bar>
+
+          <x-bar value="80" max="100" hidden-labels>clear</x-bar>
+        </div>
+
+
         <div class="sidebar-content properties" data-id="properties">
 
           <label>Main</label>
@@ -80,6 +116,9 @@
 
           <hr>
 
+          <label>Preview</label>
+          <div class="preview" style="background-image: url('')"></div>
+
 <!--          <label>More angle</label>-->
 
 <!--          <div class="sidebar-row">-->
@@ -106,13 +145,6 @@
             <button class="primary" onclick="areaEditor.init()" title="key A">Add new area</button>
           </div>
         </div>
-
-        <div class="sidebar-content global" data-id="global">
-          <x-field label="Title" data-key="title"></x-field>
-          <x-field label="Start panorama id" data-key="start"></x-field>
-          <hr>
-          <label>Info</label>
-        </div>
       </div>
     </div>
   </div>
@@ -123,6 +155,7 @@
   <script src="js/toasts.js"></script>
   <script src="js/menu.js"></script>
   <script src="js/field.js"></script>
+  <script src="js/bar.js"></script>
   <script src="js/areaItem.js"></script>
 </body>
 </html>

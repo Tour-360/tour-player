@@ -903,7 +903,7 @@ Point.prototype.mouseMoveRotate = function(event){
   var a = event.pageX - (camera.x+this.x*camera.scale) - camera.offsetLeft;
   var b = event.pageY - (camera.y+this.y*camera.scale) - camera.offsetTop;
   this.panorama.heading = this.rotate = (THREE.Math.radToDeg(Math.atan2(b, a))+90) % 360;
-  if(Tour.view.id == this.panorama.id){
+  if (Tour.view.id == this.panorama.id) {
     if(event.altKey){
       Tour.view.set({lon:-this.panorama.heading-this.cameraShift})
     }else{

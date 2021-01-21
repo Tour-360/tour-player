@@ -17,6 +17,6 @@
     });
   })
 
-  setActiveTab('properties');
+  setActiveTab('global');
 })();
 
