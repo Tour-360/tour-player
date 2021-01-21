@@ -66,9 +66,11 @@ var state = {
     Tour.setPanorama(Tour.view.id);
     properties.set();
     camera.draw();
-    links.draw();
-    links.setPoints();
     areas.set();
+    map.set();
+    links.setPoints();
+    links.draw();
+    globalTab.set()
   },
   get: function(){
     this.name = Tour.data.name || prompt('project name:', Tour.data.title || 'myProject');
@@ -502,6 +504,10 @@ var map = {
       event.preventDefault();
       utils.movePoints('right', event.shiftKey);
     }
+    if (event.code == 'Backspace'){
+      event.preventDefault();
+      utils.deleteSelectedPanoramas()
+    }
   }
 }
 
@@ -759,6 +765,30 @@ Point.prototype.drawLins = function(){
   var y1 = this.y * camera.scale + camera.y
 }
 
+Point.prototype.removeLinks = function(){
+  var removeFlag = false;
+  var that = this
+  if(this.panorama.links && this.panorama.links.length)this.panorama.links.forEach(function(p){
+    removeFlag = true;
+    var panorama = utils.findPoinnt(p.id).panorama;
+    panorama.links = panorama.links.filter(function(n){
+      return n.id != that.panorama.id;
+    })
+  })
+  this.panorama.links = [];
+  return removeFlag
+}
+
+
+Point.prototype.remove = function(){
+  this.removeLinks();
+  this.select(false);
+  map.pointsElement.removeChild(this.domElement);
+  state.current.panorams.splice(state.current.panorams.indexOf(this.panorama), 1);
+  points.splice(points.indexOf(this), 1);
+  delete this
+}
+
 Point.prototype.draw = function(forse){
   this.numberElement.innerText = this.panorama.id;
   // this.domElement.title = this.panorama.title;
@@ -897,6 +927,7 @@ Point.prototype.mouseUpRotate = function(event){
 
 
 function init(){
+  globalTab.init();
   floors.init()
   map.init()
   camera.update();
@@ -938,12 +969,12 @@ var properties = {
         var warning = select.points.some(function(otherPoint){
           return otherPoint.panorama[key] != point.panorama[key]
         })
-        input.classList[warning?'add':'remove']('warning')
+        input.setAttribute('status', warning?'warning':'');
       })
     }else{
       this.inputs.forEach(function(input){
         input.value = '';
-        input.classList.remove('warning')
+        input.setAttribute('status', '');
       })
     }
   },
@@ -953,7 +984,7 @@ var properties = {
     var type = input.getAttribute('data-type');
     var value = input.value;
 
-    if(input.type == 'number'){
+    if(input.getAttribute('type') == 'number'){
       value = parseFloat(value)
     }
 
@@ -966,6 +997,35 @@ var properties = {
     var that = this;
     this.inputs.forEach(function(input){
       input.addEventListener('change', that.onChange.bind(that));
+    })
+  }
+}
+
+var globalTab = {
+  onChange: function(event){
+    var input = event.target;
+    var key = input.getAttribute('data-key');
+    var type = input.getAttribute('data-type');
+    var value = input.value;
+
+    if(input.getAttribute('type') == 'number'){
+      value = parseFloat(value)
+    }
+
+    state.current[key] = value;
+    state.save();
+  },
+  init: function(){
+    this.inputs = document.querySelectorAll('.global *[data-key]');
+    var that = this;
+    this.inputs.forEach(function(input){
+      input.addEventListener('change', that.onChange.bind(that));
+    })
+  },
+  set: function(){
+    this.inputs.forEach(function(input){
+      var key = input.getAttribute('data-key');
+      input.value = state.current[key];
     })
   }
 }
@@ -1335,6 +1395,7 @@ utils = {
     }else if(!select.points.length){
       toasts.push('No panorama selected');
     }
+    globalTab.set();
   },
   setDefaultView: function(lonOnly){
     if(select.points.length == 1){
@@ -1357,24 +1418,41 @@ utils = {
       toasts.push('No panorama selected');
     }
   },
-  removeAllLinks: function(lonOnly){
+  deleteSelectedPanoramas(){
+    if(select.points.length){
+      var filter = select.points.filter(function(point){
+        return Tour.view.id != point.panorama.id
+      })
+      if(filter.length){
+        filter.forEach(function(point){
+          point.remove();
+        })
+        links.draw();
+        links.setPoints();
+        state.save();
+        properties.set()
+        toasts.push('Selected points have been deleted')
+      }else{
+        toasts.push("Can't delete viewpoint")
+      }
+    }else{
+      toasts.push('No points selected');
+    }
+  },
+  removeAllLinks: function(){
     var removeFlag = false;
     if(select.points.length){
       select.points.forEach(function(point){
-        if(point.panorama.links && point.panorama.links.length)point.panorama.links.forEach(function(p){
-          removeFlag = true;
-          var panorama = utils.findPoinnt(p.id).panorama;
-          panorama.links = panorama.links.filter(function(n){
-            return n.id != point.panorama.id;
-          })
-        })
-        point.panorama.links = [];
-        links.setPoints()
+        removeFlag = point.removeLinks() || removeFlag
       })
-      if(removeFlag)state.save()
-      links.draw();
-      toasts.push('Аll links have been removed for selected points');
-      state.save();
+      if(removeFlag){
+        state.save()
+        links.draw();
+        links.setPoints()
+        toasts.push('Аll links have been removed for selected points');
+      }else{
+        toasts.push('Selected points have no links')
+      }
     }else{
       toasts.push('No points selected');
     }
@@ -1523,7 +1601,7 @@ var links = {
             line.setAttribute("x2", bPosition.x);
             line.setAttribute("y2", bPosition.y);
 
-            if(a.panorama.floor != b.panorama.floor){
+            if(a.panorama.floor !== b.panorama.floor){
               line.setAttribute("stroke-dasharray", "5, 5");
             }
 

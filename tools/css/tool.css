@@ -2,13 +2,12 @@
   --white: #fff;
   --accent-source: 0, 99, 255;
   --accent: rgb(var(--accent-source));
-  --danger: #F88B00;
   --dark-gray: #888;
   --light-gray: #CCC;
   --extra-light-gray: #F0F0F0;
   --black: #111;
   --alt-accent: #ed0;
-  --warning: #F70;
+  --warning: #F88B00;
 
   --point-size: 129.36px;
   --point-wide-ratio: 3;
@@ -90,7 +89,7 @@ button.delete {
 .map {
   /*transform: translateZ(0);
   will-change: transform;*/
-  image-rendering: optimizespeed;
+  image-rendering: pixelated;
   --scale: 1;
   --offset-x: 0;
   --offset-y: 0;

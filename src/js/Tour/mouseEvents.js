@@ -12,7 +12,7 @@ Tour.mouseEvents._setCinetic = function(event) {
         var alpha = Tour.view.fov.value / Tour.options.initFov / Tour.options.mouseSensitivity;
         this.cineticLon = (event.clientX - this.previousEvent.clientX) * alpha;
         this.cineticLat = (event.clientY - this.previousEvent.clientY) * alpha;
-    } else if (event.timeStamp - this.previousEvent.timeStamp > 20) {
+    } else if (event.timeStamp - this.previousEvent.timeStamp > 40) {
         this.cineticLon = this.cineticLat = 0;
     }
     this.previousEvent = event;
@@ -70,7 +70,14 @@ Tour.mouseEvents.down = function(event) {
 };
 
 Tour.mouseEvents.move = function(event) {
-    if (this.mouseEvents.drag && (event.touches ? this.options.touchDrag : true)) {
+    if(event.touches && event.touches.length >= 2){
+        if(!this.mouseEvents.startFov){
+            Tour.mouseEvents.gesturestart(event);
+        }else{
+            event.scale = Tour.mouseEvents.getDistance(event)/Tour.mouseEvents.startDistance;
+            Tour.mouseEvents.gesturechange(event)
+        }
+    }else if(this.mouseEvents.drag && (event.touches ? this.options.touchDrag : true)) {
         this.mouseEvents._touches2mouse(event);
 
         var alpha = 4.5 / (Math.PI / Math.tan((Tour.view.fov.value/ 180 * Math.PI) / 2)) / Tour.options.mouseSensitivity;
@@ -82,7 +89,7 @@ Tour.mouseEvents.move = function(event) {
 };
 
 Tour.mouseEvents.up = function(event) {
-    if (this.mouseEvents.drag) {
+    if (this.mouseEvents.drag && !this.mouseEvents.startDistance) {
         this.mouseEvents._touches2mouse(event);
         this.mouseEvents._setCinetic(event);
 
@@ -95,10 +102,22 @@ Tour.mouseEvents.up = function(event) {
 
     this.mouseEvents.cineticLon = this.mouseEvents.cineticLat = 0;
     this.mouseEvents.drag = false;
+    this.mouseEvents.startFov = 0;
+    this.mouseEvents.startDistance = 0;
 };
 
+
+Tour.mouseEvents.getDistance = function(event){
+    var w = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
+    var h = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
+
+    return Math.sqrt(w*w + h*h)
+}
+
+
 Tour.mouseEvents.gesturestart = function(event) {
-    this.mouseEvents.startFov = Tour.view.fov.value;
+    Tour.mouseEvents.startFov = Tour.view.fov.value;
+    Tour.mouseEvents.startDistance = Tour.mouseEvents.getDistance(event)
     event.preventDefault();
 };
 
@@ -106,7 +125,7 @@ Tour.mouseEvents.gesturechange = function(event) {
     function degToRad(deg) { return deg / 180 * Math.PI; }
     function radToDeg(rad) { return rad / Math.PI * 180; }
 
-    var a = 1 / (Math.PI / Math.tan(degToRad(this.mouseEvents.startFov) / 2));
+    var a = 1 / (Math.PI / Math.tan(degToRad(Tour.mouseEvents.startFov) / 2));
     Tour.view.fov.set(radToDeg(2 * Math.atan((a / event.scale) / 1 * Math.PI)));
     event.preventDefault();
 };

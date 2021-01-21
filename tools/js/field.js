@@ -6,7 +6,7 @@ class Field extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['value', 'label', 'type', 'step'];
+    return ['value', 'label', 'type', 'step', 'status'];
   }
 
   connectedCallback() {
@@ -78,14 +78,9 @@ class Field extends HTMLElement {
           opacity: 1;
         }
         
-        .field input.warning + .field-border {
-          border-color: var(--warning);
-          opacity: 1;
-        }
-        
-        .field.danger .field-border {
+        .field[data-status="warning"] .field-border {
           opacity: .5;
-          border-color: var(--danger) !important;
+          border-color: var(--warning) !important;
         }
 
       </style>
@@ -93,6 +88,7 @@ class Field extends HTMLElement {
 
     this.labelDomElement = document.createElement('label');
     this.labelDomElement.classList.add('field');
+    this.labelDomElement.setAttribute('data-status', this.getAttribute('status'));
 
     this.titleDomElement = document.createElement('span');
     this.titleDomElement.classList.add('field-label');
@@ -137,6 +133,8 @@ class Field extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'value' && this.inputDomElement) {
       this.inputDomElement.value = newValue;
+    } else if (name === 'status'){
+      this.labelDomElement.setAttribute('data-status', newValue);
     }
   }
 
@@ -146,6 +144,14 @@ class Field extends HTMLElement {
 
   get value() {
     return this.getAttribute('value');
+  }
+
+  set status(value) {
+    this.setAttribute('status', value);
+  }
+
+  get status() {
+    return this.getAttribute('status');
   }
 }
 
