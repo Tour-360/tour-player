@@ -52,31 +52,51 @@
           <label>Status</label>
           <ul class="sidebar-list">
             <li>
-              <span>width</span>
-              <strong>10,5m</strong>
+              <span>panorams</span>
+              <strong class="st-panorams"></strong>
+            </li>
+            <li>
+              <span>links</span>
+              <strong class="st-links"></strong>
+            </li>
+            <li>
+              <span>areas</span>
+              <strong class="st-areas"></strong>
             </li>
             <li>
               <span>width</span>
-              <strong>10,5m</strong>
+              <strong class="st-width"></strong>
+            </li>
+            <li>
+              <span>height</span>
+              <strong class="st-height"></strong>
+            </li>
+            <li>
+              <span>square</span>
+              <strong class="st-square"></strong>
             </li>
           </ul>
 
           <hr>
 
-          <label>Bars</label>
+          <label>Performance</label>
 
           <x-bar
-            value="200"
-            secondary-value="350"
-            max="1000"
-            postfix="MB"
+            class="performance-storage"
+            value=""
+            max=""
+            postfix=" KB"
+          >Local storage usage</x-bar>
+
+          <x-bar
+            class="performance-memory"
+            value=""
+            secondary-value=""
+            max=""
+            postfix=" MB"
           >Memory usage</x-bar>
 
-          <x-bar></x-bar>
-
-          <x-bar value="10" max="100">Title</x-bar>
-
-          <x-bar value="80" max="100" hidden-labels>clear</x-bar>
+          
         </div>
 
 

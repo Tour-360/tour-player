@@ -22,7 +22,7 @@
       width: 100vw;
     }
 
-    path {
+    path.area {
       stroke: var(--accent);
       stroke-width: 1px;
     }
@@ -49,22 +49,21 @@
     rect:active {
       cursor: grabbing;
     }
+
+    .areaEditor{
+      cursor: crosshair;
+    }
   </style>
 </head>
 <body>
-
-<svg viewBox="0 0 1020 659" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="" fill="black" fill-opacity="0.53"/>
-  <g class="points">
-<!--     <rect x="28" y="26" />
-    <rect x="128" y="66" />
-    <rect x="48" y="86" />
-    <rect class="intermediate" x="18" y="300" /> -->
-  </g>
-  <g class="intermediatePoints">
-
-  </g>
+<div class="areaEditor">
+  <svg viewBox="0 0 1020 659" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path class="background" fill-rule="evenodd" d="" fill="black" fill-opacity="0.53"/>
+  <path class="area" fill-rule="nonzero" d="" fill="#0063ff" fill-opacity="0.25"/>
+  <g class="points"></g>
+  <g class="intermediatePoints"></g>
 </svg>
+</div>
 
 <script>
   //M1020 0H0V659H1020V0ZM357.5 426L272 453.5L216 477.5L197.5 543.5L234.5 573.5H289L343 585L490.5 543.5L522 520.5H572L600.5 477.5L593.5 466L582 453.5L536 442L454.5 426H357.5Z
@@ -87,6 +86,7 @@
   }
 
   AreaIntermediatePoint.prototype.mouseDown = function(event){
+    event.stopPropagation()
     var point = new AreaPoint(this.x, this.y);
     areaEditor.points.splice(this.index+1, 0, point);
     areaEditor.set();
@@ -114,10 +114,16 @@
   }
 
   AreaPoint.prototype.mouseDown = function(event){
-    this.mouse.x = event.pageX - this.x;
-    this.mouse.y = event.pageY - this.y;
-    document.addEventListener('mousemove', this.onMouseMove);
-    document.addEventListener('mouseup', this.onMouseUp);
+    event.stopPropagation()
+    if(event.which == 1){
+      this.mouse.x = event.pageX - this.x;
+      this.mouse.y = event.pageY - this.y;
+      document.addEventListener('mousemove', this.onMouseMove);
+      document.addEventListener('mouseup', this.onMouseUp);
+    }else{
+      this.remove();
+      areaEditor.set();
+    }
   }
 
   AreaPoint.prototype.mouseMove = function(event){
@@ -139,19 +145,26 @@
 
   AreaPoint.prototype.remove = function(){
     areaEditor.pointsGroupElement.removeChild(this.domElement);
+    areaEditor.points.splice(areaEditor.points.indexOf(this), 1);
     document.removeEventListener('mousedown', this.onMouseDown);
   }
 
   areaEditor = {
     init: function(){
+      this.rootElement = document.querySelector('.areaEditor');
       this.domElement = document.querySelector('svg');
-      this.pathElement = document.querySelector('svg path');
+      this.backgroundElement = document.querySelector('svg path.background');
+      this.areaElement = document.querySelector('svg path.area');
       this.pointsGroupElement = document.querySelector('svg g.points');
       this.intermediatePointsGroupElement = document.querySelector('svg g.intermediatePoints');
       this.points = [];
       this.intermediatePoints = [];
       this.onMouseDown = this.push.bind(this);
-      this.pathElement.addEventListener('mousedown', this.onMouseDown);
+      this.rootElement.addEventListener('mousedown', this.onMouseDown);
+      this.rootElement.addEventListener('contextmenu', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+      });
     },
     set: function(points){
       this.intermediatePoints.forEach(function(intermediatePoint){
@@ -169,8 +182,7 @@
       this.draw(true);
     },
     draw: function(force){
-      var b = 6; //border
-      var rect = 'M'+window.innerWidth+b+' '+(-b)+'H'+(-b)+'V'+window.innerHeight+b+'H'+window.innerWidth+b+'V'+(-b)+'Z';
+      var rect = 'M'+window.innerWidth+' 0H0V'+window.innerHeight+'H'+window.innerWidth+'V0Z';
       var shape = this.points.length?'M'+this.points.map(function(point){
         if(force)point.draw();
         return [point.x, point.y].join(' ')
@@ -181,7 +193,8 @@
         point.y = (areaEditor.points[n].y+areaEditor.points[index].y)/2
         point.draw();
       })
-      this.pathElement.setAttribute('d', rect+shape)
+      this.backgroundElement.setAttribute('d', rect+shape)
+      this.areaElement.setAttribute('d', shape)
     },
     push: function(event){
       this.points.push(new AreaPoint(event.pageX, event.pageY));

@@ -96,13 +96,13 @@ class Bar extends HTMLElement {
     const secondaryValue = parseFloat(this.getAttribute('secondary-value')) || 0;
     const max = parseFloat(this.getAttribute('max')) || 100;
     const postfix = this.getAttribute('postfix') || "";
-    this.#labelsElement.classList[this.hasAttribute('hidden-labels') ? 'remove' : 'add']('hidden');
+    this.#labelsElement.classList[this.hasAttribute('hidden-labels') ? 'add' : 'remove']('hidden');
 
     this.#titleElement.innerHTML = title;
     this.#valueElement.style.width = value / max * 100 + '%';
     this.#secondaryValueElement.style.width = secondaryValue / max * 100 + '%';
-    this.#labelValueElement.innerText = value + postfix;
-    this.#labelMaxElement.innerText = max + postfix;
+    this.#labelValueElement.innerText = value.toFixed(1) + postfix;
+    this.#labelMaxElement.innerText = max.toFixed(1) + postfix;
 
   }
 

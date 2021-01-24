@@ -116,6 +116,8 @@
   box-sizing: border-box;
   width: calc(100% - var(--margin) * 2);
   background-color: var(--extra-light-gray);
+  background-size: cover;
+  background-position: center;
 }
 
 .sidebar .preview::before {

@@ -35,6 +35,7 @@ var state = {
   },
   save: function(){
     if(!this.clear){
+      staus.set();
       this.current.lastModified = Date.now();
       var code = this.getCode();
       localStorage[this.name] = code;
@@ -71,6 +72,7 @@ var state = {
     links.setPoints();
     links.draw();
     globalTab.set()
+    staus.set();
   },
   get: function(){
     this.name = Tour.data.name || prompt('project name:', Tour.data.title || 'myProject');
@@ -650,6 +652,33 @@ ConnectiPoint.prototype.remove = function(forse){
   delete this
 }
 
+var staus = {
+  setValue: function(key, value){
+    document.querySelector('.global .st-'+key).innerText = value;
+  },
+  set:function(){
+    this.setValue('panorams', state.current.panorams.length);
+    this.setValue('links', state.current.panorams.reduce((s, item) => s + (item?.links?.length || 0), 0)/2);
+    this.setValue('areas', state.current.panorams.reduce((s, item) => s + (item?.areas?.length || 0), 0));
+    var width = Math.abs(Math.min(...state.current.panorams.map(item => item.x))-Math.max(...state.current.panorams.map(item => item.x)))
+    var height = Math.abs(Math.min(...state.current.panorams.map(item => item.y))-Math.max(...state.current.panorams.map(item => item.y)))
+    this.setValue('width', (width/100).toFixed(1)+'m');
+    this.setValue('height', (height/100).toFixed(1)+'m');
+    this.setValue('square', (height/100 * width/100).toFixed(1)+'m²');
+    this.setPerformance();
+  },
+  setPerformance: function(){
+    var memory = document.querySelector('.performance-memory');
+    memory.value = performance.memory.usedJSHeapSize/1024/1204;
+    memory.secondaryValue = performance.memory.totalJSHeapSize/1024/1204;
+    memory.max = performance.memory.jsHeapSizeLimit/1024/1204;
+
+    var storage = document.querySelector('.performance-storage');
+    storage.value = Object.keys(localStorage).map(key => localStorage[key]).join('').length/1024;
+    storage.max = 5200000/1024;
+
+  }
+}
 
 
 
@@ -936,6 +965,7 @@ function init(){
   areas.init();
   state.get();
   select.init();
+  areaEditor.init()
   //links.setPoints()
 
   Tour.defaultOption.limit = Tour.options.limit = {
@@ -970,6 +1000,16 @@ var properties = {
           return otherPoint.panorama[key] != point.panorama[key]
         })
         input.setAttribute('status', warning?'warning':'');
+
+        var img = [
+          parent.location.origin,
+          parent.location.pathname,
+          'panorams',
+          point.panorama.id,
+          'thumbnail/mini.jpg'
+        ].join('/');
+
+        document.querySelector('.preview').style.backgroundImage = `url('${img}')`
       })
     }else{
       this.inputs.forEach(function(input){
@@ -1044,7 +1084,13 @@ areas = {
     parent.addEventListener('keydown', function(event){
         if (event.code == 'KeyA' && !event.ctrlKey && !event.metaKey){
           event.preventDefault();
-          areaEditor.init()
+          areaEditor.toggle()
+        }
+        if (event.code == 'Enter' && !event.ctrlKey && !event.metaKey){
+          areaEditor.save();
+        }
+        if (event.code == 'Escape' && areaEditor.drawMode){
+          areaEditor.toggle();
         }
     })
   },
@@ -1080,7 +1126,9 @@ areas = {
       areaItem.addEventListener('changeId', setArea);
       areaItem.addEventListener('changeTitle', setArea);
       areaItem.addEventListener('click', function(){
-        Tour.view.set(area.view)
+        Tour.view.set(area.view);
+        areaEditor.toggle();
+        areaEditor.set(area.points)
       });
       areaItem.addEventListener('delete', function(){
         pano.areas.splice(n, 1);
@@ -1107,90 +1155,310 @@ areas = {
 }
 
 
-areaEditor = {
-    drawMode: false
+AreaIntermediatePoint = function(index){
+  this.x = 0;
+  this.y = 0;
+  this.index = index;
+
+  this.domElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  areaEditor.intermediatePointsGroupElement.appendChild(this.domElement);
+
+  this.onMouseDown = this.mouseDown.bind(this);
+  this.domElement.addEventListener('mousedown', this.onMouseDown);
 }
 
-areaEditor.set = function() {
-    UI.notification.show('Draw mode on', 300);
-    Tour.renderer.domElement.style.pointerEvents = 'none'
-    Tour.domElement.style.cursor = 'crosshair'
-    UI.controlPanel.visibility = true; Tour.controls.toggleMenu();
+AreaIntermediatePoint.prototype.draw = function(){
+  var absolute = areaEditor.areaToAbsolute(this)
+  this.domElement.setAttribute('x', absolute.x);
+  this.domElement.setAttribute('y', absolute.y);
+}
 
+AreaIntermediatePoint.prototype.mouseDown = function(event){
+  event.stopPropagation()
+  var point = new AreaPoint(this);
+  areaEditor.points.splice(this.index+1, 0, point);
+  areaEditor.set();
+  point.mouseDown(event);
+}
+
+AreaIntermediatePoint.prototype.remove = function(){
+  areaEditor.intermediatePointsGroupElement.removeChild(this.domElement);
+  areaEditor.rootElement.removeEventListener('mousedown', this.onMouseDown);
+}
+
+
+AreaPoint = function(vector){
+  this.x = vector.x;
+  this.y = vector.y;
+  this.domElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  areaEditor.pointsGroupElement.appendChild(this.domElement);
+  this.mouse = {x:0, y:0};
+
+
+  this.onMouseMove = this.mouseMove.bind(this);
+  this.onMouseUp = this.mouseUp.bind(this);
+  this.onMouseDown = this.mouseDown.bind(this);
+  this.domElement.addEventListener('mousedown', this.onMouseDown);
+}
+
+AreaPoint.prototype.mouseDown = function(event){
+  event.stopPropagation()
+  if(event.which == 1){
+    var area = areaEditor.areaToAbsolute(this);
+    this.mouse.x = event.pageX - area.x;
+    this.mouse.y = event.pageY - area.y;
+    areaEditor.rootElement.addEventListener('mousemove', this.onMouseMove);
+    areaEditor.rootElement.addEventListener('mouseup', this.onMouseUp);
+  }else{
+    this.remove();
+    areaEditor.set();
+  }
+}
+
+AreaPoint.prototype.mouseMove = function(event){
+  var absolute = areaEditor.absoluteToArea({x: event.pageX - this.mouse.x, y:event.pageY - this.mouse.y})
+  this.x = absolute.x;
+  this.y = absolute.y;
+  areaEditor.draw();
+  this.draw();
+}
+
+AreaPoint.prototype.mouseUp = function(){
+  areaEditor.rootElement.removeEventListener('mousemove', this.onMouseMove);
+  areaEditor.rootElement.removeEventListener('mouseup', this.onMouseUp);
+}
+
+AreaPoint.prototype.draw = function(){
+  var absolute = areaEditor.areaToAbsolute(this)
+  this.domElement.setAttribute('x', absolute.x);
+  this.domElement.setAttribute('y', absolute.y);
+}
+
+AreaPoint.prototype.remove = function(){
+  areaEditor.pointsGroupElement.removeChild(this.domElement);
+  // areaEditor.points.splice(areaEditor.points.indexOf(this), 1);
+  areaEditor.rootElement.removeEventListener('mousedown', this.onMouseDown);
+}
+
+var areaEditor = {
+  drawMode: false
+}
+
+areaEditor.init = function(){
+  this.points = [];
+  this.intermediatePoints = [];
+
+  this.rootElement = document.createElement('div');
+  this.rootElement.classList.add('areaEditor');
+
+  this.svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+
+  this.style = document.createElement('style');
+  this.style.innerHTML = `
+  :root {
+      --accent: #08F;
+  }
+
+  .areaEditor{
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    cursor: crosshair;
+  }
+
+  .areaEditor.drawing{
+    display: block;
+  }
+
+  path.background{
+    fill-rule: evenodd;
+    fill: black;
+    fill-opacity: 0.53;
+  }
+
+  path.area{
+    fill-rule: nonzero;
+    fill: var(--accent);
+    fill-opacity: 0.25;
+    stroke: var(--accent);
+    stroke-width: 1px;
+  }
+
+  rect {
+    width: 6px;
+    height: 6px;
+    transform: translate(-3px, -3px);
+    fill: white;
+    stroke: var(--accent);
+    stroke-width: 1px;
+    cursor: grab;
+  }
+
+  .intermediatePoints rect{
+    width: 4px;
+    height: 4px;
+    transform: translate(-2px, -2px);
+    fill: var(--accent);
+  }
+
+  rect:active {
+    cursor: grabbing;
+  }
+  `
+
+  this.backgroundElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  this.backgroundElement.classList.add('background');
+  this.areaElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  this.areaElement.classList.add('area');
+
+  this.pointsGroupElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  this.pointsGroupElement.classList.add('points');
+  this.intermediatePointsGroupElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  this.intermediatePointsGroupElement.classList.add('intermediatePoints');
+
+
+  this.svgElement.appendChild(this.backgroundElement);
+  this.svgElement.appendChild(this.areaElement);
+  this.svgElement.appendChild(this.pointsGroupElement);
+  this.svgElement.appendChild(this.intermediatePointsGroupElement);
+
+  this.rootElement.appendChild(this.style);
+  this.rootElement.appendChild(this.svgElement);
+  Tour.domElement.appendChild(this.rootElement);
+
+  this.onMouseDown = this.push.bind(this);
+  this.rootElement.addEventListener('mousedown', this.onMouseDown);
+  this.rootElement.addEventListener('contextmenu', function(event){
+    event.preventDefault();
+    event.stopPropagation();
+  });
+
+  parent.addEventListener('resize', function(){
+    if(this.drawMode){
+      this.set();
+    }
+  }.bind(this));
+
+  this.set();
+}
+
+areaEditor.toggle = function(){
+  if(this.drawMode){
+    if(this.points.length >= 3 && parent.confirm('Save area?')){
+      areaEditor.save();
+    }
+    areaEditor.set([]);
+  }
+
+  this.rootElement.classList[this.drawMode?'remove':'add']('drawing')
+  this.drawMode = !this.drawMode;
+}
+
+
+areaEditor.set = function(points){
+  console.log(points)
+
+    
+
+    // var vFOV = THREE.Math.degToRad( Tour.camera.fov );
+    // var height = 2 * Math.tan( vFOV / 2 ) * dist;
+    // var width = height * Tour.camera.aspect;
+
+    // var geometry = new THREE.PlaneGeometry(width, height);
+    // var material = new THREE.MeshBasicMaterial( {color: 0x000000, transparent: true} );
+    // material.opacity = 0.2;
     var dist = 10
-
-    var vFOV = THREE.Math.degToRad( Tour.camera.fov );
-    var height = 2 * Math.tan( vFOV / 2 ) * dist;
-    var width = height * Tour.camera.aspect;
-
-    var geometry = new THREE.PlaneGeometry(width, height);
-    var material = new THREE.MeshBasicMaterial( {color: 0x000000, transparent: true} );
-    material.opacity = 0.2;
-    this.plane = new THREE.Mesh( geometry, material );
+    this.plane = new THREE.Object3D();
 
     var vector = new THREE.Vector3(0, 0, -1);
     vector.applyEuler(Tour.camera.rotation, Tour.camera.rotation.order);
     this.plane.position.set(vector.x*dist, vector.y*dist, vector.z*dist);
     this.plane.lookAt(Tour.camera.position)
-    Tour.scene.add( this.plane );
+    console.log(this.plane)
 
 
-    var geometry = new THREE.ShapeGeometry( new THREE.Shape() );
-    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true} );
-    material.opacity = 0.6;
-    this.mesh = new THREE.Mesh( geometry, material ) ;
-    this.mesh.rotation.copy(this.plane.rotation);
-    this.mesh.position.copy(this.plane.position);
-    Tour.scene.add( this.mesh );
+  ///
+  this.intermediatePoints.forEach(function(intermediatePoint){
+    intermediatePoint.remove();
+    delete intermediatePoint;   
+  })
 
-    this.points = [];
-    this.peaks = [];
+  if(points){
+    this.points.forEach(function(point){
+      point.remove();
+      delete point;   
+    })
 
-    this.mouseupUpEvent = this.mouseup.bind(this);
-    this.mousemoveEvent = this.mousemove.bind(this);
-    this.keyDownEvent = this.keyDown.bind(this);
-
-    parent.addEventListener('mouseup', this.mouseupUpEvent);
-    parent.addEventListener('mousemove', this.mousemoveEvent);
-    parent.addEventListener('keydown', this.keyDownEvent);
+    this.points = points.map(function(point){
+      return new AreaPoint({x:point[0], y:point[1]})
+    });
+  }
+  this.intermediatePoints = this.points.map(function(point, index){
+    return new AreaIntermediatePoint(index);
+  });
+  this.svgElement.setAttribute('viewBox', [0, 0, opener.innerWidth, opener.innerHeight].join(' '));
+  this.draw(true);
 }
 
-areaEditor.keyDown = function(event) {
-    switch (event.code) {
-        // case 'Slash': this.copyAll(); break;
-    }
+areaEditor.draw = function(force){
+  var rect = 'M'+opener.innerWidth+' 0H0V'+opener.innerHeight+'H'+opener.innerWidth+'V0Z';
+  var shape = this.points.length?'M'+this.points.map(function(point){
+    if(force)point.draw();
+    var absolute = areaEditor.areaToAbsolute(point)
+    return [absolute.x, absolute.y].join(' ');
+  }).join('L')+'Z':'';
+  this.intermediatePoints.forEach(function(point, n){
+    var index = n!=areaEditor.points.length-1?n+1:0;
+    point.x = (areaEditor.points[n].x+areaEditor.points[index].x)/2
+    point.y = (areaEditor.points[n].y+areaEditor.points[index].y)/2
+    point.draw();
+  })
+  this.backgroundElement.setAttribute('d', rect+shape);
+  this.areaElement.setAttribute('d', shape);
 }
 
+areaEditor.absoluteToArea = function(vector){
+  var d = 10
+  var w = parent.innerWidth;
+  var h = parent.innerHeight;
+  var a = Math.tan(THREE.Math.degToRad(Tour.view.fov.value)/2)
 
-// areaEditor.copyAll = function(){
-//     var panorama = Tour.getPanorama()
-//     if(!panorama.areas){
-//         panorama.areas = [];
-//     }
-//     var strings = [',', '      "areas": ['];
-//     var areas = [];
+  return {
+    x: (vector.x - w/2)/(w/2) * w/h *d * a,
+    y: (vector.y - h/2)/(h/-2) * d * a
+  }
+}
 
-//     panorama.areas.forEach(function(area){
-//         areas.push('        ' + JSON.stringify(area, null, ''));
-//     })
-//     strings.push(areas.join(',\n'));
+areaEditor.areaToAbsolute = function(vector){
+  var d = 10
+  var w = parent.innerWidth;
+  var h = parent.innerHeight;
+  var a = THREE.Math.radToDeg(Math.atan(Tour.view.fov.value)*2)
+  var a = Math.tan(THREE.Math.degToRad(Tour.view.fov.value)/2)
 
-//     strings.push('      ]');
-//     Tour.controls.copyText(strings.join('\n'));
-//     UI.notification.show('Id of this panorama: ' + Tour.view.id);
-//     areaEditor.init();
-// }
+  return {
+    x: ((vector.x / a / d / (w/h))/2 + 1/2) * w,
+    y: ((vector.y / a / d)/-2 + 1/2) * h
+  }
+}
+
+areaEditor.push = function(event){
+  this.points.push(new AreaPoint(areaEditor.absoluteToArea({x:event.pageX, y:event.pageY})));
+  this.set();
+}
 
 areaEditor.save = function(){
+  if(this.points.length && this.drawMode){
     var panorama = Tour.getPanorama();
-    var defaultid = panorama.areas && panorama.areas.slice(-1)[0] && panorama.areas.slice(-1)[0].id
+    var defaultid = panorama?.areas?.slice(-1)[0]?.id
     var id = parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0);
     var view = Tour.view.get()
     var area = {
         action: {},
         id: id,
         view: view,
-        points: this.peaks.map(function(peak){
+        points: this.points.map(function(peak){
             return [parseFloat(peak.x.toFixed(3)), parseFloat(peak.y.toFixed(3))]
         }),
         rotation: [
@@ -1210,76 +1478,167 @@ areaEditor.save = function(){
     }
     panorama.areas.push(area);
     Tour.areasManager.set();
-    state.save()
+    state.save();
     areas.set();
-}
-
-areaEditor.mouseup = function(event){
-    if(Tour.domElement.style.cursor === 'copy'){
-        this.save();
-        this.init();
-    }else{
-        this.peaks.push(this.getVector(event))
-        this.draw();
-    }
-}
-
-areaEditor.getVector = function(event){
-    var mouse = new THREE.Vector2();
-    mouse.x = (event.clientX / parent.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / parent.innerHeight) * 2 + 1;
-    var raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, Tour.camera);
-    var intersects = raycaster.intersectObject(this.plane);
-    var vector = new THREE.Vector3().copy( intersects[ 0 ].point );
-    intersects[ 0 ].object.worldToLocal( vector );
-    return vector;
+    this.set([]);
+    this.toggle();
+  }
 }
 
 
-areaEditor.mousemove = function(event){
-    var vector = this.getVector(event)
-    if(this.peaks[0] && Math.sqrt(Math.pow(Math.abs(vector.x - this.peaks[0].x), 2) + Math.abs(vector.y - this.peaks[0].y)) < 0.2){
-        Tour.domElement.style.cursor = 'copy'
-        this.points = this.peaks.concat();
-    }else{
-        Tour.domElement.style.cursor = 'crosshair'
-        this.points = this.peaks.concat([vector]);
-    }
-    this.draw();
-}
+// areaEditor = {
+//     drawMode: false
+// }
 
-areaEditor.draw = function(){
-    if(this.points.length >= 3){
-        var shape = new THREE.Shape();
-        shape.moveTo(this.points[0].x, this.points[0].y);
+// areaEditor.set = function() {
+//     UI.notification.show('Draw mode on', 300);
+//     Tour.renderer.domElement.style.pointerEvents = 'none'
+//     Tour.domElement.style.cursor = 'crosshair'
+//     UI.controlPanel.visibility = true; Tour.controls.toggleMenu();
 
-        for(var i=1; i<this.points.length; i++){
-            shape.lineTo(this.points[i].x, this.points[i].y);
-        }
-        shape.lineTo(this.points[0].x, this.points[0].y);
+//     var dist = 10
 
-        this.mesh.geometry = new THREE.ShapeGeometry( shape );
-        Tour.needsUpdate = true;
-    }
-}
+//     var vFOV = THREE.Math.degToRad( Tour.camera.fov );
+//     var height = 2 * Math.tan( vFOV / 2 ) * dist;
+//     var width = height * Tour.camera.aspect;
 
-areaEditor.clear = function() {
-    Tour.renderer.domElement.style.pointerEvents = Tour.domElement.style.cursor = 'initial'
-    Tour.scene.remove(this.plane);
-    Tour.scene.remove(this.mesh);
+//     var geometry = new THREE.PlaneGeometry(width, height);
+//     var material = new THREE.MeshBasicMaterial( {color: 0x000000, transparent: true} );
+//     material.opacity = 0.2;
+//     this.plane = new THREE.Mesh( geometry, material );
 
-    parent.removeEventListener('mouseup', this.mouseupUpEvent);
-    parent.removeEventListener('mousemove', this.mousemoveEvent);
-    parent.removeEventListener('keydown', this.keyDownEvent)
-}
+//     var vector = new THREE.Vector3(0, 0, -1);
+//     vector.applyEuler(Tour.camera.rotation, Tour.camera.rotation.order);
+//     this.plane.position.set(vector.x*dist, vector.y*dist, vector.z*dist);
+//     this.plane.lookAt(Tour.camera.position)
+//     Tour.scene.add( this.plane );
 
-areaEditor.init = function() {
-    this.drawMode = !this.drawMode;
-    this.drawMode? this.set() : this.clear();
-    Tour.needsUpdate = true;
-    // parent.focus()
-}
+
+//     var geometry = new THREE.ShapeGeometry( new THREE.Shape() );
+//     var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true} );
+//     material.opacity = 0.6;
+//     this.mesh = new THREE.Mesh( geometry, material ) ;
+//     this.mesh.rotation.copy(this.plane.rotation);
+//     this.mesh.position.copy(this.plane.position);
+//     Tour.scene.add( this.mesh );
+
+//     this.points = [];
+//     this.peaks = [];
+
+//     this.mouseupUpEvent = this.mouseup.bind(this);
+//     this.mousemoveEvent = this.mousemove.bind(this);
+//     this.keyDownEvent = this.keyDown.bind(this);
+
+//     parent.addEventListener('mouseup', this.mouseupUpEvent);
+//     parent.addEventListener('mousemove', this.mousemoveEvent);
+//     parent.addEventListener('keydown', this.keyDownEvent);
+// }
+
+// areaEditor.keyDown = function(event) {
+//     switch (event.code) {
+//         // case 'Slash': this.copyAll(); break;
+//     }
+// }
+
+// areaEditor.save = function(){
+//     var panorama = Tour.getPanorama();
+//     var defaultid = panorama.areas && panorama.areas.slice(-1)[0] && panorama.areas.slice(-1)[0].id
+//     var id = parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0);
+//     var view = Tour.view.get()
+//     var area = {
+//         action: {},
+//         id: id,
+//         view: view,
+//         points: this.peaks.map(function(peak){
+//             return [parseFloat(peak.x.toFixed(3)), parseFloat(peak.y.toFixed(3))]
+//         }),
+//         rotation: [
+//             parseFloat(this.plane.rotation.x.toFixed(3)),
+//             parseFloat(this.plane.rotation.y.toFixed(3)),
+//             parseFloat(this.plane.rotation.z.toFixed(3))
+//         ],
+//         position: [
+//             parseFloat(this.plane.position.x.toFixed(3)),
+//             parseFloat(this.plane.position.y.toFixed(3)),
+//             parseFloat(this.plane.position.z.toFixed(3))
+//         ]
+//     }
+
+//     if(! panorama.areas){
+//         panorama.areas = [];
+//     }
+//     panorama.areas.push(area);
+//     Tour.areasManager.set();
+//     state.save()
+//     areas.set();
+// }
+
+// areaEditor.mouseup = function(event){
+//     if(Tour.domElement.style.cursor === 'copy'){
+//         this.save();
+//         this.init();
+//     }else{
+//         this.peaks.push(this.getVector(event))
+//         this.draw();
+//     }
+// }
+
+// areaEditor.getVector = function(event){
+//     var mouse = new THREE.Vector2();
+//     mouse.x = (event.clientX / parent.innerWidth) * 2 - 1;
+//     mouse.y = -(event.clientY / parent.innerHeight) * 2 + 1;
+//     var raycaster = new THREE.Raycaster();
+//     raycaster.setFromCamera(mouse, Tour.camera);
+//     var intersects = raycaster.intersectObject(this.plane);
+//     var vector = new THREE.Vector3().copy( intersects[ 0 ].point );
+//     intersects[ 0 ].object.worldToLocal( vector );
+//     return vector;
+// }
+
+
+// areaEditor.mousemove = function(event){
+//     var vector = this.getVector(event)
+//     if(this.peaks[0] && Math.sqrt(Math.pow(Math.abs(vector.x - this.peaks[0].x), 2) + Math.abs(vector.y - this.peaks[0].y)) < 0.2){
+//         Tour.domElement.style.cursor = 'copy'
+//         this.points = this.peaks.concat();
+//     }else{
+//         Tour.domElement.style.cursor = 'crosshair'
+//         this.points = this.peaks.concat([vector]);
+//     }
+//     this.draw();
+// }
+
+// areaEditor.draw = function(){
+//     if(this.points.length >= 3){
+//         var shape = new THREE.Shape();
+//         shape.moveTo(this.points[0].x, this.points[0].y);
+
+//         for(var i=1; i<this.points.length; i++){
+//             shape.lineTo(this.points[i].x, this.points[i].y);
+//         }
+//         shape.lineTo(this.points[0].x, this.points[0].y);
+
+//         this.mesh.geometry = new THREE.ShapeGeometry( shape );
+//         Tour.needsUpdate = true;
+//     }
+// }
+
+// areaEditor.clear = function() {
+//     Tour.renderer.domElement.style.pointerEvents = Tour.domElement.style.cursor = 'initial'
+//     Tour.scene.remove(this.plane);
+//     Tour.scene.remove(this.mesh);
+
+//     parent.removeEventListener('mouseup', this.mouseupUpEvent);
+//     parent.removeEventListener('mousemove', this.mousemoveEvent);
+//     parent.removeEventListener('keydown', this.keyDownEvent)
+// }
+
+// areaEditor.init = function() {
+//     this.drawMode = !this.drawMode;
+//     this.drawMode? this.set() : this.clear();
+//     Tour.needsUpdate = true;
+//     // parent.focus()
+// }
 
 utils = {
   movePoints: function(direction, shift){
