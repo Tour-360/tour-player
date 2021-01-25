@@ -1090,7 +1090,7 @@ areas = {
           areaEditor.save();
         }
         if (event.code == 'Escape' && areaEditor.drawMode){
-          areaEditor.toggle();
+          areaEditor.show(false);
         }
     })
   },
@@ -1127,12 +1127,15 @@ areas = {
       areaItem.addEventListener('changeTitle', setArea);
       areaItem.addEventListener('click', function(){
         Tour.view.set(area.view);
-        areaEditor.toggle();
-        areaEditor.set(area.points)
+         areaEditor.show(false);
+      });
+      areaItem.addEventListener('dblclick', function(){
+        areaEditor.edit(area);
       });
       areaItem.addEventListener('delete', function(){
+        // areaEditor.show(false);
         pano.areas.splice(n, 1);
-        Tour.areasManager.set()
+        Tour.areasManager.set();
         state.save();
         areas.domElement.removeChild(areaItem);
       });
@@ -1234,9 +1237,9 @@ AreaPoint.prototype.draw = function(){
   this.domElement.setAttribute('y', absolute.y);
 }
 
-AreaPoint.prototype.remove = function(){
+AreaPoint.prototype.remove = function(n){
   areaEditor.pointsGroupElement.removeChild(this.domElement);
-  // areaEditor.points.splice(areaEditor.points.indexOf(this), 1);
+  if(!n)areaEditor.points.splice(areaEditor.points.indexOf(this), 1);
   areaEditor.rootElement.removeEventListener('mousedown', this.onMouseDown);
 }
 
@@ -1257,6 +1260,7 @@ areaEditor.init = function(){
   this.style.innerHTML = `
   :root {
       --accent: #08F;
+      --error: #F00;
   }
 
   .areaEditor{
@@ -1305,6 +1309,19 @@ areaEditor.init = function(){
   rect:active {
     cursor: grabbing;
   }
+
+  .areaEditor.error path.area{
+    fill: var(--error);
+    stroke: var(--error);
+  }
+
+  .areaEditor.error .intermediatePoints rect{
+    fill: var(--error);
+  }
+  .areaEditor.error rect{
+    stroke: var(--error);
+  }
+
   `
 
   this.backgroundElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -1343,22 +1360,36 @@ areaEditor.init = function(){
   this.set();
 }
 
-areaEditor.toggle = function(){
-  if(this.drawMode){
-    if(this.points.length >= 3 && parent.confirm('Save area?')){
+areaEditor.edit = function(area){
+  Tour.view.set(area.view);
+  this.show(true);
+  this.set(area.points);
+  this.editArea = area;
+}
+
+areaEditor.show = function(value){
+  console.log(this.drawMode , value)
+  if(this.drawMode && !value){
+    var edit = !this.editArea || (JSON.stringify(this.editArea.points) != JSON.stringify(this.points.map(function(peak){
+        return [parseFloat(peak.x.toFixed(3)), parseFloat(peak.y.toFixed(3))]
+    })))
+    if(this.points.length >= 3 && edit && parent.confirm('Save area?')){
       areaEditor.save();
     }
     areaEditor.set([]);
   }
-
-  this.rootElement.classList[this.drawMode?'remove':'add']('drawing')
-  this.drawMode = !this.drawMode;
+  if(!value){
+    this.editArea = false;
+  }
+  this.drawMode = value;
+  this.rootElement.classList[this.drawMode?'add':'remove']('drawing')
 }
 
+areaEditor.toggle = function(){
+  areaEditor.show(!this.drawMode);
+}
 
 areaEditor.set = function(points){
-  console.log(points)
-
     
 
     // var vFOV = THREE.Math.degToRad( Tour.camera.fov );
@@ -1386,7 +1417,7 @@ areaEditor.set = function(points){
 
   if(points){
     this.points.forEach(function(point){
-      point.remove();
+      point.remove(true);
       delete point;   
     })
 
@@ -1401,8 +1432,42 @@ areaEditor.set = function(points){
   this.draw(true);
 }
 
+var lineSegmentsIntersect = (x1, y1, x2, y2, x3, y3, x4, y4)=> {
+    var a_dx = x2 - x1;
+    var a_dy = y2 - y1;
+    var b_dx = x4 - x3;
+    var b_dy = y4 - y3;
+    var s = (-a_dy * (x1 - x3) + a_dx * (y1 - y3)) / (-b_dx * a_dy + a_dx * b_dy);
+    var t = (+b_dx * (y1 - y3) - b_dy * (x1 - x3)) / (-b_dx * a_dy + a_dx * b_dy);
+    return (s >= 0 && s <= 1 && t >= 0 && t <= 1);
+}
+
 areaEditor.draw = function(force){
   var rect = 'M'+opener.innerWidth+' 0H0V'+opener.innerHeight+'H'+opener.innerWidth+'V0Z';
+
+
+  // function isIntersecting(p1, p2, p3, p4) {
+  //   function CCW(p1, p2, p3) {
+  //       return (p3.y - p1.y) * (p2.x - p1.x) > (p2.y - p1.y) * (p3.x - p1.x);
+  //   }
+  //   return (CCW(p1, p3, p4) != CCW(p2, p3, p4)) && (CCW(p1, p2, p3) != CCW(p1, p2, p4));
+  // }
+
+  var intersect = false;
+
+  var points = this.points.concat([this.points[0]])
+
+  for(var i=1; i<points.length; i++){
+    var a = points[i-1]
+    var b = points[i]
+    for(var j=1; j<points.length; j++){
+      var c = points[j-1]
+      var d = points[j];
+      var end = (i==1 && j==points.length-1) || (j==1 && i==points.length-1)
+      intersect = (i!=j && i != j-1 && j != i-1 && !end && lineSegmentsIntersect(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y)) || intersect;
+    }
+  }
+
   var shape = this.points.length?'M'+this.points.map(function(point){
     if(force)point.draw();
     var absolute = areaEditor.areaToAbsolute(point)
@@ -1416,6 +1481,7 @@ areaEditor.draw = function(force){
   })
   this.backgroundElement.setAttribute('d', rect+shape);
   this.areaElement.setAttribute('d', shape);
+  this.rootElement.classList[intersect?'add':'remove']('error')
 }
 
 areaEditor.absoluteToArea = function(vector){
@@ -1452,7 +1518,7 @@ areaEditor.save = function(){
   if(this.points.length && this.drawMode){
     var panorama = Tour.getPanorama();
     var defaultid = panorama?.areas?.slice(-1)[0]?.id
-    var id = parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0);
+    var id = this.editArea || parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0)  
     var view = Tour.view.get()
     var area = {
         action: {},
@@ -1476,12 +1542,17 @@ areaEditor.save = function(){
     if(! panorama.areas){
         panorama.areas = [];
     }
-    panorama.areas.push(area);
+    if(areaEditor.editArea){
+      areaEditor.editArea.points = area.points;
+    }else{
+      panorama.areas.push(area);
+    }
+    
     Tour.areasManager.set();
     state.save();
     areas.set();
     this.set([]);
-    this.toggle();
+    this.show(false);
   }
 }
 

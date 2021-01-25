@@ -30,14 +30,10 @@ Tour.Area = function(options){
 }
 
 Tour.Area.prototype.go = function(event){
+
     if(Tools.active && event.altKey){
-        var value = prompt('id', this.options.action.id)
-        if(value) {
-            this.options.action.id = value;
-        }else{
-            this.options.action = false;
-        }
-        Tour.areasManager.set(Tour.view.id)
+        console.log(this.options)
+        Tools.editor.areaEditor.edit(this.options);
         return false
     }
 
