@@ -1,4 +1,4 @@
-.area-list {
+.item-list {
   height: 100%;
   overflow-y: auto;
   display: block;
@@ -7,7 +7,7 @@
   margin: 0;
 }
 
-.area-list:empty::before {
+.item-list:empty::before {
   width: calc(100% - 128px);
   line-height: 1.4em;
   text-align: center;
@@ -17,6 +17,6 @@
   display: block;
 }
 
-.area-list area-item:last-child {
+.item-list > *:last-child {
   --border-size: 0;
 }

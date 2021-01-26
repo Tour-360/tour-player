@@ -382,7 +382,7 @@ const menu = new Menu('.header',{
       },
       deleteSelectedPanoramas: {
         title: 'Delete selected panoramas',
-        hotKey: 'Backspace',
+        hotKey: '⌫',
         action: () => utils.deleteSelectedPanoramas()
       },
       addPanorama: {

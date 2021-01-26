@@ -23,7 +23,7 @@ Tour.defaultOption = {
   iFrameScaleControl: false,
   autorotationAlign: true,
   sliderBullets: true,
-  sliderAutoNextFrameInterval: 6000,
+  sliderAutoNextFrameInterval: 0,
   nadirControl: true,
   nadirControlArrowFilter: 'links',
   hideInvisiblePoints: true,

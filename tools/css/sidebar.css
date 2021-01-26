@@ -20,14 +20,19 @@
 }
 
 .sidebar-tabs {
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.sidebar-tabs ul {
+  flex: 1;
   display: flex;
   list-style: none;
   padding: 0 10px;
   margin: 0;
-  border-bottom: 1px solid var(--light-gray);
 }
 
 .sidebar-tab {
+  box-sizing: border-box;
   padding: 12px 8px;
   opacity: .5;
   cursor: pointer;
