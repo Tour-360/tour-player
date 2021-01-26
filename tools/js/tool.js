@@ -1744,6 +1744,24 @@ utils = {
     properties.set()
     state.save();
   },
+
+  generateNadirMap: function(){
+    this.nadirMap = window.open(
+      'nadirMap.html',
+      '_blank',
+      Object.entries({
+        width: 1280,
+        height: 800,
+        left: 10,
+        top: 10,
+        toolbar: 0,
+        location: 0,
+        menubar: 0,
+      }).map(function(e) {
+        return e.join("=");
+      }).join(',')
+    );
+  },
   addPanorams: function(){
     var start = parseInt(prompt('start id', parseInt(state.current.panorams.slice(-1)[0].id)+1))
     var end = parseInt(prompt('end id', start));

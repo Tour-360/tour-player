@@ -363,6 +363,10 @@ const menu = new Menu('.header',{
         hotKey: '⌘⇧L',
         action: () => utils.removeAllLinks()
       },
+      generateNadirMap: {
+        title: 'Generate nadir map',
+        action: () => utils.generateNadirMap()
+      },
     }
   },
   panorama: {
