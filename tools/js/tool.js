@@ -969,7 +969,7 @@ function init(){
   //links.setPoints()
 
   Tour.defaultOption.limit = Tour.options.limit = {
-    fov: { min: 15, max: 120},
+    fov: { min: 15, max: 150},
     lat: { min: -85, max: 85},
     lon: { min: false, max: false}
   }
@@ -1510,8 +1510,10 @@ areaEditor.areaToAbsolute = function(vector){
 }
 
 areaEditor.push = function(event){
-  this.points.push(new AreaPoint(areaEditor.absoluteToArea({x:event.pageX, y:event.pageY})));
-  this.set();
+  if(event.which == 1){
+    this.points.push(new AreaPoint(areaEditor.absoluteToArea({x:event.pageX, y:event.pageY})));
+    this.set();
+  }
 }
 
 areaEditor.save = function(){
