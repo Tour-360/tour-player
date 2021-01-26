@@ -1278,7 +1278,7 @@ areaEditor.init = function(){
   path.background{
     fill-rule: evenodd;
     fill: black;
-    fill-opacity: 0.53;
+    fill-opacity: 0.25;
   }
 
   path.area{
@@ -1390,7 +1390,7 @@ areaEditor.toggle = function(){
 }
 
 areaEditor.set = function(points){
-    
+
 
     // var vFOV = THREE.Math.degToRad( Tour.camera.fov );
     // var height = 2 * Math.tan( vFOV / 2 ) * dist;
@@ -1412,13 +1412,13 @@ areaEditor.set = function(points){
   ///
   this.intermediatePoints.forEach(function(intermediatePoint){
     intermediatePoint.remove();
-    delete intermediatePoint;   
+    delete intermediatePoint;
   })
 
   if(points){
     this.points.forEach(function(point){
       point.remove(true);
-      delete point;   
+      delete point;
     })
 
     this.points = points.map(function(point){
@@ -1518,7 +1518,7 @@ areaEditor.save = function(){
   if(this.points.length && this.drawMode){
     var panorama = Tour.getPanorama();
     var defaultid = panorama?.areas?.slice(-1)[0]?.id
-    var id = this.editArea || parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0)  
+    var id = this.editArea || parent.prompt('Enter popup id', defaultid? parseInt(defaultid)+1: 0)
     var view = Tour.view.get()
     var area = {
         action: {},
@@ -1547,7 +1547,7 @@ areaEditor.save = function(){
     }else{
       panorama.areas.push(area);
     }
-    
+
     Tour.areasManager.set();
     state.save();
     areas.set();

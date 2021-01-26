@@ -101,9 +101,24 @@ class Select extends HTMLElement {
       this.#selectElement.classList.add('focus');
     })
 
-    select?.addEventListener('blur', () => {
-      this.#selectElement.classList.remove('focus');
-    })
+
+    // for (let i = 0; i < select.children.length; i++) {
+    //   const option = select.children[i];
+    //   if (option.selected) {
+    //     console.w
+    //   }
+    //   console.log(select.children[i], select.children[i].selected);
+    // }
+  }
+
+  getWidthSelectedOption() {
+    const select = this.children[0];
+    for (let i = 0; i < select.children.length; i++) {
+      const option = select.children[i];
+      if (option.selected) {
+        return option;
+      }
+    }
   }
 
 

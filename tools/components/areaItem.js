@@ -1,6 +1,7 @@
 class AreaItem extends HTMLElement {
   #idElement;
   #titleElement;
+  #actionElement;
   #previewElement;
 
   constructor() {
@@ -8,7 +9,7 @@ class AreaItem extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['id', 'title', 'image'];
+    return ['id', 'title', 'image', 'action'];
   }
 
   connectedCallback() {
@@ -72,6 +73,21 @@ class AreaItem extends HTMLElement {
         opacity: 1;
       }
       
+      .area-item .row {
+        display: flex;
+        margin: 2px 0;
+      }
+      
+      .area-item .row > * {
+        flex: 1;
+        min-width: 0;
+        --margin: 0 2px;
+      }
+      
+      select-wrapper {
+        flex: 2 !important;
+      }
+      
       x-field {
         --margin: 2px 0;
       }
@@ -109,8 +125,16 @@ class AreaItem extends HTMLElement {
     <div class="area-item">
       <div class="preview"></div>
       <div class="properties">
-        <x-field label="id" value="${this.getAttribute('id')}" ></x-field>
         <x-field label="title" value="${this.getAttribute('title')}" ></x-field>
+        <div class="row">
+          <x-field label="id" value="${this.getAttribute('id')}" ></x-field>
+          <select-wrapper label="action">
+            <select name="action">
+              <option value="popup">popup</option>
+              <option value="transition">transition</option>
+            </select>
+          </select-wrapper>
+        </div>
       </div>
       <div class="controls">
         <button class="delete" type="Remove"></button>
@@ -131,8 +155,10 @@ class AreaItem extends HTMLElement {
 
     this.#idElement = this.shadow.querySelector('x-field[label="id"]');
     this.#titleElement = this.shadow.querySelector('x-field[label="title"]');
+    this.#actionElement = this.shadow.querySelector('select');
     this.#previewElement = this.shadow.querySelector('.preview');
 
+    this.#actionElement.value = this.getAttribute('action');
     this.#previewElement.style.backgroundImage = `url("${this.getAttribute('image')}")`;
 
     this.#idElement.addEventListener('change', (e) => {
@@ -140,6 +166,13 @@ class AreaItem extends HTMLElement {
       e.stopPropagation();
       this.setAttribute('id', e.target.value);
       this.dispatchEvent(new Event('changeId'));
+    });
+
+    this.#actionElement.addEventListener('change', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setAttribute('action', e.target.value);
+      this.dispatchEvent(new Event('changeAction'));
     });
 
     this.#titleElement.addEventListener('change', (e) => {
@@ -171,6 +204,14 @@ class AreaItem extends HTMLElement {
     return this.getAttribute('title');
   }
 
+  set action(value) {
+    this.setAttribute('action', value);
+  }
+
+  get action() {
+    return this.getAttribute('action');
+  }
+
   set image(value) {
     this.setAttribute('image', value);
   }
@@ -196,6 +237,12 @@ class AreaItem extends HTMLElement {
       case "image": {
         if (this.#previewElement) {
           this.#previewElement.style.backgroundImage = `url("${newValue}")`;
+        }
+        break;
+      }
+      case "action": {
+        if (this.#actionElement) {
+          this.#actionElement.value = newValue;
         }
         break;
       }
