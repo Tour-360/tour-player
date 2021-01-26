@@ -8,7 +8,7 @@
   <link href="css/tool.css" rel="stylesheet">
   <link href="css/menu.css" rel="stylesheet">
   <link href="css/sidebar.css" rel="stylesheet">
-  <link href="css/areaList.css" rel="stylesheet">
+  <link href="css/itemList.css" rel="stylesheet">
   <title>Tool</title>
 </head>
 <body>
@@ -38,12 +38,17 @@
       </div>
 
       <div class="sidebar">
-        <ul class="sidebar-tabs">
-          <li data-id="global" class="sidebar-tab">Global</li>
-          <li data-id="properties" class="sidebar-tab">Properties</li>
-          <li data-id="areas" class="sidebar-tab">Areas</li>
-        </ul>
-
+        <div class="sidebar-tabs">
+          <scroll-box>
+            <ul>
+              <li data-id="global" class="sidebar-tab">Global</li>
+              <li data-id="properties" class="sidebar-tab">Properties</li>
+              <li data-id="areas" class="sidebar-tab">Areas</li>
+              <li data-id="panoramas" class="sidebar-tab">Panoramas</li>
+              <li data-id="markers" class="sidebar-tab">Markers</li>
+            </ul>
+          </scroll-box>
+        </div>
 
         <div class="sidebar-content global" data-id="global">
           <x-field label="Title" data-key="title"></x-field>
@@ -52,27 +57,27 @@
           <label>Status</label>
           <ul class="sidebar-list">
             <li>
-              <span>panorams</span>
+              <span>Panoramas</span>
               <strong class="st-panorams"></strong>
             </li>
             <li>
-              <span>links</span>
+              <span>Links</span>
               <strong class="st-links"></strong>
             </li>
             <li>
-              <span>areas</span>
+              <span>Areas</span>
               <strong class="st-areas"></strong>
             </li>
             <li>
-              <span>width</span>
+              <span>Width</span>
               <strong class="st-width"></strong>
             </li>
             <li>
-              <span>height</span>
+              <span>Height</span>
               <strong class="st-height"></strong>
             </li>
             <li>
-              <span>square</span>
+              <span>Square</span>
               <strong class="st-square"></strong>
             </li>
           </ul>
@@ -96,7 +101,14 @@
             postfix=" MB"
           >Memory usage</x-bar>
 
-          
+
+          <select-wrapper>
+            <select value="1">
+              <option value="1">value 1</option>
+              <option value="2">value 2</option>
+              <option value="3">value 3</option>
+            </select>
+          </select-wrapper>
         </div>
 
 
@@ -137,7 +149,7 @@
           <hr>
 
           <label>Preview</label>
-          <div class="preview" style="background-image: url('')"></div>
+          <div class="preview"></div>
 
 <!--          <label>More angle</label>-->
 
@@ -160,9 +172,26 @@
         </div>
 
         <div class="sidebar-content" data-id="areas">
-          <ul class="area-list" data-empty-text="There are no areas on this list yet."></ul>
+          <ul class="item-list area-list" data-empty-text="There are no areas on this list yet."></ul>
           <div class="sidebar-footer">
             <button class="primary" onclick="areaEditor.init()" title="key A">Add new area</button>
+          </div>
+        </div>
+
+        <div class="sidebar-content" data-id="panoramas">
+          <ul class="item-list panorama-list" data-empty-text="There are no panoramas on this list yet."></ul>
+          <div class="sidebar-footer">
+            <button class="primary" onclick="areaEditor.init()" title="key A">Add new panorama</button>
+          </div>
+        </div>
+
+        <div class="sidebar-content" data-id="markers">
+          <ul class="item-list link-list" data-empty-text="There are no markers on this list yet.">
+            <marker-item title="title" id="10" icon="info" type="popup"></marker-item>
+            <marker-item title="title" id="10" icon="left" type="transition"></marker-item>
+          </ul>
+          <div class="sidebar-footer">
+            <button class="primary" onclick="areaEditor.init()" title="key A">Add new marker</button>
           </div>
         </div>
       </div>
@@ -174,8 +203,12 @@
   <script src="js/tool.js"></script>
   <script src="js/toasts.js"></script>
   <script src="js/menu.js"></script>
-  <script src="js/field.js"></script>
-  <script src="js/bar.js"></script>
-  <script src="js/areaItem.js"></script>
+  <script src="components/field.js"></script>
+  <script src="components/scrollBox.js"></script>
+  <script src="components/bar.js"></script>
+  <script src="components/areaItem.js"></script>
+  <script src="components/markerItem.js"></script>
+  <script src="components/select.js"></script>
+  <script src="components/marker.js"></script>
 </body>
 </html>
