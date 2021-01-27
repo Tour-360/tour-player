@@ -1,5 +1,6 @@
 class Select extends HTMLElement {
   #selectElement;
+  #valueElement;
 
   constructor() {
     super();
@@ -44,6 +45,7 @@ class Select extends HTMLElement {
           z-index: 1;
         }
         
+        select,
         ::slotted(select) {
           appearance: none;
           -webkit-appearance: none;
@@ -51,12 +53,24 @@ class Select extends HTMLElement {
           display: block;
           font-weight: inherit;
           outline: none;
-          z-index: 1;
-          min-width: 0;
           padding: 0;
           margin: 0;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
           border: none;
           color: inherit;
+          z-index: 2;
+          opacity: 0;
+        }
+        
+        .value {
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         
         .select:hover ::slotted(select),
@@ -89,37 +103,61 @@ class Select extends HTMLElement {
       
       <div class="select">
         <div class="label"><slot name="label">${this.getAttribute('label')}</slot></div>
+        <div class="value">123123</div>
         <slot></slot>
         <div class="arrow"></div>
       </div>
     `
 
     this.#selectElement = this.shadow.querySelector('.select');
+    this.#valueElement = this.shadow.querySelector('.value');
     const select = this.children[0];
+    this.#valueElement.innerText = this.getTextSelectedValue();
 
     select?.addEventListener('focus', () => {
       this.#selectElement.classList.add('focus');
     })
 
+    select?.addEventListener('blur', () => {
+      this.#selectElement.classList.remove('focus');
+    })
 
-    // for (let i = 0; i < select.children.length; i++) {
-    //   const option = select.children[i];
-    //   if (option.selected) {
-    //     console.w
-    //   }
-    //   console.log(select.children[i], select.children[i].selected);
-    // }
+    select?.addEventListener('change', e => {
+      this.#valueElement.innerText = this.getTextSelectedValue();
+    })
   }
 
-  getWidthSelectedOption() {
+  getTextSelectedValue() {
     const select = this.children[0];
-    for (let i = 0; i < select.children.length; i++) {
-      const option = select.children[i];
-      if (option.selected) {
-        return option;
+
+    console.log(this.children);
+
+    if (select) {
+      for (let i = 0; i < select.children.length; i++) {
+        if (select.children[i].selected) {
+          return select.children[i].innerText;
+        }
       }
+    } else {
+      return '';
     }
   }
+
+  // getWidthSelectedOption(select) {
+  //   for (let i = 0; i < select.children.length; i++) {
+  //     if (select.children[i].selected) {
+  //       const tempSelect = document.createElement('select');
+  //       tempSelect.style.position = 'absolute';
+  //       const option = document.createElement('option');
+  //       option.innerText = select.children[i].innerHTML;
+  //       tempSelect.appendChild(option);
+  //       this.shadow.appendChild(tempSelect);
+  //       const width = tempSelect.clientWidth;
+  //       this.shadow.removeChild(tempSelect);
+  //       return width;
+  //     }
+  //   }
+  // }
 
 
   static get observedAttributes() {
