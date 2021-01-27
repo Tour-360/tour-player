@@ -50,8 +50,8 @@ class MarkerItem extends HTMLElement {
         align-items: center;
         flex: 0 0 auto;
         cursor: pointer;
-        height: 42px;
-        width: 42px;
+        height: 36px;
+        width: 36px;
         /*background-color: var(--extra-light-gray);*/
         background-position: center;
         background-repeat: no-repeat;
@@ -80,8 +80,8 @@ class MarkerItem extends HTMLElement {
         flex: 2 !important;
       }
       
-      .field-title {
-        flex: 1.5 !important;
+      .select-icon {
+        flex: auto;
       }
       
       .link-item .controls {

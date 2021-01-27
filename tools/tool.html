@@ -45,6 +45,7 @@
               <li data-id="properties" class="sidebar-tab">Properties</li>
               <li data-id="areas" class="sidebar-tab">Areas</li>
               <li data-id="panoramas" class="sidebar-tab">Panoramas</li>
+              <li data-id="floors" class="sidebar-tab">Floors</li>
               <li data-id="markers" class="sidebar-tab">Markers</li>
             </ul>
           </scroll-box>
@@ -100,15 +101,6 @@
             max=""
             postfix=" MB"
           >Memory usage</x-bar>
-
-
-          <select-wrapper>
-            <select value="1">
-              <option value="1">value 1</option>
-              <option value="2">value 2</option>
-              <option value="3">value 3 long text</option>
-            </select>
-          </select-wrapper>
         </div>
 
 
@@ -172,7 +164,7 @@
         </div>
 
         <div class="sidebar-content" data-id="areas">
-          <ul class="item-list area-list" data-empty-text="There are no areas on this list yet."></ul>
+          <x-list class="area-list" empty-text="There are no areas on this list yet."></x-list>
           <div class="sidebar-footer">
             <button class="primary" onclick="areaEditor.init()" title="key A">Add new area</button>
           </div>
@@ -185,15 +177,36 @@
           </div>
         </div>
 
+        <div class="sidebar-content" data-id="floors">
+          <x-list class="item-list">
+            <div>-  0</div>
+            <div>-  1</div>
+            <div>-  2</div>
+            <div>-  3</div>
+            <div>-  4</div>
+            <div>-  5</div>
+            <div>-  6</div>
+            <div>-  7</div>
+            <div>-  8</div>
+            <div>-  9</div>
+          </x-list>
+          <div class="sidebar-footer">
+            <button class="primary" title="key A">Add new floor</button>
+          </div>
+        </div>
+
         <div class="sidebar-content" data-id="markers">
-          <ul class="item-list link-list" data-empty-text="There are no markers on this list yet.">
+          <x-list class="area-list" data-empty-text="There are no markers on this list yet.">
             <marker-item title="title" id="10" icon="info" type="popup"></marker-item>
             <marker-item title="title" id="10" icon="left" type="transition"></marker-item>
+          </x-list>
           </ul>
           <div class="sidebar-footer">
             <button class="primary" onclick="areaEditor.init()" title="key A">Add new marker</button>
           </div>
         </div>
+
+
       </div>
     </div>
   </div>
@@ -210,5 +223,6 @@
   <script src="components/markerItem.js"></script>
   <script src="components/select.js"></script>
   <script src="components/marker.js"></script>
+  <script src="components/list.js"></script>
 </body>
 </html>
