@@ -7,8 +7,10 @@
 </head>
 <body>
   <progress id="load" ></progress><br>
-  <progress id="draw" max="1" value="0"></progress><br>
-  <canvas id="canvas"></canvas><br>
+  <progress id="draw"></progress><br>
+  <button onclick='rady()'>Update</button>
+  <button onclick='drawId()'>Draw id</button><br>
+  <canvas id="canvas"></canvas>
   <style>
     progress{
       width: 600px;
@@ -92,6 +94,8 @@
 
     var xmin, xmax, ymin, ymax, width, height;
 
+        var r = 1;
+
     function rady(){ 
       var size = 154*2*3
       xmin = Math.min(...opener.state.current.panorams.map(item => item.x))-size/2;
@@ -106,11 +110,27 @@
 
       canvas.width = width*scale;
       canvas.height = height*scale;
-
+      r =1
+      scale = opener.camera.scale
       render();
     }
 
-    var r = 1;
+    function drawId(){
+      panorams.forEach(function(pano){
+        var x = pano.x*scale-xmin*scale;
+        var y = pano.y*scale-ymin*scale;
+        ctx.fillStyle = '#00000088';
+        ctx.beginPath();
+        ctx.arc(x, y, 9, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(pano.id, x, y);
+      })
+    }
+
     function render(){
       var min = 0.05
       var step = 0.025

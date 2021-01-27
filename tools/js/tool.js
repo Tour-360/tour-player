@@ -1212,6 +1212,7 @@ AreaPoint.prototype.mouseDown = function(event){
     this.mouse.y = event.pageY - area.y;
     areaEditor.rootElement.addEventListener('mousemove', this.onMouseMove);
     areaEditor.rootElement.addEventListener('mouseup', this.onMouseUp);
+    areaEditor.rootElement.classList.add('active');
   }else{
     this.remove();
     areaEditor.set();
@@ -1229,6 +1230,7 @@ AreaPoint.prototype.mouseMove = function(event){
 AreaPoint.prototype.mouseUp = function(){
   areaEditor.rootElement.removeEventListener('mousemove', this.onMouseMove);
   areaEditor.rootElement.removeEventListener('mouseup', this.onMouseUp);
+  areaEditor.rootElement.classList.remove('active');
 }
 
 AreaPoint.prototype.draw = function(){
@@ -1271,6 +1273,10 @@ areaEditor.init = function(){
     cursor: crosshair;
   }
 
+  .areaEditor.active {
+    cursor: grabbing;
+  }
+
   .areaEditor.drawing{
     display: block;
   }
@@ -1296,6 +1302,9 @@ areaEditor.init = function(){
     fill: white;
     stroke: var(--accent);
     stroke-width: 1px;
+  }
+
+  .areaEditor:not(.active) rect{
     cursor: grab;
   }
 
@@ -1306,9 +1315,6 @@ areaEditor.init = function(){
     fill: var(--accent);
   }
 
-  rect:active {
-    cursor: grabbing;
-  }
 
   .areaEditor.error path.area{
     fill: var(--error);
