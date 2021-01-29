@@ -53,6 +53,7 @@ class List extends HTMLElement {
     this.shadow.innerHTML = `
       <style>
         :host {
+          min-height: 0;
           /*margin: var(--margin, 12px);*/
         }
         
@@ -77,7 +78,6 @@ class List extends HTMLElement {
         .item-list > *:last-child {
           --border-size: 0;
         }
-
         
         .item {
           position: relative;
@@ -95,6 +95,7 @@ class List extends HTMLElement {
           margin: auto;
           background-image: url('assets/dnd.svg');
           cursor: grab;
+          z-index: 1;
           background-size: 100% 100%;
           opacity: 0;
         }
@@ -118,6 +119,24 @@ class List extends HTMLElement {
           opacity: 1;
         }
         
+        .item:not(.skeleton):not(:last-child) {
+          border-bottom: 1px solid var(--extra-light-gray);
+          margin-bottom: -1px;
+        }
+        
+        /*.item:not(.selected):not(.skeleton):not(:last-child)::after {*/
+        /*  display: block;*/
+        /*  content: '';*/
+        /*  position: absolute;*/
+        /*  height: 1px;*/
+        /*  width: calc(100% - 32px);*/
+        /*  background: var(--extra-light-gray);*/
+        /*  margin: auto;*/
+        /*  bottom: 0;*/
+        /*  left: 0;*/
+        /*  right: 0;*/
+        /*}*/
+        
         .item.skeleton::after {
           position: absolute;
           display: block;
@@ -140,9 +159,6 @@ class List extends HTMLElement {
 
     this.#listElement.addEventListener(`dragstart`, (e) => {
       e.target.classList.add(`selected`);
-      // setTimeout(() => {
-      //   this.#items[this.#active].classList.add('skeleton');
-      // }, 0);
       this.#active = this.#items.findIndex(i => i === e.target);
       console.log('start', e.target, this.#active, this.#items);
     });
@@ -152,7 +168,7 @@ class List extends HTMLElement {
       this.#listElement.classList.remove(`hover`);
       this.#items[this.#active].classList.remove('skeleton');
       if(this.isHovered(e)) {
-        this.setLineThrottled(null);
+        this.setLine(null);
         if (this.#moveTo !== null && this.#active !== this.#moveTo) {
           console.log('next, element', this.#items[this.#moveTo+1]);
           this.#listElement.insertBefore(

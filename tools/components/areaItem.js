@@ -25,19 +25,6 @@ class AreaItem extends HTMLElement {
         box-sizing: border-box;
       }
       
-      .area-item::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        display: block;
-        height: var(--border-size, 1px);
-        width: calc(100% - 32px);
-        background: var(--extra-light-gray);
-      }
-      
       .area-item:hover {
         /*border: 1px solid var(--light-gray);*/
         /*background: var(--extra-light-gray);*/

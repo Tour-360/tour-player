@@ -8,7 +8,6 @@
   <link href="css/tool.css" rel="stylesheet">
   <link href="css/menu.css" rel="stylesheet">
   <link href="css/sidebar.css" rel="stylesheet">
-  <link href="css/itemList.css" rel="stylesheet">
   <title>Tool</title>
 </head>
 <body>
@@ -47,6 +46,7 @@
               <li data-id="panoramas" class="sidebar-tab">Panoramas</li>
               <li data-id="floors" class="sidebar-tab">Floors</li>
               <li data-id="markers" class="sidebar-tab">Markers</li>
+              <li data-id="notes" class="sidebar-tab">Notes</li>
             </ul>
           </scroll-box>
         </div>
@@ -173,25 +173,21 @@
         <div class="sidebar-content" data-id="panoramas">
           <ul class="item-list panorama-list" data-empty-text="There are no panoramas on this list yet."></ul>
           <div class="sidebar-footer">
-            <button class="primary" onclick="areaEditor.init()" title="key A">Add new panorama</button>
+            <button class="primary" onclick="areaEditor.init()">Add new panorama</button>
           </div>
         </div>
 
         <div class="sidebar-content" data-id="floors">
-          <x-list class="item-list">
-            <div>-  0</div>
-            <div>-  1</div>
-            <div>-  2</div>
-            <div>-  3</div>
-            <div>-  4</div>
-            <div>-  5</div>
-            <div>-  6</div>
-            <div>-  7</div>
-            <div>-  8</div>
-            <div>-  9</div>
-          </x-list>
+          <x-list class="item-list" empty-text="There are no floors on this list yet."></x-list>
           <div class="sidebar-footer">
-            <button class="primary" title="key A">Add new floor</button>
+            <button class="primary">Create new floor</button>
+          </div>
+        </div>
+
+        <div class="sidebar-content" data-id="notes">
+          <x-list empty-text="There are no notes on this list yet." class="item-list"></x-list>
+          <div class="sidebar-footer">
+            <button class="primary">Create new note</button>
           </div>
         </div>
 
@@ -202,7 +198,7 @@
           </x-list>
           </ul>
           <div class="sidebar-footer">
-            <button class="primary" onclick="areaEditor.init()" title="key A">Add new marker</button>
+            <button class="primary" onclick="areaEditor.init()">Add new marker</button>
           </div>
         </div>
 
