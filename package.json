@@ -8,7 +8,7 @@
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower i && npm run delete-models && ./node_modules/gulp/bin/gulp.js build",
-    "postversion": "node version.js && gulp deploy",
+    "postversion": "node version.js && nvm use 10 && gulp deploy",
     "start": "node index.js",
     "test": "gulp lint",
     "delete-models": "rm -rf ./bower_components/threejs/examples/models/ && rm -rf ./bower_components/threejs-r97/examples/models/"
