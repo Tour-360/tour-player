@@ -17,7 +17,7 @@ fs.writeFile(tourPath, tour.replace(
     console.log('Версия в файле ' + tourPath + ' обновленна');
 
     cp.execSync('git add ' + tourPath).toString();
-    cp.execSync('git commit -m "Update v' + package.version).toString();
+    cp.execSync('git commit -m "Update v' + package.version+'"').toString();
 
     process.exit(0);
   }
