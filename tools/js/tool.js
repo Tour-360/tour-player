@@ -269,7 +269,7 @@ var camera = {
     this.scale = Math.max(0.08, Math.min(1.68, scale));
     this.lookAt(view);
     links.hide();
-    links.debounceDraw();
+    links.debounceDraw();plan
     map.domElement.style.imageRendering = this.scale>(42/100)?'pixelated':'auto';
   },
   save: function(){
@@ -1982,19 +1982,20 @@ var floors = {
     });
 
     state.current.floors.forEach(function(floor, n){
-      if (floor.plan) {
-        var img = document.createElement('img');
+      const { plan } = floor;
+      if (plan) {
+        const img = document.createElement('img');
         img.classList.add('plan');
         // img.classList.add('active');
         img.src = [
           parent.location.origin,
           parent.location.pathname,
-          floor.plan.imageUrl
+          plan.imageUrl
         ].join('');
-        img.style.transform = 'translate(0px, 0px)'; //todo
+        img.style.transform = `translate(${plan.x},${plan.y})`;
 
-        if(floor.plan.width) img.width = floor.plan.width;
-        if(floor.plan.height) img.height = floor.plan.height;
+        if(plan.width) img.width = plan.width;
+        if(plan.height) img.height = plan.height;
 
         floors.plans.appendChild(img);
       }
