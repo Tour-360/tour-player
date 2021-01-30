@@ -89,9 +89,9 @@ Tour.pointsManager.set = function(id) {
           var newPoint = Tour.utils.getVector(pano, point);
 
           if(
-            newPoint.distance!=0 && 
-            newPoint.rotate<2000 && 
-            point.floor > pano.floor-1 && 
+            newPoint.distance!=0 &&
+            newPoint.rotate<2000 &&
+            point.floor > pano.floor-1 &&
             point.floor < pano.floor+1 &&
             (visibility? visibility[point.id] : true)
            ){
@@ -109,7 +109,7 @@ Tour.utils.getVector = function(pano1, pano2){
     var rotate = -THREE.Math.radToDeg(Math.atan2(b, a))+90;
     var result = {distance:distance, rotate:rotate, id: pano2.id};
     if(pano1.heightFromFloor != undefined && pano1.floor != undefined && pano2.floor != undefined ){
-        result.level = pano1.heightFromFloor + (pano1.floor != pano2.floor?(Tour.utils.getHeight(pano1.floor) - Tour.utils.getHeight(pano2.floor)) : 0);
+        result.level = pano1.heightFromFloor + (pano1.floor != pano2.floor?(Tour.utils.getFloorHeight(pano1.floor) - Tour.utils.getFloorHeight(pano2.floor)) : 0);
     }
     return result
 }
@@ -148,8 +148,17 @@ Tour.utils.getAngleOffset = function(rot1, rot2) {
     return distance = Math.min(distance, 360-distance)
 }
 
-Tour.utils.getHeight = function(n){
-    return [0].concat(Tour.data.floors.slice(0, Math.floor(n))
-    .map(function(n){return n.height}))
-    .reduce(function(a, b){return a+b}) + (Tour.data.floors[Math.floor(n)].height * (n-Math.floor(n)))
+Tour.utils.getFloorHeight = function(floor){
+  var floorNumber = Math.floor(floor);
+  var floorHeights = [0].concat(Tour.data.floors.slice(0, floorNumber)
+    .map(function(f){return f.height}));
+  var sumFloorHeight = floorHeights.reduce(function(a, b){
+    return a + b;
+  })
+  var floorFraction = Tour.data.floors[floorNumber] ?
+    Tour.data.floors[floorNumber].height * (floor - floorNumber) :
+    0;
+
+  return sumFloorHeight + floorFraction;
 }
+
