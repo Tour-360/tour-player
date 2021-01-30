@@ -1992,7 +1992,7 @@ var floors = {
           parent.location.pathname,
           plan.imageUrl
         ].join('');
-        img.style.transform = `translate(${plan.x},${plan.y})`;
+        img.style.transform = `translate(${plan.x}px, ${plan.y}px)`;
 
         if(plan.width) img.width = plan.width;
         if(plan.height) img.height = plan.height;
