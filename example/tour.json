@@ -17,15 +17,15 @@
     {
       "id": "9",
       "title": {
-        "ru": "У дивана",
-        "en": "In the sofa"
+        "ru": "У дивана5",
+        "en": "In the sofdwwefw"
       },
       "heading": 85.29610379337831,
       "markers": [
         {
           "lat": -4.85,
           "lon": 70.97,
-          "title": "Моноблок Profoto D1",
+          "title": "Моноблок Profoto D99",
           "action": {
             "type": "popup",
             "id": "profoto"
