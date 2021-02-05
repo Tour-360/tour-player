@@ -270,7 +270,7 @@ var camera = {
     this.scale = Math.max(0.08, Math.min(1.68, scale));
     this.lookAt(view);
     links.hide();
-    links.debounceDraw();plan
+    links.debounceDraw();
     map.domElement.style.imageRendering = this.scale>(42/100)?'pixelated':'auto';
   },
   save: function(){
@@ -2017,8 +2017,9 @@ var floors = {
         ].join('');
         img.style.transform = `translate(${plan.x}px, ${plan.y}px)`;
 
-        if(plan.width) img.width = plan.width;
-        if(plan.height) img.height = plan.height;
+        if (plan.width) img.width = plan.width;
+        if (plan.height) img.height = plan.height;
+        if (plan.opacity) img.style.opacity = plan.opacity;
 
         floors.plans.appendChild(img);
       }
