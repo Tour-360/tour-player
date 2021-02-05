@@ -73,6 +73,7 @@ var state = {
     links.draw();
     globalTab.set()
     staus.set();
+    markers.set();
   },
   get: function(){
     this.name = Tour.data.name || prompt('project name:', Tour.data.title || 'myProject');
@@ -958,6 +959,7 @@ Point.prototype.mouseUpRotate = function(event){
 function init(){
   globalTab.init();
   floors.init()
+  markers.init()
   map.init()
   camera.update();
   links.init();
@@ -976,6 +978,27 @@ function init(){
 
 
   window.onbeforeunload = state.save.bind(state);
+}
+
+var markers = {
+  init: function(){
+    this.listElement = document.querySelector('.markers-list');
+    Tour.on('changePano', markers.set.bind(markers));
+  },
+  set: function(){
+    this.listElement.innerHTML = '';
+    var markers = Tour.getPanorama().markers;
+    if(markers && markers.length){
+      markers.forEach(function(marker){
+        var element = document.createElement('marker-item');
+        element.icon = 'info';
+        element.title = marker.title;
+        element.id = marker.action.id;
+        console.log(marker)
+        this.listElement.appendChild(element);
+      }.bind(this))
+    }
+  }
 }
 
 var properties = {
