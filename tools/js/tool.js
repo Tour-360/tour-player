@@ -700,7 +700,7 @@ var Point = function(panorama){
   this.secondary = false;
 
   this.mouse = {x: 0, y:0};
-  this.start = {x: 0, y:0};
+  this.start = {x: 0, y:0, rotate:0};
 
   this.rotateElement = document.createElement('div');
   this.rotateElement.classList.add('point-rotate-control');
@@ -927,22 +927,72 @@ Point.prototype.mouseDownRotate = function(event){
   if(Tour.view.id == this.panorama.id){
     this.cameraShift = -this.panorama.heading-Tour.view.lon.value
   }
+
+  var a = event.pageX - (camera.x+this.x*camera.scale) - camera.offsetLeft;
+  var b = event.pageY - (camera.y+this.y*camera.scale) - camera.offsetTop;
+  var mouseRotate = THREE.Math.radToDeg(Math.atan2(a, b)) % 360
+
+  that = this
+
+  select.points.forEach(function(point){
+    point.start.rotate = point.rotate  //- (270-(point.rotate-that.rotate))
+    point.start.x = point.x;
+    point.start.y = point.y;
+    point.start.offset = 0
+  })
+
+  this.mouse.x = event.pageX;
+  this.mouse.y = event.pageY;
+
+  this.start.offset = (this.rotate-mouseRotate)
+  this.start.scale = Math.sqrt(a*a + b*b)
 }
+
+Point.prototype.revolve = function(rotate, cx, cy, scale){
+  var cx = cx==undefined?this.x:cx;
+  var cy = cy==undefined?this.y:cy;
+
+  var dx = this.start.x - cx;
+  var dy = this.start.y - cy;
+  var distance = Math.sqrt(Math.abs(dx*dx) + Math.abs(dy*dy));
+  var vector = Math.atan2(dy, dx)
+  this.x = cx + Math.cos(THREE.Math.degToRad(rotate)+vector)*distance*scale;
+  this.y = cy + Math.sin(THREE.Math.degToRad(rotate)+vector)*distance*scale;
+  this.rotate = this.start.rotate+rotate;
+  this.setPosition();
+}
+
 
 Point.prototype.mouseMoveRotate = function(event){
   var a = event.pageX - (camera.x+this.x*camera.scale) - camera.offsetLeft;
   var b = event.pageY - (camera.y+this.y*camera.scale) - camera.offsetTop;
-  this.panorama.heading = this.rotate = (THREE.Math.radToDeg(Math.atan2(b, a))+90) % 360;
-  if (Tour.view.id == this.panorama.id) {
-    if(event.altKey){
-      Tour.view.set({lon:-this.panorama.heading-this.cameraShift})
-    }else{
-      this.cameraShift = -this.panorama.heading-Tour.view.lon.value
+  var mouseRotate = THREE.Math.radToDeg(Math.atan2(a, b)) % 360
+  var that = this;
+  if(event.which == 1){
+    select.points.forEach(function(point){
+      point.revolve(that.start.rotate-mouseRotate-that.start.offset, that.x, that.y, 1)
+    })
+
+    if (Tour.view.id == this.panorama.id) {
+      if(event.altKey){
+        Tour.view.set({lon:-this.panorama.heading-this.cameraShift})
+      }else{
+        this.cameraShift = -this.panorama.heading-Tour.view.lon.value
+      }
+      Tour.mesh.rotation.set(0, Math.PI / 2 - THREE.Math.degToRad(this.panorama.heading || 0), 0);
+      Tour.needsUpdate = true;
     }
-    Tour.mesh.rotation.set(0, Math.PI / 2 - THREE.Math.degToRad(this.panorama.heading || 0), 0);
-    Tour.needsUpdate = true;
+
+  }else{
+    select.points.forEach(function(point){
+      //1+(event.pageY-that.mouse.y)/1000
+      // console.log(Math.sin(mouseRotate-that.start.offset)
+      //Math.sqrt(a*a + b*b)/that.start.scale
+      point.revolve(0, that.x, that.y, 1+(event.pageY-that.mouse.y)/1000)
+    })
   }
-  this.setPosition();
+  links.hide();
+  links.debounceDraw();
   camera.updateLinks()
 }
 
@@ -994,7 +1044,7 @@ var markers = {
         element.icon = 'info';
         element.title = marker.title;
         element.id = marker.action.id;
-        console.log(marker)
+        // console.log(marker)
         this.listElement.appendChild(element);
       }.bind(this))
     }
@@ -1118,7 +1168,6 @@ areas = {
     })
   },
   set: function(){
-    console.log('set')
     areas.domElement.innerHTML = '';
     var pano = Tour.getPanorama(Tour.view.id)
     if(pano.areas)pano.areas.forEach(function(area, n){
@@ -1397,7 +1446,6 @@ areaEditor.edit = function(area){
 }
 
 areaEditor.show = function(value){
-  console.log(this.drawMode , value)
   if(this.drawMode && !value){
     var edit = !this.editArea || (JSON.stringify(this.editArea.points) != JSON.stringify(this.points.map(function(peak){
         return [parseFloat(peak.x.toFixed(3)), parseFloat(peak.y.toFixed(3))]
