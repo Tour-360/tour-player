@@ -24,7 +24,7 @@ Tour.Area = function(options){
     this.mesh._onclick = this.go.bind(this)
     this.mesh._onhover = this.setActive.bind(this, true);
     this.mesh._onover = this.setActive.bind(this, false);
-    this.mesh._title = options.title || (Tools.active && 'id: '+options.id);
+    this.mesh._title = !Tools.active? Lang.translate(UI.renderAreaTitle(options)) : 'id: '+options.id;
 
     Tour.areasManager.areas.add( this.mesh );
 }
@@ -45,7 +45,9 @@ Tour.Area.prototype.go = function(event){
 	        window.open(action.href, action.target || '_blank');
 	    } else if (action.type == 'popup') {
 	        UI.popUp.set(action.id);
-	    }
+	    } else {
+            Tour.emmit('areaclick', this.options);
+        }
 	}
 }
 
