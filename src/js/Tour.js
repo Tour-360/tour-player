@@ -1,4 +1,4 @@
 var Tour = {};
 
 // Версия плеера
-Tour.version = [2, 4, 13];
+Tour.version = [2, 5, 0];
