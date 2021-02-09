@@ -467,6 +467,10 @@ var map = {
       event.preventDefault();
       utils.removeAllLinks()
     }
+    if (event.code == 'KeyL' && (event.ctrlKey || event.metaKey) && !event.shiftKey){
+      event.preventDefault();
+      utils.linkSelectedPoints();
+    }
     if (event.code == 'KeyF' && (event.ctrlKey || event.metaKey) && !event.shiftKey){
       event.preventDefault();
       utils.findAndShowPoint();
@@ -1483,7 +1487,6 @@ areaEditor.set = function(points){
     vector.applyEuler(Tour.camera.rotation, Tour.camera.rotation.order);
     this.plane.position.set(vector.x*dist, vector.y*dist, vector.z*dist);
     this.plane.lookAt(Tour.camera.position)
-    console.log(this.plane)
 
 
   ///
@@ -1838,6 +1841,71 @@ utils = {
         return e.join("=");
       }).join(',')
     );
+  },
+
+  getAngleDistance: function(rot1, rot2) {
+    var modulo = function(x, y) {
+        var xPrime = x;
+        while(xPrime < 0) {
+          xPrime += y;
+        }
+        return xPrime % y;
+    }
+
+    var distance = Math.abs(modulo(rot1,360) - modulo(rot2,360))
+    return Math.min(distance, 360-distance)
+  },
+
+  getPointAngleDistance: function(a, b, c) {
+    var deg1 = THREE.Math.radToDeg(Math.atan2(a.x - b.x, a.y - b.y));
+    var deg2 = THREE.Math.radToDeg(Math.atan2(a.x - c.x, a.y - c.y));
+    return utils.getAngleDistance(deg1, deg2)
+  },
+
+  getDistance: function(pos1, pos2) {
+    var w = pos1.x - pos2.x;
+    var h = pos1.y - pos2.y;
+    return Math.sqrt(w*w + h*h)
+  },
+
+  linksMinDeg: 45,
+
+  checkFreeLinks: function(a, b){
+    return !a.panorama.links.some(function(c){
+      return utils.getPointAngleDistance(a, b, Tour.getPanorama(c.id)) < utils.linksMinDeg
+    }) && !b.panorama.links.some(function(c){
+      return utils.getPointAngleDistance(b, a, Tour.getPanorama(c.id)) < utils.linksMinDeg
+    })
+  },
+
+  linkSelectedPoints: function(){
+    utils.linksMinDeg = parseFloat(prompt('Minimum bond angle', utils.linksMinDeg))
+    if(select.points.length){
+      var panoLinks = []
+
+      select.points.forEach(function(a){
+        select.points.forEach(function(b){
+          panoLinks.push({distance: utils.getDistance(a, b), a:a, b:b})
+        })
+      })
+
+      panoLinks.sort(function(a, b){
+        return a.distance - b.distance
+      }).filter(function(a){
+        return a.distance != 0
+      }).forEach(function(p){
+        if(utils.checkFreeLinks(p.a, p.b)){
+          p.a.panorama.links.push({id:p.b.panorama.id})
+          p.b.panorama.links.push({id:p.a.panorama.id})
+        }
+      })
+
+      links.draw();
+      state.save();
+      toasts.push('The selected points were connected');
+    }else{
+      toasts.push('No points selected');
+    }
   },
   addPanorams: function(){
     var start = parseInt(prompt('start id', parseInt(state.current.panorams.slice(-1)[0].id)+1))

@@ -352,21 +352,25 @@ const menu = new Menu('.header',{
         title: 'Set floor at selected points…',
         // hotKey: '⌘⇧F',
         action: () => utils.findAndMovePoint()
-      }
+      },
+      linkSelectedPoints: {
+        title: 'Link selected points',
+        action: () => utils.linkSelectedPoints()
+      },
+      removeAllLinks: {
+        title: 'Remove all links on selected point',
+        hotKey: '⌘⇧L',
+        action: () => utils.removeAllLinks()
+      },
     }
   },
   actions: {
     title: 'Actions',
     items: {
-      removeAllLinks: {
-        title: 'Remove all links',
-        hotKey: '⌘⇧L',
-        action: () => utils.removeAllLinks()
-      },
       generateNadirMap: {
         title: 'Generate nadir map',
         action: () => utils.generateNadirMap()
-      },
+      }
     }
   },
   panorama: {
