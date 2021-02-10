@@ -326,6 +326,13 @@ const menu = new Menu('.header',{
       minimize: {
         title: "Minimize",
         action: () => window.resizeTo(320, 740)
+      },
+      devCursor: {
+        title: "Dev cursor",
+        type: "checkbox",
+        action: () => {
+          return UI.devCursor.toggle();
+        }
       }
     }
   },

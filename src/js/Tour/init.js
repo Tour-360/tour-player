@@ -20,7 +20,7 @@ Tour.init = function(domElement, options) {
     UI.tooltip.init();
     UI.popUp.init();
     this.setSliders();
-    UI.devCursor.init(this.options.cursor);
+    this.options.cursor && UI.devCursor.init();
     this.setControlPanel();
     this.setMouseMenu();
     this.orientationControls.init();

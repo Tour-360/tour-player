@@ -1021,7 +1021,8 @@ function init(){
   areas.init();
   state.get();
   select.init();
-  areaEditor.init()
+  areaEditor.init();
+  UI.devCursor.init()
   //links.setPoints()
 
   Tour.defaultOption.limit = Tour.options.limit = {
@@ -1052,6 +1053,19 @@ var markers = {
         this.listElement.appendChild(element);
       }.bind(this))
     }
+  },
+  add: function(){
+    var markers = Tour.getPanorama().markers;
+    var position = Tour.view.get();
+    markers.push({
+      action: {type: "popup", id: prompt('id', 'p')},
+      lat: position.lat.toFixed(2),
+      lon: position.lon.toFixed(2),
+      index: markers.length
+    });
+    Tour.setMarkers();
+    Tour.needsUpdate = true
+    this.set()
   }
 }
 
