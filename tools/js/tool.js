@@ -1064,8 +1064,9 @@ var markers = {
       index: markers.length
     });
     Tour.setMarkers();
-    Tour.needsUpdate = true
-    this.set()
+    Tour.needsUpdate = true;
+    this.set();
+    state.save()
   }
 }
 
