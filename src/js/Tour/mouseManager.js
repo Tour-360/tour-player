@@ -7,6 +7,7 @@ Tour.mousManager.init = function(){
     Tour.renderer.domElement.addEventListener('mousedown', this.onMouseDown.bind(this), false);
     Tour.renderer.domElement.addEventListener('mouseup', this.onMouseUp.bind(this), false);
     Tour.renderer.domElement.addEventListener('mouseout', this.onMouseOut.bind(this), false);
+    Tour.renderer.domElement.addEventListener('mouseover', this.onMouseOut.bind(this), false);
 }
 
 Tour.mousManager.getVector = function(event){
@@ -50,6 +51,9 @@ Tour.mousManager.check = function(event){
 
 Tour.mousManager.onMouseOut = function(event){
     UI.tooltip.setVisible(false)
+}
+Tour.mousManager.onMouseOver = function(event){
+    UI.tooltip.setVisible(true)
 }
 
 Tour.mousManager.onMouseDown = function(event){
