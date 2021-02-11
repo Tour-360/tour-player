@@ -1,6 +1,6 @@
 /* globals Tour */
 
-const tourPlayerFolder = document.currentScript.src
+var tourPlayerFolder = document.currentScript.src
         .split('/').slice(0,-1).join('/');
 
 Tour.defaultOption = {
