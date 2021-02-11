@@ -265,9 +265,19 @@ var camera = {
       y: -(this.y-this.height/2)/this.scale
     }
   },
-  setScale: function(scale){
+  setScale: function(scale, target){
     var view = camera.getView();
-    this.scale = Math.max(0.08, Math.min(1.68, scale));
+    var scale = Math.max(0.08, Math.min(1.68, scale))
+    var zoom = 1 - (this.scale / scale);
+    this.scale = scale;
+
+    if(target){
+      view = {
+        x: view.x+((target.x-view.x)*zoom),
+        y: view.y+((target.y-view.y)*zoom)
+      }
+    }
+
     this.lookAt(view);
     links.hide();
     links.debounceDraw();
@@ -433,7 +443,11 @@ var map = {
   mouseWheel: function(event){
     event.stopPropagation();
     event.preventDefault();
-    camera.setScale(camera.scale + event.wheelDeltaY/5000)
+    var view = camera.getView()
+    var cameraRect = map.domElement.getBoundingClientRect();
+    var x = (event.clientX - cameraRect.x)/camera.scale - camera.x/camera.scale;
+    var y = (event.clientY - cameraRect.y)/camera.scale - camera.y/camera.scale;
+    camera.setScale(camera.scale + event.wheelDeltaY/5000, {x:x, y:y})
   },
   set: function(){
     // map.style.transform = 'translate('+this.x+'px, '+this.y+'px)'
