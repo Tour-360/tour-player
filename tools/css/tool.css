@@ -155,7 +155,6 @@ button.delete {
   content: '';
 }
 
-
 .point.active {
   z-index: 1;
   --point-color: var(--accent);
@@ -237,7 +236,6 @@ button.delete {
   cursor: ew-resize;
 }
 
-.point:hover .point-rotate-control,
 .point.active .point-rotate-control,
 .point.rotate .point-rotate-control {
   display: block;
@@ -294,12 +292,18 @@ button.delete {
 
 
 
-
-
+.map[data-points="full"] .point::after {
+  content: '';
+  opacity: 1;
+}
 
 .map[data-points="full"] .point::after {
   content: '';
   opacity: 1;
+}
+
+.map[data-points="full"] .point:active::after {
+  opacity: .5;
 }
 
 
@@ -339,7 +343,6 @@ button.delete {
 .select-control.active {
   display: block;
 }
-
 
 .plans {
   transform-origin: 0 0;
