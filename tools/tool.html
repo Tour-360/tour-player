@@ -47,6 +47,7 @@
               <li data-id="floors" class="sidebar-tab">Floors</li>
               <li data-id="markers" class="sidebar-tab">Markers</li>
               <li data-id="notes" class="sidebar-tab">Notes</li>
+              <li data-id="media" class="sidebar-tab">Media</li>
             </ul>
           </scroll-box>
         </div>
@@ -192,17 +193,25 @@
         </div>
 
         <div class="sidebar-content" data-id="markers">
-          <x-list class="markers-list" data-empty-text="There are no markers on this list yet.">
+          <x-list class="markers-list" empty-text="There are no markers on this list yet.">
             <!-- <marker-areaEditor.toggle() title="title" id="10" icon="info" type="popup"></marker-item> -->
-            <!-- <marker-item title="title" id="10" icon="left" type="transition"></marker-item> -->
+            <!-- <marker-item title="title" id="10" icon="left" tyiconElementpe="transition"></marker-item> -->
           </x-list>
-          </ul>
           <div class="sidebar-footer">
             <button class="primary" onclick="markers.add()">Add new marker</button>
           </div>
         </div>
 
-
+        <div class="sidebar-content media" data-id="media">
+          <x-list class="markers-list" empty-text="There are no media on this list yet.">
+            <media-item id="lenin" type="image" src="media/lenin.jpg"></media-item>
+            <media-item id="video_0001" type="video" src="media/video_0001.mp4"></media-item>
+            <media-item id="video_0002" type="video" src="media/video_0002.mp4"></media-item>
+          </x-list>
+          <div class="sidebar-footer">
+            <button class="primary" onclick="">Attach media</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -219,6 +228,7 @@
   <script src="components/markerItem.js"></script>
   <script src="components/select.js"></script>
   <script src="components/marker.js"></script>
+  <script src="components/mediaItem.js"></script>
   <script src="components/list.js"></script>
 </body>
 </html>

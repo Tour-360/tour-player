@@ -175,11 +175,17 @@ class List extends HTMLElement {
             this.#items[this.#active],
             this.#items[this.#moveTo+1]
           );
+
+          const newIndex = this.#moveTo + (this.#active > this.#moveTo ? 1 : 0);
+
           array_move(
             this.#items,
             this.#active,
-            this.#moveTo + (this.#active > this.#moveTo ? 1 : 0),
+            newIndex,
           );
+          this.dispatchEvent(new CustomEvent('changeOrder', { detail: {
+            from: this.#active, to: newIndex
+          }}));
         }
       }
     });

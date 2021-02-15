@@ -1,9 +1,23 @@
 .sidebar {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: var(--sidebar-width);
   background: var(--white);
   border-left: 1px solid var(--dark-gray);
+  user-select: var(--user-select);
+}
+
+.sidebar-resize-area {
+  height: 100%;
+  width: 4px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -2px;
+  opacity: .5;
+  /*cursor: ew-resize;*/
+  cursor: col-resize;
 }
 
 .sidebar label {

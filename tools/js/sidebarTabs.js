@@ -1,4 +1,40 @@
 (() => {
+  const sidebarElement = document.querySelector('.sidebar');
+  const resizeArea = document.createElement('div');
+  resizeArea.classList.add('sidebar-resize-area');
+
+  let startResizePosition = 0;
+  let startWidth = 0;
+
+  resizeArea.addEventListener('pointerdown', e => {
+    startResizePosition = e.clientX;
+    startWidth = sidebarElement.clientWidth;
+    document.documentElement.addEventListener('pointermove', handleResize);
+    document.documentElement.style.setProperty('--user-select', 'none');
+    document.documentElement.addEventListener('pointerup', handleEndResize);
+  });
+
+  // const handleResize = e => {
+  //   const diff = e.clientX - startResizePosition;
+  //   startResizePosition = e.clientX;
+  //
+  //   sidebarElement.style.width = Math.max(sidebarElement.clientWidth - diff, 250) + 'px';
+  // }
+
+  const handleResize = e => {
+    const diff = e.clientX - startResizePosition;
+    const newSize = startWidth - diff;
+    document.documentElement.style.setProperty('--sidebar-width', Math.min(Math.max(newSize, 250), 500) + 'px');
+  }
+
+  const handleEndResize = e => {
+    document.documentElement.style.setProperty('--user-select', 'text');
+    document.documentElement.removeEventListener('pointermove', handleResize);
+    document.documentElement.removeEventListener('pointerup', handleEndResize);
+  }
+
+  sidebarElement.appendChild(resizeArea);
+
   const tabs = document.querySelectorAll('.sidebar-tab');
   const contents = document.querySelectorAll('.sidebar-content');
 

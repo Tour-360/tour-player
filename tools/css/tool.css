@@ -15,6 +15,7 @@
   --meter-size: 42px;
 
   --sidebar-width: 290px;
+  --user-select: text;
 }
 
 html, body {

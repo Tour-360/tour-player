@@ -1199,15 +1199,32 @@ areas = {
           areaEditor.show(false);
         }
     })
+    this.domElement.addEventListener('changeOrder', ({detail: { from, to }}) => {
+      console.log({
+        from,
+        to
+      });
+    })
   },
   set: function(){
     areas.domElement.innerHTML = '';
     var pano = Tour.getPanorama(Tour.view.id)
-    if(pano.areas)pano.areas.forEach(function(area, n){
+    pano.areas?.forEach(function(area, n){
       var areaItem = document.createElement('area-item');
       areaItem.id = area.id;
       areaItem.title = area.title || '';
 
+      areaItem.mediaList = ['0001.jpg', '0002.jpg', 'MOVE_0001.mp4'];
+      areaItem.media = '0001.jpg';
+      areaItem.type = 'shape';
+
+      areaItem.addEventListener('changeMedia', e => {
+        console.log('changeMedia', e.target.media);
+      })
+
+      areaItem.addEventListener('changeType', e => {
+        console.log('changeType', e.target.type);
+      })
 
       // var flatX = [];
       // var flatY = [];

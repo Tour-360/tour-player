@@ -3,16 +3,13 @@ class AreaItem extends HTMLElement {
   #titleElement;
   #actionElement;
   #previewElement;
+  #mediaElement;
+  #typeElement;
+  #rowMediaElement;
+  #mediaList;
 
   constructor() {
     super();
-  }
-
-  static get observedAttributes() {
-    return ['id', 'title', 'image', 'action'];
-  }
-
-  connectedCallback() {
     this.shadow = this.attachShadow({mode: "open"});
 
     this.shadow.innerHTML = `
@@ -52,6 +49,8 @@ class AreaItem extends HTMLElement {
       }
       
       .area-item .controls {
+        display: flex;
+        flex-direction: column;
         margin-left: 6px;
         opacity: 0;
       }
@@ -63,6 +62,10 @@ class AreaItem extends HTMLElement {
       .area-item .row {
         display: flex;
         margin: 2px 0;
+      }
+      
+      .area-item .row.hidden {
+        display: none;
       }
       
       .area-item .row > * {
@@ -108,23 +111,44 @@ class AreaItem extends HTMLElement {
       button.delete {
         background-image: url('assets/delete.svg');
       }
+      
+      button.media {
+        background-image: url('assets/media.svg');
+      }
     </style>
     <div class="area-item">
       <div class="preview"></div>
       <div class="properties">
-        <x-field label="title" value="${this.getAttribute('title')}" ></x-field>
         <div class="row">
+          <x-field label="title" value="${this.getAttribute('title')}" ></x-field>
           <x-field label="id" value="${this.getAttribute('id')}" ></x-field>
+        </div>
+        <div class="row">
+          <select-wrapper label="type">
+            <select name="type">
+              <option value="shape">shape</option>
+              <option value="video">video</option>
+              <option value="image">image</option>
+              <option value="mask">mask</option>
+            </select>
+          </select-wrapper>
           <select-wrapper label="action">
             <select name="action">
               <option value="popup">popup</option>
               <option value="transition">transition</option>
+              <option value="none">none</option>
             </select>
+          </select-wrapper>
+        </div>
+        <div class="row row-media">
+          <select-wrapper label="media">
+            <select name="media"></select>
           </select-wrapper>
         </div>
       </div>
       <div class="controls">
-        <button class="delete" type="Remove"></button>
+        <button class="delete" title="Remove"></button>
+<!--        <button class="media" title="Media"></button>-->
       </div>
     </div>`
 
@@ -142,8 +166,11 @@ class AreaItem extends HTMLElement {
 
     this.#idElement = this.shadow.querySelector('x-field[label="id"]');
     this.#titleElement = this.shadow.querySelector('x-field[label="title"]');
-    this.#actionElement = this.shadow.querySelector('select');
+    this.#mediaElement = this.shadow.querySelector('select[name="media"]');
+    this.#typeElement = this.shadow.querySelector('select[name="type"]');
+    this.#actionElement = this.shadow.querySelector('select[name="action"]');
     this.#previewElement = this.shadow.querySelector('.preview');
+    this.#rowMediaElement = this.shadow.querySelector('.row-media');
 
     this.#actionElement.value = this.getAttribute('action');
     this.#previewElement.style.backgroundImage = `url("${this.getAttribute('image')}")`;
@@ -169,10 +196,33 @@ class AreaItem extends HTMLElement {
       this.dispatchEvent(new Event('changeTitle'));
     });
 
+    this.#typeElement.addEventListener('change', (e) => {
+      const value = e.target.value;
+      e.preventDefault();
+      e.stopPropagation();
+      this.setAttribute('type', e.target.value);
+      this.dispatchEvent(new Event('changeType'));
+    });
+
+    this.#mediaElement.addEventListener('change', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setAttribute('media', e.target.value);
+      this.dispatchEvent(new Event('changeMedia'));
+    });
+
     this.shadow.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopImmediatePropagation();
     })
+  }
+
+  static get observedAttributes() {
+    return ['id', 'title', 'image', 'action', 'media', 'type'];
+  }
+
+  connectedCallback() {
+
   }
 
   set id(value) {
@@ -207,6 +257,37 @@ class AreaItem extends HTMLElement {
     return this.getAttribute('image');
   }
 
+  set type(value) {
+    this.setAttribute('type', value);
+  }
+
+  get type() {
+    return this.getAttribute('type');
+  }
+
+  set media(value) {
+    this.setAttribute('media', value);
+  }
+
+  get media() {
+    return this.getAttribute('media');
+  }
+
+  set mediaList(list) {
+    this.#mediaList = list;
+    this.#mediaElement.innerHTML = '';
+    list.forEach(item => {
+      const option = document.createElement('option');
+      option.innerText = item;
+      option.value = item;
+      this.#mediaElement.appendChild(option);
+    })
+  }
+
+  get mediaList() {
+    return this.#mediaList;
+  }
+
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name){
       case "id": {
@@ -229,7 +310,24 @@ class AreaItem extends HTMLElement {
       }
       case "action": {
         if (this.#actionElement) {
+          this.#actionElement.parentElement.value = newValue; // hack
           this.#actionElement.value = newValue;
+        }
+        break;
+      }
+      case "type": {
+        if (this.#typeElement) {
+          this.#typeElement.parentElement.value = newValue; // hack
+          this.#typeElement.value = newValue;
+          console.log(555, newValue);
+          this.#rowMediaElement.classList[!['video', 'image'].includes(newValue) ? 'add' : 'remove']('hidden');
+        }
+        break;
+      }
+      case "media": {
+        if (this.#mediaElement) {
+          this.#mediaElement.parentElement.value = newValue; // hack
+          this.#mediaElement.value = newValue;
         }
         break;
       }

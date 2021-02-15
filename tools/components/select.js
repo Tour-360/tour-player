@@ -103,7 +103,7 @@ class Select extends HTMLElement {
       
       <div class="select">
         <div class="label"><slot name="label">${this.getAttribute('label')}</slot></div>
-        <div class="value">123123</div>
+        <div class="value">-</div>
         <slot></slot>
         <div class="arrow"></div>
       </div>
@@ -130,8 +130,6 @@ class Select extends HTMLElement {
   getTextSelectedValue() {
     const select = this.children[0];
 
-    console.log(this.children);
-
     if (select) {
       for (let i = 0; i < select.children.length; i++) {
         if (select.children[i].selected) {
@@ -143,32 +141,30 @@ class Select extends HTMLElement {
     }
   }
 
-  // getWidthSelectedOption(select) {
-  //   for (let i = 0; i < select.children.length; i++) {
-  //     if (select.children[i].selected) {
-  //       const tempSelect = document.createElement('select');
-  //       tempSelect.style.position = 'absolute';
-  //       const option = document.createElement('option');
-  //       option.innerText = select.children[i].innerHTML;
-  //       tempSelect.appendChild(option);
-  //       this.shadow.appendChild(tempSelect);
-  //       const width = tempSelect.clientWidth;
-  //       this.shadow.removeChild(tempSelect);
-  //       return width;
-  //     }
-  //   }
-  // }
-
 
   static get observedAttributes() {
+    return ['value'];
   }
 
   connectedCallback() {
-
   }
 
+  get value() {
+    return this.getAttribute('value');
+  }
+
+  set value(value) {
+    this.setAttribute('value', value);
+  }
 
   attributeChangedCallback(name, oldValue, newValue) {
+    switch (name){
+      case "value": {
+        if(this.#valueElement) {
+          this.#valueElement.innerText = newValue;
+        }
+      }
+    }
   }
 }
 
