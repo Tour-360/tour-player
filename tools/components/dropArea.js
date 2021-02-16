@@ -1,6 +1,6 @@
-class CheckBox extends HTMLElement {
+class DropArea extends HTMLElement {
   #containerElement;
-  #checked;
+  #rippleElement;
 
   constructor() {
     super();
@@ -17,68 +17,134 @@ class CheckBox extends HTMLElement {
       <style>
         :host {
           display: block;
-          margin: var(--margin, 12px);
+        }
+        .container {
+          position: relative;
+          overflow: hidden;
+          height: 100%;
         }
         
-        .container {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-        }
-        .check {
-          width: 16px;
-          height: 16px;
-          background-color: var(--white);
-          border: 1px solid var(--light-gray);
-          border-radius: 4px;
-          flex: 0 0 auto;
-          margin-right: 8px;
-          box-sizing: border-box;
-          background-size: 100%;
-          background-repeat: no-repeat;
-          background-position: center;
-        }
-        .container.checked .check {
-          background-image: url('./assets/check.svg');
-          border: none;
+        .container:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           background-color: var(--accent);
+          pointer-events: none;
+          opacity: 0;
         }
-        .container.checked:hover .check {
-          background-color: var(--accent-dark);
+        
+        .container.active:before {
+          opacity: .2;
         }
-        .container:not(.checked):hover .check {
-          border-color: var(--dark-gray);
+        
+        .container.animation:before {
+          animation: background 1s ease-out;
         }
-        .container:active {
-          opacity: .75;
+        
+        .ripple {
+          --x: 0;
+          --y: 0;
+          --size: 100px;
+                    
+          top: calc(calc(var(--size) / -2) + var(--y));
+          left: calc(calc(var(--size) / -2) + var(--x));
+          position: absolute;
+          width: var(--size);
+          height: var(--size);
+          border-radius: calc(var(--size) / 2);
+          background-color: var(--accent);
+          pointer-events: none;
+          z-index: 1;
+          transform: scale(1);
+          will-change: transform;
+          opacity: 0;
+          animation: none;
+        }
+        
+        .container.animation .ripple {
+          animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+          from {
+            opacity: .75;
+            transform: scale(.001);
+          }
+          to {
+            opacity: 0;
+            transform: scale(15);
+          }
+        }
+        @keyframes background {
+          from {
+            opacity: .2;
+          }
+          top {
+            opacity: 0;
+          }
         }
       </style>
       <div class="container">
-        <div class="check"></div>
-        <div class="title"><slot></slot></div>
+        <slot></slot>
+        <div class="ripple"></div>
       </div>
     `
     this.#containerElement = this.shadow.querySelector('.container');
+    this.#rippleElement = this.shadow.querySelector('.ripple');
 
-    this.#containerElement.addEventListener('click', this.handleClick.bind(this));
+    this.#containerElement.addEventListener('dragenter', this.handleDragEnter.bind(this));
+    this.#containerElement.addEventListener('dragleave', this.handleDragLeave.bind(this));
+    this.#containerElement.addEventListener('dragover', this.handleDragOver.bind(this));
+    this.#containerElement.addEventListener('drop', this.handleDrop.bind(this));
   }
 
-  handleClick() {
-    this.checked = this.#containerElement.classList.toggle('checked');
-    this.dispatchEvent(new Event('change'));
+  setActive(value) {
+    this.#containerElement.classList[value? 'add' : 'remove']('active');
   }
 
-  set checked(value) {
-    this.setAttribute('checked', value);
+  setAnimation(value) {
+    this.#containerElement.classList[value? 'add' : 'remove']('animation');
   }
 
-  get checked() {
-    return this.getAttribute('checked');
+  handleDragEnter() {
+    this.setAnimation(false);
+    this.setActive(true);
   }
+
+  handleDragLeave() {
+    this.setActive(false);
+  }
+
+  handleDragOver(e) {
+    e.preventDefault();
+  }
+
+  handleDrop(e) {
+    this.setAnimation(true);
+    e.preventDefault();
+    e.stopPropagation();
+    this.setActive(false);
+
+    this.#rippleElement.style.setProperty('--x', e.offsetX + 'px');
+    this.#rippleElement.style.setProperty('--y', e.offsetY + 'px');
+    console.log(e.dataTransfer.files[0]);
+  }
+
+  // set checked(value) {
+  //   this.setAttribute('checked', value);
+  // }
+  //
+  // get checked() {
+  //   return this.getAttribute('checked');
+  // }
 
   attributeChangedCallback(name, oldValue, newValue) {
     // this.#valueElement && this.update();
   }
 }
 
-customElements.define('check-box', CheckBox);
+customElements.define('drop-area', DropArea);

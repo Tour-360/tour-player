@@ -67,6 +67,11 @@
   display: flex;
 }
 
+.sidebar x-list,
+.sidebar drop-area {
+  flex: 1;
+}
+
 .sidebar-footer {
   display: flex;
   flex-direction: column;
