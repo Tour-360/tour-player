@@ -193,7 +193,7 @@
         </div>
 
         <div class="sidebar-content" data-id="markers">
-          <x-list class="markers-list" empty-text="There are no markers on this list yet.">
+          <x-list class="item-list markers-list" empty-text="There are no markers on this list yet.">
             <!-- <marker-areaEditor.toggle() title="title" id="10" icon="info" type="popup"></marker-item> -->
             <!-- <marker-item title="title" id="10" icon="left" tyiconElementpe="transition"></marker-item> -->
           </x-list>
@@ -203,13 +203,9 @@
         </div>
 
         <div class="sidebar-content media" data-id="media">
-          <x-list class="markers-list" empty-text="There are no media on this list yet.">
-            <media-item id="lenin" type="image" src="media/lenin.jpg"></media-item>
-            <media-item id="video_0001" type="video" src="media/video_0001.mp4"></media-item>
-            <media-item id="video_0002" type="video" src="media/video_0002.mp4"></media-item>
-          </x-list>
+          <x-list class="media-list" empty-text="There are no media on this list yet."></x-list>
           <div class="sidebar-footer">
-            <button class="primary" onclick="">Attach media</button>
+            <button class="primary add-new-media">Attach media</button>
           </div>
         </div>
       </div>
@@ -218,6 +214,7 @@
   <input type="file" id="fileinput">
 
   <script src="js/sidebarTabs.js"></script>
+  <script src="js/media.js"></script>
   <script src="js/tool.js"></script>
   <script src="js/toasts.js"></script>
   <script src="js/menu.js"></script>
@@ -227,6 +224,7 @@
   <script src="components/areaItem.js"></script>
   <script src="components/markerItem.js"></script>
   <script src="components/select.js"></script>
+  <script src="components/checkbox.js"></script>
   <script src="components/marker.js"></script>
   <script src="components/mediaItem.js"></script>
   <script src="components/list.js"></script>

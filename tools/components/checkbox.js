@@ -1,17 +1,13 @@
-class Bar extends HTMLElement {
-  #titleElement;
-  #valueElement;
-  #secondaryValueElement;
-  #labelsElement;
-  #labelValueElement;
-  #labelMaxElement;
+class CheckBox extends HTMLElement {
+  #containerElement;
+  #checked;
 
   constructor() {
     super();
   }
 
   static get observedAttributes() {
-    return ['max', 'value', 'postfix', 'secondary-value', 'hidden-labels'];
+    return ['checked', 'title'];
   }
 
   connectedCallback() {
@@ -20,127 +16,69 @@ class Bar extends HTMLElement {
     this.shadow.innerHTML = `
       <style>
         :host {
+          display: block;
           margin: var(--margin, 12px);
         }
         
-        .title {
-          display: block;
-          font-weight: 400;
-          color: var(--dark-gray);
-          margin-top: 2px;
-          margin-bottom: 8px;
-        }
-        
-        .title:empty {
-          display: none;
-        }
-        
-        .line {
-          overflow: hidden;
-          border-radius: 2px;
-          position: relative;
-          width: 100%;
-          height: 4px;
-          background: var(--extra-light-gray);
-        }
-        
-        .value,
-        .secondary-value {
-          height: 100%;
-          width: 0;
-          position: absolute;
-          background: var(--light-gray);
-        }
-        
-        .value {
-          background: var(--accent);
-        }
-        
-        .labels {
-          margin-top: 6px;
+        .container {
           display: flex;
-          justify-content: space-between;
-          color: var(--dark-gray);
-          font-size: 10px;
+          align-items: center;
+          cursor: pointer;
         }
-        
-        .labels.hidden {
-          display: none;
+        .check {
+          width: 16px;
+          height: 16px;
+          background-color: var(--white);
+          border: 1px solid var(--light-gray);
+          border-radius: 4px;
+          flex: 0 0 auto;
+          margin-right: 8px;
+          box-sizing: border-box;
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        .container.checked .check {
+          background-image: url('./assets/check.svg');
+          border: none;
+          background-color: var(--accent);
+        }
+        .container.checked:hover .check {
+          background-color: var(--accent-dark);
+        }
+        .container:not(.checked):hover .check {
+          border-color: var(--dark-gray);
+        }
+        .container:active {
+          opacity: .75;
         }
       </style>
-      <div class="x-bar">
-        <span class="title">title</span>
-        <div class="line">
-          <div class="secondary-value"></div>
-          <div class="value"></div>
-        </div>
-        <div class="labels">
-          <div class="label-value">100mb</div>
-          <div class="label-max">1000mb</div>
-        </div>
+      <div class="container">
+        <div class="check"></div>
+        <div class="title"><slot></slot></div>
       </div>
     `
-    this.#valueElement = this.shadow.querySelector('.value');
-    this.#secondaryValueElement = this.shadow.querySelector('.secondary-value');
-    this.#labelsElement = this.shadow.querySelector('.labels');
-    this.#labelValueElement = this.shadow.querySelector('.label-value');
-    this.#labelMaxElement = this.shadow.querySelector('.label-max');
-    this.#titleElement = this.shadow.querySelector('.title');
+    this.#containerElement = this.shadow.querySelector('.container');
 
-    this.update();
+    this.#containerElement.addEventListener('click', this.handleClick.bind(this));
   }
 
-  update() {
-    const title = this.innerHTML;
-    const value = parseFloat(this.getAttribute('value')) || 0;
-    const secondaryValue = parseFloat(this.getAttribute('secondary-value')) || 0;
-    const max = parseFloat(this.getAttribute('max')) || 100;
-    const postfix = this.getAttribute('postfix') || "";
-    this.#labelsElement.classList[this.hasAttribute('hidden-labels') ? 'add' : 'remove']('hidden');
-
-    this.#titleElement.innerHTML = title;
-    this.#valueElement.style.width = value / max * 100 + '%';
-    this.#secondaryValueElement.style.width = secondaryValue / max * 100 + '%';
-    this.#labelValueElement.innerText = value.toFixed(1) + postfix;
-    this.#labelMaxElement.innerText = max.toFixed(1) + postfix;
-
+  handleClick() {
+    this.checked = this.#containerElement.classList.toggle('checked');
+    this.dispatchEvent(new Event('change'));
   }
 
-  set value(value) {
-    this.setAttribute('value', value);
+  set checked(value) {
+    this.setAttribute('checked', value);
   }
 
-  get value() {
-    return this.getAttribute('value');
-  }
-
-  set secondaryValue(value) {
-    this.setAttribute('secondary-value', value);
-  }
-
-  get secondaryValue() {
-    return this.getAttribute('secondary-value');
-  }
-
-  set max(value) {
-    this.setAttribute('max', value);
-  }
-
-  get max() {
-    return this.getAttribute('max');
-  }
-
-  set postfix(value) {
-    this.setAttribute('postfix', value);
-  }
-
-  get postfix() {
-    return this.getAttribute('postfix');
+  get checked() {
+    return this.getAttribute('checked');
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    this.#valueElement && this.update();
+    // this.#valueElement && this.update();
   }
 }
 
-customElements.define('x-bar', Bar);
+customElements.define('check-box', CheckBox);

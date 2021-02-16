@@ -1034,6 +1034,7 @@ function init(){
   properties.init()
   areas.init();
   state.get();
+  media.set();
   select.init();
   areaEditor.init();
   UI.devCursor.init()
@@ -1214,8 +1215,14 @@ areas = {
       areaItem.id = area.id;
       areaItem.title = area.title || '';
 
-      areaItem.mediaList = ['0001.jpg', '0002.jpg', 'MOVE_0001.mp4'];
-      areaItem.media = '0001.jpg';
+      media.listElement.addEventListener('update', () => {
+        areaItem.mediaList = state.current.media.map(m => m.id);
+      });
+
+      // media.getMediaById('5'); // вернет объект media из state
+
+      areaItem.mediaList = [];
+      areaItem.media = '-';
       areaItem.type = 'shape';
 
       areaItem.addEventListener('changeMedia', e => {

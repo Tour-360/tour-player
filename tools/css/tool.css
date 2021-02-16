@@ -1,7 +1,9 @@
 :root {
   --white: #fff;
   --accent-source: 0, 99, 255;
+  --accent-dark-source: 16, 57, 220;
   --accent: rgb(var(--accent-source));
+  --accent-dark: rgb(var( --accent-dark-source));
   --dark-gray: #888;
   --light-gray: #CCC;
   --extra-light-gray: #F0F0F0;

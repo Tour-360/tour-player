@@ -2,6 +2,17 @@
   "title": "LOFT 904",
   "backgroundImage": false,
   "backgroundColor": "#8f937c",
+  "media": [
+    {
+      "type": "video",
+      "id": "macbook",
+      "src": "videos/macbook.mp4",
+      "loop": true,
+      "autoplay": true,
+      "width": 320,
+      "height": 200
+    }
+  ],
   "videos": [
     {
       "id": "macbook",

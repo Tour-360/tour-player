@@ -127,8 +127,7 @@ class AreaItem extends HTMLElement {
           <select-wrapper label="type">
             <select name="type">
               <option value="shape">shape</option>
-              <option value="video">video</option>
-              <option value="image">image</option>
+              <option value="media">media</option>
               <option value="mask">mask</option>
             </select>
           </select-wrapper>
@@ -319,8 +318,7 @@ class AreaItem extends HTMLElement {
         if (this.#typeElement) {
           this.#typeElement.parentElement.value = newValue; // hack
           this.#typeElement.value = newValue;
-          console.log(555, newValue);
-          this.#rowMediaElement.classList[!['video', 'image'].includes(newValue) ? 'add' : 'remove']('hidden');
+          this.#rowMediaElement.classList[newValue !== 'media' ? 'add' : 'remove']('hidden');
         }
         break;
       }
