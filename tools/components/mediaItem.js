@@ -171,6 +171,9 @@ class MediaItem extends HTMLElement {
     this.#srcElement.src = this.getAttribute('src');
     this.#typeElement.value = this.getAttribute('type');
 
+    this.loop = this.hasAttribute('loop');
+    this.autoplay = this.hasAttribute('autoplay');
+
     this.#idElement.addEventListener('change', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -231,19 +234,19 @@ class MediaItem extends HTMLElement {
   }
 
   set loop(value) {
-    this.setAttribute('loop', value);
+    this[value ? 'setAttribute' : 'removeAttribute']('loop', 'loop');
   }
 
   get loop() {
-    return this.getAttribute('loop');
+    return this.hasAttribute('loop');
   }
 
   set autoplay(value) {
-    this.setAttribute('loop', value);
+    this[value ? 'setAttribute' : 'removeAttribute']('autoplay', 'autoplay');
   }
 
   get autoplay() {
-    return this.getAttribute('loop');
+    return this.hasAttribute('autoplay');
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -262,7 +265,7 @@ class MediaItem extends HTMLElement {
       }
       case "loop": {
         if (this.#loopElement) {
-          this.#loopElement.value = newValue;
+          this.#loopElement.checked = newValue;
         }
         break;
       }

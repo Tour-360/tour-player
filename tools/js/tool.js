@@ -1222,7 +1222,6 @@ areas = {
       // media.getMediaById('5'); // вернет объект media из state
 
       areaItem.mediaList = [];
-      areaItem.media = '-';
       areaItem.type = 'shape';
 
       areaItem.addEventListener('changeMedia', e => {

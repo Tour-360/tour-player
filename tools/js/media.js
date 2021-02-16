@@ -4,6 +4,8 @@ class Media {
   constructor() {
     this.handleChangeId = this.handleChangeId.bind(this);
     this.handleChangeSrc = this.handleChangeSrc.bind(this);
+    this.handleChangeLoop = this.handleChangeLoop.bind(this);
+    this.handleChangeAutoplay = this.handleChangeAutoplay.bind(this);
     this.handleChangeType = this.handleChangeType.bind(this);
     this.createMedia = this.createMedia.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -67,6 +69,16 @@ class Media {
     this.update();
   }
 
+  handleChangeLoop(e) {
+    this.getMediaById(e.target.id).loop = e.target.loop;
+    this.update();
+  }
+
+  handleChangeAutoplay(e) {
+    this.getMediaById(e.target.id).autoplay = e.target.autoplay;
+    this.update();
+  }
+
   handleDelete(e) {
     const id = e.target.id;
     if (confirm(`Are you sure you want to delete this media ${id}`)) {
@@ -84,9 +96,13 @@ class Media {
     mediaItem.id = media.id;
     mediaItem._id = media.id;
     mediaItem.type = media.type;
+    mediaItem.loop = media.loop;
+    mediaItem.autoplay = media.autoplay;
     mediaItem.addEventListener('changeId', this.handleChangeId);
     mediaItem.addEventListener('changeSrc', this.handleChangeSrc);
     mediaItem.addEventListener('changeType', this.handleChangeType);
+    mediaItem.addEventListener('changeLoop', this.handleChangeLoop);
+    mediaItem.addEventListener('changeAutoplay', this.handleChangeAutoplay);
     mediaItem.addEventListener('delete', this.handleDelete);
     this.listElement.appendChild(mediaItem);
     return mediaItem;

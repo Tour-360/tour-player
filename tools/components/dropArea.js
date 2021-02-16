@@ -1,5 +1,6 @@
 class CheckBox extends HTMLElement {
   #containerElement;
+  #checked;
 
   constructor() {
     super();
@@ -68,18 +69,15 @@ class CheckBox extends HTMLElement {
   }
 
   set checked(value) {
-    this[value ? 'setAttribute' : 'removeAttribute']('checked', 'checked');
+    this.setAttribute('checked', value);
   }
 
   get checked() {
-    return this.hasAttribute('checked');
+    return this.getAttribute('checked');
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     // this.#valueElement && this.update();
-    if (name === 'checked') {
-      this.#containerElement.classList[newValue ? 'add' : 'remove']('checked');
-    }
   }
 }
 

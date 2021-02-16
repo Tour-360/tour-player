@@ -160,7 +160,6 @@ class List extends HTMLElement {
     this.#listElement.addEventListener(`dragstart`, (e) => {
       e.target.classList.add(`selected`);
       this.#active = this.#items.findIndex(i => i === e.target);
-      console.log('start', e.target, this.#active, this.#items);
     });
 
     this.#listElement.addEventListener(`dragend`, (e) => {
@@ -170,7 +169,6 @@ class List extends HTMLElement {
       if(this.isHovered(e)) {
         this.setLine(null);
         if (this.#moveTo !== null && this.#active !== this.#moveTo) {
-          console.log('next, element', this.#items[this.#moveTo+1]);
           this.#listElement.insertBefore(
             this.#items[this.#active],
             this.#items[this.#moveTo+1]

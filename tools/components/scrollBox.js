@@ -173,7 +173,6 @@ class ScrollBox extends HTMLElement {
     const width = this.#wrapperElement.clientWidth;
     const scrollWidth = this.#wrapperElement.scrollWidth;
     const scrollLeft = this.#wrapperElement.scrollLeft;
-    console.log(width, scrollWidth, scrollLeft);
 
     this.#buttonLeftElement.classList[scrollLeft > 0 ? 'add' : 'remove']('visible');
     this.#buttonRightElement.classList[scrollWidth - width - scrollLeft > 0 ? 'add' : 'remove']('visible');
