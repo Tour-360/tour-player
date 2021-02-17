@@ -53,6 +53,6 @@
     });
   })
 
-  setActiveTab('floors');
+  setActiveTab('global');
 })();
 

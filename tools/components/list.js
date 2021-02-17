@@ -158,11 +158,13 @@ class List extends HTMLElement {
     this.#listElement = this.shadow.querySelector('.list');
 
     this.#listElement.addEventListener(`dragstart`, (e) => {
+      if (e.dataTransfer.types[0] === "Files") return;
       e.target.classList.add(`selected`);
       this.#active = this.#items.findIndex(i => i === e.target);
     });
 
     this.#listElement.addEventListener(`dragend`, (e) => {
+      if (e.dataTransfer.types[0] === "Files") return;
       e.target.classList.remove(`selected`);
       this.#listElement.classList.remove(`hover`);
       this.#items[this.#active].classList.remove('skeleton');
@@ -190,6 +192,7 @@ class List extends HTMLElement {
 
     this.#listElement.addEventListener(`dragover`, this.handleDragover.bind(this));
     this.#listElement.addEventListener(`drag`, (e) => {
+      if (e.dataTransfer.types[0] === "Files") return;
       // this.#items[this.#active].classList.add('skeleton');
       this.#listElement.classList[this.isHovered(e) ? 'add' : 'remove']('hover');
     });
@@ -208,6 +211,7 @@ class List extends HTMLElement {
 
   handleDragover(e) {
     e.preventDefault();
+    if (e.dataTransfer.types[0] === "Files") return;
     this.#items[this.#active].classList.add('skeleton');
     if(e.target !== this.#items[this.#active].children[0]) {
       for (let i=0; i < this.#items.length; i++) {

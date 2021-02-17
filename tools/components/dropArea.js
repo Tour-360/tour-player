@@ -1,9 +1,15 @@
 class DropArea extends HTMLElement {
   #containerElement;
   #rippleElement;
+  #files = null;
 
   constructor() {
     super();
+
+    this.handleDragEnter = this.handleDragEnter.bind(this);
+    this.handleDragOver = this.handleDragOver.bind(this);
+    this.handleDragLeave = this.handleDragLeave.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
   }
 
   static get observedAttributes() {
@@ -24,7 +30,7 @@ class DropArea extends HTMLElement {
           height: 100%;
         }
         
-        .container:before {
+        .container:after {
           content: '';
           display: block;
           position: absolute;
@@ -37,11 +43,11 @@ class DropArea extends HTMLElement {
           opacity: 0;
         }
         
-        .container.active:before {
+        .container.active:after {
           opacity: .2;
         }
         
-        .container.animation:before {
+        .container.animation:after {
           animation: background 1s ease-out;
         }
         
@@ -66,7 +72,7 @@ class DropArea extends HTMLElement {
         }
         
         .container.animation .ripple {
-          animation: ripple 1s ease-out;
+          animation: ripple .75s ease-out;
         }
         
         @keyframes ripple {
@@ -96,10 +102,20 @@ class DropArea extends HTMLElement {
     this.#containerElement = this.shadow.querySelector('.container');
     this.#rippleElement = this.shadow.querySelector('.ripple');
 
-    this.#containerElement.addEventListener('dragenter', this.handleDragEnter.bind(this));
-    this.#containerElement.addEventListener('dragleave', this.handleDragLeave.bind(this));
-    this.#containerElement.addEventListener('dragover', this.handleDragOver.bind(this));
-    this.#containerElement.addEventListener('drop', this.handleDrop.bind(this));
+    this.#containerElement.addEventListener('dragenter', this.handleDragEnter);
+    this.#containerElement.addEventListener('dragleave', this.handleDragLeave);
+    this.#containerElement.addEventListener('dragover', this.handleDragOver);
+    this.#containerElement.addEventListener('drop', this.handleDrop);
+    // TODO add removeEventListener in event handlers
+
+  }
+
+  set files(value) {
+    this.#files = value;
+  }
+
+  get files() {
+    return this.#files;
   }
 
   setActive(value) {
@@ -110,12 +126,14 @@ class DropArea extends HTMLElement {
     this.#containerElement.classList[value? 'add' : 'remove']('animation');
   }
 
-  handleDragEnter() {
-    this.setAnimation(false);
-    this.setActive(true);
+  handleDragEnter(e) {
+    if (e.dataTransfer.types[0] === "Files") {
+      this.setAnimation(false);
+      this.setActive(true);
+    }
   }
 
-  handleDragLeave() {
+  handleDragLeave(e) {
     this.setActive(false);
   }
 
@@ -124,14 +142,20 @@ class DropArea extends HTMLElement {
   }
 
   handleDrop(e) {
-    this.setAnimation(true);
-    e.preventDefault();
-    e.stopPropagation();
-    this.setActive(false);
+    if (e.dataTransfer.types[0] === "Files") {
+      this.setAnimation(true);
+      setTimeout(() => {
+        this.setAnimation(false);
+      }, 1000);
+      e.preventDefault();
+      e.stopPropagation();
+      this.setActive(false);
 
-    this.#rippleElement.style.setProperty('--x', e.offsetX + 'px');
-    this.#rippleElement.style.setProperty('--y', e.offsetY + 'px');
-    console.log(e.dataTransfer.files[0]);
+      this.#rippleElement.style.setProperty('--x', e.offsetX + 'px');
+      this.#rippleElement.style.setProperty('--y', e.offsetY + 'px');
+      this.files = e.dataTransfer.files;
+      this.dispatchEvent(new Event('drop'));
+    }
   }
 
   // set checked(value) {

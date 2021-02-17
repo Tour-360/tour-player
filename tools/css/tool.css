@@ -418,48 +418,6 @@ input[type="file"] {
   left: -9999px;
 }
 
-
-.toasts {
-  position: absolute;
-  width: max-content;
-  bottom: 24px;
-  left: 0;
-  right: 0;
-  margin: auto;
-  z-index: 100;
-}
-
-.toast {
-  --offese: 15px;
-  border-radius: 4px;
-  padding: 8px 12px;
-  background: rgba(0,0,0,.75);
-  color: var(--white);
-  max-width: 360px;
-  animation: toast-push 5s ease;
-  animation-fill-mode: both;
-}
-
-.toast:empty {
-  display: none;
-}
-
-@keyframes toast-push {
-  0% {
-    opacity: 0;
-    transform: translate(0, var(--offese));
-  }
-  5%, 95% {
-    opacity: 1;
-    transform: translate(0,0);
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-
-
 @media (max-width: 400px) {
   .header {
     display: none;

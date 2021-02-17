@@ -14,6 +14,19 @@ class Media {
 
     this.listElement = document.querySelector('.media-list');
     this.addButtonElement = document.querySelector('.add-new-media');
+    this.dropAreaElement = document.querySelector('.sidebar-content.media drop-area');
+
+    this.dropAreaElement.addEventListener('drop', (e) => {
+      uploadMedia(e.target.files, (media) => {
+          this.createMedia({
+            id: media.name,
+            src: media.src,
+            type: 'image',
+          });
+      }).then(() => {
+
+      });
+    });
 
     this.addButtonElement.addEventListener('click', () => {
       const newMedia = {

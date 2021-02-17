@@ -143,7 +143,7 @@ Use a more recent file?`)){
   },
   saveToServer: function(){
     if(confirm('Update '+parent.Tour.options.manifest+' file?')){
-      toasts.push("Saving...");
+      toasts.push("Saving...", false);
       fetch('/server/save', { method: "POST", headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
