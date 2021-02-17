@@ -12,7 +12,7 @@ const uploadMedia = async (files, callback) => {
     const json = await response.json();
     if (json.success) {
       toasts.push(`File ${file.name} has ben loaded`);
-      callback({ src: json.src, name: json.name });
+      callback(json);
     } else {
       toasts.push(json.error);
     }

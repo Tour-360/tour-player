@@ -102,7 +102,7 @@ class Select extends HTMLElement {
       </style>
       
       <div class="select">
-        <div class="label"><slot name="label">${this.getAttribute('label')}</slot></div>
+        <div class="label">${this.getAttribute('label')}</div>
         <div class="value">-</div>
         <slot></slot>
         <div class="arrow"></div>
@@ -125,6 +125,18 @@ class Select extends HTMLElement {
     select?.addEventListener('change', e => {
       this.#valueElement.innerText = this.getTextSelectedValue();
     })
+
+
+    let observer = new MutationObserver(mutationRecords => {
+      console.log('mutationRecords', mutationRecords); // console.log(изменения)
+    });
+
+    observer.observe(select, {
+      attributes: true,
+      childList: true, // наблюдать за непосредственными детьми
+      subtree: true, // и более глубокими потомками
+      characterDataOldValue: true // передавать старое значение в колбэк
+    });
   }
 
   getTextSelectedValue() {

@@ -280,7 +280,7 @@ class AreaItem extends HTMLElement {
       option.innerText = item;
       option.value = item;
       this.#mediaElement.appendChild(option);
-    })
+    });
   }
 
   get mediaList() {

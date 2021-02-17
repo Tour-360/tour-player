@@ -9,13 +9,6 @@ class MediaItem extends HTMLElement {
 
   constructor() {
     super();
-  }
-
-  static get observedAttributes() {
-    return ['id', 'type', 'src', 'loop', 'autoplay'];
-  }
-
-  connectedCallback() {
     this.shadow = this.attachShadow({mode: "open"});
 
     this.shadow.innerHTML = `
@@ -50,7 +43,7 @@ class MediaItem extends HTMLElement {
         height: 100%;
         background-position: center;
         background-repeat: no-repeat;
-        background-size: auto;
+        background-size: contain;
       }
       
       .media-item .properties {
@@ -160,7 +153,8 @@ class MediaItem extends HTMLElement {
     this.#container = this.shadow.querySelector('.media-item');
     this.#idElement = this.shadow.querySelector('x-field[label="id"]');
     this.#srcElement = this.shadow.querySelector('x-field[label="src"]');
-    this.#typeElement = this.shadow.querySelector('select[name="type"]');
+    this.#typeElement
+      = this.shadow.querySelector('select[name="type"]');
     this.#previewElement = this.shadow.querySelector('.preview');
     this.#loopElement = this.shadow.querySelector('.loop');
     this.#autoplayElement = this.shadow.querySelector('.autoplay');
@@ -207,6 +201,14 @@ class MediaItem extends HTMLElement {
       this.autoplay = e.target.checked;
       this.dispatchEvent(new Event('changeAutoplay'));
     });
+  }
+
+  static get observedAttributes() {
+    return ['id', 'type', 'src', 'loop', 'autoplay'];
+  }
+
+  connectedCallback() {
+
   }
 
   set id(value) {

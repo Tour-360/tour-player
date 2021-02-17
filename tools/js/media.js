@@ -21,7 +21,7 @@ class Media {
           this.createMedia({
             id: media.name,
             src: media.src,
-            type: 'image',
+            type: media.type,
           });
       }).then(() => {
 
