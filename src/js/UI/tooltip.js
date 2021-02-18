@@ -8,7 +8,7 @@ UI.tooltip = {
     },
 
     setTitle: function(text) {
-        this.domElement.innerText = text;
+        this.domElement.innerHTML = text;
     },
 
     setPosition: function(x, y) {

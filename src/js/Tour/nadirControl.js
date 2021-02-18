@@ -30,9 +30,9 @@ Tour.Arrow = function(point){
 
     this.arrow = new THREE.Mesh( geometry, Tour.nadirControl.arrowMaterial);
     var pitch = 0;
-    if(point.level != -Tour.options.heightFloor){
-        pitch = Math.atan((point.level+Tour.options.heightFloor)/point.distance) / 1.5;
-    }
+    // if(point.level != Tour.getPanorama().heightFromFloor){
+        pitch = Math.atan(((Tour.getPanorama().heightFromFloor || 145)-point.level)/point.distance) / 1.5;
+    // }
     var d = Math.atan((point.level+1.8)/point.distance)
 
     var rotation = point.lon * (Math.PI/180);
@@ -53,6 +53,9 @@ Tour.Arrow = function(point){
     this.rect._onclick = this.go.bind(this)
     this.rect._onhover = this.setActive.bind(this, true);
     this.rect._onover = this.setActive.bind(this, false);
+    if(Tour.options.arrowsTitle){
+        this.rect._title = Lang.translate(Tour.getPanorama(this.point.pano).title);
+    }
     Tour.nadirControl.rects.add(this.rect);
 }
 
@@ -62,7 +65,7 @@ Tour.Arrow.prototype.setActive = function(value){
 }
 
 Tour.Arrow.prototype.go = function(){
-    Tour.view.set({id:this.point.pano}, null, Math.abs((this.point.lon-Tour.view.lon)%360) < 20);
+    Tour.view.set({id:this.point.pano, lon:this.point.panoLon-(this.point.lon-Tour.view.lon.value)}, null, Math.abs((this.point.lon-Tour.view.lon)%360) < 20);
 }
 
 Tour.Arrow.prototype.remove = function(){
@@ -112,21 +115,62 @@ Tour.nadirControl.getDistance = function(rot1, rot2) {
 }
 
 Tour.nadirControl.getPoints = function() {
-    var points = Tour.getPanorama().points || [];
-    points = points.sort(function(a, b){
-        return a.distance - b.distance;
-    });
+    var points = Tour.points || [];
 
     var result = [];
-    points.forEach(function(point){
-        if(!result.some(function(selected){
-            return Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance && Math.abs(point.level - selected.level) < 3;
-        })){
-            result.push(point)
+
+    if(Tour.options.nadirControlArrowFilter == 'all'){
+        points.forEach(function(point){
+            result.push(point);
+        })
+    }else if(Tour.options.nadirControlArrowFilter == 'likePoints'){
+        points = points.sort(function(a, b){
+            return a.distance - b.distance;
+        });
+
+        points.forEach(function(point){
+            if(!result.some(function(selected){
+                var distance = Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance
+                var anotherLevel = point.distance<1000 && Math.abs(point.level - selected.level) > 50;
+                return distance || anotherLevel;
+            })){
+                result.push(point)
+            }
+        })
+    }else if(Tour.options.nadirControlArrowFilter == 'links'){
+        var pano = Tour.getPanorama()
+
+        if(pano.links){
+            var arrows = pano.links.map(function(link){
+                var point = Tour.getPanorama(link.id);
+                var vector
+                var lon 
+                if(link.x == undefined && link.y == undefined){
+                    vector = Tour.utils.getVector(pano, point);
+                }else{
+                    vector = Tour.utils.getVector(pano, Object.assign({floor: point.floor}, link));
+                    lon = Tour.utils.getVector(link, point).rotate
+                }
+                return {lon:vector.rotate, distance:vector.distance, level:vector.level, pano:point.id, panoLon:lon}
+            }).sort(function(a, b){
+                return a.distance - b.distance;
+            });
+
+            arrows.forEach(function(point){
+                if(!result.some(function(selected){
+                    var distance = Tour.nadirControl.getDistance(point.lon, selected.lon) < Tour.options.arrowsDistance
+                    var anotherLevel = Math.abs(point.level - selected.level) < 50;
+                    return distance && anotherLevel;
+                })){
+                    result.push(point)
+                }
+            })
         }
-    })
+    }
+
     return result;
 }
+
 
 Tour.nadirControl.set = function() {
     if (!Tour.options.nadirControl ) {

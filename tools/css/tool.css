@@ -1,0 +1,426 @@
+:root {
+  --white: #fff;
+  --accent-source: 0, 99, 255;
+  --accent-dark-source: 16, 57, 220;
+  --accent: rgb(var(--accent-source));
+  --accent-dark: rgb(var( --accent-dark-source));
+  --dark-gray: #888;
+  --light-gray: #CCC;
+  --extra-light-gray: #F0F0F0;
+  --black: #111;
+  --alt-accent: #ed0;
+  --warning: #F88B00;
+
+  --point-size: 129.36px;
+  --point-wide-ratio: 3;
+
+  --meter-size: 42px;
+
+  --sidebar-width: 340px;
+  --sidebar-max-width: 500px;
+  --user-select: text;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--light-gray);
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.header {
+  background: var(--white);
+  padding: 0 8px;
+  border-bottom: 1px solid var(--dark-gray);
+  /*padding: 5px;*/
+  z-index: 10;
+}
+
+
+/* Buttons */
+
+
+button {
+  font-family: inherit;
+  padding: 6px;
+  border: none;
+  background-color: transparent;
+  background-position: center;
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  min-width: 24px;
+  min-height: 24px;
+  cursor: pointer;
+  outline: none;
+}
+
+button.primary {
+  border: 1px solid;
+}
+
+button:not(.primary):hover {
+  background-color: var(--extra-light-gray);
+}
+button.primary:active {
+  background-color: var(--extra-light-gray);
+}
+
+button.delete {
+  background-image: url('../assets/delete.svg');
+}
+
+
+
+/* Point */
+
+.map {
+  /*transform: translateZ(0);
+  will-change: transform;*/
+  image-rendering: pixelated;
+  --scale: 1;
+  --offset-x: 0;
+  --offset-y: 0;
+  --origin-offset: calc(var(--scale) * .5px + 8px);
+  position: relative;
+  flex: 1;
+  background-image: url('../assets/origin.png'), url('../assets/bg.png');
+  background-repeat: no-repeat, repeat;
+  background-position:
+    calc(var(--offset-x) - var(--origin-offset)) calc(var(--offset-y) - var(--origin-offset)),
+    var(--offset-x) var(--offset-y);
+  background-size: 17px 17px, calc(210px * var(--scale));
+  user-select: none;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.map:active {
+  cursor: grabbing;
+}
+
+.points {
+  position: relative;
+  z-index: 1;
+}
+
+
+.point {
+  /*--point-color: transparent;
+  --point-text-color: var(--width);*/
+
+  transform: translateZ(0);
+  will-change: transform;
+  position: absolute;
+  display: flex;
+  background-color: var(--light-gray);
+  background-size: calc(100% * var(--point-wide-ratio));
+  background-position: center;
+  border-radius: 50%;
+  left: calc(var(--point-size) / -2);
+  top: calc(var(--point-size) / -2);
+  width: var(--point-size);
+  height: var(--point-size);
+  cursor: move;
+}
+
+.point:hover,
+.point:active {
+  z-index: 2;
+}
+
+.point:before {
+  pointer-events: none;
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  display: block;
+  border-radius: inherit;
+  box-sizing: border-box;
+  box-shadow:
+    0 0 0 2px var(--point-color, transparent),
+    inset 0 0 0 2px var(--point-color, transparent);
+  content: '';
+}
+
+.point.active {
+  z-index: 1;
+  --point-color: var(--accent);
+  --point-text-color: var(--white);
+}
+
+.point.view {
+  --point-color: var(--alt-accent);
+  --point-text-color: var(--black);
+}
+
+.point.hidden {
+  display: none;
+}
+
+.point.secondary {
+  opacity: .5;
+}
+
+.point:after {
+  display: block;
+  pointer-events: none;
+  /*content: '';*/
+  /*display: block;*/
+  background: inherit;
+  background-size: 100%;
+  position: absolute;
+  height: calc(100% * var(--point-wide-ratio));
+  width: calc(100% * var(--point-wide-ratio));
+  z-index: -1;
+  --offset: calc(
+    calc(var(--point-size) * var(--point-wide-ratio) - var(--point-size)) / -2
+  );
+  transform: translate(
+    var(--offset),
+    var(--offset)
+  );
+  border-radius: inherit;
+  opacity: 0;
+}
+
+.point:hover:after {
+  opacity: .50;
+  content: '';
+}
+
+.point.rotate {
+  cursor: ew-resize;
+}
+
+.point.rotate:after {
+  content: '';
+  opacity: 1;
+}
+
+.point-number {
+  pointer-events: none;
+  font-size: 11px;
+  display: block;
+  padding: 2px 3px;
+  background: var(--point-color, rgba(0,0,0,.4));
+  border-radius: 4px;
+  margin: auto;
+  z-index: 1;
+  color: var(--point-text-color, var(--white))
+}
+
+.point-rotate-control {
+  display: none;
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 50%;
+  background-color: var(--white);
+  height: 8px;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.point.active .point-rotate-control,
+.point.rotate .point-rotate-control {
+  display: block;
+}
+
+.connection-points {
+  display: none;
+  z-index: 1;
+  position: relative;
+}
+
+.connection-points.visible {
+  display: block;
+}
+
+.connection-point {
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  left: -4px;
+  top: -4px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateZ(0);
+  will-change: transform;
+  cursor: pointer;
+}
+
+
+
+
+.map[data-points="lite"] .point {
+  --point-size: 32px !important;
+  background: var(--accent) !important;
+}
+
+.map[data-points="lite"] .point::before,
+.map[data-points="lite"] .point::after {
+  content: none;
+}
+
+.map[data-points="lite"] .point-rotate-control {
+  display: none;
+}
+
+.map[data-points="lite"] .point-number {
+  background: none;
+}
+
+.map[data-points="lite"] .point.active {
+  background: #f00 !important;
+}
+
+
+
+
+.map[data-points="full"] .point::after {
+  content: '';
+  opacity: 1;
+}
+
+.map[data-points="full"] .point::after {
+  content: '';
+  opacity: 1;
+}
+
+.map[data-points="full"] .point:active::after {
+  opacity: .5;
+}
+
+
+
+
+
+
+
+.point-fov {
+  --size: 100px;
+  z-index: 4;
+  will-change: transform;
+  display: none;
+  position: absolute;
+  top: calc(var(--size) / -2);
+  left: calc(var(--size) / -2);
+  height: var(--size);
+  width: var(--size);
+  pointer-events: none;
+}
+
+.point-fov.visible {
+  display: block;
+}
+
+
+.select-control {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(var(--accent-source), .2);
+  border: 1px solid var(--accent);
+  z-index: 3;
+}
+
+.select-control.active {
+  display: block;
+}
+
+.plans {
+  transform-origin: 0 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.plans .plan {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.plans .plan.active {
+  display: block;
+}
+
+.connections-layer {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.connections-layer.hidden {
+  display: none;
+}
+
+.connections-layer circle {
+  fill: var(--accent);
+  pointer-events: all;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.connections-layer line {
+  stroke: var(--accent);
+  stroke-width: 4;
+  pointer-events: all;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.connections-layer line.secondary{
+  opacity: 0.15;
+}
+
+.connections-layer line:hover {
+  /*opacity: 0.75;*/
+}
+
+.connections-layer line:hover + circle,
+.connections-layer circle:hover {
+  opacity: 1;
+}
+
+input[type="file"] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+@media (max-width: 400px) {
+  .header {
+    display: none;
+  }
+}

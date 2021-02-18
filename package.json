@@ -1,6 +1,6 @@
 {
   "name": "tour-player",
-  "version": "2.2.5",
+  "version": "2.9.1",
   "description": "",
   "repository": {
     "type": "git",
@@ -8,6 +8,8 @@
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower i && npm run delete-models && ./node_modules/gulp/bin/gulp.js build",
+    "preversion": "node version.js $npm_package_version",
+    "postversion": "gulp build && gulp deploy || gulp deploy",
     "start": "node index.js",
     "test": "gulp lint",
     "delete-models": "rm -rf ./bower_components/threejs/examples/models/ && rm -rf ./bower_components/threejs-r97/examples/models/"
@@ -29,8 +31,8 @@
     },
     {
       "name": "Denis Borodin",
-      "email": "borodindk@gmail.com",
-      "url": "http://denisborodin.ru"
+      "email": "denis@tour-360.ru",
+      "url": "http://denisborodin.com"
     }
   ],
   "license": "MIT",
