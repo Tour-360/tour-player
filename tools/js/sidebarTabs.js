@@ -6,6 +6,10 @@
   let startResizePosition = 0;
   let startWidth = 0;
 
+  const computedStyle = getComputedStyle(document.documentElement);
+  const width = parseInt(computedStyle.getPropertyValue('--sidebar-width'));
+  const maxWidth = parseInt(computedStyle.getPropertyValue('--sidebar-max-width'));
+
   resizeArea.addEventListener('pointerdown', e => {
     startResizePosition = e.clientX;
     startWidth = sidebarElement.clientWidth;
@@ -24,7 +28,7 @@
   const handleResize = e => {
     const diff = e.clientX - startResizePosition;
     const newSize = startWidth - diff;
-    document.documentElement.style.setProperty('--sidebar-width', Math.min(Math.max(newSize, 250), 500) + 'px');
+    document.documentElement.style.setProperty('--sidebar-width', Math.min(Math.max(newSize, width), maxWidth) + 'px');
   }
 
   const handleEndResize = e => {

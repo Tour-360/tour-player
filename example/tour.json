@@ -4608,7 +4608,7 @@
       "height": 400,
       "title": "First floor",
       "plan": {
-        "imageUrl": "floors/0.svg",
+        "src": "floors/0.svg",
         "width": 690
       }
     },
@@ -4616,7 +4616,7 @@
       "height": 400,
       "title": "Second floor",
       "plan": {
-        "imageUrl": "floors/1.svg",
+        "src": "floors/1.svg",
         "width": 690
       }
     }

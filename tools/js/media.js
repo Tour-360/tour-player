@@ -17,12 +17,15 @@ class Media {
     this.dropAreaElement = document.querySelector('.sidebar-content.media drop-area');
 
     this.dropAreaElement.addEventListener('drop', (e) => {
-      uploadMedia(e.target.files, (media) => {
-          this.createMedia({
-            id: media.name,
-            src: media.src,
-            type: media.type,
-          });
+      uploadFile(e.target.files, 'media', (media) => {
+        const newMedia = {
+          id: media.name,
+          src: media.src,
+          type: media.type,
+        }
+        state.current.media.push(newMedia);
+        this.createMedia(newMedia);
+        this.update();
       }).then(() => {
 
       });
@@ -123,7 +126,3 @@ class Media {
 }
 
 window.media = new Media();
-
-// window.addEventListener('load', () => {
-//   media.set();
-// });

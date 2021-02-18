@@ -3,13 +3,7 @@ class CheckBox extends HTMLElement {
 
   constructor() {
     super();
-  }
 
-  static get observedAttributes() {
-    return ['checked', 'title'];
-  }
-
-  connectedCallback() {
     this.shadow = this.attachShadow({ mode: "open" });
 
     this.shadow.innerHTML = `
@@ -60,6 +54,14 @@ class CheckBox extends HTMLElement {
     this.#containerElement = this.shadow.querySelector('.container');
 
     this.#containerElement.addEventListener('click', this.handleClick.bind(this));
+  }
+
+  static get observedAttributes() {
+    return ['checked', 'title'];
+  }
+
+  connectedCallback() {
+
   }
 
   handleClick() {

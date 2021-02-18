@@ -23,6 +23,7 @@ class DropArea extends HTMLElement {
       <style>
         :host {
           display: block;
+          min-height: 0;
         }
         .container {
           position: relative;

@@ -99,19 +99,18 @@ Use a more recent file?`)){
         // plan: {imageUrl: '../floors/0.svg', x:0, y:0, width:6830.492121379737}
       ]
     }
-    floors.setFloors();
     this.set();
     this.save();
     return this.current;
   },
   undo: function(){
-    if(this.count>0){
+    if (this.count>0) {
       this.count--;
       this.current = JSON.parse(this.states[this.count]);
       this.set();
-    }else{
+    } else {
       toasts.push('Can not be undo')
-    };
+    }
   },
   redo: function(){
     if(this.count<this.states.length-1){
@@ -253,7 +252,7 @@ var camera = {
       this.setScale(position.scale);
     }
     if(position.floor != undefined && position.floor != floors.active){
-      floors.showFloor(Math.floor(position.floor))
+      floors.active = Math.floor(position.floor);
     }
     this.draw();
     links.draw()
@@ -1026,7 +1025,6 @@ Point.prototype.mouseUpRotate = function(event){
 
 function init(){
   globalTab.init();
-  floors.init()
   markers.init()
   map.init()
   camera.update();
@@ -1034,6 +1032,7 @@ function init(){
   properties.init()
   areas.init();
   state.get();
+  floors.init();
   media.set();
   select.init();
   areaEditor.init();
@@ -1219,7 +1218,7 @@ areas = {
         areaItem.mediaList = state.current.media.map(m => m.id);
       });
 
-      // media.getMediaById('5'); // вернет объект media из state
+      // media.getFloorByTarget('5'); // вернет объект media из state
 
       areaItem.mediaList = [];
       areaItem.type = 'shape';
@@ -2146,67 +2145,6 @@ utils = {
     }else{
       toasts.push('Point with id: '+id+' not found');
     }
-  }
-}
-
-
-var floors = {
-  active: null,
-  init: function(){
-    this.floorList = document.querySelector('.floor-list');
-    this.plans = document.querySelector('.plans');
-    // this.setFloors();
-    // this.showFloor(0);
-  },
-  setFloors: function(){
-    menu.items.floor.addItem('selectFloor', {
-      title: 'Select Floor',
-      type: 'select',
-      options: Object.fromEntries(
-        state.current.floors
-          .map((floor, id) => ([ id, floor.title ]))
-      ),
-      action: (id) => {
-        toasts.push(`Selected ${state.current.floors[id].title}`);
-        floors.showFloor(id);
-      }
-    });
-
-    state.current.floors.forEach(function(floor, n){
-      const { plan } = floor;
-      if (plan) {
-        const img = document.createElement('img');
-        img.classList.add('plan');
-        // img.classList.add('active');
-        img.src = [
-          parent.location.origin,
-          parent.location.pathname,
-          plan.imageUrl
-        ].join('');
-        img.style.transform = `translate(${plan.x}px, ${plan.y}px)`;
-
-        if (plan.width) img.width = plan.width;
-        if (plan.height) img.height = plan.height;
-        if (plan.opacity) img.style.opacity = plan.opacity;
-
-        floors.plans.appendChild(img);
-      }
-    })
-  },
-  showFloor: function(n){
-    Array.from(this.plans.children).forEach(function(plan, i){
-      plan.classList[n==i?'add':'remove']('active')
-    })
-    if(n != undefined){
-      this.active = n;
-      menu.items.floor.items.selectFloor.value = n+'';
-    }
-    camera.draw();
-    camera.draw();
-    links.draw();
-  },
-  setPosition: function(){
-    this.plans.style.transform = 'translate('+camera.x+'px, '+camera.y+'px) scale('+camera.scale+')';
   }
 }
 

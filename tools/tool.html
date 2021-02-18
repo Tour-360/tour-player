@@ -180,9 +180,11 @@
         </div>
 
         <div class="sidebar-content" data-id="floors">
-          <x-list class="item-list" empty-text="There are no floors on this list yet."></x-list>
+          <drop-area>
+            <x-list class="item-list" empty-text="There are no floors on this list yet."></x-list>
+          </drop-area>
           <div class="sidebar-footer">
-            <button class="primary">Create new floor</button>
+            <button class="primary add-new-floor">Create new floor</button>
           </div>
         </div>
 
@@ -215,9 +217,11 @@
     </div>
   </div>
   <input type="file" id="fileinput">
+  <script src="js/utils.js"></script>
   <script src="js/sidebarTabs.js"></script>
   <script src="js/media.js"></script>
-  <script src="js/uploadMedia.js"></script>
+  <script src="js/floors.js"></script>
+  <script src="js/uploadFile.js"></script>
   <script src="js/tool.js"></script>
   <script src="js/toasts.js"></script>
   <script src="js/menu.js"></script>
@@ -230,6 +234,7 @@
   <script src="components/checkbox.js"></script>
   <script src="components/marker.js"></script>
   <script src="components/mediaItem.js"></script>
+  <script src="components/floorItem.js"></script>
   <script src="components/list.js"></script>
   <script src="components/dropArea.js"></script>
 </body>

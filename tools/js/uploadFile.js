@@ -1,11 +1,9 @@
-const uploadMedia = async (files, callback) => {
-  console.log('uploadMedia');
-
+const uploadFile = async (files, folder, callback) => {
   for (file of files) {
     const formData = new FormData();
-    formData.append('media', file);
-    console.log('file', file.name);
-    const response = await fetch('http://localhost:8080/server/upload-media', {
+    formData.append('folder', folder);
+    formData.append('file', file);
+    const response = await fetch('http://localhost:8080/server/upload-file', {
       method: 'POST',
       body: formData,
     });

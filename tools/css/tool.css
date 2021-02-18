@@ -16,7 +16,8 @@
 
   --meter-size: 42px;
 
-  --sidebar-width: 290px;
+  --sidebar-width: 340px;
+  --sidebar-max-width: 500px;
   --user-select: text;
 }
 
