@@ -1214,11 +1214,11 @@ areas = {
       areaItem.id = area.id;
       areaItem.title = area.title || '';
       areaItem.type = area.type || 'shape';
+      areaItem.mediaList = Tour.data?.media.map(m => m.id) || [];
       areaItem.media = area.mediaId;
-      areaItem.mediaList = [];
 
       media.listElement.addEventListener('update', () => {
-        areaItem.mediaList = state.current.media.map(m => m.id);
+        areaItem.mediaList = Tour.data?.media.map(m => m.id);
       });
 
       // media.getFloorByTarget('5'); // вернет объект media из state
@@ -2219,7 +2219,7 @@ var links = {
 
             // CIRCLE:
             // <circle cx="4" cy="4" r="4" fill="#0066FF"/>
-            if(linkA.x==undefined && linkB.x ==undefined){
+            if (linkA.x==undefined && linkB.x ==undefined) {
               var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
               circle.setAttribute("cx", (aPosition.x + bPosition.x) / 2); // temp
               circle.setAttribute("cy", (aPosition.y + bPosition.y) / 2); // temp

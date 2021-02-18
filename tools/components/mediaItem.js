@@ -153,8 +153,7 @@ class MediaItem extends HTMLElement {
     this.#container = this.shadow.querySelector('.media-item');
     this.#idElement = this.shadow.querySelector('x-field[label="id"]');
     this.#srcElement = this.shadow.querySelector('x-field[label="src"]');
-    this.#typeElement
-      = this.shadow.querySelector('select[name="type"]');
+    this.#typeElement = this.shadow.querySelector('select[name="type"]');
     this.#previewElement = this.shadow.querySelector('.preview');
     this.#loopElement = this.shadow.querySelector('.loop');
     this.#autoplayElement = this.shadow.querySelector('.autoplay');
@@ -164,6 +163,7 @@ class MediaItem extends HTMLElement {
     this.#idElement.id = this.getAttribute('id');
     this.#srcElement.src = this.getAttribute('src');
     this.#typeElement.value = this.getAttribute('type');
+    this.#container.dataset.type = this.getAttribute('type');
 
     this.loop = this.hasAttribute('loop');
     this.autoplay = this.hasAttribute('autoplay');
@@ -188,7 +188,6 @@ class MediaItem extends HTMLElement {
       e.preventDefault();
       e.stopPropagation();
       this.type = e.target.value;
-      this.#container.dataset.type = this.type;
       this.dispatchEvent(new Event('changeType'));
     });
 
@@ -280,6 +279,7 @@ class MediaItem extends HTMLElement {
       case "type": {
         if (this.#typeElement) {
           this.#typeElement.value = newValue;
+          this.#container.dataset.type = this.type;
           this.#typeElement.parentElement.value = newValue; // hack
         }
         break;

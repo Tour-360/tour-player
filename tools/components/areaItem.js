@@ -265,14 +265,16 @@ class AreaItem extends HTMLElement {
   }
 
   set media(value) {
+    this.#mediaElement.value = value;
     this.setAttribute('media', value);
   }
 
   get media() {
-    return this.getAttribute('media');
+    return this.#mediaElement.value
   }
 
   set mediaList(list) {
+    const tmpValue = this.media;
     this.#mediaList = list;
     this.#mediaElement.innerHTML = '';
     list.forEach(item => {
@@ -281,6 +283,7 @@ class AreaItem extends HTMLElement {
       option.value = item;
       this.#mediaElement.appendChild(option);
     });
+    this.media = tmpValue;
   }
 
   get mediaList() {
@@ -326,8 +329,8 @@ class AreaItem extends HTMLElement {
       }
       case "media": {
         if (this.#mediaElement) {
-          this.#mediaElement.parentElement.value = newValue; // hack
           this.#mediaElement.value = newValue;
+          this.#mediaElement.parentElement.value = newValue; // hack
         }
         break;
       }
