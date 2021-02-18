@@ -12,7 +12,7 @@ Tour.render = function() {
         }
     }
 
-    if (!this.previousCamera || this.needsUpdate ||
+    if (!this.previousCamera || this.needsUpdate || this.animateMedia ||
         compare(this.camera.rotation.x, this.previousCamera.x) ||
         compare(this.camera.rotation.y, this.previousCamera.y) ||
         compare(this.camera.rotation.z, this.previousCamera.z) ||
