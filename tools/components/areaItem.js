@@ -288,6 +288,8 @@ class AreaItem extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
+    this.dispatchEvent(new Event('change'));
+
     switch (name){
       case "id": {
         if (this.#idElement) {

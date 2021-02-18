@@ -25,8 +25,7 @@ Tour.init = function(domElement, options) {
     this.setMouseMenu();
     this.orientationControls.init();
     this.load(this.options.manifest, function(data) {
-        this.setVideos(data.videos);
-        this.setImages(data.images);
+        this.setMedia(data.media);
         document.title = Lang.translate(data.title) || Lang.get('virtual-tour');
         var query = Tour.query.get();
         query.id = query.id || data.start || data.panorams[0].id || 0;

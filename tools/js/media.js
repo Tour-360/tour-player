@@ -47,6 +47,7 @@ class Media {
 
   update() {
     state.save();
+    Tour.setMedia(state.current.media);
     const event = new Event('update');
     this.listElement.dispatchEvent(event);
   }

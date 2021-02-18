@@ -1214,6 +1214,9 @@ areas = {
       var areaItem = document.createElement('area-item');
       areaItem.id = area.id;
       areaItem.title = area.title || '';
+      areaItem.type = area.type || 'shape';
+      areaItem.media = area.mediaId;
+      areaItem.mediaList = [];
 
       media.listElement.addEventListener('update', () => {
         areaItem.mediaList = state.current.media.map(m => m.id);
@@ -1221,16 +1224,6 @@ areas = {
 
       // media.getMediaById('5'); // вернет объект media из state
 
-      areaItem.mediaList = [];
-      areaItem.type = 'shape';
-
-      areaItem.addEventListener('changeMedia', e => {
-        console.log('changeMedia', e.target.media);
-      })
-
-      areaItem.addEventListener('changeType', e => {
-        console.log('changeType', e.target.type);
-      })
 
       // var flatX = [];
       // var flatY = [];
@@ -1248,11 +1241,14 @@ areas = {
       var setArea = function(e){
         area.id = e.target.id;
         area.title = e.target.title;
+        area.mediaId = e.target.media;
+        area.type = e.target.type;
+        // area.action = e.target.action;
         Tour.areasManager.set()
         state.save()
       }
-      areaItem.addEventListener('changeId', setArea);
-      areaItem.addEventListener('changeTitle', setArea);
+      areaItem.addEventListener('change', setArea);
+
       areaItem.addEventListener('click', function(){
         Tour.view.set(area.view);
          areaEditor.show(false);
