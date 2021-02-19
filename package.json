@@ -8,7 +8,7 @@
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower i && npm run delete-models && ./node_modules/gulp/bin/gulp.js build",
-    "preversion": "node version.js $npm_package_version",
+    "preversion": "node version.js $npm_package_version && npx prettier ./src/js/",
     "postversion": "gulp build && gulp deploy || gulp deploy",
     "start": "node index.js",
     "test": "gulp lint",
