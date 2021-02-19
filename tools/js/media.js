@@ -44,7 +44,11 @@ class Media {
   }
 
   set() {
-    state?.current.media.forEach(this.createMedia);
+    if (state?.current?.media) {
+      state.current.media.forEach(this.createMedia);
+    } else if (state.current) {
+      state.current.media = [];
+    }
     this.update();
   }
 

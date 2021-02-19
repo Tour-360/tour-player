@@ -55,5 +55,8 @@
     "gulp-stylus": "^2.1.0",
     "gulp-uglify": "^1.4.1",
     "main-bower-files": "^2.9.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }

@@ -11,10 +11,11 @@ arrayMove = (arr, oldIndex, newIndex) => {
 
 const path = {
   resolve: function() {
+    const { pathname } = parent.location;
     return [
       parent.location.origin,
-      parent.location.pathname,
-      [...arguments].join('/')
-    ].join('');
+      pathname.substring(0, pathname.lastIndexOf('/')).substring(1),
+      ...arguments
+    ].join('/');
   }
 }

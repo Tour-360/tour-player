@@ -840,13 +840,11 @@ Point.prototype.draw = function(forse){
   this.numberElement.innerText = this.panorama.id;
   // this.domElement.title = this.panorama.title;
 
-  const uwnImage = [
-    parent.location.origin,
-    parent.location.pathname,
+  const uwnImage = path.resolve(
     'panorams',
     this.panorama.id,
     'thumbnail/uwn.jpg'
-  ].join('/');
+  );
 
   this.domElement.style.backgroundImage = `url(${uwnImage})`;
   this.setPosition(false, forse);
@@ -1214,11 +1212,11 @@ areas = {
       areaItem.id = area.id;
       areaItem.title = area.title || '';
       areaItem.type = area.type || 'shape';
-      areaItem.mediaList = Tour.data?.media.map(m => m.id) || [];
+      areaItem.mediaList = Tour.data?.media?.map(m => m.id) || [];
       areaItem.media = area.mediaId;
 
       media.listElement.addEventListener('update', () => {
-        areaItem.mediaList = Tour.data?.media.map(m => m.id);
+        areaItem.mediaList = Tour.data?.media?.map(m => m.id);
       });
 
       // media.getFloorByTarget('5'); // вернет объект media из state
