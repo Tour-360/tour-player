@@ -9,21 +9,6 @@ Tour.Area = function(options){
 
   this.geometry = new THREE.ShapeGeometry( this.shape );
 
-    if(options.type == 'shape'){
-
-        if(!Tools.active){
-            this.material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0} );
-        }else{
-            var texture = new THREE.DataTexture(new Uint8Array([255, 255, 255, 204, 204, 204, 204, 204, 204, 255, 255, 255]), 2, 2, THREE.RGBFormat)
-
-            texture.magFilter = THREE.NearestFilter;
-            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(4, 4);
-            this.material = new THREE.MeshBasicMaterial( { map: texture, transparent: true, opacity : 0.5} );
-        }
-
-    }
-
     if(options.type == 'media'){
         this.geometry = new THREE.Geometry();
         var s = 8;
@@ -70,11 +55,27 @@ Tour.Area = function(options){
                 )
             }
         }
-        this.material = new THREE.MeshBasicMaterial( { map: Tour.media[this.options.mediaId].texture, side: THREE.DoubleSide} ); 
-        Tour.media[this.options.mediaId].play();
-        Tour.animateMedia = true;
+        if(this.options.mediaId && Tour.media[this.options.mediaId]){
+            this.material = new THREE.MeshBasicMaterial( { map: Tour.media[this.options.mediaId].texture, transparent: true, side: THREE.DoubleSide} ); 
+            Tour.media[this.options.mediaId].play();
+            Tour.animateMedia = true;
+        }else{
+            this.material = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.7, side: THREE.DoubleSide} );
+        }
+
     }else if(options.type == 'mask'){
         this.material = new THREE.MeshBasicMaterial( {colorWrite: false} );
+    }else{
+        if(!Tools.active){
+            this.material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0} );
+        }else{
+            var texture = new THREE.DataTexture(new Uint8Array([255, 255, 255, 204, 204, 204, 204, 204, 204, 255, 255, 255]), 2, 2, THREE.RGBFormat)
+
+            texture.magFilter = THREE.NearestFilter;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(4, 4);
+            this.material = new THREE.MeshBasicMaterial( { map: texture, transparent: true, opacity : 0.5} );
+        }
     }
 
     this.mesh = new THREE.Mesh(this.geometry, this.material ) 
@@ -137,6 +138,7 @@ Tour.areasManager.set = function(id) {
         var area = new Tour.Area(areaOptions);
         Tour.areas.push(area);
     })
+    Tour.areasManager.areas.rotation.y = Tour.mesh.rotation.y;
 
     Tour.needsUpdate = true;
 }

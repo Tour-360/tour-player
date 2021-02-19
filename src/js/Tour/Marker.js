@@ -12,15 +12,18 @@ Tour.Marker.prototype.setLatLon = function(lat, lon) {
     this.lat = lat || 0;
     this.lon = lon || 0;
 
-    var x =  -lon / 180 * Math.PI;
-    var y = (-lat + 90) / 180 * Math.PI;
+    this.setVector()
+};
 
+Tour.Marker.prototype.setVector = function() {
+    var x =  (-this.lon+Tour.getPanorama().heading) / 180 * Math.PI;
+    var y = (-this.lat + 90) / 180 * Math.PI;
     this.vector = new THREE.Vector3(
         Math.cos(x) * Math.sin(y),
         Math.cos(y),
         Math.sin(x) * Math.sin(y)
     );
-};
+}
 
 Tour.Marker.prototype.draw = function() {
     var pos = this.vector.clone().project(Tour.camera);

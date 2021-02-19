@@ -1,5 +1,5 @@
 // SHIFT
-
+AREA_DISTANCE = 20;
 
 var points = [];
 
@@ -996,8 +996,7 @@ Point.prototype.mouseMoveRotate = function(event){
       }else{
         this.cameraShift = -this.panorama.heading-Tour.view.lon.value
       }
-      Tour.mesh.rotation.set(0, Math.PI / 2 - THREE.Math.degToRad(this.panorama.heading || 0), 0);
-      Tour.needsUpdate = true;
+      utils.updatePanoRotate()
     }
 
   }else{
@@ -1094,6 +1093,9 @@ var properties = {
       point.heightFromFloor = point.panorama.heightFromFloor;
       point.floor = point.panorama.floor;
       point.draw(true);
+      if (Tour.view.id == point.panorama.id) {
+        utils.updatePanoRotate()
+      }
     })
   },
   set: function(){
@@ -1527,14 +1529,15 @@ areaEditor.set = function(points){
     // var geometry = new THREE.PlaneGeometry(width, height);
     // var material = new THREE.MeshBasicMaterial( {color: 0x000000, transparent: true} );
     // material.opacity = 0.2;
-    var dist = 10
+    var dist = AREA_DISTANCE
     this.plane = new THREE.Object3D();
 
     var vector = new THREE.Vector3(0, 0, -1);
-    vector.applyEuler(Tour.camera.rotation, Tour.camera.rotation.order);
+    var cameraRotation = Tour.camera.rotation.clone();
+    cameraRotation.y -= (Tour.mesh.rotation.y);
+    vector.applyEuler(cameraRotation, Tour.camera.rotation.order);
     this.plane.position.set(vector.x*dist, vector.y*dist, vector.z*dist);
     this.plane.lookAt(Tour.camera.position)
-
 
   ///
   this.intermediatePoints.forEach(function(intermediatePoint){
@@ -1612,7 +1615,7 @@ areaEditor.draw = function(force){
 }
 
 areaEditor.absoluteToArea = function(vector){
-  var d = 10
+  var d = AREA_DISTANCE
   var w = parent.innerWidth;
   var h = parent.innerHeight;
   var a = Math.tan(THREE.Math.degToRad(Tour.view.fov.value)/2)
@@ -1624,7 +1627,7 @@ areaEditor.absoluteToArea = function(vector){
 }
 
 areaEditor.areaToAbsolute = function(vector){
-  var d = 10
+  var d = AREA_DISTANCE
   var w = parent.innerWidth;
   var h = parent.innerHeight;
   var a = THREE.Math.radToDeg(Math.atan(Tour.view.fov.value)*2)
@@ -1677,7 +1680,7 @@ areaEditor.save = function(){
       panorama.areas.push(area);
     }
 
-    Tour.areasManager.set();
+    // Tour.areasManager.set();
     state.save();
     areas.set();
     this.set([]);
@@ -1872,6 +1875,13 @@ utils = {
     state.save();
   },
 
+ updatePanoRotate: function(){
+   Tour.mesh.rotation.set(0, Math.PI / 2 - THREE.Math.degToRad(Tour.getPanorama().heading || 0), 0);
+  Tour.areasManager.areas.rotation.y = Tour.mesh.rotation.y;
+  Tour.markers.forEach(function(m){m.setVector()})
+  Tour.needsUpdate = true;
+ },
+   
   generateNadirMap: function(){
     this.nadirMap = window.open(
       'nadirMap.html',
