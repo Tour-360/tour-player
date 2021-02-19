@@ -52,9 +52,10 @@ Tour.mousManager.check = function(event){
 Tour.mousManager.onMouseOut = function(event){
     UI.tooltip.setVisible(false)
 }
-Tour.mousManager.onMouseOver = function(event){
-    UI.tooltip.setVisible(true)
-}
+// Tour.mousManager.onMouseOver = function(event, obj){
+//     console.log(event, obj)
+//     UI.tooltip.setVisible(true)
+// }
 
 Tour.mousManager.onMouseDown = function(event){
     this.move = false;

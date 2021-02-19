@@ -16,6 +16,6 @@ UI.tooltip = {
     },
 
     setVisible: function(value) {
-        this.domElement.style.visibility = (value&&this.domElement.innerText)?'visible':'hidden';
+        this.domElement.style.visibility = (value)?'visible':'hidden';
     }
 };

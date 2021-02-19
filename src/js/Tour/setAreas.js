@@ -73,7 +73,7 @@ Tour.Area = function(options){
 
             texture.magFilter = THREE.NearestFilter;
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(4, 4);
+            texture.repeat.set(1, 1);
             this.material = new THREE.MeshBasicMaterial( { map: texture, transparent: true, opacity : 0.5} );
         }
     }
