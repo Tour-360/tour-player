@@ -56,7 +56,7 @@ Tour.Area = function(options){
             }
         }
         if(this.options.mediaId && Tour.media[this.options.mediaId]){
-            this.material = new THREE.MeshBasicMaterial( { map: Tour.media[this.options.mediaId].texture, transparent: true, side: THREE.DoubleSide} ); 
+            this.material = new THREE.MeshBasicMaterial( { map: Tour.media[this.options.mediaId].texture, transparent: true, side: THREE.DoubleSide} );
             Tour.media[this.options.mediaId].play();
             Tour.animateMedia = true;
         }else{
@@ -78,16 +78,19 @@ Tour.Area = function(options){
         }
     }
 
-    this.mesh = new THREE.Mesh(this.geometry, this.material ) 
+    this.mesh = new THREE.Mesh(this.geometry, this.material )
 
     this.mesh.rotation.set(options.rotation[0], options.rotation[1], options.rotation[2]);
     this.mesh.position.set(options.position[0], options.position[1], options.position[2]);
-    if(options.type == 'shape'){
-        this.mesh._onclick = this.go.bind(this)
-        this.mesh._onhover = this.setActive.bind(this, true);
-        this.mesh._onover = this.setActive.bind(this, false);
+    if (options.type == 'shape') {
+      this.mesh._onclick = this.go.bind(this)
+      this.mesh._onhover = (function() {
+        this.setActive(true);
+        this.mesh._title = !Tools.active ? UI.renderElement(UI.renderAreaTitle(options)) : 'id: ' + options.id;
+      }).bind(this);
+      this.mesh._onover = this.setActive.bind(this, false);
     }
-    this.mesh._title = !Tools.active? Lang.translate(UI.renderAreaTitle(options)) : 'id: '+options.id;
+    // this.mesh._title = !Tools.active? Lang.translate(UI.renderAreaTitle(options)) : 'id: '+options.id;
 
     Tour.areasManager.areas.add( this.mesh );
 }
@@ -125,7 +128,7 @@ Tour.areasManager.init = function() {
 }
 
 Tour.areasManager.set = function(id) {
-  while(this.areas.children.length > 0){ 
+  while(this.areas.children.length > 0){
         this.areas.remove(this.areas.children[0]);
     }
 
