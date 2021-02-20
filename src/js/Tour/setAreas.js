@@ -93,7 +93,7 @@ Tour.Area = function(options){
         this.setActive(true);
       }).bind(this);
       this.mesh._onover = (function() {
-        this.setActive.bind(this, false);
+        this.setActive(false);
         this.mesh._title = false;
       }).bind(this);
     }
