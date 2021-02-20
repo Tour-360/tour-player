@@ -168,7 +168,9 @@ Use a more recent file?`)){
 
 function getAreaPreView(area, callback){
   var size = 1024
-  var alpha = size/42
+  var position = area.position
+  var distance = (new THREE.Vector3(position[0], position[1], position[2]).distanceTo(Tour.camera.position));
+  var alpha = size/(distance*4.2)
   var pano = Tour.getPanorama(area.view.id)
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera( 130, 1, 1, 1100);
@@ -1492,6 +1494,9 @@ areaEditor.init = function(){
 areaEditor.edit = function(area){
   Tour.view.set(area.view);
   this.show(true);
+  var position = area.position;
+  AREA_DISTANCE = Math.round(new THREE.Vector3(position[0], position[1], position[2]).distanceTo(Tour.camera.position));
+
   this.set(area.points);
   this.editArea = area;
 }
@@ -1517,7 +1522,7 @@ areaEditor.toggle = function(){
   areaEditor.show(!this.drawMode);
 }
 
-areaEditor.set = function(points){
+areaEditor.set = function(points, distance){
 
 
     // var vFOV = THREE.Math.degToRad( Tour.camera.fov );
@@ -1527,7 +1532,7 @@ areaEditor.set = function(points){
     // var geometry = new THREE.PlaneGeometry(width, height);
     // var material = new THREE.MeshBasicMaterial( {color: 0x000000, transparent: true} );
     // material.opacity = 0.2;
-    var dist = AREA_DISTANCE
+    var dist = distance || AREA_DISTANCE
     this.plane = new THREE.Object3D();
 
     var vector = new THREE.Vector3(0, 0, -1);
