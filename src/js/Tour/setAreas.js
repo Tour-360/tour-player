@@ -60,7 +60,7 @@ Tour.Area = function(options){
             Tour.media[this.options.mediaId].play();
             Tour.animateMedia = true;
         }else{
-            this.material = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.7, side: THREE.DoubleSide} );
+            this.material = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.5, side: THREE.DoubleSide} );
         }
 
     }else if(options.type == 'mask'){
@@ -73,7 +73,9 @@ Tour.Area = function(options){
 
             texture.magFilter = THREE.NearestFilter;
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(1, 1);
+            var position = options.position;
+            var distance = (new THREE.Vector3(position[0], position[1], position[2]).distanceTo(Tour.camera.position));
+            texture.repeat.set(20/distance, 20/distance);
             this.material = new THREE.MeshBasicMaterial( { map: texture, transparent: true, opacity : 0.5} );
         }
     }
