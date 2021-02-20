@@ -85,10 +85,15 @@ Tour.Area = function(options){
     if (options.type == 'shape') {
       this.mesh._onclick = this.go.bind(this)
       this.mesh._onhover = (function() {
+        var visible = UI.tooltip.render(options);
+        this.mesh._title = visible;
+        UI.tooltip.setVisible(visible);
         this.setActive(true);
-        this.mesh._title = !Tools.active ? UI.renderElement(UI.renderAreaTitle(options)) : 'id: ' + options.id;
       }).bind(this);
-      this.mesh._onover = this.setActive.bind(this, false);
+      this.mesh._onover = (function() {
+        this.setActive.bind(this, false);
+        this.mesh._title = false;
+      }).bind(this);
     }
     // this.mesh._title = !Tools.active? Lang.translate(UI.renderAreaTitle(options)) : 'id: '+options.id;
 

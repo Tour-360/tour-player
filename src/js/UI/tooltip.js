@@ -11,6 +11,16 @@ UI.tooltip = {
         this.domElement.innerText = text;
     },
 
+    render: function(area) {
+        var title = this.renderTitle(area);
+        UI.renderElement(this.domElement, title);
+        return !!title;
+    },
+
+    renderTitle: function(area) {
+      return area.title;
+    },
+
     setPosition: function(x, y) {
         this.domElement.style.transform = 'translate(' + x + 'px,' + y + 'px)';
     },

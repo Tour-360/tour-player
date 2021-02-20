@@ -36,7 +36,7 @@ Tour.mousManager.check = function(event){
                 this.target && this.target._onover && this.target._onover();
                 this.target = obj;
                 obj._onhover();
-                obj._title && UI.tooltip.setTitle(obj._title)
+                typeof obj._title === 'string' && UI.tooltip.setTitle(obj._title)
             }
         }else{
             this.target && this.target._onover && this.target._onover();
