@@ -32,6 +32,8 @@ Lang.set = function(language, dictionary) {
         this.dictionary = dictionary;
     }
 
+    Tour.emmit('changelang', this.language);
+
     return this.language;
 };
 
