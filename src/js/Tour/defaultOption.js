@@ -1,12 +1,15 @@
 /* globals Tour */
 
-var tourPlayerFolder = document.currentScript && (document.currentScript.src
+var playerFolder = document.currentScript && (document.currentScript.src
   .split('/').slice(0,-1).join('/')) || "/";
 
 Tour.defaultOption = {
   element: '#tour-player',
+  plugins: [],
   path: 'panorams/',
-  tools: tourPlayerFolder + '/tools/tool.html',
+  playerFolder: playerFolder + '/plugins',
+  tools: playerFolder + '/tools/tool.html',
+  pluginsFolder: playerFolder,
   manifest: 'tour.json',
   tileSet: [1, 3, 4, 5, 0, 2],
   initFov: 75,

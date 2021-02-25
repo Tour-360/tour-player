@@ -10,6 +10,7 @@ Tour.init = function(domElement, options) {
     this.options.set(Tour.query.get());
     this.domElement = document.querySelector(this.options.domElement);
     Lang.set(this.options.lang, Tour.dictionary);
+    this.plugins.init();
     this.backgroundImage.init();
     this.createScene();
     this.mousManager.init();

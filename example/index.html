@@ -141,8 +141,10 @@
         </div>
         <script>
           Tour.init('#tour-player', {
+              plugins: ['db', 'modal'],
               iFrameScaleControl: false,
               tools: '/tools/tool.html',
+              pluginsFolder: '/src/plugins/',
               gallery: true,
               galleryVisible: false,
               cursor: false,
