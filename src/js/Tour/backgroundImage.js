@@ -42,15 +42,17 @@ Tour.backgroundImage.getUrl = function(callback) {
     var type = 'image/jpeg';
     var quality = .5;
 
-    if (!Tour.mesh.material[0].map.image) {
-        callback(Tour.data.backgroundImage);
-    } else if (Tour.renderer.domElement.toBlob) {
-        Tour.renderer.domElement.toBlob(function(blob) {
-            callback(URL.createObjectURL(blob));
-        }, type, quality);
-    } else if (Tour.renderer.domElement) {
+    if (Tour.renderer.domElement) {
         callback(Tour.renderer.domElement.toDataURL(type, quality));
     }
+
+    // if (!Tour.mesh.material[0].map.image) {
+    //     callback(Tour.data.backgroundImage);
+    // } else if (Tour.renderer.domElement.toBlob) {
+    //     Tour.renderer.domElement.toBlob(function(blob) {
+    //         callback(URL.createObjectURL(blob));
+    //     }, type, quality);
+    // }
 };
 
 Tour.backgroundImage.transitionStart = function(callback, zoom) {
@@ -70,7 +72,7 @@ Tour.backgroundImage.transitionStart = function(callback, zoom) {
             this.set(url, Tour.data.backgroundColor, after);
         }.bind(this));
     } else {
-        after();
+        setTimeout(after, 1);
     }
 };
 

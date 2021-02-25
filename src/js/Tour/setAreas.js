@@ -57,14 +57,21 @@ Tour.Area = function(options){
         }
         if(this.options.mediaId && Tour.media[this.options.mediaId]){
             this.material = new THREE.MeshBasicMaterial( { map: Tour.media[this.options.mediaId].texture, transparent: true, side: THREE.DoubleSide} );
-            Tour.media[this.options.mediaId].play();
-            Tour.animateMedia = true;
+            var promise = Tour.media[this.options.mediaId].play();
+            if(promise){
+                promise.catch(function(e){
+                    console.warn(e)
+                })
+            }
+            if(!Tour.media[this.options.mediaId].requestVideoFrameCallback){
+                Tour.animateMedia = true;
+            }
         }else{
             this.material = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.5, side: THREE.DoubleSide} );
         }
 
     }else if(options.type == 'mask'){
-        this.material = new THREE.MeshBasicMaterial( {colorWrite: false} );
+        this.material = new THREE.MeshBasicMaterial( {colorWrite: false, opacity: .5} );
     }else{
         if(!Tools.active){
             this.material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0} );
