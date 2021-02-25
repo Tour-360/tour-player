@@ -11,10 +11,14 @@ Tour.view.set = function(options, replaceHistory, zoom) {
 
     options = options || {};
 
+    var is = function(value, alt){
+        return (isNaN(value) || value === null)? alt : value 
+    }
+
     var set = function(){
-      this.fov = new Tour.Transition(options.fov || this.fov || Tour.options.initFov, Tour.options.limit.fov);
-      this.lat = new Tour.Transition(options.lat || this.lat || 0, Tour.options.limit.lat);
-      this.lon = new Tour.Transition(options.lon || this.lon || 0, Tour.options.limit.lon);
+      this.fov = new Tour.Transition(is(options.fov, this.fov || Tour.options.initFov), Tour.options.limit.fov);
+      this.lat = new Tour.Transition(is(options.lat, this.lat || 0) || this.lat || 0, Tour.options.limit.lat);
+      this.lon = new Tour.Transition(is(options.lon, this.lon || 0), Tour.options.limit.lon);
       Tour.history.set(!replaceHistory);
       Tour.emmit('changeView', Tour.view.get());
     }.bind(this)
