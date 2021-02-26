@@ -159,11 +159,11 @@ class Floors {
     const floorItem = document.createElement('floor-item');
     floorItem.title = floor.title;
     floorItem.height = floor.height;
-    floorItem.x = floor.plan.x || '0';
-    floorItem.y = floor.plan.y || '0';
-    floorItem.src = floor.plan.src;
-    floorItem.width = floor.plan.width;
-    floorItem.opacity = floor.plan.opacity || '1';
+    floorItem.x = floor.plan?.x || '0';
+    floorItem.y = floor.plan?.y || '0';
+    floorItem.src = floor.plan?.src || '';
+    floorItem.width = floor.plan?.width || '';
+    floorItem.opacity = floor.plan?.opacity || '1';
 
     floorItem.addEventListener('change', this.handleChange);
     floorItem.addEventListener('dblclick', () => {
