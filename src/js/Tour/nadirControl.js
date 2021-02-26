@@ -1,31 +1,69 @@
-Tour.Arrow = function(point){
-    var a = .12; // длинна стрелки
-    var b = a-0.03; // толщина стрелки
-    var c = 0; // Сдвиг по высоте
+Tour.generateArrow = function(){
+    var a = .12; // Длина стрелки
+    var w = 0.03 // Толщина стрелки
+    var c = 0;   // Сдвиг по высоте
     var s = 0.4; // Удаленность от центра
+    var x = .15  // Длина центральной части
     var n = BrouserInfo.mobile ? 0.15 : 0.05; // Увиличениее интеерактивной зоны
+
+    var e = (w/2/Math.SQRT2)
+    var f = (w/2*Math.SQRT2)
+    var j = (x*Math.SQRT2)
+
+    var p = [
+        [-a-s,   -a-s],   // 0
+        [-a-s,    a-s],   // 1
+        [-a+w-s,  a-s],   // 2
+        [-a+w-s, -a+w-s], // 3
+        [a-s,    -a+w-s], // 4
+        [a-s,    -a-s],   // 5
+
+        [-a+w-s+f,   -a+w-s],     // 6
+        [-a+w-s+j+e, -a+w-s+j-e], // 7
+        [-a+w-s+j-e, -a+w-s+j+e], // 8
+        [-a+w-s,     -a+w-s+f]    // 9
+    ]
+
+    var q = (n*Math.SQRT2)
+
+    return {
+        arrow: new Float32Array( [
+            p[0][0], p[0][1], c,  p[5][0], p[5][1], c,  p[4][0], p[4][1], c,
+            p[0][0], p[0][1], c,  p[4][0], p[4][1], c,  p[3][0], p[3][1], c,
+            p[1][0], p[1][1], c,  p[0][0], p[0][1], c,  p[3][0], p[3][1], c,
+            p[1][0], p[1][1], c,  p[3][0], p[3][1], c,  p[2][0], p[2][1], c,
+            // p[3][0], p[3][1], c,  p[6][0], p[6][1], c,  p[7][0], p[7][1], c,
+            // p[3][0], p[3][1], c,  p[9][0], p[9][1], c,  p[8][0], p[8][1], c,
+            // p[3][0], p[3][1], c,  p[7][0], p[7][1], c,  p[8][0], p[8][1], c,
+        ]), 
+        interactive: new Float32Array( [
+            -n, -n, 0,  +n,   -n,   0, +n, +n, 0,
+            -n, -n, 0,  +n,   +n,   0, +n, +n, 0,
+            -n, +n, 0,  -n,   -n,   0, +n, +n, 0,
+            -n, +n, 0,  +n,   +n,   0, +n, +n, 0,
+            // +n, +n, 0,  +n+q, +n,   0, +q,  0, 0,
+            // +n, +n, 0,  +n,   +n+q, 0,  0, +q, 0,
+            // +n, +n, 0,  +q,    0,   0,  0, +q, 0,
+        ]),
+
+        interactiveVisible: false
+    }
+}
+
+
+Tour.Arrow = function(point){
 
     this.point = point;
 
-    
-    var vertices = new Float32Array( [
-        -a-s, -a-s, c,   a-s, -a-s, c,   a-s, -b-s, c,
-        -a-s, -a-s, c,   a-s, -b-s, c,  -b-s, -b-s, c,
-        -a-s,  a-s, c,  -a-s, -a-s, c,  -b-s, -b-s, c,
-        -a-s,  a-s, c,  -b-s, -b-s, c,  -b-s,  a-s, c,
-    ]);
+    var vertices = Tour.generateArrow()
+
     var geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute( vertices, 3 ) );
+    geometry.setAttribute('position', new THREE.BufferAttribute( vertices.arrow, 3 ) );
 
-
-    var rectVertices = new Float32Array( [
-        -a-s-n, -a-s-n, c,   a-s+n, -a-s-n, c,   a-s+n, -b-s+n, c,
-        -a-s-n, -a-s-n, c,   a-s+n, -b-s+n, c,  -b-s+n, -b-s+n, c,
-        -a-s-n,  a-s+n, c,  -a-s-n, -a-s-n, c,  -b-s+n, -b-s+n, c,
-        -a-s-n,  a-s+n, c,  -b-s+n, -b-s+n, c,  -b-s+n,  a-s+n, c,
-    ]);
     var rectGeometry = new THREE.BufferGeometry();
-    rectGeometry.setAttribute( 'position', new THREE.BufferAttribute( rectVertices, 3 ) );
+    rectGeometry.setAttribute( 'position', new THREE.BufferAttribute( vertices.arrow.map(function(n, i){
+        return n+vertices.interactive[i]
+    }), 3 ) );
 
 
     this.arrow = new THREE.Mesh( geometry, Tour.nadirControl.arrowMaterial);
@@ -47,8 +85,8 @@ Tour.Arrow = function(point){
     this.shadow.rotation.copy(this.arrow.rotation)
     Tour.nadirControl.shadows.add(this.shadow);
 
-    this.rect = new THREE.Mesh(rectGeometry);
-    this.rect.visible = false;
+    this.rect = new THREE.Mesh(rectGeometry, new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: .5, side: THREE.DoubleSide} ));
+    this.rect.visible = vertices.interactiveVisible;
     this.rect.rotation.copy(this.arrow.rotation);
     this.rect._onclick = this.go.bind(this)
     this.rect._onhover = this.setActive.bind(this, true);
@@ -96,9 +134,9 @@ Tour.nadirControl.init = function() {
     this.group.add(this.rects);
     Tour.camera.add(this.group);
 
-    this.arrowMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, side: THREE.DoubleSide});
-    this.activeArrowMaterial = new THREE.MeshBasicMaterial( { color: 0xe0e0e0, side: THREE.DoubleSide});
-    this.shadowMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true, opacity: 0.2} );
+    this.arrowMaterial = this.arrowMaterial || new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, side: THREE.DoubleSide});
+    this.activeArrowMaterial = this.activeArrowMaterial || new THREE.MeshBasicMaterial( { color: 0xe0e0e0, side: THREE.DoubleSide});
+    this.shadowMaterial = this.shadowMaterial || new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true, opacity: 0.2} );
 }
 
 Tour.nadirControl.getDistance = function(rot1, rot2) {
