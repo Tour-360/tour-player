@@ -143,7 +143,9 @@ class Field extends HTMLElement {
   }
 
   get value() {
-    return this.getAttribute('value');
+    const value = this.getAttribute('value');
+    const type = this.getAttribute('type');
+    return type === "number" ? parseFloat(value) : value;
   }
 
   set status(value) {

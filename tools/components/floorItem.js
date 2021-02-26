@@ -215,7 +215,7 @@ class FloorItem extends HTMLElement {
   }
 
   get height() {
-    return this.getAttribute('height');
+    return parseFloat(this.getAttribute('height'));
   }
 
   set src(value) {
@@ -231,7 +231,7 @@ class FloorItem extends HTMLElement {
   }
 
   get x() {
-    return this.getAttribute('x');
+    return parseFloat(this.getAttribute('x'));
   }
 
   set y(value) {
@@ -239,7 +239,7 @@ class FloorItem extends HTMLElement {
   }
 
   get y() {
-    return this.getAttribute('y');
+    return parseFloat(this.getAttribute('y'));
   }
 
   set width(value) {
@@ -247,7 +247,7 @@ class FloorItem extends HTMLElement {
   }
 
   get width() {
-    return this.getAttribute('width');
+    return parseFloat(this.getAttribute('width'));
   }
 
   set opacity(value) {
@@ -255,7 +255,7 @@ class FloorItem extends HTMLElement {
   }
 
   get opacity() {
-    return this.getAttribute('opacity');
+    return parseFloat(this.getAttribute('opacity'));
   }
 
   attributeChangedCallback(name, oldValue, newValue) {

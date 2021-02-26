@@ -129,6 +129,8 @@ class Floors {
 
     floor.title = e.target.title;
     floor.height = e.target.height;
+
+    if (!floor.plan) floor.plan = {};
     floor.plan.width = e.target.width;
     floor.plan.src = e.target.src;
     floor.plan.x = e.target.x;
