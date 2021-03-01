@@ -8,7 +8,7 @@ Tour.orientationControls = {
             this.controls.disconnect();
             window.addEventListener('deviceorientation', this.detectDevice);
             window.addEventListener('deviceorientation', function(event){
-                Tour.emit('deviceOrientation', event);
+                Tour.emmit('deviceOrientation', event);
                 Tour.orientationControls.orientation = event; 
             });
         }
@@ -21,16 +21,16 @@ Tour.orientationControls = {
                 if (permissionState == 'granted') {
                     if(!ctrl.enabled && value){
                         ctrl.connect();
-                        Tour.emit('deviceOrientationChange', true);
+                        Tour.emmit('deviceOrientationChange', true);
                     }else if(ctrl.enabled && !value){
                         ctrl.disconnect();
-                        Tour.emit('deviceOrientationChange', false);
+                        Tour.emmit('deviceOrientationChange', false);
                         Tour.orientationControls.orientation = null;
                     }
                 }
             }).catch(function(permissionState){
                 ctrl.disconnect();
-                Tour.emit('deviceOrientationChange', false);
+                Tour.emmit('deviceOrientationChange', false);
                 Tour.orientationControls.orientation = null;
             });
         }
