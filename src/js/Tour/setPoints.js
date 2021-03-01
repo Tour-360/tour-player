@@ -33,12 +33,12 @@ Tour.Point = function(options, index){
     this.set();
 }
 
-Tour.Point.innerRadius = 0.3
-Tour.Point.outerRadius = 0.38
+Tour.Point.innerRadius = 0.3;
+Tour.Point.outerRadius = 0.38;
 
 
 Tour.Point.prototype.go = function(value){
-    Tour.view.set({id:this.pano}, null, Math.abs((this.lon - Tour.view.lon)%360) < 20);
+    Tour.view.set({id:this.pano}, null, Math.abs((this.lon - Tour.view.lon)%360) < 20 && Math.abs(Tour.view.lat) < 45);
 }
 
 Tour.Point.prototype.setActive = function(value){
