@@ -105,7 +105,7 @@ Tour.Arrow.prototype.setActive = function(value){
 }
 
 Tour.Arrow.prototype.go = function(){
-    Tour.view.set({id:this.point.pano, lon:this.point.panoLon-(this.point.lon-Tour.view.lon.value)}, null, Math.abs((this.point.lon-Tour.view.lon)%360) < 20);
+    Tour.view.set({id:this.point.pano, lon:this.point.panoLon-(this.point.lon-Tour.view.lon.value)}, null, Math.abs((this.point.lon-Tour.view.lon)%360) < 20 && Math.abs(Tour.view.lat) < 45);
 }
 
 Tour.Arrow.prototype.remove = function(){
