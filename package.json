@@ -16,6 +16,11 @@
     "delete-models": "rm -rf ./bower_components/threejs/examples/models/ && rm -rf ./bower_components/threejs-r97/examples/models/",
     "prepare": "husky install"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "keywords": [
     "tour",
     "virtual",
