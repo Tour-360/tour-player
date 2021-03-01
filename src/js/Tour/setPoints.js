@@ -1,14 +1,16 @@
 /* globals Tour, Lang, UI */
 
-Tour.Point = function(options, index){
-    this.material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true} );
-    this.materialActive = new THREE.MeshBasicMaterial( { color: 0xffffff} );
 
-    this.ringGeometry = new THREE.RingGeometry( 0.3, 0.38, 32 );
+
+Tour.Point = function(options, index){
+    this.material = Tour.Point.material || new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true} );
+    this.materialActive = Tour.Point.materialActive || new THREE.MeshBasicMaterial( { color: 0xffffff} );
+
+    this.ringGeometry = new THREE.RingGeometry( Tour.Point.innerRadius, Tour.Point.outerRadius, 32 );
     this.ring = new THREE.Mesh( this.ringGeometry, this.material );
     this.ring.rotation.set(-Math.PI/2, 0, 0);
 
-    this.circleGeometry = new THREE.CircleGeometry( 0.4, 16 );
+    this.circleGeometry = new THREE.CircleGeometry( Tour.Point.outerRadius, 16 );
     this.circle = new THREE.Mesh( this.circleGeometry);
     this.circle.visible = false;
     this.circle.rotation.set(-Math.PI/2, 0, 0);
@@ -30,6 +32,10 @@ Tour.Point = function(options, index){
     Tour.pointsManager.circles.add(this.circle);
     this.set();
 }
+
+Tour.Point.innerRadius = 0.3
+Tour.Point.outerRadius = 0.38
+
 
 Tour.Point.prototype.go = function(value){
     Tour.view.set({id:this.pano}, null, Math.abs((this.lon - Tour.view.lon)%360) < 20);
