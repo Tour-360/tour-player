@@ -13,11 +13,9 @@
     "postversion": "gulp build && npm run build-plugins && gulp deploy || gulp deploy",
     "start": "node index.js",
     "test": "gulp lint",
-    "delete-models": "rm -rf ./bower_components/threejs/examples/models/ && rm -rf ./bower_components/threejs-r97/examples/models/"
+    "delete-models": "rm -rf ./bower_components/threejs/examples/models/ && rm -rf ./bower_components/threejs-r97/examples/models/",
+    "prepare": "husky install"
   },
-  "pre-commit": [
-    "npx prettier ./src/js/ ./src/plugins/ --write"
-  ],
   "keywords": [
     "tour",
     "virtual",
@@ -65,7 +63,6 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "pre-commit": "^1.2.2",
     "prettier": "^2.2.1"
   }
 }
