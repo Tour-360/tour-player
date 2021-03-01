@@ -156,7 +156,7 @@ Tour.controls = {
 
     toggleControls: function() {
         if (window.isSecureContext) {
-            Tour.orientationControls.toggle()
+            Tour.orientationControls.toggle();
         }
     },
 
