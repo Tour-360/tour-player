@@ -4,16 +4,22 @@ Tour.mousManager = {
 
 Tour.mousManager.init = function(){
     Tour.renderer.domElement.addEventListener('mousemove', this.onMouseMove.bind(this), false);
+    Tour.renderer.domElement.addEventListener('touchmove', this.onMouseMove.bind(this), false);
+
     Tour.renderer.domElement.addEventListener('mousedown', this.onMouseDown.bind(this), false);
+    Tour.renderer.domElement.addEventListener('touchstart', this.onMouseDown.bind(this), false);
+
     Tour.renderer.domElement.addEventListener('mouseup', this.onMouseUp.bind(this), false);
+    Tour.renderer.domElement.addEventListener('touchend', this.onMouseUp.bind(this), false);
+
     Tour.renderer.domElement.addEventListener('mouseout', this.onMouseOut.bind(this), false);
-    Tour.renderer.domElement.addEventListener('mouseover', this.onMouseOut.bind(this), false);
+    Tour.renderer.domElement.addEventListener('touchcancel', this.onMouseOut.bind(this), false);
 }
 
 Tour.mousManager.getVector = function(event){
     var vector = new THREE.Vector2();
-    vector.x = ((event.clientX - Tour.domElement.offsetLeft) / Tour.width) * 2 - 1;
-    vector.y = -((event.clientY - Tour.domElement.offsetTop) / Tour.height) * 2 + 1;
+    vector.x = ((event.pageX - Tour.domElement.offsetLeft) / Tour.width) * 2 - 1;
+    vector.y = -((event.pageY - Tour.domElement.offsetTop) / Tour.height) * 2 + 1;
     return vector;
 }
 
@@ -45,21 +51,19 @@ Tour.mousManager.check = function(event){
 
         UI.layout.setActive(!!obj._onclick);
         UI.tooltip.setVisible(!!obj._title);
-        obj._title && UI.tooltip.setPosition(event.clientX, event.clientY)
+        obj._title && UI.tooltip.setPosition(event.pageX, event.pageY)
     }
 }
 
 Tour.mousManager.onMouseOut = function(event){
-    UI.tooltip.setVisible(false)
+    UI.tooltip.setVisible(false);
+    event.preventDefault();
 }
-// Tour.mousManager.onMouseOver = function(event, obj){
-//     console.log(event, obj)
-//     UI.tooltip.setVisible(true)
-// }
 
 Tour.mousManager.onMouseDown = function(event){
     this.move = false;
     this.startMouse = this.getVector(event);
+    event.preventDefault();
 }
 
 Tour.mousManager.onMouseMove = function(event){
@@ -69,6 +73,7 @@ Tour.mousManager.onMouseMove = function(event){
         return false
     }
     this.check(event)
+    event.preventDefault();
 }
 
 Tour.mousManager.onMouseUp = function(event){
@@ -79,4 +84,5 @@ Tour.mousManager.onMouseUp = function(event){
             this.target._onclick(event);
         }
     }
+    event.preventDefault();
 }

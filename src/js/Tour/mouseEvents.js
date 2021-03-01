@@ -4,30 +4,20 @@ Tour.mouseEvents = {};
 
 Tour.mouseEvents._setCinetic = function(event) {
     if (
-        (event.clientX || event.clientY) &&
+        (event.pageX || event.pageY) &&
         (event.scale == undefined || event.scale == 1) &&
         (event.touches == undefined || event.touches.length == 1) &&
-        !(this.previousEvent.clientX == event.clientX && this.previousEvent.clientY == event.clientY)
+        !(this.previousEvent.pageX == event.pageX && this.previousEvent.pageY == event.pageY)
     ) {
         var alpha = Tour.view.fov.value / Tour.options.initFov / Tour.options.mouseSensitivity;
-        this.cineticLon = (event.clientX - this.previousEvent.clientX) * alpha;
-        this.cineticLat = (event.clientY - this.previousEvent.clientY) * alpha;
+        this.cineticLon = (event.pageX - this.previousEvent.pageX) * alpha;
+        this.cineticLat = (event.pageY - this.previousEvent.pageY) * alpha;
     } else if (event.timeStamp - this.previousEvent.timeStamp > 40) {
         this.cineticLon = this.cineticLat = 0;
     }
     this.previousEvent = event;
 };
 
-Tour.mouseEvents._touches2mouse = function(event) {
-    if (event.touches  && event.touches.length) {
-        event.clientX = event.touches[0].pageX * window.devicePixelRatio;
-        event.clientY = event.touches[0].pageY * window.devicePixelRatio;
-
-        if (event.defaultPrevented) {
-            event.preventDefault();
-        }
-    }
-};
 
 Tour.mouseEvents.wheel = function(event) {
 
@@ -50,6 +40,8 @@ Tour.mouseEvents.wheel = function(event) {
             Tour.history.set();
         }, 300);
     }
+
+    event.preventDefault();
 };
 
 Tour.mouseEvents.down = function(event) {
@@ -61,12 +53,13 @@ Tour.mouseEvents.down = function(event) {
         return false;
     }
 
-    this.mouseEvents._touches2mouse(event);
+    // this.mouseEvents._touches2mouse(event);
 
     this.mouseEvents.drag = true;
     this.controls.autoRotate(false);
     this.mouseEvents.previousEvent = event;
     Tour.emmit('touchstart');
+    event.preventDefault();
 };
 
 Tour.mouseEvents.move = function(event) {
@@ -78,19 +71,19 @@ Tour.mouseEvents.move = function(event) {
             Tour.mouseEvents.gesturechange(event)
         }
     }else if(this.mouseEvents.drag && (event.touches ? this.options.touchDrag : true)) {
-        this.mouseEvents._touches2mouse(event);
+        // this.mouseEvents._touches2mouse(event);
 
         var alpha = 4.5 / (Math.PI / Math.tan((Tour.view.fov.value/ 180 * Math.PI) / 2)) / Tour.options.mouseSensitivity;
-        this.view.lon.set(this.view.lon.value + (event.clientX - this.mouseEvents.previousEvent.clientX) * alpha);
-        this.view.lat.set(this.view.lat.value + (event.clientY - this.mouseEvents.previousEvent.clientY) * alpha);
+        this.view.lon.set(this.view.lon.value + (event.pageX - this.mouseEvents.previousEvent.pageX) * alpha);
+        this.view.lat.set(this.view.lat.value + (event.pageY - this.mouseEvents.previousEvent.pageY) * alpha);
         this.mouseEvents._setCinetic(event);
         Tour.emmit('touchmove');
     }
+    event.preventDefault();
 };
 
 Tour.mouseEvents.up = function(event) {
     if (this.mouseEvents.drag && !this.mouseEvents.startDistance) {
-        this.mouseEvents._touches2mouse(event);
         this.mouseEvents._setCinetic(event);
 
         this.view.rotation.lat = this.mouseEvents.cineticLat;
@@ -104,12 +97,13 @@ Tour.mouseEvents.up = function(event) {
     this.mouseEvents.drag = false;
     this.mouseEvents.startFov = 0;
     this.mouseEvents.startDistance = 0;
+    event.preventDefault();
 };
 
 
 Tour.mouseEvents.getDistance = function(event){
-    var w = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
-    var h = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
+    var w = Math.abs(event.touches[0].pageX - event.touches[1].pageX);
+    var h = Math.abs(event.touches[0].pageY - event.touches[1].pageY);
 
     return Math.sqrt(w*w + h*h)
 }
