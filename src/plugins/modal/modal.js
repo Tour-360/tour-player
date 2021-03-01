@@ -213,7 +213,6 @@ class Modal {
     this.opened = true;
     this.update();
     this.container.open(this.id);
-    Tour.emmit("modalOpen", this.id);
   }
 
   close() {
@@ -221,7 +220,6 @@ class Modal {
     this.opened = false;
     this.container.close();
     this.contentElement.scroll(0, 0);
-    Tour.emmit("modalClose", this.id);
   }
 
   remove() {
