@@ -57,12 +57,7 @@ Tour.Area = function(options){
         }
         if(this.options.mediaId && Tour.media[this.options.mediaId]){
             this.material = new THREE.MeshBasicMaterial( { map: Tour.media[this.options.mediaId].texture, transparent: true, side: THREE.DoubleSide} );
-            var promise = Tour.media[this.options.mediaId].play();
-            if(promise){
-                promise.catch(function(e){
-                    console.warn(e)
-                })
-            }
+            Tour.media[this.options.mediaId].play();
             if(!Tour.media[this.options.mediaId].requestVideoFrameCallback){
                 Tour.animateMedia = true;
             }

@@ -14,10 +14,14 @@ Tour.Media = function(options) {
         this.videoElement = document.createElement('video');
         this.videoElement.preload = options.preload || 'none';
         this.videoElement.src = options.src + Tour.getRandomQuery();
-        this.videoElement.autoplay =  options.autoplay;
-        this.videoElement.loop = options.loop;
-        this.videoElement.muted = options.muted == undefined ? true : false;
-        this.videoElement.preload = 'none'
+
+        this.videoElement.setAttribute("playsinline", true);
+        this.videoElement.setAttribute("loop", options.loop == undefined ? true : false);
+        this.videoElement.setAttribute("muted", options.muted == undefined ? true : false);
+        this.videoElement.setAttribute("autoplay", options.autoplay || false);
+        this.videoElement.setAttribute("preload", 'none');
+        this.videoElement.setAttribute("crossOrigin", "anonymous");
+
         this.texture = new THREE.VideoTexture(this.videoElement);
         if('requestVideoFrameCallback' in this.videoElement){
             this.videoElement.requestVideoFrameCallback(updateVideo);
@@ -26,6 +30,11 @@ Tour.Media = function(options) {
 };
 
 Tour.Media.prototype.play = function(){
-    this.videoElement.play();
+    var promise = this.videoElement.play();
+    if(promise){
+        promise.catch(function(e){
+            console.warn(e)
+        })
+    }
 }
 
