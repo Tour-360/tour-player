@@ -232,7 +232,7 @@ Tour.nadirControl.update = function() {
     if (!Tour.options.nadirControl ) {
         return false
     }
-    this.group.rotation.set(-Math.PI/2-Tour.camera.rotation.x, 0, -Tour.camera.rotation.y-4);
+    this.group.rotation.set(-Math.PI/2-Tour.camera.rotation.x, Tour.camera.rotation.z, -Tour.camera.rotation.y-4);
     this.group.position.y = (1+Tour.camera.rotation.x/(Math.PI/2))*-1.2;
 
     var start = 20
