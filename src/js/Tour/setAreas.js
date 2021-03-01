@@ -71,7 +71,7 @@ Tour.Area = function(options){
         }
 
     }else if(options.type == 'mask'){
-        this.material = new THREE.MeshBasicMaterial( {colorWrite: false, opacity: .5} );
+        this.material = new THREE.MeshBasicMaterial( {colorWrite: false} );
     }else{
         if(!Tools.active){
             this.material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0} );
@@ -91,16 +91,16 @@ Tour.Area = function(options){
 
     this.mesh.rotation.set(options.rotation[0], options.rotation[1], options.rotation[2]);
     this.mesh.position.set(options.position[0], options.position[1], options.position[2]);
-    if (options.type == 'shape') {
+    if (options.type != 'mask' && options.id) {
       this.mesh._onclick = this.go.bind(this)
       this.mesh._onhover = (function() {
         var visible = UI.tooltip.render(options);
         this.mesh._title = visible;
         UI.tooltip.setVisible(visible);
-        this.setActive(true);
+        if (options.type == 'shape')this.setActive(true);
       }).bind(this);
       this.mesh._onover = (function() {
-        this.setActive(false);
+        if (options.type == 'shape')this.setActive(false);
         this.mesh._title = false;
       }).bind(this);
     }
