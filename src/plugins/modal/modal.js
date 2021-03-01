@@ -65,7 +65,7 @@ class ModalContainer {
       modal.opened = false;
       modal.element.classList.remove("opened");
     });
-    Tour.emit("modalClose", modalId);
+    Tour.emmit("modalClose", modalId);
     history && this.historyPush(null);
   }
 
@@ -80,7 +80,7 @@ class ModalContainer {
     if (matchCounter) {
       this.element.classList.add("opened");
       document.addEventListener("keyup", this.handleKeyUp);
-      Tour.emit("modalOpen", modalId);
+      Tour.emmit("modalOpen", modalId);
     }
     history && this.historyPush(modalId);
   }
@@ -213,7 +213,7 @@ class Modal {
     this.opened = true;
     this.update();
     this.container.open(this.id);
-    Tour.emit("modalOpen", this.id);
+    Tour.emmit("modalOpen", this.id);
   }
 
   close() {
@@ -221,7 +221,7 @@ class Modal {
     this.opened = false;
     this.container.close();
     this.contentElement.scroll(0, 0);
-    Tour.emit("modalClose", this.id);
+    Tour.emmit("modalClose", this.id);
   }
 
   remove() {
