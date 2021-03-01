@@ -3,19 +3,24 @@
 Tour.addEventListeners = function() {
     var active = { passive: false };
 
-    this.renderer.domElement.addEventListener('dblclick',  Tour.controls.fullscreen.bind(this), active);
-    this.renderer.domElement.addEventListener('mousedown', Tour.mouseEvents.down.bind(this), active);
-    this.renderer.domElement.addEventListener('touchstart', Tour.mouseEvents.down.bind(this), active);
-    this.renderer.domElement.addEventListener('mousewheel', Tour.mouseEvents.wheel.bind(this), active);
-    this.renderer.domElement.addEventListener('wheel', Tour.mouseEvents.wheel.bind(this), active);
+    var element = Tour.renderer.domElement;
+
+    element.addEventListener('dblclick',  Tour.controls.fullscreen.bind(this), active);
+    
+    element.addEventListener('mousedown', Tour.mouseEvents.down.bind(this), active);
+    element.addEventListener('touchstart', Tour.mouseEvents.down.bind(this), active);
+
+    element.addEventListener('mousewheel', Tour.mouseEvents.wheel.bind(this), active);
+    element.addEventListener('wheel', Tour.mouseEvents.wheel.bind(this), active);
 
     // this.renderer.domElement.addEventListener('gesturestart', Tour.mouseEvents.gesturestart.bind(this), active);
     // this.renderer.domElement.addEventListener('gesturechange', Tour.mouseEvents.gesturechange.bind(this), active);
 
-    document.addEventListener('mousemove', Tour.mouseEvents.move.bind(this), active);
-    document.addEventListener('touchmove', Tour.mouseEvents.move.bind(this), active);
-    document.addEventListener('mouseup', Tour.mouseEvents.up.bind(this), active);
-    document.addEventListener('touchend', Tour.mouseEvents.up.bind(this), active);
+    element.addEventListener('mousemove', Tour.mouseEvents.move.bind(this), active);
+    element.addEventListener('touchmove', Tour.mouseEvents.move.bind(this), active);
+
+    element.addEventListener('mouseup', Tour.mouseEvents.up.bind(this), active);
+    element.addEventListener('touchend', Tour.mouseEvents.up.bind(this), active);
 
     document.addEventListener('fullscreenchange', Tour.fullscreenEvents.change, active);
     document.addEventListener('webkitfullscreenchange', Tour.fullscreenEvents.change, active);
