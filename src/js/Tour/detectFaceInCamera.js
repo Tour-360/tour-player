@@ -2,6 +2,7 @@
 
 Tour.detectFaceInCamera = function() {
     var raycaster = new THREE.Raycaster();
+    // prettier-ignore
     var faces = [0,0,0,0,0,0];
     var vector = new THREE.Vector2();
     for (var y = -1; y < 1; y += 0.2) { for (var x = -1; x < 1; x += 0.2) {

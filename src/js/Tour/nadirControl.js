@@ -10,6 +10,7 @@ Tour.generateArrow = function(){
     var f = (w/2*Math.SQRT2)
     var j = (x*Math.SQRT2)
 
+    // prettier-ignore
     var p = [
         [-a-s,   -a-s],   // 0
         [-a-s,    a-s],   // 1
@@ -26,6 +27,7 @@ Tour.generateArrow = function(){
 
     var q = (n*Math.SQRT2)
 
+    // prettier-ignore
     return {
         arrow: new Float32Array( [
             p[0][0], p[0][1], c,  p[5][0], p[5][1], c,  p[4][0], p[4][1], c,
@@ -35,7 +37,7 @@ Tour.generateArrow = function(){
             // p[3][0], p[3][1], c,  p[6][0], p[6][1], c,  p[7][0], p[7][1], c,
             // p[3][0], p[3][1], c,  p[9][0], p[9][1], c,  p[8][0], p[8][1], c,
             // p[3][0], p[3][1], c,  p[7][0], p[7][1], c,  p[8][0], p[8][1], c,
-        ]), 
+        ]),
         interactive: new Float32Array( [
             -n, -n, 0,  +n,   -n,   0, +n, +n, 0,
             -n, -n, 0,  +n,   +n,   0, +n, +n, 0,
@@ -107,9 +109,9 @@ Tour.Arrow.prototype.go = function(){
 }
 
 Tour.Arrow.prototype.remove = function(){
-    Tour.nadirControl.arrows.remove(this.arrow); 
-    Tour.nadirControl.shadows.remove(this.shadow); 
-    Tour.nadirControl.rects.remove(this.rect); 
+    Tour.nadirControl.arrows.remove(this.arrow);
+    Tour.nadirControl.shadows.remove(this.shadow);
+    Tour.nadirControl.rects.remove(this.rect);
 }
 
 Tour.nadirControl = {};
@@ -182,7 +184,7 @@ Tour.nadirControl.getPoints = function() {
             var arrows = pano.links.map(function(link){
                 var point = Tour.getPanorama(link.id);
                 var vector
-                var lon 
+                var lon
                 if(link.x == undefined && link.y == undefined){
                     vector = Tour.utils.getVector(pano, point);
                 }else{

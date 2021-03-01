@@ -11,6 +11,7 @@ Tour.createScene = function() {
     this.camera.rotation._order = "YXZ";
 
     if (Tour.options.rendererType == 'css') {
+        // prettier-ignore
         var sides = [
             [[-1,0, 0],[0,  0.5, 0]],
             [[1, 0, 0],[0, -0.5, 0]],
