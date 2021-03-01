@@ -46,6 +46,7 @@ class ModalContainer {
       if (modal.opened) {
         modal.opened = false;
         modal.element.classList.remove("opened");
+        Tour.emmit("modalClose");
       }
     });
     this.historyPush(null);
