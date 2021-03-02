@@ -51,19 +51,17 @@ Tour.mousManager.check = function(event){
 
         UI.layout.setActive(!!obj._onclick);
         UI.tooltip.setVisible(!!obj._title);
-        obj._title && UI.tooltip.setPosition(event.pageX, event.pageY)
+        obj._title && UI.tooltip.setPosition(event.clientX, event.clientY)
     }
 }
 
 Tour.mousManager.onMouseOut = function(event){
-    UI.tooltip.setVisible(false);
-    event.preventDefault();
+    UI.tooltip.setVisible(false)
 }
 
 Tour.mousManager.onMouseDown = function(event){
     this.move = false;
     this.startMouse = this.getVector(event);
-    event.preventDefault();
 }
 
 Tour.mousManager.onMouseMove = function(event){
@@ -73,7 +71,6 @@ Tour.mousManager.onMouseMove = function(event){
         return false
     }
     this.check(event)
-    event.preventDefault();
 }
 
 Tour.mousManager.onMouseUp = function(event){
@@ -84,5 +81,4 @@ Tour.mousManager.onMouseUp = function(event){
             this.target._onclick(event);
         }
     }
-    event.preventDefault();
 }
