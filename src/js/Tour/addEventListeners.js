@@ -16,11 +16,11 @@ Tour.addEventListeners = function() {
     // this.renderer.domElement.addEventListener('gesturestart', Tour.mouseEvents.gesturestart.bind(this), active);
     // this.renderer.domElement.addEventListener('gesturechange', Tour.mouseEvents.gesturechange.bind(this), active);
 
-    element.addEventListener('mousemove', Tour.mouseEvents.move.bind(this), active);
-    element.addEventListener('touchmove', Tour.mouseEvents.move.bind(this), active);
+    document.addEventListener('mousemove', Tour.mouseEvents.move.bind(this), active);
+    document.addEventListener('touchmove', Tour.mouseEvents.move.bind(this), active);
 
-    element.addEventListener('mouseup', Tour.mouseEvents.up.bind(this), active);
-    element.addEventListener('touchend', Tour.mouseEvents.up.bind(this), active);
+    document.addEventListener('mouseup', Tour.mouseEvents.up.bind(this), active);
+    document.addEventListener('touchend', Tour.mouseEvents.up.bind(this), active);
 
     document.addEventListener('fullscreenchange', Tour.fullscreenEvents.change, active);
     document.addEventListener('webkitfullscreenchange', Tour.fullscreenEvents.change, active);
