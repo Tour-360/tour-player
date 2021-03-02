@@ -11,7 +11,7 @@ Tour.Area = function(options){
 
     if(options.type == 'media'){
         this.geometry = new THREE.Geometry();
-        var s = 8;
+        var s = BrouserInfo.mobile?8:16;
         var v = this.options.points.map(function(p){
             return {x:p[0], y:p[1]}
         })

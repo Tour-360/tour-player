@@ -13,7 +13,7 @@ Tour.Media = function(options) {
     if(options.type == 'video'){
         this.videoElement = document.createElement('video');
         this.videoElement.preload = options.preload || 'none';
-        this.videoElement.src = options.src + Tour.getRandomQuery();
+        this.videoElement.src = ((BrouserInfo.mobile && Tour.options.mobileVideoScale)? options.src.replace('.', '@'+Tour.options.mobileVideoScale+'.'):options.src) + Tour.getRandomQuery();
 
         this.videoElement.setAttribute("playsinline", true);
         this.videoElement.setAttribute("loop", options.loop == undefined ? true : false);
