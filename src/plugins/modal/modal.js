@@ -276,6 +276,10 @@ class Modal {
 
     const offsetX = finger.clientX - this.touchStart.x;
     const offsetY = finger.clientY - this.touchStart.y;
+    if (Math.abs(offsetX) > offsetY) {
+      return;
+    }
+
     const scale = Math.max(
       1 - Math.pow(offsetY / document.documentElement.clientHeight, 2),
       0.7
