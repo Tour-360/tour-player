@@ -198,6 +198,7 @@ class Modal {
   }
 
   renderElement(element, content) {
+    element.innerHTML = "";
     if (content instanceof HTMLElement) {
       element.appendChild(content);
     } else {
