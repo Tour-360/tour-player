@@ -93,6 +93,7 @@ Tour.Arrow = function(point){
     this.rect._onclick = this.go.bind(this)
     this.rect._onhover = this.setActive.bind(this, true);
     this.rect._onover = this.setActive.bind(this, false);
+    this.rect._intersectsOrder = 1;
     if(Tour.options.arrowsTitle){
         this.rect._title = Lang.translate(Tour.getPanorama(this.point.pano).title);
     }
@@ -137,7 +138,7 @@ Tour.nadirControl.init = function() {
     Tour.camera.add(this.group);
 
     this.arrowMaterial = this.arrowMaterial || new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, side: THREE.DoubleSide});
-    this.activeArrowMaterial = this.activeArrowMaterial || new THREE.MeshBasicMaterial( { color: 0xe0e0e0, side: THREE.DoubleSide});
+    this.activeArrowMaterial = this.activeArrowMaterial || new THREE.MeshBasicMaterial( { color: 0xe0e0e0, transparent: true, side: THREE.DoubleSide});
     this.shadowMaterial = this.shadowMaterial || new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true, opacity: 0.2} );
 }
 

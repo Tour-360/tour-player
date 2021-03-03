@@ -31,7 +31,7 @@ Tour.mousManager.check = function(event){
     var intersects = raycaster.intersectObjects(Tour.scene.children, true);
 
     intersects = intersects.sort(function(a, b){
-        return (b.object._onclick?1:0) - (a.object._onclick?1:0) || a.distance - b.distance;
+        return (b.object._intersectsOrder||0) - (a.object._intersectsOrder||0) || (b.object._onclick?1:0) - (a.object._onclick?1:0) || a.distance - b.distance;
     }).shift();
 
     var obj = intersects && intersects.object;

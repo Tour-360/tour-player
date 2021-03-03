@@ -3,14 +3,14 @@
 
 
 Tour.Point = function(options, index){
-    this.material = Tour.Point.material? Tour.Point.material.clone() : new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true} );
-    this.materialActive = Tour.Point.materialActive? Tour.Point.materialActive.clone() : new THREE.MeshBasicMaterial( { color: 0xffffff} );
+    this.material = Tour.Point.material? Tour.Point.material.clone() : new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, depthTest: false} );
+    this.materialActive = Tour.Point.materialActive? Tour.Point.materialActive.clone() : new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, depthTest: false} );
 
     this.ringGeometry = new THREE.RingGeometry( Tour.Point.innerRadius, Tour.Point.outerRadius, 32 );
     this.ring = new THREE.Mesh( this.ringGeometry, this.material );
     this.ring.rotation.set(-Math.PI/2, 0, 0);
 
-    this.circleGeometry = new THREE.CircleGeometry( Tour.Point.outerRadius, 16 );
+    this.circleGeometry = new THREE.CircleGeometry( Tour.Point.interactiveRadius, 16 );
     this.circle = new THREE.Mesh( this.circleGeometry);
     this.circle.visible = false;
     this.circle.rotation.set(-Math.PI/2, 0, 0);
@@ -51,10 +51,10 @@ Tour.Point.prototype.setActive = function(value){
 Tour.Point.prototype.set = function(){
     var n = this.lon * ( Math.PI / 180) + (Math.PI/2);
     if(typeof Tour.options.pointersOpacity == "number"){
-        this.material.opacity = this.opacity * Tour.options.pointersOpacity * (1-this.distance/2000);
+        this.material.opacity = this.opacity * Tour.options.pointersOpacity * (1-this.distance/2000); //1-0 — 20m
     }
     this.ring.position.set(Math.sin(n)*this.distance/100, -this.level/100, Math.cos(n)*this.distance/100);
-    this.circle.position.set(Math.sin(n)*this.distance/100, -this.level/100, Math.cos(n)*this.distance/100);
+    this.circle.position.copy(this.ring.position);
 }
 
 Tour.Point.prototype.remove = function(){
