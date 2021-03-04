@@ -26,15 +26,26 @@ Tour.Media = function(options) {
         if('requestVideoFrameCallback' in this.videoElement){
             this.videoElement.requestVideoFrameCallback(updateVideo);
         }
+    }else if(options.type == 'image'){
+        this.texture = new THREE.TextureLoader().load(options.src);
     }
 };
 
 Tour.Media.prototype.play = function(){
-    var promise = this.videoElement.play();
-    if(promise){
-        promise.catch(function(e){
-            console.warn(e)
-        })
+    if(this.type == 'video'){
+        var promise = this.videoElement.play();
+        if(promise){
+            promise.catch(function(e){
+                console.warn(e)
+            })
+        }
     }
 }
+
+Tour.Media.prototype.pause = function(){
+    if(this.type == 'video'){
+        this.videoElement.pause();
+    }
+}
+
 

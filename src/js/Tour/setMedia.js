@@ -11,7 +11,7 @@ Tour.setMedia = function(media) {
 
 Tour.stopMedia = function() {
     for(k in this.media){
-        this.media[k].videoElement.pause();
+        this.media[k].pause();
     }
     this.animateMedia = false;
 }
