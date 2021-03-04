@@ -7,7 +7,7 @@ Tour.Area = function(options){
     }
     this.shape.lineTo(options.points[0][0], options.points[0][1]);
 
-  this.geometry = new THREE.ShapeGeometry( this.shape );
+  this.geometry = new THREE.ShapeGeometry( this.shape )
 
     if(options.type == 'media'){
         this.geometry = new THREE.Geometry();
@@ -66,19 +66,19 @@ Tour.Area = function(options){
         }
 
     }else if(options.type == 'mask'){
-        this.material = new THREE.MeshBasicMaterial( {colorWrite: false} );
+        this.material = Tour.areasManager.maskMateriak;
     }else{
         if(!Tools.active){
-            this.material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0} );
+            this.material = Tour.options.hintArea?Tour.areasManager.hintMaterial:Tour.areasManager.defaultMaterial;
         }else{
             var texture = new THREE.DataTexture(new Uint8Array([255, 255, 255, 204, 204, 204, 204, 204, 204, 255, 255, 255]), 2, 2, THREE.RGBFormat)
-
             texture.magFilter = THREE.NearestFilter;
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             var position = options.position;
             var distance = (new THREE.Vector3(position[0], position[1], position[2]).distanceTo(Tour.camera.position));
             texture.repeat.set(20/distance, 20/distance);
-            this.material = new THREE.MeshBasicMaterial( { map: texture, transparent: true, opacity : 0.5} );
+            this.editorMaterial = new THREE.MeshBasicMaterial( { map: texture, transparent: true, opacity : 0.5} );
+            this.material = this.editorMaterial;
         }
     }
 
@@ -125,15 +125,51 @@ Tour.Area.prototype.go = function(event){
 }
 
 Tour.Area.prototype.setActive = function(value){
-  this.material.opacity = value ? 0.2 : (Tools.active?0.5 :0);
+  this.mesh.material = value ? Tour.areasManager.activeMaterial : (Tools.active?this.editorMaterial : (Tour.options.hintArea?Tour.areasManager.hintMaterial:Tour.areasManager.defaultMaterial));
   Tour.needsUpdate = true;
 }
 
 Tour.areasManager = {};
 
 Tour.areasManager.init = function() {
-  this.areas = new THREE.Group();
-  Tour.scene.add(this.areas);
+    if(Tour.options.hintArea){
+        var canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 1;
+        var ctx = canvas.getContext('2d');
+        var gradient = ctx.createLinearGradient(0,0, canvas.width,0);
+        gradient.addColorStop(0, 'black');
+        gradient.addColorStop(.1, 'black');
+        gradient.addColorStop(.2, 'white');
+        gradient.addColorStop(.9, 'black');
+        gradient.addColorStop(1, 'black');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        var texture = new THREE.CanvasTexture(canvas);
+        texture.repeat.x = 0.02;
+        // texture.repeat.wrapS = THREE.ClampToEdgeWrapping
+
+        this.hintMaterial = new THREE.MeshBasicMaterial({
+            map: texture, 
+            transparent: true, 
+            blending: THREE.AdditiveBlending,
+            opacity: 0.2
+        });
+
+        var offset = new THREE.VectorKeyframeTrack('.offset', [ 0,2 ], [ -1, -1, 1, 1 ] )
+        var clip = new THREE.AnimationClip( 'texture_animation', 10, [ offset ] );
+        this.mixer = new THREE.AnimationMixer( texture );
+        this.clipAction = this.mixer.clipAction( clip );
+        this.clipAction.play();
+    }
+
+      this.defaultMaterial = new THREE.MeshBasicMaterial( { transparent: true, blending: THREE.AdditiveBlending, opacity: 0} );
+      this.activeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending} )
+      this.maskMateriak = new THREE.MeshBasicMaterial( {colorWrite: false} )
+
+    this.areas = new THREE.Group();
+    Tour.scene.add(this.areas);
 }
 
 Tour.areasManager.set = function(id) {
@@ -151,6 +187,9 @@ Tour.areasManager.set = function(id) {
         Tour.areas.push(area);
     })
     Tour.areasManager.areas.rotation.y = Tour.mesh.rotation.y;
+    if(Tour.options.hintArea){
+        this.clipAction.time = 0
+    }
 
     Tour.needsUpdate = true;
 }
