@@ -23,16 +23,16 @@ Tour.Transition.prototype.set = function(value) {
     Tour.emmit('moveview');
 };
 
-Tour.Transition.prototype.move = function(value, noanim) {
-    if (value) {
-        this.moveTo(this.follow + value, noanim);
+Tour.Transition.prototype.move = function(value, noAnim) {
+    if (value !== undefined) {
+        this.moveTo(this.follow + value, noAnim);
     }
     return this.follow;
 };
 
-Tour.Transition.prototype.moveTo = function(value, noanim) {
+Tour.Transition.prototype.moveTo = function(value, noAnim) {
     this.follow = Math.max(this.min || -Infinity, Math.min(this.max || Infinity, value));
-    if (noanim) {
+    if (noAnim) {
         this.value = this.follow;
     }
     return this.follow;
