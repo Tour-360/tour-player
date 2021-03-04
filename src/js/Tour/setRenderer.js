@@ -15,7 +15,7 @@ Tour.setRenderer = function(rendererType, imageType) {
         (BrouserInfo.mobile || this.options.rendererType == 'canvas') ? 'low' : 'standard';
 
     if (this.options.rendererType == 'webgl') {
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: true, alpha: false});
+        this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: true, alpha: false, sortObjects: true});
     } else if (this.options.rendererType == 'css') {
         this.renderer = new THREE.CSS3DRenderer();
     } else if (this.options.rendererType == 'canvas') {
@@ -25,7 +25,6 @@ Tour.setRenderer = function(rendererType, imageType) {
         return false;
     }
 
-    this.renderer.sortObjects = false;
     this.renderer.domElement.id = 'renderer';
     this.renderers = [];
 };
