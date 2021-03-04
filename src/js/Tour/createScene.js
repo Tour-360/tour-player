@@ -6,6 +6,7 @@ Tour.createScene = function() {
     Tour.domElement.classList.add('tour-player');
     Tour.domElement.appendChild(this.renderer.domElement);
 
+    this.clock = new THREE.Clock();
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera();
     this.camera.rotation._order = "YXZ";

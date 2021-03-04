@@ -45,6 +45,21 @@ Tour.animate = function() {
             this.view[k].animate();
         }
     }
+
+    var delta = this.clock.getDelta();
+
+    if(Tour.options.hintArea && this.areas){
+        var hints = this.areas.some(function(area){
+            return area.mesh.material==Tour.areasManager.hintMaterial
+        })
+
+        if(hints){
+            Tour.areasManager.mixer.update(delta);
+            Tour.needsUpdate = true
+        }
+    }
+
+
     Tour.emmit('animate');
     this.render();
 };
