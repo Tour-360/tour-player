@@ -188,7 +188,7 @@ Tour.areasManager.set = function(id) {
     })
     Tour.areasManager.areas.rotation.y = Tour.mesh.rotation.y;
     if(Tour.options.hintArea){
-        this.clipAction.time = 0
+        this.clipAction.time = 2
     }
 
     Tour.needsUpdate = true;
