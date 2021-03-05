@@ -5,6 +5,8 @@ Tour.updatePlayerSize = function () {
   this.width = this.clientReact.width;
   this.height = this.clientReact.height;
 
+  this.safeAreaBottom = this.clientReact.height - window.innerHeight;
+
   this.camera.aspect = this.width / this.height;
   this.camera.updateProjectionMatrix();
 
@@ -17,14 +19,22 @@ Tour.updatePlayerSize = function () {
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 
+  document.documentElement.style.setProperty(
+    "--app-height",
+    window.innerHeight + "px"
+  );
+
+  document.documentElement.style.setProperty(
+    "--safe-area-bottom",
+    this.safeAreaBottom + "px"
+  );
+
   this.needsUpdate = true;
 };
 
 Tour.resize = function () {
   Tour.updatePlayerSize();
-
-  // Bug fix for ios safari
-  setTimeout(Tour.updatePlayerSize.bind(this), 300);
-  setTimeout(Tour.updatePlayerSize.bind(this), 500);
+  // // Bug fix for ios safari
+  // setTimeout(Tour.updatePlayerSize.bind(this), 500);
   Tour.emmit("resize");
 };
