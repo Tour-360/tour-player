@@ -107,6 +107,9 @@ class Modal {
     if (!window.modalContainer) {
       window.modalContainer = new ModalContainer();
     }
+    this.breakpoints = {
+      mobile: 500,
+    };
     this._id =
       Tour.query.get("modal") ||
       "modal" + (Object.keys(window.modalContainer.modals).length + 1);
@@ -235,12 +238,17 @@ class Modal {
   }
 
   handleTouchStart(e) {
+    if (window.innerWidth > this.breakpoints.mobile) {
+      return false;
+    }
     const finger = e.touches[0];
     this.touchStart = {
       x: finger.clientX,
       y: finger.clientY,
+      cancel: false,
       timeStamp: e.timeStamp,
     };
+    this.touchMove = {};
     this.element.addEventListener("touchend", this.handleTouchEnd);
     if (this.contentElement.scrollTop === 0) {
       this.element.addEventListener("touchmove", this.handleTouchMove);
@@ -248,6 +256,9 @@ class Modal {
   }
 
   handleTouchEnd(e) {
+    if (this.touchMove.cancel) {
+      return;
+    }
     this.element.removeEventListener("touchmove", this.handleTouchMove);
     this.element.removeEventListener("touchend", this.handleTouchEnd);
     this.element.classList.remove("touched");
@@ -268,6 +279,7 @@ class Modal {
   handleTouchMove(e) {
     const finger = e.touches[0];
     this.touchMove = {
+      ...this.touchMove,
       x: finger.clientX,
       y: finger.clientY,
     };
@@ -276,8 +288,31 @@ class Modal {
 
     const offsetX = finger.clientX - this.touchStart.x;
     const offsetY = finger.clientY - this.touchStart.y;
-    if (Math.abs(offsetX) > offsetY) {
+
+    console.log({
+      x: finger.clientX,
+      y: finger.clientY,
+      cancel: this.touchMove.cancel,
+      skipCheck: this.touchMove.skipCheck,
+    });
+
+    if (
+      !this.touchMove.skipCheck &&
+      (this.touchMove.cancel ||
+        (Math.abs(offsetX) > Math.abs(offsetY) && offsetY < 10))
+    ) {
+      this.touchMove = {
+        ...this.touchMove,
+        cancel: true,
+      };
       return;
+    }
+
+    if (offsetY > 10) {
+      this.touchMove = {
+        ...this.touchMove,
+        skipCheck: true,
+      };
     }
 
     const scale = Math.max(
@@ -291,10 +326,10 @@ class Modal {
       Math.max(Math.abs(offsetX), Math.abs(offsetY))
     );
 
-    if (offsetY >= 0) {
+    if (offsetY > 0) {
       this.element.classList.add("touched");
-      this.element.style.setProperty("--offsetY", offsetY);
-      this.element.style.setProperty("--scale", scale);
     }
+    this.element.style.setProperty("--offsetY", Math.max(0, offsetY));
+    this.element.style.setProperty("--scale", offsetY >= 0 ? scale : 1);
   }
 }
