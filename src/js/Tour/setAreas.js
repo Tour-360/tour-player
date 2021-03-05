@@ -154,7 +154,7 @@ Tour.areasManager.init = function() {
             map: texture, 
             transparent: true, 
             blending: THREE.AdditiveBlending,
-            opacity: 0.2
+            opacity: 0.1
         });
 
         var offset = new THREE.VectorKeyframeTrack('.offset', [ 0,2 ], [ -1, -1, 1, 1 ] )
@@ -165,7 +165,7 @@ Tour.areasManager.init = function() {
     }
 
       this.defaultMaterial = new THREE.MeshBasicMaterial( { transparent: true, blending: THREE.AdditiveBlending, opacity: 0} );
-      this.activeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending} )
+      this.activeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending} )
       this.maskMateriak = new THREE.MeshBasicMaterial( {colorWrite: false} )
 
     this.areas = new THREE.Group();
