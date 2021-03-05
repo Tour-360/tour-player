@@ -17,9 +17,11 @@ Tour.mousManager.init = function(){
 }
 
 Tour.mousManager.getVector = function(event){
+    var x = !isNaN(event.pageX) ? event.pageX : event.changedTouches[0].pageX;
+    var y = !isNaN(event.pageY) ? event.pageY : event.changedTouches[0].pageY;
     var vector = new THREE.Vector2();
-    vector.x = ((event.pageX - Tour.domElement.offsetLeft) / Tour.width) * 2 - 1;
-    vector.y = -((event.pageY - Tour.domElement.offsetTop) / Tour.height) * 2 + 1;
+    vector.x = ((x - Tour.domElement.offsetLeft) / Tour.width) * 2 - 1;
+    vector.y = -((y - Tour.domElement.offsetTop) / Tour.height) * 2 + 1;
     return vector;
 }
 
