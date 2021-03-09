@@ -150,7 +150,7 @@ Tour.areasManager.init = function() {
         texture.repeat.x = 0.02;
         // texture.repeat.wrapS = THREE.ClampToEdgeWrapping
 
-        this.hintMaterial = new THREE.MeshBasicMaterial({
+        this.hintMaterial = this.hintMaterial || new THREE.MeshBasicMaterial({
             map: texture, 
             transparent: true, 
             blending: THREE.AdditiveBlending,
@@ -164,9 +164,9 @@ Tour.areasManager.init = function() {
         this.clipAction.play();
     }
 
-      this.defaultMaterial = new THREE.MeshBasicMaterial( { transparent: true, blending: THREE.AdditiveBlending, opacity: 0} );
-      this.activeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending} )
-      this.maskMateriak = new THREE.MeshBasicMaterial( {colorWrite: false} )
+    this.defaultMaterial = this.defaultMaterial || new THREE.MeshBasicMaterial( {colorWrite: false} )
+    this.activeMaterial = this.activeMaterial || new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending} )
+    this.maskMateriak = this.maskMateriak || new THREE.MeshBasicMaterial( {colorWrite: false} )
 
     this.areas = new THREE.Group();
     Tour.scene.add(this.areas);
