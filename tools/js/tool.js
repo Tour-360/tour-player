@@ -1195,7 +1195,7 @@ areas = {
           areaEditor.toggle()
         }
         if (event.code == 'Enter' && !event.ctrlKey && !event.metaKey){
-          areaEditor.save();
+          areaEditor.save(event.shiftKey);``
         }
         if (event.code == 'Escape' && areaEditor.drawMode){
           areaEditor.show(false);
@@ -1649,7 +1649,7 @@ areaEditor.push = function(event){
   }
 }
 
-areaEditor.save = function(){
+areaEditor.save = function(copy){
   if(this.points.length && this.drawMode){
     var panorama = Tour.getPanorama();
     var defaultid = panorama?.areas?.slice(-1)[0]?.id
@@ -1677,9 +1677,13 @@ areaEditor.save = function(){
     if(! panorama.areas){
         panorama.areas = [];
     }
-    if(areaEditor.editArea){
+    if(areaEditor.editArea && !copy){
       areaEditor.editArea.points = area.points;
     }else{
+      if(copy){
+        area.rotation = areaEditor.editArea.rotation;
+        area.position = areaEditor.editArea.position;
+      }
       panorama.areas.push(area);
     }
 
