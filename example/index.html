@@ -170,7 +170,7 @@
     </div>
     <script>
       Tour.init("#tour-player", {
-        plugins: ["db", "modal"],
+        plugins: ["modal"],
         iFrameScaleControl: false,
         tools: "/tools/tool.html",
         pluginsFolder: "/src/plugins/",
@@ -178,7 +178,10 @@
         galleryVisible: false,
         cursor: false,
         nadirControl: true,
-        controlPanel: true,
+        hintArea: true,
+        // controlPanel: true,
+        arrowsDistance: 35,
+        pointersOpacity: 0.2
       });
 
       Tour.on("load", function (data) {
