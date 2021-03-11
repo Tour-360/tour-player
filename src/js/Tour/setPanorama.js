@@ -26,6 +26,6 @@ Tour.setPanorama = function (id, zoomin, callback) {
         (panorama.autorotation || this.data.autorotation);
       callback && callback();
     }.bind(this),
-    true
+    zoomin
   );
 };
