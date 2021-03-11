@@ -23,11 +23,17 @@ Tour.Media = function(options) {
         this.videoElement.setAttribute("crossOrigin", "anonymous");
 
         this.texture = new THREE.VideoTexture(this.videoElement);
+        this.texture.anisotropy = BrouserInfo.mobile? 1 : Tour.renderer.capabilities.getMaxAnisotropy()/2;
+        this.texture.magFilter = THREE.LinearFilter;
+        this.texture.minFilter = THREE.LinearFilter;
         if('requestVideoFrameCallback' in this.videoElement){
             this.videoElement.requestVideoFrameCallback(updateVideo);
         }
     }else if(options.type == 'image'){
         this.texture = new THREE.TextureLoader().load(options.src);
+        this.texture.anisotropy = BrouserInfo.mobile? 1 : Tour.renderer.capabilities.getMaxAnisotropy()/2;
+        this.texture.magFilter = THREE.LinearFilter;
+        this.texture.minFilter = THREE.LinearMipmapLinearFilter;
     }
 };
 
