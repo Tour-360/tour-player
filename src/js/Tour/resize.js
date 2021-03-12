@@ -34,7 +34,7 @@ Tour.updatePlayerSize = function () {
 
 Tour.resize = function () {
   Tour.updatePlayerSize();
-  // // Bug fix for ios safari
-  // setTimeout(Tour.updatePlayerSize.bind(this), 500);
+  // Bug fix for ios safari
+  setTimeout(Tour.updatePlayerSize.bind(this), 500);
   Tour.emmit("resize");
 };
