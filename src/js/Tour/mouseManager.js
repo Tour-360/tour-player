@@ -25,7 +25,8 @@ Tour.mousManager.getVector = function(event){
     return vector;
 }
 
-Tour.mousManager.check = function(event){
+Tour.mousManager.check = function(event, end){
+    if(end)console.log(event)
     var mouse = this.getVector(event);
 
     var raycaster = new THREE.Raycaster();
@@ -45,6 +46,8 @@ Tour.mousManager.check = function(event){
                 this.target = obj;
                 obj._onhover();
                 typeof obj._title === 'string' && UI.tooltip.setTitle(obj._title)
+            }else if(event.type == 'touchend'){
+                this.target._onover()
             }
         }else{
             this.target && this.target._onover && this.target._onover();
@@ -64,6 +67,7 @@ Tour.mousManager.onMouseOut = function(event){
 Tour.mousManager.onMouseDown = function(event){
     this.move = false;
     this.startMouse = this.getVector(event);
+    this.check(event)
 }
 
 Tour.mousManager.onMouseMove = function(event){
@@ -83,4 +87,5 @@ Tour.mousManager.onMouseUp = function(event){
             this.target._onclick(event);
         }
     }
+    this.target = false;
 }
