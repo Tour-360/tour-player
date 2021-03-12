@@ -2,11 +2,10 @@
 
 Tour.orientationControls = {
     init: function() {
-        this.isSupported = false;
+        this.isSupported = window.isSecureContext && BrouserInfo.mobile;
         if (window.isSecureContext) {
             this.controls = new THREE.DeviceOrientationControls(Tour.camera);
             this.controls.disconnect();
-            window.addEventListener('deviceorientation', this.detectDevice);
             window.addEventListener('deviceorientation', function(event){
                 Tour.emmit('deviceOrientation', event);
                 Tour.orientationControls.orientation = event; 
@@ -37,12 +36,5 @@ Tour.orientationControls = {
     },
     toggle: function(){
         this.set(!this.controls.enabled)
-    },
-    detectDevice: function(event) {
-        if (event.alpha) {
-            UI.controlPanel.addBtn('rotate', Tour.controls.toggleControls, '');
-            Tour.orientationControls.isSupported = true;
-        }
-        window.removeEventListener('deviceorientation', Tour.orientationControls.detectDevice);
     }
 };
