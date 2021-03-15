@@ -38,6 +38,7 @@ Tour.defaultOption = {
   arrowsTitle: false,
   pointsTitle: false,
   hintArea: false,
+  decodeImageInWorker: false,
   sentry: {
     dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
   },
