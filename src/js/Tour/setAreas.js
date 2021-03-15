@@ -125,7 +125,7 @@ Tour.Area.prototype.go = function(event){
 }
 
 Tour.Area.prototype.setActive = function(value){
-  this.mesh.material = (value && !BrouserInfo.mobile) ? Tour.areasManager.activeMaterial : (Tools.active?this.editorMaterial : (Tour.options.hintArea?Tour.areasManager.hintMaterial:Tour.areasManager.defaultMaterial));
+  this.mesh.material = value? Tour.areasManager.activeMaterial : (Tools.active?this.editorMaterial : (Tour.options.hintArea?Tour.areasManager.hintMaterial:Tour.areasManager.defaultMaterial));
   Tour.needsUpdate = true;
 }
 
