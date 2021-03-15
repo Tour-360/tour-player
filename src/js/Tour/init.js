@@ -12,6 +12,7 @@ Tour.init = function(domElement, options) {
     Lang.set(this.options.lang, Tour.dictionary);
     this.plugins.init();
     this.backgroundImage.init();
+    this.decodeFactory.init();
     this.createScene();
     this.mousManager.init();
     this.nadirControl.init();

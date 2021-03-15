@@ -60,7 +60,7 @@ Tour.ImageBitmapLoader.prototype._onprogress = function(event) {
 };
 
 Tour.ImageBitmapLoader.prototype._onimageload = function() {
-    if (this.onload) { this.onload(this.bitmap); }
-    if (this.oncomplete) { this.oncomplete(this.bitmap); }
+    if (this.onload) { this.onload(new THREE.CanvasTexture(this.bitmap)); }
+    if (this.oncomplete) { this.oncomplete(new THREE.CanvasTexture(this.bitmap)); }
 };
 
