@@ -29,7 +29,7 @@ Tour.plugins.init = function(plugins) {
         function callback() {
           count++;
           if (count >= 2) {
-            console.log('Run plugin: ' + pluginName);
+            console.info('Run plugin: ' + pluginName);
             plugin.callback(Tour.data);
           }
         }
@@ -37,7 +37,7 @@ Tour.plugins.init = function(plugins) {
         Tour.on('load', callback);
       } else {
         script.addEventListener('load', function() {
-          console.log('Connected plugin: ' + pluginName);
+          console.info('Connected plugin: ' + pluginName);
         });
       }
     }
