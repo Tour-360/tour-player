@@ -10,7 +10,7 @@ Tour.setPlane = function(id, url, manager) {
     if (this.options.rendererType == 'css') {
         this.mesh.children[id].element.src = url;
     } else {
-        if(Tour.decodeFactory.suported && true){
+        if(Tour.decodeFactory.suported && Tour.options.decodeImageInWorker){
             var loader = new Tour.WorkerLoader(manager);
         }else if(window.createImageBitmap){
             var loader = new Tour.ImageBitmapLoader(manager)
