@@ -4,7 +4,7 @@
 
 Tour.Point = function(options, index){
     this.material = Tour.Point.material? Tour.Point.material.clone() : new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, depthTest: false} );
-    this.materialActive = Tour.Point.materialActive? Tour.Point.materialActive.clone() : new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, depthTest: false} );
+    this.materialActive = Tour.Point.materialActive? Tour.Point.materialActive.clone() : new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.6, depthTest: false} );
 
     this.ringGeometry = new THREE.RingGeometry( Tour.Point.innerRadius, Tour.Point.outerRadius, 32 );
     this.ring = new THREE.Mesh( this.ringGeometry, this.material );
@@ -33,8 +33,8 @@ Tour.Point = function(options, index){
     this.set();
 }
 
-Tour.Point.innerRadius = 0.3;
-Tour.Point.outerRadius = 0.38;
+Tour.Point.innerRadius = 0.2;
+Tour.Point.outerRadius = 0.32;
 Tour.Point.interactiveRadius = Tour.Point.outerRadius;
 
 
@@ -135,7 +135,7 @@ Tour.utils.getVisibilityPoint = function(vector, result, index){
             var pano2 = Tour.getPanorama(link.id);
             var vector2 = Tour.utils.getVector(pano, pano2);
             var offset = Math.abs(Tour.utils.getAngleOffset(vector.rotate, vector2.rotate));
-            if(!link.hidePoint && (offset < 40 || !offset)){
+            if(!link.hidePoint && (offset < (40-index*10) || !offset)){
                 result[vector2.id] = true;
                 Tour.utils.getVisibilityPoint(vector2, result, index+1)
             }
