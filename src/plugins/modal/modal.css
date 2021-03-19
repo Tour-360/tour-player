@@ -7,7 +7,7 @@
   height: 100vh;
   max-height: 100vh;
   z-index: 1;
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, 0.5);
   will-change: opacity;
   box-sizing: border-box;
   overflow-y: scroll;
@@ -19,12 +19,12 @@
   pointer-events: none;
 }
 
-@media (hover: none) {
+@media (hover: none) and (max-width: 500px) {
   .modal-container {
     overflow: hidden;
   }
   .modal-container:not(.opened) {
-    transition: opacity.5s;
+    transition: opacity.3s;
   }
 }
 
@@ -36,7 +36,8 @@
   --radius: 0;
   --padding: 32px;
 
-  transform: translate(calc(var(--offsetX) * .5px), calc(var(--offsetY) * 1px)) scale(var(--scale));
+  transform: translate(calc(var(--offsetX) * 0.5px), calc(var(--offsetY) * 1px))
+    scale(var(--scale));
   transform-origin: top center;
   min-width: 320px;
   max-width: 600px;
@@ -47,9 +48,7 @@
   overflow: hidden;
   border-radius: 9px;
   will-change: transform;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 2px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 32px rgba(0, 0, 0, 0.12);
 }
 
 .modal:not(.opened) {
@@ -57,7 +56,7 @@
   visibility: hidden;
   position: absolute;
   opacity: 0;
-  --scale: .4 !important;
+  --scale: 0.4 !important;
   --offsetX: 0 !important;
   --offsetY: 800 !important;
   --radius: 9 !important;
@@ -67,7 +66,7 @@
   .modal:not(.touched),
   .modal:not(.opened) {
     display: flex;
-    transition: all.5s ease;
+    transition: all.3s ease;
   }
 }
 
@@ -80,30 +79,31 @@
 }
 
 .modal-header:after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   height: 9px;
   width: 100%;
   bottom: -9px;
   left: 0;
-  background: linear-gradient(#000, rgba(0,0,0,0));
+  background: linear-gradient(#000, rgba(0, 0, 0, 0));
   opacity: 0;
   pointer-events: none;
   transition: opacity.3s ease;
 }
 
 .modal.scrolled .modal-header:after {
-  opacity: .2;
+  opacity: 0.2;
 }
 
 .modal-title {
   font-weight: 600;
   font-size: 18px;
-  line-height: 22px;
+  line-height: 26px;
 }
 
 .modal-close {
+  flex: 0 0 auto;
   margin-left: auto;
   width: 22px;
   height: 22px;
@@ -112,6 +112,18 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
+}
+
+@media (min-width: 500px) {
+  .modal-header {
+    padding-bottom: 2px;
+  }
+  .modal-close {
+    align-self: start;
+  }
+  .modal-header:after {
+    display: none;
+  }
 }
 
 .modal-content {
@@ -142,5 +154,11 @@
   .modal:not(.touched) .modal-content {
     overflow-y: scroll;
   }
+  .modal-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 1em;
+    line-height: 22px;
+  }
 }
-

@@ -257,7 +257,7 @@ class MarkerItem extends HTMLElement {
       case "icon": {
         if (this.#iconElement) {
           this.#markerElement.type = newValue;
-          this.#iconElement.type = newValue;
+          this.#iconElement.value = newValue;
         }
         break;
       }
