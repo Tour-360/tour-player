@@ -20,7 +20,12 @@ class Marker extends HTMLElement {
 
   getMarkerStyleByType(type) {
     const parentDocument = window.opener.document;
-    const markersContainer = parentDocument.getElementById('markers');
+    let markersContainer = parentDocument.getElementById('markers');
+    if (!markersContainer) {
+      markersContainer = parentDocument.createElement('div');
+      markersContainer.id = 'markers';
+      window.opener.Tour.domElement.appendChild(markersContainer);
+    }
 
     const markerElement = document.createElement('div');
     markerElement.classList.add('marker');
@@ -34,10 +39,7 @@ class Marker extends HTMLElement {
     buttonElement.style.position = 'static';
     buttonElement.style.margin = '0 !important';
 
-    const computedStyle = getComputedStyle(buttonElement);
-    const { cssText } = computedStyle;
-    markersContainer.removeChild(markerElement);
-    return cssText;
+    return this.dumpCSSText(buttonElement);
   }
 
 
@@ -51,6 +53,15 @@ class Marker extends HTMLElement {
 
   get type() {
     return this.getAttribute('type');
+  }
+
+  dumpCSSText(element) {
+    let s = '';
+    let o = getComputedStyle(element);
+    for (let i = 0; i < o.length; i++) {
+      s+=o[i] + ':' + o.getPropertyValue(o[i])+';';
+    }
+    return s;
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
