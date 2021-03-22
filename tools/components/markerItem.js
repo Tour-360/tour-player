@@ -123,8 +123,9 @@ class MarkerItem extends HTMLElement {
           <x-field label="id" value="${this.getAttribute('id')}" ></x-field>
           <select-wrapper class="select-type" label="type">
             <select name="type">
+              <option value="panorama">panorama</option>
               <option value="popup">popup</option>
-              <option value="transition">transition</option>
+              <option value="change">change</option>
             </select>
           </select-wrapper>
         </div>
@@ -172,6 +173,7 @@ class MarkerItem extends HTMLElement {
       e.preventDefault();
       e.stopPropagation();
       this.setAttribute('id', e.target.value);
+      this.dispatchEvent(new Event('change'));
       this.dispatchEvent(new Event('changeId'));
     });
 
@@ -179,6 +181,7 @@ class MarkerItem extends HTMLElement {
       e.preventDefault();
       e.stopPropagation();
       this.setAttribute('title', e.target.value);
+      this.dispatchEvent(new Event('change'));
       this.dispatchEvent(new Event('changeTitle'));
     });
 
@@ -186,6 +189,7 @@ class MarkerItem extends HTMLElement {
       e.preventDefault();
       e.stopPropagation();
       this.setAttribute('icon', e.target.value);
+      this.dispatchEvent(new Event('change'));
       this.dispatchEvent(new Event('changeIcon'));
     });
 
@@ -193,6 +197,7 @@ class MarkerItem extends HTMLElement {
       e.preventDefault();
       e.stopPropagation();
       this.setAttribute('type', e.target.value);
+      this.dispatchEvent(new Event('change'));
       this.dispatchEvent(new Event('changeType'));
     });
 

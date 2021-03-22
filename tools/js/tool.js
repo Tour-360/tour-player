@@ -462,6 +462,9 @@ var map = {
       event.preventDefault();
       select.all(true);
     }
+    if (event.code == 'KeyM' && !(event.ctrlKey || event.metaKey)){
+      markers.add();
+    }
     if (event.code == 'KeyG' && (event.ctrlKey || event.metaKey)){
       event.preventDefault();
       utils.alignSelectedPoints();
@@ -1052,29 +1055,51 @@ var markers = {
   init: function(){
     this.listElement = document.querySelector('.markers-list');
     Tour.on('changePano', markers.set.bind(markers));
+    opener.addEventListener('keydown', function(event){
+        if (event.code == 'KeyM' && !(event.ctrlKey || event.metaKey)){
+          event.preventDefault();
+          markers.add()
+        }
+    })
   },
   set: function(){
     this.listElement.innerHTML = '';
-    var markers = Tour.getPanorama().markers;
-    if(markers && markers.length){
-      markers.forEach(function(marker){
+    if(Tour.getPanorama().markers && Tour.getPanorama().markers.length){
+      Tour.getPanorama().markers.forEach((marker, index) => {
         var element = document.createElement('marker-item');
-        element.icon = 'info';
+        element.icon = marker.icon || "info";
         element.title = marker.title;
         element.id = marker.action.id;
+        element.index = index;
+        element.type = marker.action.type;
+        element.addEventListener('change', e => {
+          Tour.getPanorama().markers[index].title = element.title;
+          Tour.getPanorama().markers[index].icon = element.icon;
+          Tour.getPanorama().markers[index].action.id = element.id;
+          Tour.getPanorama().markers[index].action.type = element.type;
+          // this.set();
+          state.save()
+          Tour.setMarkers();
+          Tour.needsUpdate = true;
+        })
+        element.addEventListener('delete', function(){
+          Tour.getPanorama().markers.splice(index, 1);
+          markers.set();
+        })
         // console.log(marker)
         this.listElement.appendChild(element);
-      }.bind(this))
+      })
     }
   },
   add: function(){
-    var markers = Tour.getPanorama().markers;
-    var position = Tour.view.get();
+    var panorama = Tour.getPanorama();
+    panorama.markers = panorama.markers || [];
+    var markers = panorama.markers;
+    var prompt = opener?opener.prompt:prompt
     markers.push({
-      action: {type: "popup", id: prompt('id', 'p')},
-      lat: position.lat.toFixed(2),
-      lon: position.lon.toFixed(2),
-      index: markers.length
+      action: {type: "popup", id: prompt('marker id:',Tour.getPanorama().markers? Tour.getPanorama().markers.length : 0)},
+      lat: parseFloat(Tour.view.lat.toString()),
+      lon: parseFloat(Tour.view.lon.toString()) + panorama.heading
     });
     Tour.setMarkers();
     Tour.needsUpdate = true;
@@ -1082,6 +1107,24 @@ var markers = {
     state.save()
   }
 }
+
+  // addMarker: function(id){
+  //   var panorama = Tour.getPanorama();
+  //   panorama.markers = panorama.markers || [];
+  //   panorama.markers.push({
+  //     title: "",
+  //     lat: parseFloat(Tour.view.lat.toString()),
+  //     lon: parseFloat(Tour.view.lon.toString()) + panorama.heading,
+  //     icon: "up",
+  //     action: {
+  //       type: "panorama",
+  //       id: id
+  //     },
+  //   })
+
+  //   Tour.setMarkers()
+
+  // },
 
 var properties = {
   setPointsValue: function(key, value){
