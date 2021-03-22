@@ -1,3 +1,0 @@
-/* exported Tools */
-
-var Tools = {};

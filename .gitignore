@@ -1,11 +1,4 @@
-node_modules/
-bower_components/
-build/
 .idea/
-src/lib/
-.husky/
-build/**/*.map
-Thumbs.db
-npm-debug.log
-.ftppass
+build/
+node_modules/
 .DS_Store

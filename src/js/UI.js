@@ -1,3 +1,0 @@
-/* exported UI */
-
-var UI = {};
