@@ -39,7 +39,9 @@ class Marker extends HTMLElement {
     buttonElement.style.position = 'static';
     buttonElement.style.margin = '0 !important';
 
-    return this.dumpCSSText(buttonElement);
+    const css = this.dumpCSSText(buttonElement);
+    markersContainer.removeChild(markerElement);
+    return css;
   }
 
 
