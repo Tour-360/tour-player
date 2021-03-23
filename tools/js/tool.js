@@ -1433,7 +1433,7 @@ areaEditor.init = function(){
       --error: #F00;
   }
 
-  .areaEditor{
+  .areaEditor {
     width: 100%;
     height: 100%;
     display: none;
@@ -1445,17 +1445,17 @@ areaEditor.init = function(){
     cursor: grabbing;
   }
 
-  .areaEditor.drawing{
+  .areaEditor.drawing {
     display: block;
   }
 
-  path.background{
+  .areaEditor path.background {
     fill-rule: evenodd;
     fill: black;
     fill-opacity: 0.25;
   }
 
-  path.area{
+  path.area {
     fill-rule: nonzero;
     fill: var(--accent);
     fill-opacity: 0.25;
@@ -1463,7 +1463,7 @@ areaEditor.init = function(){
     stroke-width: 1px;
   }
 
-  rect {
+  .areaEditor rect {
     width: 6px;
     height: 6px;
     transform: translate(-3px, -3px);
@@ -1472,11 +1472,11 @@ areaEditor.init = function(){
     stroke-width: 1px;
   }
 
-  .areaEditor:not(.active) rect{
+  .areaEditor:not(.active) rect {
     cursor: grab;
   }
 
-  .intermediatePoints rect{
+  .intermediatePoints rect {
     width: 4px;
     height: 4px;
     transform: translate(-2px, -2px);
@@ -1484,19 +1484,18 @@ areaEditor.init = function(){
   }
 
 
-  .areaEditor.error path.area{
+  .areaEditor.error path.area {
     fill: var(--error);
     stroke: var(--error);
   }
 
-  .areaEditor.error .intermediatePoints rect{
+  .areaEditor.error .intermediatePoints rect {
     fill: var(--error);
   }
-  .areaEditor.error rect{
+  .areaEditor.error rect {
     stroke: var(--error);
   }
-
-  `
+  `;
 
   this.backgroundElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
   this.backgroundElement.classList.add('background');
@@ -1931,7 +1930,7 @@ utils = {
   Tour.markers.forEach(function(m){m.setVector()})
   Tour.needsUpdate = true;
  },
-   
+
   generateNadirMap: function(){
     this.nadirMap = window.open(
       'nadirMap.html',
