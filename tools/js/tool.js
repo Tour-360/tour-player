@@ -1091,20 +1091,42 @@ var markers = {
       })
     }
   },
-  add: function(){
+  add: function(action, direction){
     var panorama = Tour.getPanorama();
+    var direction = direction || {}
     panorama.markers = panorama.markers || [];
     var markers = panorama.markers;
     var prompt = opener?opener.prompt:prompt
     markers.push({
-      action: {type: "popup", id: prompt('marker id:',Tour.getPanorama().markers? Tour.getPanorama().markers.length : 0)},
-      lat: parseFloat(Tour.view.lat.toString()),
-      lon: parseFloat(Tour.view.lon.toString()) + panorama.heading
+      action: action || {type: "popup", id: prompt('marker id:',Tour.getPanorama().markers? Tour.getPanorama().markers.length : 0)},
+      lat: direction.lat || parseFloat(Tour.view.lat.toString()),
+      lon: direction.lon || parseFloat(Tour.view.lon.toString()) + panorama.heading
     });
     Tour.setMarkers();
     Tour.needsUpdate = true;
     this.set();
     state.save()
+  },
+  removeAll: function(){
+    if(confirm('Delete all markers on this panorama?')){
+      Tour.getPanorama().markers = [];
+      Tour.setMarkers(Tour.getPanorama().id)
+      markers.set();
+      state.save()
+    }
+  },
+  createMarkersByLinksDirection: function(){
+    var pano = Tour.getPanorama()
+
+    pano.links.forEach(function(link){
+      markers.add(
+        {type: "panorama", id:link.id},
+        {
+          lat: -5,
+          lon: utils.getPointDirection(pano, Tour.getPanorama(link.id)) + pano.heading
+        }
+      )
+    })
   }
 }
 
@@ -1962,10 +1984,15 @@ utils = {
     return Math.min(distance, 360-distance)
   },
 
+  getPointDirection: function(a, b){
+    return THREE.Math.radToDeg(Math.atan2(a.x - b.x, a.y - b.y))
+  },
+
   getPointAngleDistance: function(a, b, c) {
-    var deg1 = THREE.Math.radToDeg(Math.atan2(a.x - b.x, a.y - b.y));
-    var deg2 = THREE.Math.radToDeg(Math.atan2(a.x - c.x, a.y - c.y));
-    return utils.getAngleDistance(deg1, deg2)
+    return utils.getAngleDistance(
+      this.getPointDirection(a, b),
+      this.getPointDirection(a, c)
+    )
   },
 
   getDistance: function(pos1, pos2) {

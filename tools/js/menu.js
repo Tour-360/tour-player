@@ -371,6 +371,24 @@ const menu = new Menu('.header',{
       },
     }
   },
+  merkers: {
+    title: "Markers",
+    items: {
+      addNewMarker: {
+        title: 'Add new marker',
+        hotKey: '⌘⇧F',
+        action: () => markers.add()
+      },
+      deleteAllMarkers: {
+        title: 'Delete all markers',
+        action: () => markers.removeAll()
+      },
+      createMarkersByLinksDirection: {
+        title: 'Create markers by links direction',
+        action: () => markers.createMarkersByLinksDirection()
+      }
+    }
+  },
   actions: {
     title: 'Actions',
     items: {
