@@ -1129,7 +1129,7 @@ var markers = {
         }
       }
 
-      markers.add(
+      if(!link.hidePoint)markers.add(
         {type: "panorama", id:link.id},
         {
           lat: -5,
