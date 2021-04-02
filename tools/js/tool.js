@@ -1091,41 +1091,62 @@ var markers = {
       })
     }
   },
-  add: function(action, direction){
-    var panorama = Tour.getPanorama();
+  add: function(action, direction, icon, id){
+    var panorama = Tour.getPanorama(id);
     var direction = direction || {}
     panorama.markers = panorama.markers || [];
     var markers = panorama.markers;
     var prompt = opener?opener.prompt:prompt
     markers.push({
-      action: action || {type: "popup", id: prompt('marker id:',Tour.getPanorama().markers? Tour.getPanorama().markers.length : 0)},
+      action: action || {type: "popup", id: prompt('marker id:',panorama.markers? panorama.markers.length : 0)},
       lat: direction.lat || parseFloat(Tour.view.lat.toString()),
-      lon: direction.lon || parseFloat(Tour.view.lon.toString()) + panorama.heading
+      lon: direction.lon || parseFloat(Tour.view.lon.toString()) + panorama.heading,
+      icon: icon
     });
     Tour.setMarkers();
     Tour.needsUpdate = true;
     this.set();
     state.save()
   },
-  removeAll: function(){
-    if(confirm('Delete all markers on this panorama?')){
-      Tour.getPanorama().markers = [];
-      Tour.setMarkers(Tour.getPanorama().id)
+  removeAll: function(id){
+    if(id || confirm('Delete all markers on this panorama?')){
+      Tour.getPanorama(id).markers = [];
+      Tour.setMarkers(Tour.getPanorama(id).id)
       markers.set();
       state.save()
     }
   },
-  createMarkersByLinksDirection: function(){
-    var pano = Tour.getPanorama()
+  createMarkersByLinksDirection: function(id){
+    var pano = Tour.getPanorama(id)
+
 
     pano.links.forEach(function(link){
+      var icon = 'up';
+      if(link.x!=undefined && link.y!=undefined){
+        var diff = utils.getPointDirection(pano, link) - utils.getPointDirection(pano, Tour.getPanorama(link.id));
+        if(Math.abs(diff) > 25){
+          icon = diff>0?'right':'left';
+        }
+      }
+
       markers.add(
         {type: "panorama", id:link.id},
         {
           lat: -5,
           lon: utils.getPointDirection(pano, link.x!=undefined?link:Tour.getPanorama(link.id)) + pano.heading
-        }
+        }, 
+        icon, id
       )
+    })
+  },
+  createMarkersByLinksDirectionAtSelectedPoint: function(id){
+    if(confirm('Create markers at '+select.points.length+' points?'))select.points.forEach(function(point){
+      if(point.panorama)markers.createMarkersByLinksDirection(point.panorama.id)
+    })
+  },
+  deleteAllMarkersAtSelectedPoint: function(id){
+    if(confirm('Delete markers at '+select.points.length+' points?'))select.points.forEach(function(point){
+      if(point.panorama)markers.removeAll(point.panorama.id)
     })
   }
 }
@@ -1971,7 +1992,7 @@ utils = {
     );
   },
 
-  getAngleDistance: function(rot1, rot2) {
+  getAngleDistance: function(rot1, rot2, noabs) {
     var modulo = function(x, y) {
         var xPrime = x;
         while(xPrime < 0) {
@@ -1980,7 +2001,8 @@ utils = {
         return xPrime % y;
     }
 
-    var distance = Math.abs(modulo(rot1,360) - modulo(rot2,360))
+    var distance = modulo(rot1,360) - modulo(rot2,360)
+    if(!noabs)distance = Math.abs(distance)
     return Math.min(distance, 360-distance)
   },
 
@@ -1988,10 +2010,11 @@ utils = {
     return THREE.Math.radToDeg(Math.atan2(a.x - b.x, a.y - b.y))
   },
 
-  getPointAngleDistance: function(a, b, c) {
+  getPointAngleDistance: function(a, b, c, noabs) {
     return utils.getAngleDistance(
       this.getPointDirection(a, b),
-      this.getPointDirection(a, c)
+      this.getPointDirection(a, c),
+      noabs
     )
   },
 

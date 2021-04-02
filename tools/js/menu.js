@@ -386,6 +386,14 @@ const menu = new Menu('.header',{
       createMarkersByLinksDirection: {
         title: 'Create markers by links direction',
         action: () => markers.createMarkersByLinksDirection()
+      },
+      createMarkersByLinksDirectionAtSelectedPoint: {
+        title: 'Create markers by links direction at selected point',
+        action: () => markers.createMarkersByLinksDirectionAtSelectedPoint()
+      },
+      deleteAllMarkersAtSelectedPoint: {
+        title: 'Delete all markers at selected point',
+        action: () => markers.deleteAllMarkersAtSelectedPoint()
       }
     }
   },
