@@ -1123,7 +1123,7 @@ var markers = {
         {type: "panorama", id:link.id},
         {
           lat: -5,
-          lon: utils.getPointDirection(pano, Tour.getPanorama(link.id)) + pano.heading
+          lon: utils.getPointDirection(pano, link.x!=undefined?link:Tour.getPanorama(link.id)) + pano.heading
         }
       )
     })
