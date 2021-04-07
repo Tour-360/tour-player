@@ -73,7 +73,7 @@ class DB {
       tables.map((table) =>
         fetch(
           dev
-            ? `https://tour-360.ru/airtable/base/${base}/${table}`
+            ? `https://tour-360.ru/airtable/base/${base}/${table}?view=table`
             : `tables/${table}.json`
         ).then((r) => r.json())
       )
