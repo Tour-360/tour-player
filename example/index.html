@@ -191,6 +191,10 @@
         UI.popUp.set(area.id);
       });
 
+      Tour.on('markerclick', function(marker){
+        console.log(marker)
+      });
+
       Tour.on("load", function (data) {
         //this.controls.autoRotate()
       });

@@ -16,6 +16,8 @@ Tour.setMarkers = function(id) {
          * github.com/Tour-360/tour-player/wiki/Формат-файла-tour.json#action
          */
         var action = function(marker) {
+            Tour.emmit('markerclick', marker);
+
             if (this.type == 'panorama') {
                 Tour.view.set(this, null, Math.abs(Tour.view.lat.value) < 45);
             } else if (this.type == 'url') {
