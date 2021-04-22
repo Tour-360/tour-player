@@ -135,7 +135,8 @@ Tour.utils.getVisibilityPoint = function(vector, result, index){
             var pano2 = Tour.getPanorama(link.id);
             var vector2 = Tour.utils.getVector(pano, pano2);
             var offset = Math.abs(Tour.utils.getAngleOffset(vector.rotate, vector2.rotate));
-            if(!link.hidePoint && (offset < (40-index*10) || !offset)){
+            var hide = !Tour.options.hideArrowInsteadOfPoint && link.hidePoint
+            if(!hide && (offset < (Tour.options.pointHideAngle-index*10) || !offset)){
                 result[vector2.id] = true;
                 Tour.utils.getVisibilityPoint(vector2, result, index+1)
             }

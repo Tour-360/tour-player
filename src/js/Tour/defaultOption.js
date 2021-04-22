@@ -39,6 +39,8 @@ Tour.defaultOption = {
   pointsTitle: false,
   hintArea: false,
   decodeImageInWorker: false,
+  hideArrowInsteadOfPoint: false,
+  pointHideAngle: 40,
   sentry: {
     dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
   },
