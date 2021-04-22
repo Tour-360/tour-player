@@ -184,10 +184,12 @@ Tour.nadirControl.getPoints = function() {
             }
         })
     }else if(Tour.options.nadirControlArrowFilter == 'links'){
-        var pano = Tour.getPanorama()
+        var pano = Tour.getPanorama();
 
         if(pano.links){
-            var arrows = pano.links.map(function(link){
+            var arrows = pano.links.filter(function(link){
+                return !(Tour.options.hideArrowInsteadOfPoint && link.hidePoint)
+            }).map(function(link){
                 var point = Tour.getPanorama(link.id);
                 var vector
                 var lon
@@ -200,7 +202,7 @@ Tour.nadirControl.getPoints = function() {
                 return {lon:vector.rotate, distance:vector.distance, level:vector.level, pano:point.id, panoLon:lon}
             }).sort(function(a, b){
                 return a.distance - b.distance;
-            });
+            })
 
             arrows.forEach(function(point){
                 if(!result.some(function(selected){
