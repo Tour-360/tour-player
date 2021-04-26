@@ -403,6 +403,10 @@ const menu = new Menu('.header',{
       generateNadirMap: {
         title: 'Generate nadir map',
         action: () => utils.generateNadirMap()
+      },
+      copyCodeToUploadToPanoSkin: {
+        title: 'Copy code to upload to Panoskin',
+        action: () => copyCodeToUploadToPanoSkin()
       }
     }
   },

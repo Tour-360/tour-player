@@ -212,7 +212,7 @@ function getAreaPreView(area, callback){
     })
     ctx.fill();
 
-    callback(canvas.toDataURL());
+    callback(canvas.toDataURL(), vw, vh);
   });
   var material = new THREE.MeshBasicMaterial( { map: texture } );
   var mesh = new THREE.Mesh( geometry, material );
@@ -2348,6 +2348,101 @@ var links = {
     camera.updateLinks();
   }
 }
+
+var uploadPanoSkin = function(){
+  var LAT = 1111945;
+  tourData = JSON.parse(tourData);
+  var skinData = {}
+
+  var getByTourId = function(id){
+    return tourData.panorams.find(function(pano){
+      return pano.id==id
+    })
+  }
+
+  var getBySkinId = function(id){
+    return skinData.islands[0].scenes.find(function(scene){
+      return scene._id==id
+    })
+  }
+
+  var getBySkinName = function(name){
+    return skinData.islands[0].scenes.find(function(scene){
+      return scene.name==name
+    })
+  }
+
+  var hash = location.hash.split('/');
+  var url = 'https://login.panoskin.com/api/streetview/tour/'+hash[4]+'/'+hash[6];
+
+  var getProject = function(){
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        skinData = data;
+        saveProject(maping(data));
+      });
+  }
+
+  var maping = function(data){
+    var panos = data.islands[0].scenes;
+    var globalPos = data.loc;
+    panos.map(function(pano, n){
+      var skinPos = pano.google.pose;
+      var tourPano = getByTourId(pano.name);
+      skinPos.heading = tourPano.heading
+      skinPos.latLngPair.latitude = globalPos[1] - (tourPano.y / 10 / LAT)
+      skinPos.latLngPair.longitude = globalPos[0] + (tourPano.x / 10 / LAT)
+      pano.links = [];
+      if(tourPano.links && tourPano.links.length){
+        pano.links = tourPano.links.map(function(link){
+          var skinPano = getBySkinName(link.id);
+          return {
+            id: skinPano._id,
+            heading: 0,
+            description: skinPano.name,
+            pano: '/panoskin/SVE'+skinPano.s3.preview.url.split('/SVE')[1],
+            locked: true
+          }
+        })
+      }
+    })
+    return data;
+  }
+
+  var saveProject = function(data){
+    fetch(url, {
+      method: 'put',
+      headers: {
+    'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body: JSON.stringify(data)
+    }).then(res => {
+      if(res.statusText == 'OK'){
+        location.reload(true);
+      }else{
+        alert(res.statusText);
+      }
+    });
+  }
+  getProject()
+}
+
+function copyTextToClipboard(text) {
+  navigator.clipboard.writeText(text).then(function() {
+    toasts.push('Сode copied to clipboard')
+  }, function(err) {
+    console.error('Clipboard error', err);
+  });
+}
+
+var copyCodeToUploadToPanoSkin = function(){
+ copyTextToClipboard("var tourData = '"+JSON.stringify(Tour.data)+"';"+uploadPanoSkin.toString().slice(11, -1));
+}
+
+
 
 
 window.addEventListener('load', init);
