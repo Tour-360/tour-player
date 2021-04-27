@@ -400,6 +400,10 @@ const menu = new Menu('.header',{
   actions: {
     title: 'Actions',
     items: {
+      saveAreaImages: {
+        title: 'Save area images',
+        action: () => utils.saveAreaImages()
+      },
       generateNadirMap: {
         title: 'Generate nadir map',
         action: () => utils.generateNadirMap()
