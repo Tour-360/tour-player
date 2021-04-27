@@ -212,7 +212,7 @@ function getAreaPreView(area, callback){
     })
     ctx.fill();
 
-    callback(canvas.toDataURL(), vw, vh);
+    callback(canvas.toDataURL(), area, vw, vh);
   });
   var material = new THREE.MeshBasicMaterial( { map: texture } );
   var mesh = new THREE.Mesh( geometry, material );
@@ -1981,6 +1981,24 @@ utils = {
       Object.entries({
         width: 1280,
         height: 800,
+        left: 10,
+        top: 10,
+        toolbar: 0,
+        location: 0,
+        menubar: 0,
+      }).map(function(e) {
+        return e.join("=");
+      }).join(',')
+    );
+  },
+
+    saveAreaImages: function(){
+    this.nadirMap = window.open(
+      'saveAreas.html',
+      '_blank',
+      Object.entries({
+        width: 620,
+        height: 80,
         left: 10,
         top: 10,
         toolbar: 0,

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save area images</title>
+</head>
+<body>
+  <progress id="load" ></progress><br>
+  <button id="btn" onclick='save()' disabled="true">Save ZIP</button>
+  <style>
+    progress{
+      width: 600px;
+    }
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+<script>
+var loadBar = document.querySelector('#load');
+var btn = document.querySelector('#btn');
+var areas = []
+
+opener.Tour.data.panorams.forEach(function(pano){
+    if(pano.areas)pano.areas.forEach(function(area){
+        areas.push(area)
+    })
+})
+loadBar.max = areas.length;
+
+
+var images = {}
+var save = false
+
+function saveArea(){
+  loadBar.value = loadBar.max-areas.length;
+  if(areas.length){
+    opener.getAreaPreView(areas.pop(), function(url, a, w, h){
+      console.log(a.id)
+        if(!images[a.id] || images[a.id].size < w*h){
+            images[a.id] = {url:url, size:w*h, area:a}
+        }
+        saveArea()
+    })
+  }else{
+    if(!save){
+      save = true;
+      saveFile()
+    }
+  }
+}
+saveArea()
+saveArea()
+
+function saveAs(uri, filename) {
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        document.body.appendChild(link);
+        link.download = filename;
+        link.href = uri;
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        location.replace(uri);
+    }
+}
+
+function saveFile() {
+  var zip = new JSZip();
+  var urls = []
+  for(var k in images){
+    var q = images[k].area.view;
+    urls.push({id:('0000' + images[k].area.id).slice(-4), url:'id='+q.id+'&fov='+q.fov.toFixed(2)+'&lat='+q.lat.toFixed(2)+'&lon='+q.lon.toFixed(2)});
+    zip.file('areas/'+k+".png", images[k].url.substr(22), {base64: true});
+  }
+  urls = urls.sort(function(a, b){
+    return a.id-b.id;
+  }).map(function(n){
+    // return n.id+' '+n.url
+    return n.url
+  }).join('\n')
+  zip.file("areas.txt", urls);
+
+  zip.generateAsync({type: "blob"}).then(function(content) {
+    btn.disabled = false;
+    var date = new Date();
+    var dateStr =
+      ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+      ("00" + date.getDate()).slice(-2) + "-" +
+      date.getFullYear() + "_" +
+      ("00" + date.getHours()).slice(-2) + "-" +
+      ("00" + date.getMinutes()).slice(-2) + "-" +
+      ("00" + date.getSeconds()).slice(-2);
+
+    btn.onclick = function(){
+      saveAs(window.URL.createObjectURL(content), opener.state.name+'_areas_'+dateStr+'.zip')
+    }
+  });
+}
+
+</script>
+</body>
+</html>
