@@ -264,8 +264,21 @@ const menu = new Menu('.header',{
       copyCode: { title: "Copy code" },
       clearStorage: { title: "Clear storage", action: utils.clearStorage },
       open: { title: "Open", hotKey: '⌘O', action: () => alert() },
-      saveAs: { title: "Save as...", hotKey: "⌘S", action: () => state.saveAsFile() },
+      saveAs: { title: "Save as…", hotKey: "⌘S", action: () => state.saveAsFile() },
       saveToServer: { title: "Save to server", hotKey: "⌘ Alt S", action: () => state.saveToServer() },
+      export: {
+        title: "Export tour to…",
+        items: {
+          exportToPanoSkin: {
+            title: 'Panoskin',
+            action: () => copyCodeToUploadToPanoSkin()
+          },
+          exportToYandex: {
+            title: 'Yandex',
+            action: () => copyCodeToUploadToYandex()
+          }
+        }
+      }
     },
   },
   edit: {
@@ -407,10 +420,6 @@ const menu = new Menu('.header',{
       generateNadirMap: {
         title: 'Generate nadir map',
         action: () => utils.generateNadirMap()
-      },
-      copyCodeToUploadToPanoSkin: {
-        title: 'Copy code to upload to Panoskin',
-        action: () => copyCodeToUploadToPanoSkin()
       }
     }
   },
