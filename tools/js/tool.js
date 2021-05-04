@@ -1081,7 +1081,7 @@ function init() {
   media.set();
   select.init();
   areaEditor.init();
-  UI.devCursor.init()
+  // UI.devCursor.init()
   //links.setPoints()
 
   Tour.defaultOption.limit = Tour.options.limit = {
