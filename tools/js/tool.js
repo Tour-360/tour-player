@@ -2478,6 +2478,11 @@ var uploadYandex = function() {
 
 
 
+
+  function getLatLon(latitude, longitude, dx, dy){
+    return  {lon:latitude+((dy/-100)/111111), lat:longitude+((dx/100)/(111111 * Math.cos(Math.PI * latitude / 180)))}
+  }
+
   var getPanoByFileName = function(name) {
     return yandexData.find(function(pano) {
       return pano.filename == name + ".jpg"
@@ -2536,6 +2541,8 @@ var uploadYandex = function() {
   function updatePanorama(pano, callback) {
     console.log(pano.id);
     var tourPano = getByTourId(pano.filename.replace('.jpg', ''))
+        var point = getLatLon(position[0], position[1], tourPano.x, tourPano.y);
+        console.log(point);
     fetch(api + 'updatePanorama', {
       method: 'post',
       body: JSON.stringify({
@@ -2545,7 +2552,7 @@ var uploadYandex = function() {
           defaultViewAzimuth: 0,
           defaultViewTilt: 0,
           name: "",
-          point: [position[1] + (tourPano.x / 10 / LAT), position[0] - (tourPano.y / 10 / LAT)],
+          point: [point.lat, point.lon],
           preset: "INDOOR",
           projectionOrigin: {
             azimuth: (tourPano.heading + 180) % 360,
@@ -2621,6 +2628,7 @@ var uploadYandex = function() {
 }
 
 var uploadPanoSkin = function() {
+
   var LAT = 1111945;
   tourData = JSON.parse(tourData);
   var skinData = {}
@@ -2631,14 +2639,16 @@ var uploadPanoSkin = function() {
     })
   }
 
-  var getBySkinId = function(id) {
-    return skinData.islands[0].scenes.find(function(scene) {
-      return scene._id == id
-    })
+  function getLatLon(latitude, longitude, dx, dy){
+    return  {lon:latitude+((dx/-100)/111111), lat:longitude+((dy/100)/(111111 * Math.cos(Math.PI * latitude / 180)))}
   }
 
   var getBySkinName = function(name) {
-    return skinData.islands[0].scenes.find(function(scene) {
+    var arr = []
+    skinData.islands.map(function(n){
+      arr = arr.concat(n.scenes)
+    })
+    return arr.find(function(scene) {
       return scene.name == name
     })
   }
@@ -2658,14 +2668,19 @@ var uploadPanoSkin = function() {
   }
 
   var maping = function(data) {
-    var panos = data.islands[0].scenes;
+    var panos = []
     var globalPos = data.loc;
+    data.islands.map(function(n){
+      panos = panos.concat(n.scenes)
+    })
+
     panos.map(function(pano, n) {
       var skinPos = pano.google.pose;
       var tourPano = getByTourId(pano.name);
-      skinPos.heading = tourPano.heading
-      skinPos.latLngPair.latitude = globalPos[1] - (tourPano.y / 10 / LAT)
-      skinPos.latLngPair.longitude = globalPos[0] + (tourPano.x / 10 / LAT)
+      var point = getLatLon(globalPos[1], globalPos[0], tourPano.x, -tourPano.y);
+      skinPos.heading = tourPano.heading+90
+      skinPos.latLngPair.latitude = point.lon
+      skinPos.latLngPair.longitude = point.lat
       pano.links = [];
       if (tourPano.links && tourPano.links.length) {
         pano.links = tourPano.links.map(function(link) {
