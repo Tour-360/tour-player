@@ -51,7 +51,6 @@ Tour.Media.prototype.play = function(){
             that.videoElement.addEventListener('canplaythrough', function(){
                 if(!that.interval){
                     sync();
-                    console.log('canplaythrough')
                     that.interval = setInterval(sync, 5000);
                 }
             })
