@@ -65,10 +65,10 @@ Tour.Area = function(options){
 
             if(options.offset && options.split){
                 map.repeat.x = 1 / options.split.x;
-                map.repeat.y = 1 / options.split.y;
+                // map.repeat.y = 1 / options.split.y;
 
                 map.offset.x = map.repeat.x * options.offset.x;
-                map.offset.y = (1-options.offset.y) / options.split.y;
+                // map.offset.y = (1-options.offset.y) / options.split.y;
             }
         }else{
             this.material = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.5, side: THREE.DoubleSide} );
