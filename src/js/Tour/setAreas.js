@@ -56,10 +56,19 @@ Tour.Area = function(options){
             }
         }
         if(this.options.mediaId && Tour.media[this.options.mediaId]){
-            this.material = new THREE.MeshBasicMaterial( { map: Tour.media[this.options.mediaId].texture, transparent: true, side: THREE.DoubleSide} );
+            var map = (options.offset && options.split)?Tour.media[this.options.mediaId].texture.clone():Tour.media[this.options.mediaId].texture;
+            this.material = new THREE.MeshBasicMaterial( { map: map, transparent: true, side: THREE.DoubleSide} );
             Tour.media[this.options.mediaId].play();
             if(!Tour.media[this.options.mediaId].requestVideoFrameCallback){
                 Tour.animateMedia = true;
+            }
+
+            if(options.offset && options.split){
+                map.repeat.x = 1 / options.split.x;
+                map.repeat.y = 1 / options.split.y;
+
+                map.offset.x = map.repeat.x * options.offset.x;
+                map.offset.y = (1-options.offset.y) / options.split.y;
             }
         }else{
             this.material = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true, opacity: 0.5, side: THREE.DoubleSide} );
