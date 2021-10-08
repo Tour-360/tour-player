@@ -41,6 +41,7 @@ Tour.defaultOption = {
   decodeImageInWorker: false,
   hideArrowInsteadOfPoint: false,
   pointHideAngle: 40,
+  syncAllVideos: false,
   sentry: {
     dsn: 'https://c3787e5f33b14319900ad46caabbaa6f@sentry.io/1309149'
   },
