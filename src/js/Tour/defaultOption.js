@@ -37,6 +37,7 @@ Tour.defaultOption = {
   vibrate: true,
   arrowsTitle: false,
   pointsTitle: false,
+  areaTitle: true,
   hintArea: false,
   decodeImageInWorker: false,
   hideArrowInsteadOfPoint: false,

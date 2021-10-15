@@ -98,9 +98,11 @@ Tour.Area = function(options){
     if (options.type != 'mask' && options.id) {
       this.mesh._onclick = this.go.bind(this)
       this.mesh._onhover = (function() {
-        var visible = UI.tooltip.render(options);
-        this.mesh._title = visible;
-        UI.tooltip.setVisible(visible);
+        if(Tour.options.areaTitle){
+            var visible = UI.tooltip.render(UI.tooltip.renderTitleArea, options);
+            this.mesh._title = visible;
+            UI.tooltip.setVisible(visible);
+        }
         if (options.type == 'shape')this.setActive(true);
       }).bind(this);
       this.mesh._onover = (function() {
