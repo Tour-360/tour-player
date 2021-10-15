@@ -100,7 +100,18 @@ Tour.Arrow = function(point){
     this.rect.renderOrder = 3;
 
     if(Tour.options.arrowsTitle){
-        this.rect._title = Lang.translate(Tour.getPanorama(this.point.pano).title);
+        this.rect._onhover = (function() {
+          var visible = UI.tooltip.render(UI.tooltip.renderTitleArrow, this.point);
+          this.rect._title = visible;
+          UI.tooltip.setVisible(visible);
+          this.setActive(true);
+        }).bind(this);
+
+        this.rect._onover = (function() {
+          this.setActive(false);
+          this.rect._title = false;
+        }).bind(this);
+
     }
     Tour.nadirControl.rects.add(this.rect);
 }

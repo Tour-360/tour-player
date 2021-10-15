@@ -11,14 +11,22 @@ UI.tooltip = {
         this.domElement.innerText = text;
     },
 
-    render: function(area) {
-        var title = this.renderTitle(area);
+    render: function(renderer, options) {
+        var title = renderer(options);
         UI.renderElement(this.domElement, title);
         return !!title;
     },
 
-    renderTitle: function(area) {
+    renderTitleArea: function(area) {
       return area.title;
+    },
+
+    renderTitleArrow: function(arrow) {
+      return Lang.translate(Tour.getPanorama(arrow.pano).title);
+    },
+
+    renderTitlePoint: function(point) {
+      return Lang.translate(Tour.getPanorama(point.pano).title);
     },
 
     setPosition: function(x, y) {

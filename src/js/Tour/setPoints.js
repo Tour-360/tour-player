@@ -24,8 +24,19 @@ Tour.Point = function(options, index){
     this.circle._onclick = this.go.bind(this)
     this.circle._onhover = this.setActive.bind(this, true);
     this.circle._onover = this.setActive.bind(this, false);
+
     if(Tour.options.pointsTitle){
-        this.circle._title = Lang.translate(Tour.getPanorama(this.pano).title);
+        this.circle._onhover = (function() {
+          var visible = UI.tooltip.render(UI.tooltip.renderTitlePoint, options);
+          this.circle._title = visible;
+          UI.tooltip.setVisible(visible);
+          this.setActive(true);
+        }).bind(this);
+
+        this.circle._onover = (function() {
+          this.setActive(false);
+          this.circle._title = false;
+        }).bind(this);
     }
 
     Tour.pointsManager.rings.add(this.ring);
