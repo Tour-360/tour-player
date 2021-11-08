@@ -38,11 +38,7 @@ Tour.ImageBitmapLoader.prototype._onload = function() {
     var that = this;
 
     (function(){
-        if (BrouserInfo.brouser.name != "Firefox") {
-            return createImageBitmap(new Blob([that.request.response], {type: mimeType}), options);
-        } else {
-            return createImageBitmap(new Blob([that.request.response], {type: mimeType}));
-        }
+        return createImageBitmap(new Blob([that.request.response], {type: mimeType}), options);
     })().then(function(bitmap){
         that.bitmap = bitmap;
         that.complete = true;
