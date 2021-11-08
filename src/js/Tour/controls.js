@@ -38,7 +38,7 @@ Tour.controls = {
                 screen.orientation.unlock();
             }
         } else {
-            e = Tour.domElement;
+            e = document.body;
             if (e.requestFullscreen) { e.requestFullscreen();
             } else if (e.msRequestFullscreen) { e.msRequestFullscreen();
             } else if (e.webkitRequestFullScreen) { e.webkitRequestFullScreen();
