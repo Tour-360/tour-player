@@ -38,7 +38,11 @@ Tour.ImageBitmapLoader.prototype._onload = function() {
     var that = this;
 
     (function(){
-        return createImageBitmap(new Blob([that.request.response], {type: mimeType}), options);
+        if (BrouserInfo.brouser.name == "Firefox" && parseInt(BrouserInfo.brouser.version.split('.')[0])<93) {
+            return createImageBitmap(new Blob([that.request.response], {type: mimeType}));
+        } else {
+            return createImageBitmap(new Blob([that.request.response], {type: mimeType}), options);
+        }
     })().then(function(bitmap){
         that.bitmap = bitmap;
         that.complete = true;
