@@ -2538,17 +2538,28 @@ var uploadYandex = function() {
     }
   }
 
+  function getFloorHeight(floor){
+    var floorNumber = Math.floor(floor);
+    var floorHeights = [0].concat(tourData.floors.slice(0, floorNumber)
+      .map(function(f){return f.height}));
+    var sumFloorHeight = floorHeights.reduce(function(a, b){
+      return a + b;
+    })
+    var floorFraction = tourData.floors[floorNumber] ?
+      tourData.floors[floorNumber].height * (floor - floorNumber) :
+      0;
+    return sumFloorHeight + floorFraction;
+  }
+
   function updatePanorama(pano, callback) {
-    console.log(pano.id);
     var tourPano = getByTourId(pano.filename.replace('.jpg', ''))
-        var point = getLatLon(position[0], position[1], tourPano.x, tourPano.y);
-        console.log(point);
+    var point = getLatLon(position[0], position[1], tourPano.x, tourPano.y);
     fetch(api + 'updatePanorama', {
       method: 'post',
       body: JSON.stringify({
         panoramaId: pano.id,
         updatePanorama: {
-          altitude: 0,
+          altitude: getFloorHeight(tourPano.floor)/100,
           defaultViewAzimuth: 0,
           defaultViewTilt: 0,
           name: "",
