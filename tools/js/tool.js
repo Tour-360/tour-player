@@ -175,7 +175,8 @@ Use a more recent file?`)) {
   }
 };
 
-function getAreaPreView(area, callback) {
+
+function renderAreaPreView(area, callback) {
   var size = 1024
   var position = area.position
   var distance = (new THREE.Vector3(position[0], position[1], position[2]).distanceTo(Tour.camera.position));
@@ -230,6 +231,24 @@ function getAreaPreView(area, callback) {
   scene.add(mesh);
   var renderer = new THREE.WebGLRenderer({});
   renderer.setSize(size, size);
+}
+
+var areaRenderQueue = [];
+
+function renderAreaPreviewFactory(){
+  if(areaRenderQueue.length >= 1){
+    var {area, callback} = areaRenderQueue[0];
+    renderAreaPreView(area, function(url, area, vw, vh){
+      callback(url, area, vw, vh);
+      areaRenderQueue.shift()
+      renderAreaPreviewFactory();
+    })
+  }
+}
+
+function getAreaPreView(area, callback) {
+  areaRenderQueue.push({area, callback})
+  if(areaRenderQueue.length == 1) renderAreaPreviewFactory();
 }
 
 var camera = {
