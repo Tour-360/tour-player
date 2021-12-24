@@ -54,3 +54,4 @@ Clone this repository
 
 #### Build
 ```gulp build```
+# smartapp-fps-test
