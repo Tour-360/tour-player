@@ -2581,7 +2581,7 @@ var uploadYandex = function() {
           altitude: getFloorHeight(tourPano.floor)/100,
           defaultViewAzimuth: 0,
           defaultViewTilt: 0,
-          name: "",
+          name: (pano.title && pano.title != pano.id)? pano.title : "",
           point: [point.lat, point.lon],
           preset: "INDOOR",
           projectionOrigin: {
