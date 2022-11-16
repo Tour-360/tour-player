@@ -2582,6 +2582,7 @@ var uploadYandex = function() {
           defaultViewAzimuth: 0,
           defaultViewTilt: 0,
           name: "",
+          floorLevel: Math.floor(tourPano.floor+1)+'',
           point: [point.lat, point.lon],
           preset: "INDOOR",
           projectionOrigin: {
