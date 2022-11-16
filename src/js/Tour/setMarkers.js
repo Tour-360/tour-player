@@ -62,7 +62,7 @@ Tour.setMarkers = function(id) {
             );
 
             var title = (
-                Array.isArray(m.title) ? m.title[m.title.length - 1] : m.title) ||
+                Array.isArray(m.title) ? m.title[1] : m.title) ||
                 (markers[i].action.type == 'panorama' && this.getPanorama(m.action.id).title
             );
 
